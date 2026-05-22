@@ -1895,6 +1895,68 @@
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }
+
+    .rr-clip-thumb {
+      position: relative;
+      width: 160px;
+      aspect-ratio: 16 / 9;
+      flex-shrink: 0;
+    }
+    .rr-clip-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      background: var(--obsidian);
+    }
+    .rr-clip-play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(208, 68, 28, 0.92);
+      color: var(--bone);
+      border-radius: 50%;
+      font-size: 13px;
+      padding-left: 2px;
+      transition: transform 140ms ease, background 140ms ease;
+      pointer-events: none;
+    }
+    .rr-clip:hover .rr-clip-play {
+      transform: translate(-50%, -50%) scale(1.08);
+      background: rgba(208, 68, 28, 1);
+    }
+
+    /* Playing state: card transforms to stacked layout with full-width 16:9 iframe */
+    .rr-clip.playing {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .rr-clip.playing .rr-clip-thumb {
+      width: 100%;
+    }
+    .rr-clip.playing .rr-clip-thumb iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 4px;
+      display: block;
+      background: var(--obsidian);
+    }
+    .rr-clip.playing .rr-clip-play {
+      display: none;
+    }
+    .rr-clip.playing:hover {
+      cursor: default;
+      transform: none;
+    }
+
     .rr-clip-dur {
       font-family: var(--font-body);
       font-size: 12px;
@@ -2025,64 +2087,88 @@
           <span class="rr-clip-meta">8 short clips · also on <a href="https://www.youtube.com/playlist?list=PLg_uGQ7815pLFANcHknQBddDX9EsCnrWZ" target="_blank" rel="noopener" style="color: var(--gold-bright); border-bottom: 1px dotted var(--gold); text-decoration: none;">YouTube playlist</a></span>
         </div>
         <div class="rr-clip-grid">
-          <a class="rr-clip" href="https://youtu.be/ekDT0ZSFsHs" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/ekDT0ZSFsHs/mqdefault.jpg" alt="Well Done — Anniversary recap" loading="lazy">
+          <a class="rr-clip" href="https://youtu.be/ekDT0ZSFsHs" data-yt-id="ekDT0ZSFsHs" target="_blank" rel="noopener">
+            <div class="rr-clip-thumb">
+              <img src="https://img.youtube.com/vi/ekDT0ZSFsHs/mqdefault.jpg" alt="Well Done — Anniversary recap" loading="lazy">
+              <span class="rr-clip-play" aria-hidden="true">▶</span>
+            </div>
             <div class="rr-clip-body">
               <span class="rr-clip-num">01</span>
               <span class="rr-clip-title">Well Done — Anniversary recap</span>
               <span class="rr-clip-dur">15:18</span>
             </div>
           </a>
-          <a class="rr-clip" href="https://youtu.be/C80SaDmRSuY" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/C80SaDmRSuY/mqdefault.jpg" alt="Brother's Keeper — Admonishing" loading="lazy">
+          <a class="rr-clip" href="https://youtu.be/C80SaDmRSuY" data-yt-id="C80SaDmRSuY" target="_blank" rel="noopener">
+            <div class="rr-clip-thumb">
+              <img src="https://img.youtube.com/vi/C80SaDmRSuY/mqdefault.jpg" alt="Brother's Keeper — Admonishing" loading="lazy">
+              <span class="rr-clip-play" aria-hidden="true">▶</span>
+            </div>
             <div class="rr-clip-body">
               <span class="rr-clip-num">02</span>
               <span class="rr-clip-title">Brother's Keeper — Admonishing</span>
               <span class="rr-clip-dur">8:12</span>
             </div>
           </a>
-          <a class="rr-clip" href="https://youtu.be/0A_S2l3ZgLg" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/0A_S2l3ZgLg/mqdefault.jpg" alt="Song Structure" loading="lazy">
+          <a class="rr-clip" href="https://youtu.be/0A_S2l3ZgLg" data-yt-id="0A_S2l3ZgLg" target="_blank" rel="noopener">
+            <div class="rr-clip-thumb">
+              <img src="https://img.youtube.com/vi/0A_S2l3ZgLg/mqdefault.jpg" alt="Song Structure" loading="lazy">
+              <span class="rr-clip-play" aria-hidden="true">▶</span>
+            </div>
             <div class="rr-clip-body">
               <span class="rr-clip-num">03</span>
               <span class="rr-clip-title">Song Structure</span>
               <span class="rr-clip-dur">3:51</span>
             </div>
           </a>
-          <a class="rr-clip" href="https://youtu.be/cC0x9v_q7zc" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/cC0x9v_q7zc/mqdefault.jpg" alt="Set list for Sunday 24th May" loading="lazy">
+          <a class="rr-clip" href="https://youtu.be/cC0x9v_q7zc" data-yt-id="cC0x9v_q7zc" target="_blank" rel="noopener">
+            <div class="rr-clip-thumb">
+              <img src="https://img.youtube.com/vi/cC0x9v_q7zc/mqdefault.jpg" alt="Set list for Sunday 24th May" loading="lazy">
+              <span class="rr-clip-play" aria-hidden="true">▶</span>
+            </div>
             <div class="rr-clip-body">
               <span class="rr-clip-num">04</span>
               <span class="rr-clip-title">Set list for Sunday 24th May</span>
               <span class="rr-clip-dur">1:55</span>
             </div>
           </a>
-          <a class="rr-clip" href="https://youtu.be/FwbnHecRMgs" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/FwbnHecRMgs/mqdefault.jpg" alt="Praise Set Overview" loading="lazy">
+          <a class="rr-clip" href="https://youtu.be/FwbnHecRMgs" data-yt-id="FwbnHecRMgs" target="_blank" rel="noopener">
+            <div class="rr-clip-thumb">
+              <img src="https://img.youtube.com/vi/FwbnHecRMgs/mqdefault.jpg" alt="Praise Set Overview" loading="lazy">
+              <span class="rr-clip-play" aria-hidden="true">▶</span>
+            </div>
             <div class="rr-clip-body">
               <span class="rr-clip-num">05</span>
               <span class="rr-clip-title">Praise Set Overview</span>
               <span class="rr-clip-dur">7:02</span>
             </div>
           </a>
-          <a class="rr-clip" href="https://youtu.be/STQgh_9dL4Q" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/STQgh_9dL4Q/mqdefault.jpg" alt="Praise Set Structure" loading="lazy">
+          <a class="rr-clip" href="https://youtu.be/STQgh_9dL4Q" data-yt-id="STQgh_9dL4Q" target="_blank" rel="noopener">
+            <div class="rr-clip-thumb">
+              <img src="https://img.youtube.com/vi/STQgh_9dL4Q/mqdefault.jpg" alt="Praise Set Structure" loading="lazy">
+              <span class="rr-clip-play" aria-hidden="true">▶</span>
+            </div>
             <div class="rr-clip-body">
               <span class="rr-clip-num">06</span>
               <span class="rr-clip-title">Praise Set Structure</span>
               <span class="rr-clip-dur">11:41</span>
             </div>
           </a>
-          <a class="rr-clip" href="https://youtu.be/Dx2w3NkYwAk" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/Dx2w3NkYwAk/mqdefault.jpg" alt="Key for Praise Set — B Major" loading="lazy">
+          <a class="rr-clip" href="https://youtu.be/Dx2w3NkYwAk" data-yt-id="Dx2w3NkYwAk" target="_blank" rel="noopener">
+            <div class="rr-clip-thumb">
+              <img src="https://img.youtube.com/vi/Dx2w3NkYwAk/mqdefault.jpg" alt="Key for Praise Set — B Major" loading="lazy">
+              <span class="rr-clip-play" aria-hidden="true">▶</span>
+            </div>
             <div class="rr-clip-body">
               <span class="rr-clip-num">07</span>
               <span class="rr-clip-title">Key for Praise Set — B Major</span>
               <span class="rr-clip-dur">12:50</span>
             </div>
           </a>
-          <a class="rr-clip" href="https://youtu.be/stg8qB7ayzQ" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/stg8qB7ayzQ/mqdefault.jpg" alt="Worship Set" loading="lazy">
+          <a class="rr-clip" href="https://youtu.be/stg8qB7ayzQ" data-yt-id="stg8qB7ayzQ" target="_blank" rel="noopener">
+            <div class="rr-clip-thumb">
+              <img src="https://img.youtube.com/vi/stg8qB7ayzQ/mqdefault.jpg" alt="Worship Set" loading="lazy">
+              <span class="rr-clip-play" aria-hidden="true">▶</span>
+            </div>
             <div class="rr-clip-body">
               <span class="rr-clip-num">08</span>
               <span class="rr-clip-title">Worship Set</span>
@@ -4064,6 +4150,28 @@ KEY NOTES
           }
         });
         g._open = open;
+      });
+
+      // ── REHEARSAL CLIP PLAYER: facade -> inline iframe on click ──
+      document.querySelectorAll('.rr-clip').forEach(card => {
+        card.addEventListener('click', (e) => {
+          if (card.classList.contains('playing')) return;
+          const ytId = card.dataset.ytId;
+          if (!ytId) return;
+          e.preventDefault();
+          const thumb = card.querySelector('.rr-clip-thumb');
+          if (!thumb) return;
+          const iframe = document.createElement('iframe');
+          iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0`;
+          iframe.title = card.querySelector('.rr-clip-title')?.textContent || 'Rehearsal clip';
+          iframe.setAttribute('frameborder', '0');
+          iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+          iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+          iframe.setAttribute('allowfullscreen', '');
+          thumb.innerHTML = '';
+          thumb.appendChild(iframe);
+          card.classList.add('playing');
+        });
       });
 
       // ── HASH JUMP: expand target on arrival via #song-N or #glossary ──
