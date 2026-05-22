@@ -1074,47 +1074,6 @@
     .ticker { padding: 12px 28px; }
 
     /* ── PART FILTER (sticky under ticker) ── */
-    .partbar {
-      position: sticky;
-      top: 41px; /* sits right under ticker */
-      z-index: 49;
-      background: var(--obsidian);
-      border-bottom: 1px solid var(--line-soft);
-      padding: 10px 0;
-    }
-    .partbar-inner {
-      max-width: 820px;
-      margin: 0 auto;
-      padding: 0 14px;
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-    }
-    .partbar-inner::-webkit-scrollbar { display: none; }
-    .part-chip {
-      flex-shrink: 0;
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      padding: 8px 14px;
-      background: transparent;
-      color: var(--fg-3);
-      border: 1px solid var(--line-mid);
-      border-radius: 999px;
-      cursor: pointer;
-      transition: all var(--t-micro) var(--ease-out-quint);
-      white-space: nowrap;
-    }
-    .part-chip:hover { color: var(--fg-1); border-color: var(--fg-2); }
-    .part-chip[aria-pressed="true"] {
-      background: var(--red);
-      color: var(--bone);
-      border-color: var(--red);
-    }
 
     /* ── AT-A-GLANCE CARD ── */
     .glance {
@@ -1399,15 +1358,6 @@
       margin-left: auto;
     }
     .chart.collapsible.open .chart-head .chart-chev { transform: rotate(180deg); color: var(--red); }
-
-    /* When a specific part filter is active, dim non-matching part rows */
-    .parts[data-filter]:not([data-filter="all"]) .part-row {
-      opacity: 0.18;
-      transition: opacity 0.2s;
-    }
-    .parts[data-filter] .part-row.active-part {
-      opacity: 1;
-    }
 
     /* Slim footer block — replaces the For Sunday section */
     .slim-footer {
@@ -1962,17 +1912,6 @@
     </div>
   </div>
 
-  <div class="partbar">
-    <div class="partbar-inner" id="partbar">
-      <button class="part-chip" data-part="all" aria-pressed="true">All Parts</button>
-      <button class="part-chip" data-part="drums">Drums</button>
-      <button class="part-chip" data-part="bass">Bass</button>
-      <button class="part-chip" data-part="keys">Keys</button>
-      <button class="part-chip" data-part="guitar">Guitar</button>
-      <button class="part-chip" data-part="lead">Lead</button>
-      <button class="part-chip" data-part="bvs">BVs</button>
-    </div>
-  </div>
 
   <main class="container">
 
@@ -2218,7 +2157,7 @@
               </div>
             </div>
 
-            <div class="parts" data-filter="all">
+            <div class="parts">
               <div class="part-row flag" data-part="drums">
                 <div class="part-role">
                   <div class="part-name">Drums</div>
@@ -2372,7 +2311,7 @@ KEY NOTES
                 </div>
               </div>
             </div>
-            <div class="parts" data-filter="all">
+            <div class="parts">
               <div class="part-row flag" data-part="keys">
                 <div class="part-role">
                   <div class="part-name">Keys</div>
@@ -2495,7 +2434,7 @@ KEY NOTES
               </div>
             </div>
 
-            <div class="parts" data-filter="all">
+            <div class="parts">
               <div class="part-row flag" data-part="drums">
                 <div class="part-role">
                   <div class="part-name">Drums</div>
@@ -2598,7 +2537,7 @@ KEY NOTES
               </div>
             </div>
 
-            <div class="parts" data-filter="all">
+            <div class="parts">
               <div class="part-row flag" data-part="lead">
                 <div class="part-role">
                   <div class="part-name">Lead</div>
@@ -2709,7 +2648,7 @@ KEY NOTES
               </div>
             </div>
 
-            <div class="parts" data-filter="all">
+            <div class="parts">
               <div class="part-row flag" data-part="guitar">
                 <div class="part-role">
                   <div class="part-name">Guitar</div>
@@ -2816,7 +2755,7 @@ KEY NOTES
               </div>
             </div>
 
-            <div class="parts" data-filter="all">
+            <div class="parts">
               <div class="part-row flag" data-part="lead">
                 <div class="part-role">
                   <div class="part-name">Lead</div>
@@ -2901,7 +2840,7 @@ KEY NOTES
               </div>
             </div>
 
-            <div class="parts" data-filter="all">
+            <div class="parts">
               <div class="part-row flag" data-part="lead">
                 <div class="part-role">
                   <div class="part-name">Lead</div>
@@ -2998,7 +2937,7 @@ KEY NOTES
               </div>
             </div>
 
-            <div class="parts" data-filter="all">
+            <div class="parts">
               <div class="part-row flag" data-part="lead">
                 <div class="part-role">
                   <div class="part-name">Lead</div>
@@ -4015,7 +3954,6 @@ KEY NOTES
     //  SET RUNTHROUGH — COLLAPSE + FILTER
     //  Every .song.collapsible toggles open/closed on toggle click.
     //  Every .chart.collapsible toggles open/closed on head click.
-    //  The .partbar filters part-rows across all songs by their data-part.
     // ════════════════════════════════════════════════════════════════════
     (function () {
       // ── COLLAPSE: songs ──
@@ -4109,46 +4047,6 @@ KEY NOTES
         g._open = open;
       });
 
-      // ── PART FILTER ──
-      const chips = document.querySelectorAll('.part-chip');
-      const partsLists = document.querySelectorAll('.parts');
-      // Parts that benefit from the chord chart (harmonic parts)
-      const HARMONIC_PARTS = new Set(['keys', 'guitar', 'bass']);
-      // Parts that benefit from lyrics (singer parts)
-      const SINGER_PARTS = new Set(['lead', 'bvs']);
-
-      function applyFilter(part) {
-        partsLists.forEach(list => {
-          list.setAttribute('data-filter', part);
-          list.querySelectorAll('.part-row').forEach(row => {
-            const match = part === 'all' || row.dataset.part === part;
-            row.classList.toggle('active-part', match);
-          });
-        });
-
-        // If a specific part is selected, auto-expand all songs so the
-        // user can scroll their part across the set.
-        if (part !== 'all') {
-          document.querySelectorAll('.song.collapsible').forEach(s => s._open && s._open());
-          // Open chord chart if a harmonic part is selected
-          if (HARMONIC_PARTS.has(part)) {
-            document.querySelectorAll('.chart.collapsible').forEach(c => c._open && c._open());
-          }
-          // Open lyrics if a singer part is selected
-          if (SINGER_PARTS.has(part)) {
-            document.querySelectorAll('.lyrics.collapsible').forEach(l => l._open && l._open());
-          }
-        }
-      }
-
-      chips.forEach(chip => {
-        chip.addEventListener('click', () => {
-          chips.forEach(c => c.setAttribute('aria-pressed', 'false'));
-          chip.setAttribute('aria-pressed', 'true');
-          applyFilter(chip.dataset.part);
-        });
-      });
-
       // ── HASH JUMP: expand target on arrival via #song-N or #glossary ──
       function expandFromHash() {
         const hash = location.hash;
@@ -4173,8 +4071,6 @@ KEY NOTES
       expandFromHash();
       window.addEventListener('hashchange', expandFromHash);
 
-      // Apply default filter (all) on load to set initial state
-      applyFilter('all');
     })();
   </script>
 
