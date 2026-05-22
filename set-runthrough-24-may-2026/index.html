@@ -1066,7 +1066,6 @@
       color: var(--fg-3);
     }
 
-
     /* ═══════════════════════════════════════════════════════════════
        REDESIGN — compact, collapsible, filterable
        ═══════════════════════════════════════════════════════════════ */
@@ -1593,7 +1592,6 @@
     }
     .reftrack-foot a:hover { color: var(--bone); border-color: var(--bone); }
 
-
     /* ── CHORD PILL (simple loop indicator for songs without a full chart) ── */
     .chordpill {
       margin-bottom: 22px;
@@ -1654,7 +1652,6 @@
       color: var(--fg-3);
     }
     .chordpill-roman b { color: var(--red); font-weight: 600; }
-
 
     /* ── HOW-TO CALLOUT ── */
     .howto {
@@ -1760,6 +1757,105 @@
       .glossary-entry { grid-template-columns: 1fr; gap: 4px; padding: 14px 0; }
     }
 
+
+    /* ── KEY PILL (in song header) ── */
+    .tag-pill.key {
+      background: rgba(200, 162, 75, 0.15);
+      color: var(--gold-bright);
+      border: 1px solid rgba(200, 162, 75, 0.4);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+
+    /* ── REHEARSAL RECORDING SECTION ── */
+    .rehearsal-recording {
+      max-width: 900px;
+      margin: 32px auto 40px;
+      padding: 0 20px;
+    }
+    .rr-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .rr-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(208,68,28,0.6); }
+      50% { box-shadow: 0 0 0 6px rgba(208,68,28,0); }
+    }
+    .rr-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      font-weight: 700;
+    }
+    .rr-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4.5vw, 44px);
+      line-height: 1;
+      color: var(--bone);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    .rr-lede {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 17px;
+      color: var(--fg-2);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    .rr-lede strong {
+      font-style: normal;
+      color: var(--bone);
+      font-family: var(--font-body);
+      font-weight: 600;
+    }
+    .rr-embed {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--slate);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .rr-embed iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .rr-foot {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: var(--slate);
+      border-left: 3px solid var(--gold);
+      border-radius: 4px;
+    }
+    .rr-foot p {
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--fg-2);
+      line-height: 1.6;
+      margin: 0;
+    }
+    .rr-foot strong {
+      color: var(--bone);
+      font-weight: 600;
+    }
+
   </style>
 </head>
 <body>
@@ -1792,7 +1888,7 @@
     <section class="glance" id="glance">
       <div class="glance-eyebrow">Pentecost Sunday · 24 May 2026</div>
       <h1>The <span class="accent">Set.</span></h1>
-      <p class="glance-sub">Eight songs. Three praise locked at 105 BPM (a steady, medium pace). Three worship songs that breathe. Two short closers — one for the offering, one at the end of service. Caster leads. Companion to the <a href="../worship-pack-24-may-2026.html" style="color: var(--red-bright); text-decoration: none; border-bottom: 1px dotted var(--red);">Worship Pack</a>.</p>
+      <p class="glance-sub">Eight songs. Three praise locked at 105 BPM (a steady, medium pace). Three worship songs that breathe. Two short closers — one for the offering, one at the end of service. Caster leads. <a href="#rehearsal-recording" style="color: var(--gold-bright); text-decoration: none; border-bottom: 1px dotted var(--gold);">Watch the virtual rehearsal recording ↓</a>. Companion to the <a href="../worship-pack-24-may-2026.html" style="color: var(--red-bright); text-decoration: none; border-bottom: 1px dotted var(--red);">Worship Pack</a>.</p>
 
       <div class="howto">
         <div class="howto-icon">👋</div>
@@ -1875,6 +1971,23 @@
       <h2 class="section-title" style="margin-bottom: 12px;">Your Part</h2>
       <p class="section-lede">Tap a song to expand. Use the filter above to see just your part across the whole set.</p>
 
+
+    <!-- ── REHEARSAL RECORDING ── -->
+    <section id="rehearsal-recording" class="rehearsal-recording">
+      <div class="rr-eyebrow">
+        <span class="rr-dot"></span>
+        <span class="rr-label">Virtual Rehearsal · 21 May 2026</span>
+      </div>
+      <h2 class="rr-title">Watch the rehearsal recording</h2>
+      <p class="rr-lede">The full team walk-through. Every song, every key, every structural decision made on this call. <strong>If you can't make Saturday, watch this.</strong></p>
+      <div class="rr-embed">
+        <iframe src="https://www.youtube.com/embed/C5ZFpyMzSYk" title="Calvary Worship Team - Virtual Rehearsal 21st May 2026" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="rr-foot">
+        <p>Decisions locked on this call: praise medley in <strong>B</strong>, worship songs in <strong>D</strong>, Open the Eyes in <strong>E</strong>, His Love Endures in <strong>D</strong>. Abraham confirmed on drums. Holy Spirit chorus-only with 4-pass dynamic arc. Atmosphere Shift → Spirit Break Out transitions at the chorus, not the bridge.</p>
+      </div>
+    </section>
+
       <!-- 01 · Days of Elijah -->
       <div class="song collapsible" id="song-1" data-song-num="01">
         <div class="song-toggle" role="button" tabindex="0" aria-expanded="false">
@@ -1883,7 +1996,7 @@
             <div class="song-position">Praise medley · 1 of 3</div>
             <div class="song-title">Days of Elijah</div>
           </div>
-          <div class="song-tag-mini"><span class="tag-pill red">105 BPM</span></div>
+          <div class="song-tag-mini"><span class="tag-pill key">Key · B</span><span class="tag-pill red">105 BPM</span></div>
           <div class="chev">▾</div>
         </div>
         <div class="song-body">
@@ -1939,22 +2052,11 @@
               </div>
             </div>
 
-            <div class="chordpill">
-              <div class="chordpill-head">
-                <span class="chordpill-label">Chord Loop</span>
-                <span class="chordpill-key">Key <b>F major</b> · same loop throughout</span>
-              </div>
-              <div class="chordpill-loop">
-                <span class="c iv">Bb</span><span class="c i">F</span><span class="c v">C</span><span class="c i">F</span>
-              </div>
-              <div class="chordpill-roman">Roman: <b>IV · I · V · I</b> · with occasional <b>Am7 · Dm7 · Gm7</b> passing turns before the chorus refrain</div>
-            </div>
-
             <div class="parts" data-filter="all">
               <div class="part-row flag" data-part="drums">
                 <div class="part-role">
                   <div class="part-name">Drums</div>
-                  <div class="part-musician">TBC</div>
+                  <div class="part-musician">Abraham</div>
                 </div>
                 <div class="part-note">Intro: full hits. Drop right out for verse 1 — kick only, hi-hat closed. Build through chorus. <strong>Hold 105 — don't push.</strong> The vamp (the short repeating section at the end) stays steady; no count-in into the next song.</div>
               </div>
@@ -2013,7 +2115,7 @@
             <div class="song-position">Praise medley · 2 of 3</div>
             <div class="song-title">Lord I Lift Your Name on High</div>
           </div>
-          <div class="song-tag-mini"><span class="tag-pill red">105 BPM</span></div>
+          <div class="song-tag-mini"><span class="tag-pill key">Key · B</span><span class="tag-pill red">105 BPM</span></div>
           <div class="chev">▾</div>
         </div>
         <div class="song-body">
@@ -2031,7 +2133,7 @@
                 <iframe src="https://drive.google.com/file/d/1_jW_OJ9K4P5S6oviIMzn10ApWgOR5aMX/preview" allow="autoplay" loading="lazy" title="Be Lifted High reference track"></iframe>
               </div>
               <div class="reftrack-foot">
-                This is what we're going for — the dynamic drop on the verse, the synth brass on the chorus, the build through "Don't know what you came to do". Listen once before you open the multi-stem player below. <a href="https://drive.google.com/file/d/1_jW_OJ9K4P5S6oviIMzn10ApWgOR5aMX/view?usp=sharing" target="_blank" rel="noopener">Open in Drive ↗</a>
+                <strong style="color: var(--fg-1);">Listen to the MIDDLE SECTION only</strong> — ignore the rest of the song. It's the middle vamp that we're using as the bridge between Days of Elijah and Lord I Lift Your Name. Listen for the dynamic drop on the verse, the synth brass on the chorus, the build through "Don't know what you came to do". <a href="https://drive.google.com/file/d/1_jW_OJ9K4P5S6oviIMzn10ApWgOR5aMX/view?usp=sharing" target="_blank" rel="noopener">Open in Drive ↗</a>
               </div>
             </div>
             
@@ -2104,99 +2206,6 @@ KEY NOTES
                 </div>
               </div>
             </div>
-            <div class="chart collapsible" id="chord-chart-2">
-              <div class="chart-head" role="button" tabindex="0" aria-expanded="false">
-                <div class="chart-title">Chord Chart · Be Lifted High</div>
-                <div class="chart-key">Key <b>Gb major</b></div>
-                <div class="chart-chev">▾</div>
-              </div>
-              <div class="chart-body">
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Intro · Vamp</span>
-                    <span class="chart-section-note">Drop in off Days of Elijah — band almost out</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c iv">Cb</span><span class="c i">Gb</span><span class="c v">Db</span><span class="c iv">Cb</span><span class="c i">Gb</span><span class="c v">Db</span><span class="c iv">Cb</span><span class="c i">Gb</span>
-                  </div>
-                  <div class="chart-roman">Roman: <b>IV · I · V</b> looping</div>
-                </div>
-
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Verse</span>
-                    <span class="chart-section-note">Dynamics low — "Lord I lift your name on high"</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">Gb</span><span class="c iv">Cb</span><span class="c v">Db</span><span class="c i">Gb</span><span class="c iv">Cb</span><span class="c vi">Ebm</span><span class="c v">Db</span><span class="c i">Gb</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">Gb</span><span class="c iv">Cb</span><span class="c v">Db</span><span class="c i">Gb</span><span class="c iv">Cb</span><span class="c vi">Ebm</span><span class="c v">Db</span><span class="c iv">Cb</span>
-                  </div>
-                  <div class="chart-roman">Roman: <b>I · IV · V · I · IV · vi · V · I</b> — second pass ends on IV (lift)</div>
-                </div>
-
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Chorus</span>
-                    <span class="chart-section-note">"You came from heaven to earth" — synth brass enters</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">Gb</span><span class="c v">Db</span><span class="c i">Gb</span><span class="c iv">Cb</span><span class="c i">Gb</span><span class="c v">Db</span><span class="c iv">Cb</span><span class="c i">Gb</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">Gb</span><span class="c v">Db</span><span class="c iv">Cb</span><span class="c i">Gb</span><span class="c v">Db</span><span class="c iv">Cb</span><span class="c vi">Ebm</span><span class="c v">Db</span>
-                  </div>
-                  <div class="chart-roman">Roman: <b>I · V · I · IV</b> — line 2 closes on <b>vi → V</b> turnaround</div>
-                </div>
-
-                <div class="chart-section build">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Bridge · Build</span>
-                    <span class="chart-section-note">"Don't know what you came to do" — Anthem Nights style, with extra colour chords</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c vi x">Ebm7</span><span class="c i">Gb</span><span class="c v">Db</span><span class="c iv">Cb</span><span class="c i">Gb</span><span class="c vi">Ebm</span><span class="c vi x">Ebm7</span><span class="c x">Ab7</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c vi">Ebm</span><span class="c vi x">Ebm7</span><span class="c x">Bbm7</span><span class="c iv x">Cbmaj7</span><span class="c x">Bbm7</span><span class="c iv x">Cbmaj7</span><span class="c v">Db</span><span class="c vi">Ebm</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c v">Db</span><span class="c iv x">Cbmaj7</span><span class="c x">Bbm7</span><span class="c iv x">Cbmaj7</span><span class="c iv">Cb</span><span class="c v">Db</span><span class="c vi x">Ebm7</span><span class="c x">Abm7</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">Gb</span><span class="c iv">Cb</span><span class="c x">Abm7</span><span class="c v">Db</span><span class="c iv x">Cbmaj7</span><span class="c x">Abm7</span><span class="c x">Bb</span><span class="c x">Abm7</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">Bbm7</span><span class="c iv x">Cbmaj7</span><span class="c x">Bbm7</span><span class="c iv x">Cbmaj7</span><span class="c x">Ddim</span><span class="c vi x">Ebm7</span><span class="c x">D</span><span class="c vi x">Ebm7</span>
-                  </div>
-                  <div class="chart-roman">7ths thicken the same diatonic chords. <b>Ab7 · Ddim · D · Bb</b> are chromatic passing chords.</div>
-                </div>
-
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Final Chorus · Outro</span>
-                    <span class="chart-section-note">Triads thicken into 7ths — same shape, richer colour</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c iv">Cb</span><span class="c vi x">Ebm7</span><span class="c x">Abm7</span><span class="c v">Db</span><span class="c vi">Ebm</span><span class="c v">Db</span><span class="c iv">Cb</span><span class="c i">Gb</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c iv">Cb</span><span class="c i">Gb</span><span class="c iv x">Cbmaj7</span><span class="c x">Abm7</span><span class="c vi x">Ebm7</span><span class="c v">Db</span><span class="c i">Gb</span><span class="c iv">Cb</span>
-                  </div>
-                  <div class="chart-roman">Resolves <b>IV · vi · V → I</b>. Hand off to Ancient of Days on a sustained Gb.</div>
-                </div>
-
-                <div class="chart-legend">
-                  <span class="swatch"><span class="dot i"></span>I · Gb</span>
-                  <span class="swatch"><span class="dot iv"></span>IV · Cb</span>
-                  <span class="swatch"><span class="dot v"></span>V · Db</span>
-                  <span class="swatch"><span class="dot vi"></span>vi · Ebm</span>
-                  <span class="swatch"><span class="dot x"></span>Extensions</span>
-                </div>
-              </div>
-            </div>
-
             <div class="parts" data-filter="all">
               <div class="part-row flag" data-part="keys">
                 <div class="part-role">
@@ -2215,7 +2224,7 @@ KEY NOTES
               <div class="part-row" data-part="drums">
                 <div class="part-role">
                   <div class="part-name">Drums</div>
-                  <div class="part-musician">TBC</div>
+                  <div class="part-musician">Abraham</div>
                 </div>
                 <div class="part-note">Pull right back on verse — kick + hi-hat. Build into chorus. Hold 105 with bass. Final chorus ×2 hands off into Ancient of Days — no fill, just a sustained crash that resolves into the next song.</div>
               </div>
@@ -2260,7 +2269,7 @@ KEY NOTES
             <div class="song-position">Praise medley · 3 of 3 · Closer</div>
             <div class="song-title">Ancient of Days · Blessing and Honour</div>
           </div>
-          <div class="song-tag-mini"><span class="tag-pill red">105 BPM</span></div>
+          <div class="song-tag-mini"><span class="tag-pill key">Key · B</span><span class="tag-pill red">105 BPM</span></div>
           <div class="chev">▾</div>
         </div>
         <div class="song-body">
@@ -2320,116 +2329,11 @@ KEY NOTES
               </div>
             </div>
 
-            <div class="chart collapsible" id="chord-chart-3">
-              <div class="chart-head" role="button" tabindex="0" aria-expanded="false">
-                <div class="chart-title">Chord Chart · Ancient of Days · Blessing and Honour</div>
-                <div class="chart-key">Key <b>D major</b> · changes key to A near the end</div>
-                <div class="chart-chev">▾</div>
-              </div>
-              <div class="chart-body">
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Verse · "Blessing and Honour"</span>
-                    <span class="chart-section-note">Standard progression — not Anthem Nights treatment</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c iv">G</span><span class="c i">D</span><span class="c v">A</span><span class="c x">Bm</span><span class="c v">A</span><span class="c i">D</span><span class="c x">Bm</span><span class="c v">A</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">D</span><span class="c iv">G</span><span class="c vi">Em</span><span class="c v">A</span><span class="c i">D</span><span class="c iv">G</span><span class="c vi">Em</span><span class="c v">A</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">D</span><span class="c iv">G</span><span class="c vi x">Em7</span><span class="c v">A</span><span class="c i">D</span><span class="c iv">G</span><span class="c vi">Em</span><span class="c iv">G</span>
-                  </div>
-                  <div class="chart-roman">Roman: <b>IV · I · V · vi</b> shape — the bread-and-butter worship progression in D.</div>
-                </div>
-
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">"Every tongue in heaven and earth"</span>
-                    <span class="chart-section-note">Cadd9 colour enters — the ♭VII lift</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c v">A</span><span class="c i">D</span><span class="c iv">G</span><span class="c i">D</span><span class="c x">Cadd9</span><span class="c iv">G</span><span class="c i">D</span><span class="c iv">G</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">D</span><span class="c x">Cadd9</span><span class="c iv">G</span><span class="c i">D</span><span class="c iv">G</span><span class="c i">D</span><span class="c x">Cadd9</span><span class="c i">D</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">Cadd9</span><span class="c iv">G</span><span class="c i">D</span><span class="c iv">G</span><span class="c vi x">Em7</span><span class="c v">A</span><span class="c i">D</span><span class="c iv">G</span>
-                  </div>
-                  <div class="chart-roman"><b>Cadd9</b> is the song's signature colour — a ♭VII borrowed chord that gives "every tongue" its lift before resolving back to G·D.</div>
-                </div>
-
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Chorus build · "Oh Ancient of Days"</span>
-                    <span class="chart-section-note">Em7 · A · D · G turnarounds, four times to the lift</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c vi x">Em7</span><span class="c v">A</span><span class="c i">D</span><span class="c iv">G</span><span class="c vi x">Em7</span><span class="c v">A</span><span class="c i">D</span><span class="c iv">G</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c vi">Em</span><span class="c v">A</span><span class="c i">D</span><span class="c iv">G</span><span class="c v">A</span><span class="c i">D</span><span class="c iv">G</span><span class="c v">A</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">D</span><span class="c iv">G</span><span class="c v">A</span><span class="c i">D</span><span class="c vi x">Em7</span><span class="c i">D</span><span class="c v">A</span><span class="c x">Bm</span>
-                  </div>
-                  <div class="chart-roman">Roman: <b>vi · V · I · IV</b> as the cycle. Drummer: this is where you build through the four iterations of "Oh Ancient of Days".</div>
-                </div>
-
-                <div class="chart-section build">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Key change up to A — THE lift</span>
-                    <span class="chart-section-note">Key change up a fourth · E7 is the pivot</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c v">A</span><span class="c x">Bm</span><span class="c iv">G</span><span class="c vi x">Em7</span><span class="c v">A</span><span class="c i">D</span><span class="c vi x">Em7</span><span class="c i">D</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c iv">G</span><span class="c vi x">Em7</span><span class="c v">A</span><span class="c i">D</span><span class="c x">Bm</span><span class="c x">E</span><span class="c x">E7</span><span class="c v">A</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">Bm</span><span class="c v">A</span><span class="c i">D</span><span class="c x">Bm</span><span class="c x">E</span><span class="c x">Esus4</span><span class="c x">E</span><span class="c v">A</span>
-                  </div>
-                  <div class="chart-roman">Line 2 is the pivot: <b>Bm → E → E7 → A</b>. The <b>E7</b> is a secondary dominant pulling toward <b>A</b> as the new home. By line 3, <b>A</b> functions as the new I.</div>
-                </div>
-
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">"Oh Ancient of Days" ending section · Definitive Ending</span>
-                    <span class="chart-section-note">Heavy-handed, modal — lands on the 1-6-7-1 crash</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">D</span><span class="c x">C</span><span class="c iv">G</span><span class="c x">Am</span><span class="c iv">G</span><span class="c i">D</span><span class="c x">C</span><span class="c x">Am</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">D</span><span class="c x">Am7</span><span class="c iv">G</span><span class="c x">C</span><span class="c x">A7</span><span class="c i">D</span><span class="c x">Am</span><span class="c i">D</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">Am7</span><span class="c x">Am</span><span class="c x">C</span><span class="c iv">G</span><span class="c i">D</span><span class="c x">Bm7</span><span class="c x">Am7</span><span class="c x">C</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c iv">G</span><span class="c i">D</span><span class="c x">Bm7</span><span class="c iv">G</span><span class="c x">Am7</span><span class="c iv">G</span><span class="c x">Am7</span><span class="c v">A</span>
-                  </div>
-                  <div class="chart-roman">Drops into a modal flavour — <b>Am · C</b> are borrowed from D minor, giving the tag its heavy, ancient feel. <b>A7</b> at end of line 2 functions as a dominant pulling back to <b>D</b>. The final <b>1-6-7-1</b> crash lands on D.</div>
-                </div>
-
-                <div class="chart-legend">
-                  <span class="swatch"><span class="dot i"></span>I · D</span>
-                  <span class="swatch"><span class="dot iv"></span>IV · G</span>
-                  <span class="swatch"><span class="dot v"></span>V · A</span>
-                  <span class="swatch"><span class="dot vi"></span>vi · Em</span>
-                  <span class="swatch"><span class="dot x"></span>Cadd9 · Bm · Am · E7 · A7 · borrowed/modulation</span>
-                </div>
-              </div>
-            </div>
-
             <div class="parts" data-filter="all">
               <div class="part-row flag" data-part="drums">
                 <div class="part-role">
                   <div class="part-name">Drums</div>
-                  <div class="part-musician">TBC</div>
+                  <div class="part-musician">Abraham</div>
                 </div>
                 <div class="part-note"><strong>The ending is yours.</strong> Set up the 1-6-7-1 with a fill that signals the crash is coming. Don't surprise the band. Land the crash on the one — definitive, not abrupt.</div>
               </div>
@@ -2488,7 +2392,7 @@ KEY NOTES
             <div class="song-position">Worship · 1 of 3 · Opens worship</div>
             <div class="song-title">Holy Spirit, You Are Welcome Here</div>
           </div>
-          <div class="song-tag-mini"><span class="tag-pill gold">Pentecost</span></div>
+          <div class="song-tag-mini"><span class="tag-pill key">Key · D</span><span class="tag-pill gold">Pentecost</span></div>
           <div class="chev">▾</div>
         </div>
         <div class="song-body">
@@ -2518,7 +2422,7 @@ KEY NOTES
               </div>
               <div class="lyrics-body">
                 <div class="lyrics-section">
-                  <div class="lyrics-section-label">Song body</div><div class="lyrics-section-cue">No fixed structure · simple, vocal-carried · Caster leads each line</div>
+                  <div class="lyrics-section-label">Song body</div><div class="lyrics-section-cue">Chorus only (skip the verses) · 4 passes building dynamically: (1) Uncle Caster + keys, soft (2) Abraham keeps time on ride only, Esther joins (3) full kit enters with toms — full energy (4) builds at "your glory God is what our hearts long for" — transitions into Atmosphere Shift</div>
                   <div class="lyrics-lines placeholder">— lyrics to be added —</div>
                 </div>
                 <div class="lyrics-section">
@@ -2526,17 +2430,6 @@ KEY NOTES
                   <div class="lyrics-lines placeholder">— lyrics to be added —</div>
                 </div>
               </div>
-            </div>
-
-            <div class="chordpill">
-              <div class="chordpill-head">
-                <span class="chordpill-label">Chord Loop</span>
-                <span class="chordpill-key">Key <b>D major</b> · four chords, holding atmosphere</span>
-              </div>
-              <div class="chordpill-loop">
-                <span class="c i">D</span><span class="c iv">G</span><span class="c iv x">Gmaj7</span><span class="c vi x">Em7</span>
-              </div>
-              <div class="chordpill-roman">Roman: <b>I · IV · IVmaj7 · vi7</b> · cycling. Almost no movement — that's the point.</div>
             </div>
 
             <div class="parts" data-filter="all">
@@ -2564,7 +2457,7 @@ KEY NOTES
               <div class="part-row" data-part="drums">
                 <div class="part-role">
                   <div class="part-name">Drums</div>
-                  <div class="part-musician">TBC</div>
+                  <div class="part-musician">Abraham</div>
                 </div>
                 <div class="part-note">Out, or hi-hat only on the very softest touch. Don't groove this. Hold the room.</div>
               </div>
@@ -2602,7 +2495,7 @@ KEY NOTES
             <div class="song-position">Worship · 2 of 3</div>
             <div class="song-title">Atmosphere Shift</div>
           </div>
-          <div class="song-tag-mini"><span class="tag-pill red">Bridge moment</span></div>
+          <div class="song-tag-mini"><span class="tag-pill key">Key · D</span><span class="tag-pill red">Bridge moment</span></div>
           <div class="chev">▾</div>
         </div>
         <div class="song-body">
@@ -2644,96 +2537,8 @@ KEY NOTES
                   <div class="lyrics-lines placeholder">— lyrics to be added —</div>
                 </div>
                 <div class="lyrics-section">
-                  <div class="lyrics-section-label">Bridge repeats</div><div class="lyrics-section-cue">Hold "Heaven open over us" — repeat if the room is in it</div>
+                  <div class="lyrics-section-label">Bridge repeats</div><div class="lyrics-section-cue">Hold "Heaven open over us" — repeat if the room is in it · transition to Spirit Break Out happens at the chorus ("forever more / forever more / Spirit break out"), not the bridge</div>
                   <div class="lyrics-lines placeholder">— lyrics to be added —</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="chart collapsible" id="chord-chart-5">
-              <div class="chart-head" role="button" tabindex="0" aria-expanded="false">
-                <div class="chart-title">Chord Chart · Atmosphere Shift</div>
-                <div class="chart-key">Key <b>Ab major</b></div>
-                <div class="chart-chev">▾</div>
-              </div>
-              <div class="chart-body">
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Verse · Pre-chorus</span>
-                    <span class="chart-section-note">"There is only one name" — quiet, build slowly</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">Ab</span><span class="c iv">Db</span><span class="c v">Eb</span><span class="c iv">Db</span><span class="c i">Ab</span><span class="c vi">Fm</span><span class="c v">Eb</span><span class="c iv">Db</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">Ab</span><span class="c vi">Fm</span><span class="c vi x">Fm7</span><span class="c v">Eb</span><span class="c iv">Db</span><span class="c i">Ab</span><span class="c vi">Fm</span><span class="c v">Eb</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">Bbm7</span><span class="c iv">Db</span><span class="c i">Ab</span><span class="c vi">Fm</span><span class="c v">Eb</span><span class="c x">Bbm7</span><span class="c iv">Db</span><span class="c i">Ab</span>
-                  </div>
-                  <div class="chart-roman">Roman: shape sits around <b>I · IV · V</b> with the <b>vi (Fm)</b> as the soft turn. 7ths warm the chords without changing function.</div>
-                </div>
-
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Chorus</span>
-                    <span class="chart-section-note">"A God He's champion, He reigns forever more"</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c vi">Fm</span><span class="c vi x">Fm7</span><span class="c vi">Fm</span><span class="c v">Eb</span><span class="c x">Cm</span><span class="c iv">Db</span><span class="c v">Eb</span><span class="c iv">Db</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">Eb7</span><span class="c i">Ab</span><span class="c vi">Fm</span><span class="c v">Eb</span><span class="c x">Bbm7</span><span class="c x">Cm</span><span class="c iv">Db</span><span class="c i">Ab</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c vi">Fm</span><span class="c v">Eb</span><span class="c x">Bbm7</span><span class="c x">Cm7</span><span class="c iv">Db</span><span class="c vi">Fm</span><span class="c iv">Db</span><span class="c i">Ab</span>
-                  </div>
-                  <div class="chart-roman"><b>Cm</b> (iii) enters as a passing colour. <b>Eb7</b> is a single chromatic lift — the only non-diatonic chord in the whole song.</div>
-                </div>
-
-                <div class="chart-section build">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Bridge — THE moment</span>
-                    <span class="chart-section-note">"Atmosphere shift now, change me…" — same 4 chords, cycled</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c v">Eb</span><span class="c vi">Fm</span><span class="c iv">Db</span><span class="c i">Ab</span><span class="c v">Eb</span><span class="c vi">Fm</span><span class="c iv">Db</span><span class="c i">Ab</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c v">Eb</span><span class="c vi">Fm</span><span class="c iv">Db</span><span class="c i">Ab</span><span class="c v">Eb</span><span class="c vi">Fm</span><span class="c iv">Db</span><span class="c i">Ab</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c v">Eb</span><span class="c vi">Fm</span><span class="c iv">Db</span><span class="c i">Ab</span><span class="c v">Eb</span><span class="c vi">Fm</span><span class="c v">Eb</span><span class="c i">Ab</span>
-                  </div>
-                  <div class="chart-roman">It's <b>just four chords</b>: <b>V · vi · IV · I</b> looping. That's the whole bridge. Repeat the cycle as many times as the room needs — no new chords, no surprises.</div>
-                </div>
-
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Final Chorus · Outro</span>
-                    <span class="chart-section-note">Restated chorus shape, lands on a suspended Cm7</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c iv">Db</span><span class="c i">Ab</span><span class="c v">Eb</span><span class="c vi">Fm</span><span class="c v">Eb</span><span class="c i">Ab</span><span class="c x">Bbm7</span><span class="c iv">Db</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">Ab</span><span class="c v">Eb</span><span class="c x">Cm</span><span class="c i">Ab</span><span class="c vi">Fm</span><span class="c iv">Db</span><span class="c i">Ab</span><span class="c v">Eb</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c vi">Fm</span><span class="c v">Eb</span><span class="c i">Ab</span><span class="c iv">Db</span><span class="c i">Ab</span><span class="c v">Eb</span><span class="c i">Ab</span><span class="c vi">Fm</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c vi x">Fm7</span><span class="c v">Eb</span><span class="c x">Bbm7</span><span class="c x">Cm7</span>
-                  </div>
-                  <div class="chart-roman">Ending suspends on <b>Cm7</b> (iii7) — open, unresolved. Caster can either repeat the bridge cycle, hand off to Spirit Break Out, or hold for the room.</div>
-                </div>
-
-                <div class="chart-legend">
-                  <span class="swatch"><span class="dot i"></span>I · Ab</span>
-                  <span class="swatch"><span class="dot iv"></span>IV · Db</span>
-                  <span class="swatch"><span class="dot v"></span>V · Eb</span>
-                  <span class="swatch"><span class="dot vi"></span>vi · Fm</span>
-                  <span class="swatch"><span class="dot x"></span>ii · iii · 7ths · Eb7</span>
                 </div>
               </div>
             </div>
@@ -2763,7 +2568,7 @@ KEY NOTES
               <div class="part-row" data-part="drums">
                 <div class="part-role">
                   <div class="part-name">Drums</div>
-                  <div class="part-musician">TBC</div>
+                  <div class="part-musician">Abraham</div>
                 </div>
                 <div class="part-note">Quiet groove on verse. Lift on chorus. Open up properly on the bridge — toms, crashes, full kit. Settle back if Caster pulls it down for a repeat.</div>
               </div>
@@ -2801,7 +2606,7 @@ KEY NOTES
             <div class="song-position">Worship · 3 of 3 · Closer</div>
             <div class="song-title">Spirit Break Out</div>
           </div>
-          <div class="song-tag-mini"><span class="tag-pill gold">Pentecost</span></div>
+          <div class="song-tag-mini"><span class="tag-pill key">Key · D</span><span class="tag-pill gold">Pentecost</span></div>
           <div class="chev">▾</div>
         </div>
         <div class="song-body">
@@ -2845,114 +2650,6 @@ KEY NOTES
               </div>
             </div>
 
-            <div class="chart collapsible" id="chord-chart-6">
-              <div class="chart-head" role="button" tabindex="0" aria-expanded="false">
-                <div class="chart-title">Chord Chart · Spirit Break Out</div>
-                <div class="chart-key">Key <b>G major</b> · modulates to <b>Ab</b> near the end</div>
-                <div class="chart-chev">▾</div>
-              </div>
-              <div class="chart-body">
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Verse · Opening</span>
-                    <span class="chart-section-note">"Our Father in heaven…" — low and reverent</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c iv">C</span><span class="c vi">Em</span><span class="c v">D</span><span class="c v x">Dsus4</span><span class="c v">D</span><span class="c x">Bm</span><span class="c iv">C</span><span class="c v">D</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">G</span><span class="c iv">C</span><span class="c vi">Em</span><span class="c v">D</span><span class="c i">G</span><span class="c iv">C</span><span class="c vi">Em</span><span class="c v">D</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">G</span><span class="c iv">C</span><span class="c v">D</span><span class="c i">G</span><span class="c iv">C</span><span class="c vi">Em</span><span class="c v x">Dsus4</span><span class="c v">D</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">Bm</span><span class="c iv">C</span><span class="c vi">Em</span><span class="c v x">Dsus4</span><span class="c v">D</span><span class="c x">Am</span><span class="c vi">Em</span><span class="c v">D</span>
-                  </div>
-                  <div class="chart-roman">Roman: <b>I · IV · vi · V</b> looping (G · C · Em · D). <b>Dsus4 → D</b> suspensions before lifts. <b>Bm</b> (iii) and <b>Am</b> (ii) as passing colours.</div>
-                </div>
-
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Chorus · Build</span>
-                    <span class="chart-section-note">"Let us see your glory, Lord" — band fills in</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">G</span><span class="c iv">C</span><span class="c vi">Em</span><span class="c v">D</span><span class="c i">G</span><span class="c iv">C</span><span class="c vi">Em</span><span class="c v">D</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">G</span><span class="c iv">C</span><span class="c vi">Em</span><span class="c v">D</span><span class="c x">Am7</span><span class="c x">Am</span><span class="c vi">Em</span><span class="c v">D</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">G</span><span class="c iv">C</span><span class="c vi">Em</span><span class="c v">D</span><span class="c i">G</span><span class="c iv">C</span><span class="c vi">Em</span><span class="c v">D</span>
-                  </div>
-                  <div class="chart-roman"><b>G · C · Em · D</b> as a 4-bar loop. <b>Am / Am7</b> enters in line 2 — the harmonic signal that the build is on.</div>
-                </div>
-
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">"Spirit Break Out" Vamp — THE chorus</span>
-                    <span class="chart-section-note">"Spirit break out, break out, let it rain" — cycle this</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c vi">Em</span><span class="c x">Bm</span><span class="c x">Bm7</span><span class="c x">Bm</span><span class="c iv">C</span><span class="c v">D</span><span class="c iv">C</span><span class="c x">Bm7</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">Bm</span><span class="c iv">C</span><span class="c v">D</span><span class="c vi">Em</span><span class="c x">Bm7</span><span class="c iv">C</span><span class="c v">D</span><span class="c vi">Em</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">Bm7</span><span class="c iv">C</span><span class="c v">D</span><span class="c iv">C</span><span class="c x">Bm7</span><span class="c iv">C</span><span class="c v">D</span><span class="c iv">C</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c v">D</span><span class="c iv">C</span><span class="c vi">Em</span><span class="c v">D</span><span class="c x">Bm</span><span class="c iv">C</span><span class="c vi">Em</span><span class="c v">D</span>
-                  </div>
-                  <div class="chart-roman">Different shape from the rest of the song — built on <b>Bm / Bm7 (iii)</b> and <b>C / D (IV · V)</b>. This is the signature "Spirit break out" cycle. Caster decides how many times.</div>
-                </div>
-
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Final Chorus · Before the Key Change</span>
-                    <span class="chart-section-note">Restated chorus, fuller textures, Fmaj7 colour lift</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c iv">C</span><span class="c vi">Em</span><span class="c v">D</span><span class="c i">G</span><span class="c x">Am</span><span class="c x">Am7</span><span class="c vi">Em</span><span class="c i">G</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">Am</span><span class="c i">G</span><span class="c x">Am7</span><span class="c x">Am</span><span class="c vi">Em</span><span class="c x">Em7</span><span class="c v">D</span><span class="c x">Am7</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">Am</span><span class="c vi">Em</span><span class="c v">D</span><span class="c iv">C</span><span class="c x">Am7</span><span class="c vi">Em</span><span class="c v">D</span><span class="c x">Am7</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">Em7</span><span class="c vi">Em</span><span class="c v">D</span><span class="c iv">C</span><span class="c x">Fmaj7</span><span class="c x">Am7</span><span class="c i">G</span><span class="c x">Am7</span>
-                  </div>
-                  <div class="chart-roman"><b>Fmaj7</b> appears once as a borrowed chord — a non-diatonic colour lift. <b>Am / Am7</b> dominates this section — the ii chord becoming the harmonic gravity.</div>
-                </div>
-
-                <div class="chart-section build">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Key change up to Ab — THE lift</span>
-                    <span class="chart-section-note">Key change up a semitone (half-step) · the moment the room shifts</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">Em7</span><span class="c v">D</span><span class="c v x">Dsus4</span><span class="c x">Db</span><span class="c x">Dbmaj7</span><span class="c x">F#maj7</span><span class="c x">Bbm7</span><span class="c x">Ab</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">Bbm7</span><span class="c x">Bbm</span><span class="c x">Fm</span><span class="c x">Eb</span><span class="c x">Db</span>
-                  </div>
-                  <div class="chart-roman">Line 1 is the <b>pivot</b>: leaves G via Dsus4, walks chromatically through Db · Dbmaj7 · F#maj7 · Bbm7 to land on <b>Ab — the new home key</b>. Line 2 is now fully in Ab major: <b>Bbm7 · Bbm · Fm · Eb · Db</b> = ii · ii(min) · vi · V · IV.</div>
-                </div>
-
-                <div class="chart-legend">
-                  <span class="swatch"><span class="dot i"></span>I · G</span>
-                  <span class="swatch"><span class="dot iv"></span>IV · C</span>
-                  <span class="swatch"><span class="dot v"></span>V · D</span>
-                  <span class="swatch"><span class="dot vi"></span>vi · Em</span>
-                  <span class="swatch"><span class="dot x"></span>ii · iii · 7ths · modulation</span>
-                </div>
-              </div>
-            </div>
-
             <div class="parts" data-filter="all">
               <div class="part-row flag" data-part="lead">
                 <div class="part-role">
@@ -2971,7 +2668,7 @@ KEY NOTES
               <div class="part-row" data-part="drums">
                 <div class="part-role">
                   <div class="part-name">Drums</div>
-                  <div class="part-musician">TBC</div>
+                  <div class="part-musician">Abraham</div>
                 </div>
                 <div class="part-note">Watch Caster. If he lifts, you lift. If he holds, you hold. Builds and drops can repeat as many times as the room needs.</div>
               </div>
@@ -3017,7 +2714,7 @@ KEY NOTES
             <div class="song-position">Offering</div>
             <div class="song-title">Open the Eyes of My Heart, Lord</div>
           </div>
-          <div class="song-tag-mini"><span class="tag-pill">Single pass</span></div>
+          <div class="song-tag-mini"><span class="tag-pill key">Key · E</span><span class="tag-pill">Single pass</span></div>
           <div class="chev">▾</div>
         </div>
         <div class="song-body">
@@ -3063,7 +2760,7 @@ KEY NOTES
               <div class="part-row" data-part="drums">
                 <div class="part-role">
                   <div class="part-name">Drums</div>
-                  <div class="part-musician">TBC</div>
+                  <div class="part-musician">Abraham</div>
                 </div>
                 <div class="part-note">Light groove — kick + hi-hat, soft snare. Don't drive.</div>
               </div>
@@ -3099,7 +2796,7 @@ KEY NOTES
             <div class="song-position">End of Service</div>
             <div class="song-title">His Love Endures Forever</div>
           </div>
-          <div class="song-tag-mini"><span class="tag-pill gold">Benediction</span></div>
+          <div class="song-tag-mini"><span class="tag-pill key">Key · D</span><span class="tag-pill gold">Benediction</span></div>
           <div class="chev">▾</div>
         </div>
         <div class="song-body">
@@ -3135,72 +2832,6 @@ KEY NOTES
               </div>
             </div>
 
-            <div class="chart collapsible" id="chord-chart-8">
-              <div class="chart-head" role="button" tabindex="0" aria-expanded="false">
-                <div class="chart-title">Chord Chart · His Love Endures Forever</div>
-                <div class="chart-key">Key <b>G major</b> · modulates up a tone to <b>A</b> at the end</div>
-                <div class="chart-chev">▾</div>
-              </div>
-              <div class="chart-body">
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Verse · Chorus</span>
-                    <span class="chart-section-note">Gentle, vocal-carried · simple progression</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c i">G</span><span class="c v x">Gsus4</span><span class="c i">G</span><span class="c vi x">Em7</span><span class="c v x">Dsus4</span><span class="c i">G</span><span class="c iv">C</span><span class="c i">G</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c iv">C</span><span class="c i">G</span><span class="c v">D</span><span class="c iv">C</span><span class="c i">G</span><span class="c iv">C</span><span class="c i">G</span><span class="c v">D</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c iv">C</span><span class="c v">D</span><span class="c iv">C</span><span class="c i">G</span><span class="c vi">Em</span><span class="c vi x">Em7</span><span class="c vi">Em</span><span class="c vi x">Em7</span>
-                  </div>
-                  <div class="chart-roman">Roman: <b>I · IV · V · vi</b> looping. The <b>Em / Em7</b> closing turn sets up the next verse.</div>
-                </div>
-
-                <div class="chart-section">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Build · "Am7 vamp"</span>
-                    <span class="chart-section-note">"Forever God is faithful" — ii7 pattern emerges</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c iv">C</span><span class="c i">G</span><span class="c x">Am7</span><span class="c i">G</span><span class="c x">Am7</span><span class="c i">G</span><span class="c x">Am7</span><span class="c i">G</span>
-                  </div>
-                  <div class="chart-roman">A <b>ii7 → I</b> oscillation (Am7 ↔ G) — gives the song its rocking, congregational feel before the modulation.</div>
-                </div>
-
-                <div class="chart-section build">
-                  <div class="chart-section-head">
-                    <span class="chart-section-label">Key Change up to A — THE lift</span>
-                    <span class="chart-section-note">Key change up a tone · A is the bridge chord · land in the new key</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c iv">C</span><span class="c i">G</span><span class="c v">D</span><span class="c iv">C</span><span class="c v">D</span><span class="c i">G</span><span class="c iv">C</span><span class="c x">A</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">F#m7</span><span class="c x">F#m</span><span class="c x">F#m7</span><span class="c x">A</span><span class="c x">D</span><span class="c x">E</span><span class="c x">A</span><span class="c x">E</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">D</span><span class="c x">A</span><span class="c x">F#m7</span><span class="c x">A</span><span class="c x">D</span><span class="c x">E</span><span class="c x">D</span><span class="c x">A</span>
-                  </div>
-                  <div class="chord-line">
-                    <span class="c x">F#m</span><span class="c x">A</span><span class="c x">E</span><span class="c x">D</span><span class="c x">A</span><span class="c x">F#m7</span><span class="c x">F#m</span><span class="c x">E</span>
-                  </div>
-                  <div class="chart-roman">Pivot: line 1 ends on <b>A</b> (the old V of G) — but it now becomes the <b>new I</b>. Lines 2-4 are fully in A major: <b>A · D · E · F#m / F#m7</b> = the new <b>I · IV · V · vi</b>. Lands on <b>D · A</b> for the final cadence.</div>
-                </div>
-
-                <div class="chart-legend">
-                  <span class="swatch"><span class="dot i"></span>I · G (becomes A)</span>
-                  <span class="swatch"><span class="dot iv"></span>IV · C</span>
-                  <span class="swatch"><span class="dot v"></span>V · D</span>
-                  <span class="swatch"><span class="dot vi"></span>vi · Em</span>
-                  <span class="swatch"><span class="dot x"></span>Am7 · Gsus4 · Dsus4 · modulation chords</span>
-                </div>
-              </div>
-            </div>
-
-
             <div class="parts" data-filter="all">
               <div class="part-row flag" data-part="lead">
                 <div class="part-role">
@@ -3226,7 +2857,7 @@ KEY NOTES
               <div class="part-row" data-part="drums">
                 <div class="part-role">
                   <div class="part-name">Drums</div>
-                  <div class="part-musician">TBC</div>
+                  <div class="part-musician">Abraham</div>
                 </div>
                 <div class="part-note">Light touch or out entirely. Don't groove the benediction.</div>
               </div>
@@ -3255,7 +2886,6 @@ KEY NOTES
         </div>
       </div>
     </section>
-
 
     <!-- ── GLOSSARY ── -->
     <section id="glossary" style="border-bottom: none; padding-bottom: 0;">
@@ -4213,7 +3843,6 @@ KEY NOTES
       init();
     })();
   </script>
-
 
   <script>
     // ════════════════════════════════════════════════════════════════════
