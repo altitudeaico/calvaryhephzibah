@@ -15,7 +15,7 @@ delete from control_room_plans where service_date = '2026-05-24';
 -- Create the plan and seed song items in one go
 with new_plan as (
   insert into control_room_plans (service_date, notes)
-  values ('2026-05-24', 'Pentecost Sunday — Keep Going: The Harvest Is Coming (Bishop Yusuff · Galatians 6:9)')
+  values ('2026-05-24', 'Pentecost Sunday — Keep Going: The Harvest Is Coming (Bishop Bayo Yusuf · Galatians 6:9)')
   returning id
 )
 insert into control_room_plan_items (plan_id, position, kind, title, section, slides)
@@ -106,7 +106,7 @@ from control_room_plans p,
   (4, 'Communion',                   null,                       'TBC'),
   (5, 'Announcements',               'Pastor Kayode Ogungbenro', null),
   (6, 'Bible Reading',               null,                       'Galatians 6:9 · Reader TBC'),
-  (7, 'Sermon',                      'Bishop Yusuff',            'Keep Going: The Harvest Is Coming'),
+  (7, 'Sermon',                      'Bishop Bayo Yusuf',            'Keep Going: The Harvest Is Coming'),
   (8, 'Closing Prayer',              null,                       'TBC'),
   (9, 'Benediction',                 null,                       'TBC')
 ) as v(position, role, name, notes)
@@ -130,15 +130,15 @@ where p.service_date = '2026-05-24'
 group by p.service_date, p.notes;
 
 -- Order of service
-select position, role, name, notes
+select s.position, s.role, s.name, s.notes
 from control_room_plan_speakers s
 join control_room_plans p on p.id = s.plan_id
 where p.service_date = '2026-05-24'
-order by position;
+order by s.position;
 
 -- Song set list
-select position, section, title, jsonb_array_length(slides) as slide_count
+select i.position, i.section, i.title, jsonb_array_length(i.slides) as slide_count
 from control_room_plan_items i
 join control_room_plans p on p.id = i.plan_id
 where p.service_date = '2026-05-24'
-order by position;
+order by i.position;
