@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0e">
+  <title>Stage View · Pentecost 24 May 2026</title>
+  <meta name="description" content="On-stage lyrics and structure for Pentecost Sunday 24 May 2026.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif&family=Inter+Tight:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --obsidian: #0b0b0e;
+      --slate: #16161a;
+      --slate-2: #1d1d22;
+      --bone: #f4efe6;
+      --fg-2: #c9c3b6;
+      --fg-3: #a29c90;
+      --line-soft: #2a2a30;
+      --red: #d0441c;
+      --red-bright: #e85a30;
+      --gold: #c8a24b;
+      --gold-bright: #e0bc64;
+      --font-display: 'Anton', system-ui, sans-serif;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-body: 'Inter Tight', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--obsidian);
+      color: var(--bone);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overscroll-behavior-y: none;
+    }
+
+    /* ── Top bar (persistent) ── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 11, 14, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line-soft);
+      padding: 12px 16px;
+      padding-top: max(12px, env(safe-area-inset-top));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .topbar-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .topbar-context {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+    }
+    .topbar-now {
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: var(--bone);
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+    .topbar-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .topbar-btn {
+      background: var(--slate);
+      border: 1px solid var(--line-soft);
+      color: var(--fg-2);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+      font-family: var(--font-body);
+    }
+    .topbar-btn:hover { border-color: var(--gold); color: var(--bone); }
+    .topbar-btn.active {
+      border-color: var(--gold-bright);
+      background: rgba(200, 162, 75, 0.12);
+      color: var(--gold-bright);
+    }
+    .topbar-btn .dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--fg-3);
+      margin-right: 6px;
+      vertical-align: middle;
+      transition: background 120ms ease;
+    }
+    .topbar-btn.active .dot { background: var(--red-bright); animation: pulse 1.8s ease-in-out infinite; }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(232, 90, 48, 0.6); }
+      50% { box-shadow: 0 0 0 5px rgba(232, 90, 48, 0); }
+    }
+
+    /* ── Song cards ── */
+    main {
+      padding-bottom: 120px;  /* leave room for the nav strip */
+    }
+
+    .song-card {
+      min-height: calc(100vh - 60px);
+      padding: 28px 20px 40px;
+      border-bottom: 1px solid var(--line-soft);
+      display: flex;
+      flex-direction: column;
+      scroll-margin-top: 56px;  /* keep song-num below sticky top bar on jump */
+    }
+
+    .card-head {
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 1px dashed var(--line-soft);
+    }
+    .card-num {
+      font-family: var(--font-display);
+      font-size: 16px;
+      color: var(--red-bright);
+      letter-spacing: 0.16em;
+      margin-bottom: 4px;
+    }
+    .card-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: clamp(34px, 7vw, 56px);
+      line-height: 1;
+      letter-spacing: 0.005em;
+      color: var(--bone);
+      margin: 0;
+      flex: 1;
+      min-width: 0;
+    }
+    .card-key {
+      flex-shrink: 0;
+      background: rgba(200, 162, 75, 0.16);
+      border: 1.5px solid var(--gold);
+      color: var(--gold-bright);
+      font-family: var(--font-display);
+      font-size: clamp(28px, 6vw, 44px);
+      line-height: 1;
+      padding: 8px 18px 6px;
+      border-radius: 12px;
+      letter-spacing: 0.03em;
+      min-width: 68px;
+      text-align: center;
+    }
+    .card-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .meta-pill {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--fg-2);
+      background: var(--slate-2);
+      border: 1px solid var(--line-soft);
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+    .card-credit {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--fg-3);
+      margin-top: 12px;
+    }
+
+    .card-body {
+      flex: 1;
+    }
+
+    .sections {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .sec {
+      padding: 14px 16px;
+      background: var(--slate);
+      border: 1px solid var(--line-soft);
+      border-left: 3px solid var(--gold);
+      border-radius: 6px;
+    }
+    .sec-label {
+      font-family: var(--font-display);
+      font-size: 20px;
+      color: var(--bone);
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+      line-height: 1.1;
+    }
+    .sec-cue {
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: var(--fg-2);
+      line-height: 1.45;
+    }
+
+    .no-sections {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 17px;
+      color: var(--fg-3);
+      padding: 24px;
+      background: var(--slate);
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    /* ── Bottom song-nav strip ── */
+    .navbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(11, 11, 14, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--line-soft);
+      padding: 12px 12px;
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+    .nav-pill {
+      flex-shrink: 0;
+      min-width: 38px;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--slate);
+      border: 1px solid var(--line-soft);
+      color: var(--fg-2);
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-size: 16px;
+      letter-spacing: 0.05em;
+      border-radius: 8px;
+      transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+    }
+    .nav-pill:hover, .nav-pill.current {
+      border-color: var(--gold);
+      color: var(--bone);
+      background: rgba(200, 162, 75, 0.1);
+    }
+
+    /* ── Bottom-of-page out link ── */
+    .outlink {
+      text-align: center;
+      padding: 24px 20px 60px;
+      font-size: 13px;
+      color: var(--fg-3);
+    }
+    .outlink a {
+      color: var(--gold-bright);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--gold);
+    }
+
+    /* ── Better tap target sizing for thumb use ── */
+    @media (hover: none) {
+      .nav-pill, .topbar-btn { min-height: 44px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-context">Pentecost · 24 May 2026</span>
+      <span class="topbar-now" id="topbar-now">Stage View</span>
+    </div>
+    <div class="topbar-actions">
+      <button class="topbar-btn" id="wake-toggle" aria-pressed="false" title="Keep screen on">
+        <span class="dot"></span>Awake
+      </button>
+    </div>
+  </div>
+
+  <main>
+  <section class="song-card" id="stage-song-1" data-song-num="1">
+    <div class="card-head">
+      <div class="card-num">1</div>
+      <div class="card-title-row">
+        <h2 class="card-title">Days of Elijah</h2>
+        <div class="card-key" aria-label="Key">B</div>
+      </div>
+      <div class="card-pills"><span class="meta-pill">105 BPM</span></div>
+      <div class="card-credit">Robin Mark · Donnie McClurkin groove</div>
+    </div>
+    <div class="card-body">
+      <div class="sections">
+        <div class="sec">
+          <div class="sec-label">Intro Chorus</div>
+          <div class="sec-cue">Full chorus, heavy-handed — then band drops out</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Verse 1</div>
+          <div class="sec-cue">"Days of Elijah" — low dynamics, band almost out</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Chorus</div>
+          <div class="sec-cue">"Behold He comes" — build up</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Verse 2</div>
+          <div class="sec-cue">"Days of Ezekiel"</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Chorus ×2</div>
+          <div class="sec-cue">Second pass through, fuller</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Vamp</div>
+          <div class="sec-cue">2 cycles → transitions seamlessly into Lord I Lift Your Name. Skip "There's no God like Jehovah"</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="song-card" id="stage-song-2" data-song-num="2">
+    <div class="card-head">
+      <div class="card-num">2</div>
+      <div class="card-title-row">
+        <h2 class="card-title">Lord I Lift Your Name on High</h2>
+        <div class="card-key" aria-label="Key">B</div>
+      </div>
+      <div class="card-pills"><span class="meta-pill">105 BPM</span></div>
+      <div class="card-credit">Anthem Nights "Be Lifted High" arrangement</div>
+    </div>
+    <div class="card-body">
+      <div class="sections">
+        <div class="sec">
+          <div class="sec-label">Intro</div>
+          <div class="sec-cue">Coming off the Days of Elijah vamp · vamp continues 2 cycles</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Intro Phrase</div>
+          <div class="sec-cue">"You came from heaven to earth" ×1</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Verse 1</div>
+          <div class="sec-cue">"Lord I lift your name on high" — dynamics drop, band almost out</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Chorus</div>
+          <div class="sec-cue">"You came from heaven to earth" ×1 — synth brass enters</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Verse 2</div>
+          <div class="sec-cue">Back to low dynamics. Same words as verse 1</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Adlib</div>
+          <div class="sec-cue">Bar after "I'm so glad you came to save us" → leads back into verse repeat</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Final Chorus ×2</div>
+          <div class="sec-cue">Full band, biggest lift of the medley</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Hand-off</div>
+          <div class="sec-cue">Sustained crash resolves into Ancient of Days — no break</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="song-card" id="stage-song-3" data-song-num="3">
+    <div class="card-head">
+      <div class="card-num">3</div>
+      <div class="card-title-row">
+        <h2 class="card-title">Ancient of Days · Blessing and Honour</h2>
+        <div class="card-key" aria-label="Key">B</div>
+      </div>
+      <div class="card-pills"><span class="meta-pill">105 BPM</span></div>
+      <div class="card-credit">Standard progression · definitive ending</div>
+    </div>
+    <div class="card-body">
+      <div class="sections">
+        <div class="sec">
+          <div class="sec-label">Blessing and Honour · Verse 1</div>
+          <div class="sec-cue">Standard progression — not Anthem Nights treatment</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">"Every tongue in heaven and earth"</div>
+          <div class="sec-cue">×1</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Blessing and Honour · Verse repeat</div>
+          <div class="sec-cue">×1</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Chorus</div>
+          <div class="sec-cue">Full band</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">"Every tongue in heaven and earth"</div>
+          <div class="sec-cue">×2 this time</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">"Oh Ancient of Days"</div>
+          <div class="sec-cue">×4 — Caster drives the lifts</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Ending</div>
+          <div class="sec-cue">1-6-7-1 progression → definitive crash on the one. Let the room sit before Holy Spirit</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="song-card" id="stage-song-4" data-song-num="4">
+    <div class="card-head">
+      <div class="card-num">4</div>
+      <div class="card-title-row">
+        <h2 class="card-title">Holy Spirit, You Are Welcome Here</h2>
+        <div class="card-key" aria-label="Key">D</div>
+      </div>
+      <div class="card-pills"><span class="meta-pill">Pentecost</span></div>
+      <div class="card-credit">Simple · vocal-carried · Caster-led</div>
+    </div>
+    <div class="card-body">
+      <div class="sections">
+        <div class="sec">
+          <div class="sec-label">Song body</div>
+          <div class="sec-cue">Chorus only (skip the verses) · 4 passes building dynamically: (1) Uncle Caster + keys, soft (2) Abraham keeps time on ride only, Esther joins (3) full kit enters with toms — full energy (4) builds at "your glory God is what our hearts long for" — transitions into Atmosphere Shift</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Repeat lines as needed</div>
+          <div class="sec-cue">If the room sits in a phrase, sit with the room. Silence is part of the worship</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="song-card" id="stage-song-5" data-song-num="5">
+    <div class="card-head">
+      <div class="card-num">5</div>
+      <div class="card-title-row">
+        <h2 class="card-title">Atmosphere Shift</h2>
+        <div class="card-key" aria-label="Key">D</div>
+      </div>
+      <div class="card-pills"><span class="meta-pill">Bridge moment</span></div>
+      <div class="card-credit">Phil Thompson · the bridge is the song</div>
+    </div>
+    <div class="card-body">
+      <div class="sections">
+        <div class="sec">
+          <div class="sec-label">Verse</div>
+          <div class="sec-cue">"There is only one name"</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Chorus</div>
+          <div class="sec-cue">"A God He's champion, He reigns forever more, forever more"</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Bridge</div>
+          <div class="sec-cue">"Atmosphere shift now, change me, broken break now, Holy Spirit come down, Heaven open over us" — THE moment of the song</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Bridge repeats</div>
+          <div class="sec-cue">Hold "Heaven open over us" — repeat if the room is in it · transition to Spirit Break Out happens at the chorus ("forever more / forever more / Spirit break out"), not the bridge</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="song-card" id="stage-song-6" data-song-num="6">
+    <div class="card-head">
+      <div class="card-num">6</div>
+      <div class="card-title-row">
+        <h2 class="card-title">Spirit Break Out</h2>
+        <div class="card-key" aria-label="Key">D</div>
+      </div>
+      <div class="card-pills"><span class="meta-pill">Pentecost</span></div>
+      <div class="card-credit">William McDowell · let it stretch</div>
+    </div>
+    <div class="card-body">
+      <div class="sections">
+        <div class="sec">
+          <div class="sec-label">Verse / Build</div>
+          <div class="sec-cue">No fixed structure · the team knows it cold</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Chorus</div>
+          <div class="sec-cue">"Spirit break out" — full band, lift</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Spontaneous</div>
+          <div class="sec-cue">Caster decides length. If atmosphere is heavy, sit in it. This is the end of worship — no rush</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="song-card" id="stage-song-7" data-song-num="7">
+    <div class="card-head">
+      <div class="card-num">7</div>
+      <div class="card-title-row">
+        <h2 class="card-title">Open the Eyes of My Heart, Lord</h2>
+        <div class="card-key" aria-label="Key">E</div>
+      </div>
+      <div class="card-pills"><span class="meta-pill">Single pass</span></div>
+      
+    </div>
+    <div class="card-body">
+      <div class="no-sections">— follow the leader · this song has no fixed structure —</div>
+    </div>
+  </section>
+  <section class="song-card" id="stage-song-8" data-song-num="8">
+    <div class="card-head">
+      <div class="card-num">8</div>
+      <div class="card-title-row">
+        <h2 class="card-title">His Love Endures Forever</h2>
+        <div class="card-key" aria-label="Key">D</div>
+      </div>
+      <div class="card-pills"><span class="meta-pill">Benediction</span></div>
+      
+    </div>
+    <div class="card-body">
+      <div class="no-sections">— follow the leader · this song has no fixed structure —</div>
+    </div>
+  </section>
+
+    <div class="outlink">
+      <a href="../">← Back to the full runthrough</a>
+    </div>
+  </main>
+
+  <nav class="navbar" aria-label="Jump to song">
+    <a class="nav-pill" href="#stage-song-1" data-target="1">1</a>
+    <a class="nav-pill" href="#stage-song-2" data-target="2">2</a>
+    <a class="nav-pill" href="#stage-song-3" data-target="3">3</a>
+    <a class="nav-pill" href="#stage-song-4" data-target="4">4</a>
+    <a class="nav-pill" href="#stage-song-5" data-target="5">5</a>
+    <a class="nav-pill" href="#stage-song-6" data-target="6">6</a>
+    <a class="nav-pill" href="#stage-song-7" data-target="7">7</a>
+    <a class="nav-pill" href="#stage-song-8" data-target="8">8</a>
+  </nav>
+
+  <script>
+    (function() {
+      // ── Track which song is currently in view (top-bar update + nav-pill highlight) ──
+      const cards = document.querySelectorAll('.song-card');
+      const pills = document.querySelectorAll('.nav-pill');
+      const topbarNow = document.getElementById('topbar-now');
+      const titlesByNum = {};
+      cards.forEach(card => {
+        titlesByNum[card.dataset.songNum] = card.querySelector('.card-title').textContent;
+      });
+
+      let current = '01';
+      function setCurrent(num) {
+        if (num === current) return;
+        current = num;
+        const title = titlesByNum[num] || 'Stage View';
+        topbarNow.textContent = num + ' · ' + title;
+        pills.forEach(p => p.classList.toggle('current', p.dataset.target === num));
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        // Pick the card whose top is closest to the top of the viewport
+        let bestNum = current;
+        let bestDist = Infinity;
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            const dist = Math.abs(e.boundingClientRect.top);
+            if (dist < bestDist) {
+              bestDist = dist;
+              bestNum = e.target.dataset.songNum;
+            }
+          }
+        });
+        setCurrent(bestNum);
+      }, { rootMargin: '-80px 0px -60% 0px', threshold: [0, 0.25, 0.5, 1] });
+
+      cards.forEach(c => io.observe(c));
+
+      // Set initial state for whichever card is visible on load
+      setCurrent('01');
+
+      // ── Wake Lock toggle: keep screen on during service ──
+      const wakeBtn = document.getElementById('wake-toggle');
+      let wakeLock = null;
+
+      async function requestWakeLock() {
+        if (!('wakeLock' in navigator)) {
+          alert('Keep-screen-on is not supported on this browser. Adjust your phone settings to keep the screen on manually.');
+          return false;
+        }
+        try {
+          wakeLock = await navigator.wakeLock.request('screen');
+          wakeLock.addEventListener('release', () => {
+            wakeBtn.classList.remove('active');
+            wakeBtn.setAttribute('aria-pressed', 'false');
+          });
+          return true;
+        } catch (err) {
+          console.error('Wake lock failed:', err);
+          return false;
+        }
+      }
+
+      function releaseWakeLock() {
+        if (wakeLock) {
+          wakeLock.release();
+          wakeLock = null;
+        }
+      }
+
+      wakeBtn.addEventListener('click', async () => {
+        const isActive = wakeBtn.classList.contains('active');
+        if (isActive) {
+          releaseWakeLock();
+          wakeBtn.classList.remove('active');
+          wakeBtn.setAttribute('aria-pressed', 'false');
+        } else {
+          const ok = await requestWakeLock();
+          if (ok) {
+            wakeBtn.classList.add('active');
+            wakeBtn.setAttribute('aria-pressed', 'true');
+          }
+        }
+      });
+
+      // Re-acquire wake lock if user returns to the tab
+      document.addEventListener('visibilitychange', async () => {
+        if (wakeBtn.classList.contains('active') && document.visibilityState === 'visible' && !wakeLock) {
+          await requestWakeLock();
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
