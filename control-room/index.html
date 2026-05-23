@@ -1875,7 +1875,10 @@ async function enterApp() {
   document.getElementById('app').classList.add('show');
   document.getElementById('user-display').textContent = currentUser.name;
   document.getElementById('overlay-link').href = 'overlay.html';
-  await loadPlan();
+  // Find the nearest current-or-future plan date and load it.
+  // Today wins if there's a plan for it; otherwise the next upcoming one.
+  const startDate = await findCurrentOrNextPlanDate();
+  await loadPlan(startDate);
   await loadDisplaySettings();
   await loadSpeakers();
   await loadImages();
@@ -1886,6 +1889,32 @@ async function enterApp() {
 }
 
 let currentPlanDate = new Date().toISOString().slice(0, 10);
+
+// Find the nearest plan whose service_date is today or in the future.
+// Falls back to today's date if none exists (loadPlan will show empty state).
+async function findCurrentOrNextPlanDate() {
+  const today = new Date().toISOString().slice(0, 10);
+  try {
+    const { data, error } = await client
+      .from('control_room_plans')
+      .select('service_date')
+      .gte('service_date', today)
+      .order('service_date', { ascending: true })
+      .limit(1);
+    if (error) {
+      console.warn('findCurrentOrNextPlanDate query error, falling back to today:', error);
+      return today;
+    }
+    if (data && data.length > 0) {
+      return data[0].service_date;
+    }
+    // No current-or-future plan → land on today (will show empty state)
+    return today;
+  } catch (e) {
+    console.warn('findCurrentOrNextPlanDate threw, falling back to today:', e);
+    return today;
+  }
+}
 
 function formatPlanDate(isoDate) {
   const d = new Date(isoDate + 'T00:00:00');
