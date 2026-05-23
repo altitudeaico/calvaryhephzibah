@@ -412,6 +412,39 @@
   }
   .slide-text .l2 { color: var(--text-muted); }
 
+  /* Scripture items in the set list — distinct from songs */
+  .song-card.kind-scripture { border-left: 3px solid #BF9B30; }
+  .song-card.kind-scripture .title::before { content: "📖  "; }
+  .slide-row.scripture .slide-num {
+    color: #BF9B30;
+    font-weight: 700;
+    min-width: 36px;
+  }
+  .slide-row.scripture .scripture-ref {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #BF9B30;
+    margin-bottom: 4px;
+  }
+  .slide-row.scripture .scripture-text {
+    font-size: 14px;
+    line-height: 1.45;
+    color: rgba(255,255,255,0.85);
+  }
+  .slide-row.scripture .vnum-inline {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    color: #BF9B30;
+    background: rgba(191,155,48,0.12);
+    border-radius: 3px;
+    padding: 1px 4px;
+    margin-right: 4px;
+    vertical-align: text-top;
+  }
+
   /* ============ LOWER THIRD PANEL ============ */
   .lt-panel {
     margin: 16px 20px 0;
@@ -2130,8 +2163,25 @@ function renderSetlist() {
 
   sl.innerHTML = briefingBanner + plan.items.map((item, i) => {
     const isActive = i === currentSongIdx;
+    const isScripture = item.kind === 'scripture';
     const slides = (item.slides || []).map((s, j) => {
       const isLive = isActive && j === currentSlideIdx;
+      if (isScripture) {
+        // Scripture slide — render verse text with verse-number markers
+        const verseHtml = (s.verses || []).map(v =>
+          `<span class="vnum-inline">${v.n}</span>${escapeHtml(v.text)}`
+        ).join(' ');
+        return `
+          <div class="slide-row scripture ${isLive ? 'live' : ''}" onclick="window.goto(${i}, ${j})">
+            <div class="slide-num">${s.rangeLabel || (j + 1)}</div>
+            <div class="slide-text">
+              <div class="scripture-ref">${escapeHtml(s.reference || item.title)}</div>
+              <div class="scripture-text">${verseHtml}</div>
+            </div>
+          </div>
+        `;
+      }
+      // Song slide
       return `
         <div class="slide-row ${isLive ? 'live' : ''}" onclick="window.goto(${i}, ${j})">
           <div class="slide-num">${j + 1}</div>
@@ -2144,9 +2194,10 @@ function renderSetlist() {
     }).join('');
 
     const missingBadge = item._libraryMissing ? ' · <span style="color:#FF6B6B;">⚠ not in library</span>' : '';
+    const kindClass = isScripture ? 'kind-scripture' : '';
 
     return `
-      <div class="song-card ${isActive ? 'active open' : ''}" data-idx="${i}">
+      <div class="song-card ${kindClass} ${isActive ? 'active open' : ''}" data-idx="${i}">
         <div class="song-head" onclick="window.toggleSong(${i})">
           <div class="meta">
             <div class="title">${escapeHtml(item.title)}</div>
@@ -2178,11 +2229,26 @@ window.goto = async (songIdx, slideIdx) => {
     renderSetlist();
     return;
   }
-  await pushLive('lyric', {
-    song_title: item.title,
-    line1: slide.line1 || '',
-    line2: slide.line2 || ''
-  });
+  if (item.kind === 'scripture') {
+    // Scripture slide — push as verse (same payload shape as ad-hoc Bible search)
+    const text = (slide.verses || []).map(v => v.text).join('  ');
+    await pushLive('verse', {
+      text,
+      reference: slide.reference || item.title,
+      version:   slide.version   || 'KJV',
+      verses:    slide.verses    || [],
+      rangeLabel: slide.rangeLabel,
+      slideIdx,
+      slideCount: (item.slides || []).length
+    });
+  } else {
+    // Song slide — push as lyric
+    await pushLive('lyric', {
+      song_title: item.title,
+      line1: slide.line1 || '',
+      line2: slide.line2 || ''
+    });
+  }
   renderSetlist();
 };
 
