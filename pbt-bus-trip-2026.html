@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PBT Safer Care Ltd Annual Bus Trip 2026 — Tenby</title>
+<meta name="description" content="PBT Safer Care Ltd Annual Bus Trip 2026. Tenby, 31 Jul – 2 Aug 2026. Premier Inn Tenby Town Centre. £80 bus fare. Confirm with Pauline or Petty.">
+
+<!-- OG tags -->
+<meta property="og:title" content="PBT Safer Care Ltd Annual Bus Trip 2026 — Tenby">
+<meta property="og:description" content="A weekend away in Tenby, 31 Jul – 2 Aug 2026. Beach, breakfast, and good company. Confirm by the 2nd week of July.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --sand:        #FDF6E9;
+    --sand-deep:   #F4E8CE;
+    --foam:        #FFFFFF;
+    --sea-1:       #2A7FB8;   /* mid sea */
+    --sea-2:       #1A5A8A;   /* deep sea */
+    --sea-light:   #7FB8D9;
+    --sky:         #BFE0F2;
+    --sun:         #E89B3C;
+    --sun-deep:    #C77A1F;
+    --coral:       #E5614A;
+    --ink:         #0F2235;
+    --ink-2:       #36506A;
+    --ink-3:       #6B7F92;
+    --line:        rgba(15, 34, 53, 0.10);
+    --line-strong: rgba(15, 34, 53, 0.18);
+
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body:    'Inter Tight', system-ui, -apple-system, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: var(--sand);
+    line-height: 1.55;
+    font-size: 17px;
+    overflow-x: hidden;
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    background:
+      linear-gradient(180deg,
+        var(--sky) 0%,
+        var(--sky) 45%,
+        var(--sea-light) 55%,
+        var(--sea-1) 75%,
+        var(--sea-2) 100%);
+    overflow: hidden;
+    padding: 48px 24px 32px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Sun */
+  .sun {
+    position: absolute;
+    top: 60px;
+    right: -40px;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, var(--sun) 0%, var(--sun-deep) 70%, rgba(199,122,31,0) 75%);
+    border-radius: 50%;
+    box-shadow: 0 0 80px rgba(232, 155, 60, 0.5);
+    z-index: 1;
+  }
+
+  /* Clouds */
+  .cloud {
+    position: absolute;
+    background: rgba(255,255,255,0.85);
+    border-radius: 50%;
+    filter: blur(1px);
+  }
+  .cloud-1 { top: 80px; left: -30px; width: 140px; height: 40px; }
+  .cloud-2 { top: 140px; left: 35%; width: 100px; height: 28px; }
+  .cloud-3 { top: 50px; right: 30%; width: 80px; height: 24px; }
+
+  /* Wave SVG layer at bottom of hero */
+  .waves {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 2;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 880px;
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 0;
+  }
+
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-bottom: 24px;
+    display: inline-block;
+    align-self: center;
+    background: rgba(255,255,255,0.7);
+    padding: 8px 18px;
+    border-radius: 100px;
+    backdrop-filter: blur(8px);
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(48px, 9vw, 120px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 16px;
+    font-variation-settings: "opsz" 144;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--sea-2);
+    font-weight: 600;
+  }
+
+  .hero-sub {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 3vw, 28px);
+    color: var(--ink-2);
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+
+  .hero-dates {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--ink);
+    color: var(--sand);
+    padding: 16px 28px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 18px;
+    align-self: center;
+    box-shadow: 0 12px 40px rgba(15, 34, 53, 0.3);
+  }
+
+  .hero-dates .dot { width: 8px; height: 8px; background: var(--sun); border-radius: 50%; }
+
+  /* ============ CONTAINER ============ */
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 64px 24px;
+  }
+
+  /* ============ SECTION HEADER ============ */
+  .section-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sea-2);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 8px;
+    font-variation-settings: "opsz" 144;
+  }
+
+  .section-title em { font-style: italic; color: var(--sea-2); font-weight: 500; }
+
+  .section-lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 20px;
+    color: var(--ink-2);
+    margin-bottom: 32px;
+  }
+
+  /* ============ CARD GRID ============ */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  @media (max-width: 640px) {
+    .card-grid { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--foam);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 4px 20px rgba(15, 34, 53, 0.04);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .card-icon.sea  { background: linear-gradient(135deg, var(--sea-light), var(--sea-1)); color: white; }
+  .card-icon.sun  { background: linear-gradient(135deg, var(--sun), var(--sun-deep)); color: white; }
+  .card-icon.coral { background: linear-gradient(135deg, #F08573, var(--coral)); color: white; }
+  .card-icon.ink  { background: linear-gradient(135deg, var(--ink-2), var(--ink)); color: white; }
+
+  .card-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 6px;
+  }
+
+  .card h3 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-bottom: 8px;
+    line-height: 1.15;
+  }
+
+  .card .big {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  .card .meta {
+    color: var(--ink-2);
+    font-size: 15px;
+  }
+
+  .card a {
+    color: var(--sea-2);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid currentColor;
+  }
+
+  /* ============ TIMELINE (Departure / Return) ============ */
+  .journey {
+    background: var(--foam);
+    border-radius: 24px;
+    padding: 40px;
+    margin-bottom: 40px;
+    border: 1px solid var(--line);
+  }
+
+  .journey-row {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 20px;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px dashed var(--line-strong);
+  }
+
+  .journey-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .journey-row:first-child { padding-top: 0; }
+
+  .journey-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    background: var(--sand-deep);
+  }
+
+  .journey-icon.out { background: linear-gradient(135deg, var(--sun), var(--sun-deep)); }
+  .journey-icon.back { background: linear-gradient(135deg, var(--sea-1), var(--sea-2)); }
+
+  .journey-detail .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 4px;
+  }
+
+  .journey-detail .what {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .journey-detail .where {
+    font-size: 14px;
+    color: var(--ink-2);
+    margin-top: 4px;
+  }
+
+  .journey-time {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--sea-2);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 640px) {
+    .journey { padding: 28px 20px; }
+    .journey-row { grid-template-columns: 48px 1fr; gap: 16px; }
+    .journey-icon { width: 48px; height: 48px; font-size: 22px; }
+    .journey-time { grid-column: 2; font-size: 22px; margin-top: 4px; }
+  }
+
+  /* ============ EXPECT LIST ============ */
+  .expect-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  @media (max-width: 640px) {
+    .expect-list { grid-template-columns: 1fr; }
+  }
+
+  .expect-item {
+    background: var(--foam);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .expect-emoji {
+    font-size: 32px;
+    flex-shrink: 0;
+  }
+
+  .expect-text {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  /* ============ CTA / CONFIRM ============ */
+  .confirm {
+    background: linear-gradient(135deg, var(--ink) 0%, var(--sea-2) 100%);
+    border-radius: 24px;
+    padding: 48px 40px;
+    color: var(--sand);
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .confirm::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--sun) 0%, rgba(232,155,60,0) 70%);
+    opacity: 0.3;
+  }
+
+  .confirm-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--sun);
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .confirm h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4.5vw, 42px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    line-height: 1.1;
+    position: relative;
+  }
+
+  .confirm h2 em { font-style: italic; color: var(--sun); }
+
+  .confirm-deadline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 20px;
+    color: rgba(244, 232, 206, 0.85);
+    margin-bottom: 28px;
+    position: relative;
+  }
+
+  .contacts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  @media (max-width: 480px) {
+    .contacts { grid-template-columns: 1fr; }
+  }
+
+  .contact {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 14px;
+    padding: 18px;
+    text-align: left;
+    text-decoration: none;
+    color: var(--sand);
+    transition: background 0.15s;
+    display: block;
+  }
+
+  .contact:hover { background: rgba(255,255,255,0.18); }
+
+  .contact-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sun);
+    margin-bottom: 4px;
+  }
+
+  .contact-name {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .contact-phone {
+    font-size: 16px;
+    color: rgba(244, 232, 206, 0.9);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ============ FOOTER ============ */
+  .footer-strip {
+    background: var(--ink);
+    color: var(--sand);
+    text-align: center;
+    padding: 32px 24px;
+  }
+
+  .footer-strip .tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .footer-strip .tagline em { color: var(--sun); font-style: italic; }
+
+  .footer-strip .small {
+    font-size: 13px;
+    color: rgba(244, 232, 206, 0.6);
+    letter-spacing: 0.05em;
+  }
+
+  /* Decorative sand row */
+  .sand-row {
+    height: 24px;
+    background:
+      radial-gradient(ellipse at 50% 0%, var(--sand-deep) 0%, var(--sand) 70%);
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="sun"></div>
+  <div class="cloud cloud-1"></div>
+  <div class="cloud cloud-2"></div>
+  <div class="cloud cloud-3"></div>
+
+  <div class="hero-content">
+    <span class="eyebrow">PBT Safer Care Ltd · Annual Trip</span>
+    <h1>A weekend<br>in <em>Tenby</em>.</h1>
+    <p class="hero-sub">Sea, sand, and good company.</p>
+    <div class="hero-dates">
+      <span class="dot"></span>
+      <span>Fri 31 Jul — Sun 2 Aug 2026</span>
+    </div>
+  </div>
+
+  <!-- Waves SVG -->
+  <svg class="waves" viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C200,80 400,0 600,40 C800,80 1000,0 1200,40 L1200,80 L0,80 Z"
+          fill="#FDF6E9" opacity="0.9"/>
+    <path d="M0,55 C200,90 400,20 600,55 C800,90 1000,20 1200,55 L1200,80 L0,80 Z"
+          fill="#FDF6E9"/>
+  </svg>
+</section>
+
+<!-- ============ TRIP DETAILS ============ -->
+<div class="container">
+
+  <div class="section-eyebrow">The Essentials</div>
+  <h2 class="section-title">Everything you <em>need to know</em></h2>
+  <p class="section-lede">Three days away, two nights at the seaside.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon sea">🏨</div>
+      <div class="card-label">Where We're Staying</div>
+      <h3>Premier Inn Tenby Town Centre</h3>
+      <p class="meta">White Lion Street, Tenby SA70 7ET</p>
+      <p class="meta" style="margin-top: 12px;">
+        <a href="https://maps.google.com/?q=Premier+Inn+Tenby+Town+Centre+White+Lion+Street+SA70+7ET" target="_blank" rel="noopener">View on map →</a>
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon coral">🚌</div>
+      <div class="card-label">Pick-Up Point</div>
+      <h3>Limelight Building</h3>
+      <p class="meta">25 Shrewsbury Street<br>Old Trafford, M16 9FZ</p>
+      <p class="meta" style="margin-top: 12px;">
+        <a href="https://maps.google.com/?q=Limelight+Building+25+Shrewsbury+Street+M16+9FZ" target="_blank" rel="noopener">View on map →</a>
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon sun">🎟️</div>
+      <div class="card-label">Bus Fare</div>
+      <div class="big">£80</div>
+      <p class="meta">Per person · Return coach</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon ink">🛏️</div>
+      <div class="card-label">Hotel Cost</div>
+      <div class="big">£200</div>
+      <p class="meta">Per room, per night · 2 sharing · Breakfast included</p>
+    </div>
+  </div>
+
+  <!-- ============ JOURNEY ============ -->
+  <div class="section-eyebrow">The Journey</div>
+  <h2 class="section-title">Travel <em>times</em></h2>
+  <p class="section-lede">Be at the pick-up point ten minutes early.</p>
+
+  <div class="journey">
+    <div class="journey-row">
+      <div class="journey-icon out">🚌</div>
+      <div class="journey-detail">
+        <div class="label">Outbound · Friday 31 July</div>
+        <div class="what">Depart Old Trafford</div>
+        <div class="where">Limelight Building, M16 9FZ</div>
+      </div>
+      <div class="journey-time">8:00 AM</div>
+    </div>
+
+    <div class="journey-row">
+      <div class="journey-icon back">🌊</div>
+      <div class="journey-detail">
+        <div class="label">Return · Sunday 2 August</div>
+        <div class="what">Depart Tenby</div>
+        <div class="where">From Premier Inn, SA70 7ET</div>
+      </div>
+      <div class="journey-time">6:00 PM</div>
+    </div>
+  </div>
+
+  <!-- ============ WHAT TO EXPECT ============ -->
+  <div class="section-eyebrow">The Weekend</div>
+  <h2 class="section-title">What to <em>expect</em></h2>
+  <p class="section-lede">A proper getaway — switch off, slow down.</p>
+
+  <div class="expect-list">
+    <div class="expect-item">
+      <span class="expect-emoji">🏖️</span>
+      <span class="expect-text">Beach vibes & seaside fun</span>
+    </div>
+    <div class="expect-item">
+      <span class="expect-emoji">😄</span>
+      <span class="expect-text">Great company & laughter</span>
+    </div>
+    <div class="expect-item">
+      <span class="expect-emoji">🌿</span>
+      <span class="expect-text">Relaxation and good memories</span>
+    </div>
+    <div class="expect-item">
+      <span class="expect-emoji">🌅</span>
+      <span class="expect-text">A weekend you won't forget</span>
+    </div>
+  </div>
+
+  <!-- ============ CONFIRM ============ -->
+  <div class="confirm">
+    <div class="confirm-eyebrow">RSVP</div>
+    <h2>Confirm your <em>place</em></h2>
+    <p class="confirm-deadline">By the second week of July 2026</p>
+
+    <div class="contacts">
+      <a href="tel:+447940768003" class="contact">
+        <div class="contact-label">Call</div>
+        <div class="contact-name">Pauline</div>
+        <div class="contact-phone">07940 768003</div>
+      </a>
+      <a href="tel:+447939288035" class="contact">
+        <div class="contact-label">Call</div>
+        <div class="contact-name">Petty</div>
+        <div class="contact-phone">07939 288035</div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div class="footer-strip">
+  <div class="tagline">Pack your bags, bring your <em>smiles</em>.</div>
+  <div class="small">PBT Safer Care Ltd · Annual Bus Trip 2026</div>
+</div>
+
+</body>
+</html>
