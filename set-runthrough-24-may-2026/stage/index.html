@@ -254,6 +254,67 @@
       text-align: center;
     }
 
+    /* ── Lyrics (collapsed by default, expand on toggle) ── */
+    .sec-lyrics {
+      display: none;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--line-soft);
+      font-family: var(--font-body);
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--bone);
+      line-height: 1.45;
+      letter-spacing: 0.005em;
+    }
+    .sec-lyrics.placeholder {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--fg-3);
+      font-size: 16px;
+    }
+    .song-card.lyrics-open .sec-lyrics {
+      display: block;
+    }
+
+    /* Toggle button */
+    .lyrics-toggle {
+      margin-top: 22px;
+      align-self: flex-start;
+      background: transparent;
+      border: 1px solid var(--line-soft);
+      color: var(--fg-2);
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+      min-height: 44px;
+    }
+    .lyrics-toggle:hover {
+      border-color: var(--gold);
+      color: var(--bone);
+    }
+    .lyrics-toggle-icon {
+      font-size: 12px;
+      transition: transform 160ms ease;
+    }
+    .song-card.lyrics-open .lyrics-toggle {
+      border-color: var(--gold-bright);
+      background: rgba(200, 162, 75, 0.08);
+      color: var(--gold-bright);
+    }
+    .song-card.lyrics-open .lyrics-toggle-icon {
+      transform: rotate(180deg);
+      color: var(--gold-bright);
+    }
+
     /* ── Bottom song-nav strip ── */
     .navbar {
       position: fixed;
@@ -323,6 +384,9 @@
       <span class="topbar-now" id="topbar-now">Stage View</span>
     </div>
     <div class="topbar-actions">
+      <button class="topbar-btn" id="lyrics-master-toggle" aria-pressed="false" title="Show lyrics on all songs">
+        Lyrics
+      </button>
       <button class="topbar-btn" id="wake-toggle" aria-pressed="false" title="Keep screen on">
         <span class="dot"></span>Awake
       </button>
@@ -345,29 +409,39 @@
         <div class="sec">
           <div class="sec-label">Intro Chorus</div>
           <div class="sec-cue">Full chorus, heavy-handed — then band drops out</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Verse 1</div>
           <div class="sec-cue">"Days of Elijah" — low dynamics, band almost out</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Chorus</div>
           <div class="sec-cue">"Behold He comes" — build up</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Verse 2</div>
           <div class="sec-cue">"Days of Ezekiel"</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Chorus ×2</div>
           <div class="sec-cue">Second pass through, fuller</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Vamp</div>
           <div class="sec-cue">2 cycles → transitions seamlessly into Lord I Lift Your Name. Skip "There's no God like Jehovah"</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
       </div>
     </div>
+    <button class="lyrics-toggle" type="button" data-song-num="1" aria-expanded="false">
+      <span class="lyrics-toggle-icon" aria-hidden="true">▾</span>
+      <span class="lyrics-toggle-label">Show lyrics</span>
+    </button>
   </section>
   <section class="song-card" id="stage-song-2" data-song-num="2">
     <div class="card-head">
@@ -384,37 +458,49 @@
         <div class="sec">
           <div class="sec-label">Intro</div>
           <div class="sec-cue">Coming off the Days of Elijah vamp · vamp continues 2 cycles</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Intro Phrase</div>
           <div class="sec-cue">"You came from heaven to earth" ×1</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Verse 1</div>
           <div class="sec-cue">"Lord I lift your name on high" — dynamics drop, band almost out</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Chorus</div>
           <div class="sec-cue">"You came from heaven to earth" ×1 — synth brass enters</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Verse 2</div>
           <div class="sec-cue">Back to low dynamics. Same words as verse 1</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Adlib</div>
           <div class="sec-cue">Bar after "I'm so glad you came to save us" → leads back into verse repeat</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Final Chorus ×2</div>
           <div class="sec-cue">Full band, biggest lift of the medley</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Hand-off</div>
           <div class="sec-cue">Sustained crash resolves into Ancient of Days — no break</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
       </div>
     </div>
+    <button class="lyrics-toggle" type="button" data-song-num="2" aria-expanded="false">
+      <span class="lyrics-toggle-icon" aria-hidden="true">▾</span>
+      <span class="lyrics-toggle-label">Show lyrics</span>
+    </button>
   </section>
   <section class="song-card" id="stage-song-3" data-song-num="3">
     <div class="card-head">
@@ -431,33 +517,44 @@
         <div class="sec">
           <div class="sec-label">Blessing and Honour · Verse 1</div>
           <div class="sec-cue">Standard progression — not Anthem Nights treatment</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">"Every tongue in heaven and earth"</div>
           <div class="sec-cue">×1</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Blessing and Honour · Verse repeat</div>
           <div class="sec-cue">×1</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Chorus</div>
           <div class="sec-cue">Full band</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">"Every tongue in heaven and earth"</div>
           <div class="sec-cue">×2 this time</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">"Oh Ancient of Days"</div>
           <div class="sec-cue">×4 — Caster drives the lifts</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Ending</div>
           <div class="sec-cue">1-6-7-1 progression → definitive crash on the one. Let the room sit before Holy Spirit</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
       </div>
     </div>
+    <button class="lyrics-toggle" type="button" data-song-num="3" aria-expanded="false">
+      <span class="lyrics-toggle-icon" aria-hidden="true">▾</span>
+      <span class="lyrics-toggle-label">Show lyrics</span>
+    </button>
   </section>
   <section class="song-card" id="stage-song-4" data-song-num="4">
     <div class="card-head">
@@ -474,13 +571,19 @@
         <div class="sec">
           <div class="sec-label">Song body</div>
           <div class="sec-cue">Chorus only (skip the verses) · 4 passes building dynamically: (1) Uncle Caster + keys, soft (2) Abraham keeps time on ride only, Esther joins (3) full kit enters with toms — full energy (4) builds at "your glory God is what our hearts long for" — transitions into Atmosphere Shift</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Repeat lines as needed</div>
           <div class="sec-cue">If the room sits in a phrase, sit with the room. Silence is part of the worship</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
       </div>
     </div>
+    <button class="lyrics-toggle" type="button" data-song-num="4" aria-expanded="false">
+      <span class="lyrics-toggle-icon" aria-hidden="true">▾</span>
+      <span class="lyrics-toggle-label">Show lyrics</span>
+    </button>
   </section>
   <section class="song-card" id="stage-song-5" data-song-num="5">
     <div class="card-head">
@@ -497,21 +600,29 @@
         <div class="sec">
           <div class="sec-label">Verse</div>
           <div class="sec-cue">"There is only one name"</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Chorus</div>
           <div class="sec-cue">"A God He's champion, He reigns forever more, forever more"</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Bridge</div>
           <div class="sec-cue">"Atmosphere shift now, change me, broken break now, Holy Spirit come down, Heaven open over us" — THE moment of the song</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Bridge repeats</div>
           <div class="sec-cue">Hold "Heaven open over us" — repeat if the room is in it · transition to Spirit Break Out happens at the chorus ("forever more / forever more / Spirit break out"), not the bridge</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
       </div>
     </div>
+    <button class="lyrics-toggle" type="button" data-song-num="5" aria-expanded="false">
+      <span class="lyrics-toggle-icon" aria-hidden="true">▾</span>
+      <span class="lyrics-toggle-label">Show lyrics</span>
+    </button>
   </section>
   <section class="song-card" id="stage-song-6" data-song-num="6">
     <div class="card-head">
@@ -528,17 +639,24 @@
         <div class="sec">
           <div class="sec-label">Verse / Build</div>
           <div class="sec-cue">No fixed structure · the team knows it cold</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Chorus</div>
           <div class="sec-cue">"Spirit break out" — full band, lift</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Spontaneous</div>
           <div class="sec-cue">Caster decides length. If atmosphere is heavy, sit in it. This is the end of worship — no rush</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
       </div>
     </div>
+    <button class="lyrics-toggle" type="button" data-song-num="6" aria-expanded="false">
+      <span class="lyrics-toggle-icon" aria-hidden="true">▾</span>
+      <span class="lyrics-toggle-label">Show lyrics</span>
+    </button>
   </section>
   <section class="song-card" id="stage-song-7" data-song-num="7">
     <div class="card-head">
@@ -551,8 +669,18 @@
       
     </div>
     <div class="card-body">
-      <div class="no-sections">— follow the leader · this song has no fixed structure —</div>
+      <div class="sections">
+        <div class="sec">
+          <div class="sec-label">Song body</div>
+          <div class="sec-cue">Single pass · simple, reverent · don't milk it</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
+        </div>
+      </div>
     </div>
+    <button class="lyrics-toggle" type="button" data-song-num="7" aria-expanded="false">
+      <span class="lyrics-toggle-icon" aria-hidden="true">▾</span>
+      <span class="lyrics-toggle-label">Show lyrics</span>
+    </button>
   </section>
   <section class="song-card" id="stage-song-8" data-song-num="8">
     <div class="card-head">
@@ -565,8 +693,18 @@
       
     </div>
     <div class="card-body">
-      <div class="no-sections">— follow the leader · this song has no fixed structure —</div>
+      <div class="sections">
+        <div class="sec">
+          <div class="sec-label">Song body</div>
+          <div class="sec-cue">One stanza · let the room sit · Caster calls the cut</div>
+          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
+        </div>
+      </div>
     </div>
+    <button class="lyrics-toggle" type="button" data-song-num="8" aria-expanded="false">
+      <span class="lyrics-toggle-icon" aria-hidden="true">▾</span>
+      <span class="lyrics-toggle-label">Show lyrics</span>
+    </button>
   </section>
 
     <div class="outlink">
@@ -626,7 +764,61 @@
       // Set initial state for whichever card is visible on load
       setCurrent('01');
 
-      // ── Wake Lock toggle: keep screen on during service ──
+      // ── LYRICS TOGGLES: per-card + master ──
+      // Per-card state persists in sessionStorage so it survives navigation.
+      const LYRICS_KEY_PREFIX = 'stage-lyrics-open-';
+      const MASTER_KEY = 'stage-lyrics-master';
+
+      function setCardLyrics(card, open) {
+        card.classList.toggle('lyrics-open', open);
+        const btn = card.querySelector('.lyrics-toggle');
+        if (btn) {
+          const label = btn.querySelector('.lyrics-toggle-label');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          if (label) label.textContent = open ? 'Hide lyrics' : 'Show lyrics';
+        }
+        const num = card.dataset.songNum;
+        if (open) {
+          sessionStorage.setItem(LYRICS_KEY_PREFIX + num, '1');
+        } else {
+          sessionStorage.removeItem(LYRICS_KEY_PREFIX + num);
+        }
+      }
+
+      // Wire each card's toggle (skip cards without one)
+      cards.forEach(card => {
+        const btn = card.querySelector('.lyrics-toggle');
+        if (!btn) return;
+        btn.addEventListener('click', () => {
+          const isOpen = card.classList.contains('lyrics-open');
+          setCardLyrics(card, !isOpen);
+        });
+        // Restore per-card state from session
+        const stored = sessionStorage.getItem(LYRICS_KEY_PREFIX + card.dataset.songNum);
+        if (stored === '1') setCardLyrics(card, true);
+      });
+
+      // Master toggle: opens/closes ALL cards
+      const masterBtn = document.getElementById('lyrics-master-toggle');
+      function setMaster(active) {
+        masterBtn.classList.toggle('active', active);
+        masterBtn.setAttribute('aria-pressed', active ? 'true' : 'false');
+        cards.forEach(card => setCardLyrics(card, active));
+        if (active) {
+          sessionStorage.setItem(MASTER_KEY, '1');
+        } else {
+          sessionStorage.removeItem(MASTER_KEY);
+        }
+      }
+      masterBtn.addEventListener('click', () => {
+        setMaster(!masterBtn.classList.contains('active'));
+      });
+      // Restore master state
+      if (sessionStorage.getItem(MASTER_KEY) === '1') {
+        setMaster(true);
+      }
+
+      // ── WAKE LOCK: keep screen on during service ──
       const wakeBtn = document.getElementById('wake-toggle');
       let wakeLock = null;
 
