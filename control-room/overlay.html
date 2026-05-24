@@ -125,6 +125,47 @@
   }
 
   /* LYRIC MODE — two lines in a centred band (lower-third style, but middle-aligned) */
+  /* Soft fill plate behind the text band — improves legibility on bright/busy camera feeds.
+     Sized just wider than the text band; feathered edges keep it from looking like
+     a hard rectangle pasted on the feed. */
+  #lyric-stage::before,
+  #verse-stage::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    /* Sits behind the text */
+    z-index: -1;
+    pointer-events: none;
+    /* Soft dark gradient — strongest in centre, fades at the horizontal edges */
+    background:
+      radial-gradient(
+        ellipse at center,
+        rgba(0, 0, 0, 0.72) 0%,
+        rgba(0, 0, 0, 0.65) 45%,
+        rgba(0, 0, 0, 0.45) 75%,
+        rgba(0, 0, 0, 0) 100%
+      );
+    /* Tiny blur softens edges further so the plate dissolves into the feed */
+    filter: blur(2px);
+  }
+  /* Lyric plate — sized for two lines */
+  #lyric-stage::before {
+    top: -40px;
+    bottom: -40px;
+    width: 78%;
+    border-radius: 20px;
+  }
+  /* Verse plate — sized for longer scripture text, ref line below */
+  #verse-stage::before {
+    top: -32px;
+    bottom: -32px;
+    width: 80%;
+    border-radius: 20px;
+  }
+  /* Stage container must be positioned for the absolute pseudo-element to anchor.
+     `.stage` is already position:absolute; nothing else needed. */
+
   .lyric-line {
     font-weight: 700;
     font-size: calc(64px * var(--lyric-scale));
