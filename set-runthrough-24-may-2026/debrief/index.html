@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0e">
+  <title>Pentecost Debrief · 24 May 2026 · Calvary Hephzibah</title>
+  <meta name="description" content="A short reflection on Sunday's worship — what went well, what we can sharpen, while it's still fresh.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Pentecost Debrief · 24 May 2026">
+  <meta property="og:description" content="What went well, what we can sharpen. Captured while it was still fresh.">
+  <meta property="og:image" content="https://calvaryhfgc.github.io/calvaryhephzibah/set-runthrough-24-may-2026/debrief/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://calvaryhfgc.github.io/calvaryhephzibah/set-runthrough-24-may-2026/debrief/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pentecost Debrief · 24 May 2026">
+  <meta name="twitter:description" content="What went well, what we can sharpen.">
+  <meta name="twitter:image" content="https://calvaryhfgc.github.io/calvaryhephzibah/set-runthrough-24-may-2026/debrief/og-card.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --obsidian: #0b0b0e;
+      --slate: #16161a;
+      --slate-2: #1d1d22;
+      --bone: #f4efe6;
+      --fg-2: #c9c3b6;
+      --fg-3: #a29c90;
+      --line-soft: #2a2a30;
+      --red: #d0441c;
+      --red-bright: #e85a30;
+      --gold: #c8a24b;
+      --gold-bright: #e0bc64;
+      --green-soft: #6b9a5e;
+      --font-display: 'Anton', system-ui, sans-serif;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-body: 'Inter Tight', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--obsidian);
+      color: var(--bone);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1600 / 901;
+      max-height: 70vh;
+      overflow: hidden;
+      background: var(--obsidian);
+    }
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(11,11,14,0.15) 0%, rgba(11,11,14,0.55) 65%, rgba(11,11,14,1) 100%);
+      pointer-events: none;
+    }
+    .hero-meta {
+      position: absolute;
+      bottom: 24px;
+      left: 0;
+      right: 0;
+      padding: 0 24px;
+      z-index: 2;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold-bright);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 7vw, 64px);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: var(--bone);
+      margin: 0;
+    }
+    .hero-date {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(16px, 2.4vw, 20px);
+      color: var(--fg-2);
+      margin-top: 10px;
+    }
+
+    /* ── Container ── */
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    /* ── Section heads ── */
+    .section {
+      margin-top: 48px;
+    }
+    .section:first-child {
+      margin-top: 0;
+    }
+    .section-eyebrow {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 5vw, 42px);
+      line-height: 1.05;
+      letter-spacing: 0.01em;
+      color: var(--bone);
+      margin: 0 0 16px;
+    }
+    .section-lede {
+      font-family: var(--font-serif);
+      font-size: clamp(19px, 2.6vw, 22px);
+      line-height: 1.5;
+      color: var(--fg-2);
+      font-style: italic;
+      margin: 0;
+    }
+
+    .section-lede strong {
+      color: var(--bone);
+      font-style: normal;
+      font-weight: 600;
+      font-family: var(--font-body);
+    }
+
+    /* ── Main-thing card (the pastoral frame) ── */
+    .frame-card {
+      background: linear-gradient(180deg, rgba(200,162,75,0.07) 0%, rgba(200,162,75,0.02) 100%);
+      border: 1px solid rgba(200,162,75,0.22);
+      border-radius: 12px;
+      padding: 28px 24px;
+      margin-top: 12px;
+    }
+    .frame-card .one-thing {
+      font-family: var(--font-serif);
+      font-size: clamp(22px, 3.4vw, 28px);
+      line-height: 1.35;
+      color: var(--bone);
+      margin: 0;
+    }
+    .frame-card .one-thing strong {
+      color: var(--gold-bright);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    /* ── Rule under section titles ── */
+    .section-rule {
+      width: 60px;
+      height: 3px;
+      background: var(--gold);
+      margin-bottom: 22px;
+    }
+    .section.went-well .section-rule { background: var(--green-soft); }
+    .section.improve .section-rule { background: var(--red); }
+
+    /* ── Items list ── */
+    .items {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .item {
+      background: var(--slate);
+      border: 1px solid var(--line-soft);
+      border-left: 3px solid var(--line-soft);
+      border-radius: 8px;
+      padding: 18px 20px;
+    }
+    .section.went-well .item {
+      border-left-color: var(--green-soft);
+    }
+    .section.improve .item {
+      border-left-color: var(--red);
+    }
+    .item-title {
+      font-family: var(--font-body);
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--bone);
+      line-height: 1.35;
+      margin: 0;
+    }
+    .item-note {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--fg-2);
+      line-height: 1.55;
+      margin: 6px 0 0;
+    }
+    .item-note .quiet {
+      color: var(--fg-3);
+    }
+
+    /* ── Closing ── */
+    .closing {
+      margin-top: 56px;
+      padding: 28px 24px;
+      background: var(--slate);
+      border-radius: 12px;
+      border: 1px solid var(--line-soft);
+      text-align: center;
+    }
+    .closing-text {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(18px, 2.6vw, 22px);
+      line-height: 1.45;
+      color: var(--fg-2);
+      margin: 0 0 16px;
+    }
+    .closing-byline {
+      font-family: var(--font-body);
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+      font-weight: 600;
+    }
+
+    /* ── Footer link strip ── */
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 32px;
+      padding: 20px 0;
+      border-top: 1px solid var(--line-soft);
+    }
+    .footer-links a {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--gold-bright);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--gold);
+      padding: 4px 0;
+    }
+    .footer-links a:hover {
+      color: var(--bone);
+      border-bottom-color: var(--bone);
+    }
+
+    /* ── Mobile adjustments ── */
+    @media screen and (max-width: 640px) {
+      .hero {
+        max-height: 56vh;
+      }
+      main {
+        padding: 24px 18px 60px;
+      }
+      .section {
+        margin-top: 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <img src="hero.jpg" alt="Pastor Kayode leading worship at Calvary Hephzibah on Pentecost Sunday, 24 May 2026, with the band behind him">
+    <div class="hero-meta">
+      <div class="hero-eyebrow">Worship Team Debrief</div>
+      <h1 class="hero-title">Pentecost Sunday</h1>
+      <div class="hero-date">24 May 2026 · captured while it was still fresh</div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ── THE MAIN THING ── -->
+    <section class="section">
+      <div class="section-eyebrow">The main thing</div>
+      <h2 class="section-title">Keeping the main thing the main thing.</h2>
+      <div class="section-rule"></div>
+      <div class="frame-card">
+        <p class="one-thing">
+          The one thing we set out to do today was simple — <strong>lift the congregation into God's presence on Pentecost Sunday</strong>, with a worship team that's still being rebuilt. Everything below is graded against that.
+        </p>
+      </div>
+    </section>
+
+    <!-- ── WHAT WENT WELL ── -->
+    <section class="section went-well">
+      <div class="section-eyebrow">What went well</div>
+      <h2 class="section-title">Wins we can be honest about.</h2>
+      <div class="section-rule"></div>
+      <div class="items">
+
+        <div class="item">
+          <p class="item-title">New set put together in a week — and it largely worked.</p>
+          <p class="item-note">
+            A fresh arrangement, a new band configuration, no physical live rehearsal. The bar we set was unfair to ourselves. And we still cleared it.
+          </p>
+        </div>
+
+        <div class="item">
+          <p class="item-title">Abraham slotted in on drums.</p>
+          <p class="item-note">
+            Walking into a band you've never played with, with singers you've never met, and locking in — that takes real instinct. Abraham did that. The only player on the platform he'd shared a stage with before was Bolaji A. <span class="quiet">Welcome to the family.</span>
+          </p>
+        </div>
+
+        <div class="item">
+          <p class="item-title">Talkback / MD mic setup did its job.</p>
+          <p class="item-note">
+            The new in-ear / MD mic config gave the band a way to communicate without breaking the room. Worth keeping.
+          </p>
+        </div>
+
+        <div class="item">
+          <p class="item-title">Uncle Caster led with conviction — including the spontaneous flow.</p>
+          <p class="item-note">
+            The set was tight, but Caster also created room for spontaneous worship and led it well. That's the harder thing to do — and he carried it.
+          </p>
+        </div>
+
+        <div class="item">
+          <p class="item-title">Uniform held together.</p>
+          <p class="item-note">
+            Black and white across the platform. Small thing on paper, big thing in the room.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── OPPORTUNITIES TO IMPROVE ── -->
+    <section class="section improve">
+      <div class="section-eyebrow">Opportunities to improve</div>
+      <h2 class="section-title">What we can sharpen for next time.</h2>
+      <div class="section-rule"></div>
+      <div class="items">
+
+        <div class="item">
+          <p class="item-title">Technical issues — symptom of crew availability earlier in the morning.</p>
+          <p class="item-note">
+            These keep re-surfacing. The root cause isn't gear; it's having the crew in the room early enough to catch them before service starts.
+          </p>
+        </div>
+
+        <div class="item">
+          <p class="item-title">Audio levels — bass and guitar were quiet in the mix.</p>
+          <p class="item-note">
+            Hard to hear both on stage and (we suspect) front-of-house. Worth a level-pass at soundcheck rather than tweaking mid-service.
+          </p>
+        </div>
+
+        <div class="item">
+          <p class="item-title">Esther's mic could have been louder.</p>
+          <p class="item-note">
+            Her parts were carrying the BVs across the set. The mix didn't lift her enough.
+          </p>
+        </div>
+
+        <div class="item">
+          <p class="item-title">No click track or loops for the Praise set.</p>
+          <p class="item-note">
+            The praise medley would have held its tempo and transitions more cleanly with a click underneath. Worth introducing for medley sets going forward.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── CLOSING ── -->
+    <div class="closing">
+      <p class="closing-text">
+        Thank you, family. We carried each other today — that was the whole point. God did the rest.
+      </p>
+      <div class="closing-byline">Calvary Worship · Pentecost 2026</div>
+    </div>
+
+    <div class="footer-links">
+      <a href="../">Set runthrough</a>
+      <a href="../stage/">Stage view</a>
+      <a href="../../">Calvary Hephzibah</a>
+    </div>
+
+  </main>
+
+</body>
+</html>
