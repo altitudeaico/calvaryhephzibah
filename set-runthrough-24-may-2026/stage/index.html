@@ -254,27 +254,55 @@
       text-align: center;
     }
 
-    /* ── Lyrics (collapsed by default, expand on toggle) ── */
-    .sec-lyrics {
+    /* ── Lyrics block (collapsed by default, expand on toggle) ── */
+    .lyrics-block {
       display: none;
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px dashed var(--line-soft);
+      margin-top: 22px;
+      padding: 18px 18px 20px;
+      background: var(--slate);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+    }
+    .song-card.lyrics-open .lyrics-block {
+      display: block;
+    }
+    .lyrics-block-head {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line-soft);
+      margin-bottom: 14px;
+    }
+    .slide-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .slide-pair {
+      padding: 10px 0;
+    }
+    .slide-pair.single {
+      padding: 8px 0;
+    }
+    .slide-l1, .slide-l2 {
       font-family: var(--font-body);
       font-size: 22px;
       font-weight: 500;
       color: var(--bone);
-      line-height: 1.45;
+      line-height: 1.32;
       letter-spacing: 0.005em;
     }
-    .sec-lyrics.placeholder {
-      font-style: italic;
-      font-weight: 400;
-      color: var(--fg-3);
-      font-size: 16px;
+    .slide-l2 {
+      margin-top: 2px;
+      color: var(--fg-2);
     }
-    .song-card.lyrics-open .sec-lyrics {
-      display: block;
+    .slide-sep {
+      height: 0;
+      border-top: 1px dashed var(--line-soft);
+      margin: 2px 0;
     }
 
     /* Toggle button */
@@ -409,35 +437,46 @@
         <div class="sec">
           <div class="sec-label">Intro Chorus</div>
           <div class="sec-cue">Full chorus, heavy-handed — then band drops out</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Verse 1</div>
           <div class="sec-cue">"Days of Elijah" — low dynamics, band almost out</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Chorus</div>
           <div class="sec-cue">"Behold He comes" — build up</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Verse 2</div>
           <div class="sec-cue">"Days of Ezekiel"</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Chorus ×2</div>
           <div class="sec-cue">Second pass through, fuller</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Vamp</div>
           <div class="sec-cue">2 cycles → transitions seamlessly into Lord I Lift Your Name. Skip "There's no God like Jehovah"</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
       </div>
     </div>
+    <div class="lyrics-block">
+        <div class="lyrics-block-head">Lyrics</div>
+        <div class="slide-list">
+          <div class="slide-pair"><div class="slide-l1">These are the days of Elijah</div><div class="slide-l2">Declaring the Word of the Lord</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">And these are the days of Your servant Moses</div><div class="slide-l2">Righteousness being restored</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">And though these are days of great trials</div><div class="slide-l2">Of famine and darkness and sword</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Still we are the voice in the desert crying</div><div class="slide-l2">Prepare ye the way of the Lord!</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Behold He comes, riding on the clouds</div><div class="slide-l2">Shining like the sun, at the trumpet call</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Lift your voice, it's the year of Jubilee</div><div class="slide-l2">And out of Zion's hill salvation comes</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">And these are the days of Ezekiel</div><div class="slide-l2">The dry bones becoming as flesh</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">And these are the days of Your servant David</div><div class="slide-l2">Rebuilding a temple of praise</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">And these are the days of the harvest</div><div class="slide-l2">The fields are as white in the world</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">And we are the laborers in Your vineyard</div><div class="slide-l2">Declaring the Word of the Lord</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">There's no god like Jehovah</div><div class="slide-l2">There's no god like Jehovah</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">There's no god like Jehovah</div><div class="slide-l2">There's no god like Jehovah</div></div>
+        </div>
+      </div>
     <button class="lyrics-toggle" type="button" data-song-num="1" aria-expanded="false">
       <span class="lyrics-toggle-icon" aria-hidden="true">▾</span>
       <span class="lyrics-toggle-label">Show lyrics</span>
@@ -458,45 +497,48 @@
         <div class="sec">
           <div class="sec-label">Intro</div>
           <div class="sec-cue">Coming off the Days of Elijah vamp · vamp continues 2 cycles</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Intro Phrase</div>
           <div class="sec-cue">"You came from heaven to earth" ×1</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Verse 1</div>
           <div class="sec-cue">"Lord I lift your name on high" — dynamics drop, band almost out</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Chorus</div>
           <div class="sec-cue">"You came from heaven to earth" ×1 — synth brass enters</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Verse 2</div>
           <div class="sec-cue">Back to low dynamics. Same words as verse 1</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Adlib</div>
           <div class="sec-cue">Bar after "I'm so glad you came to save us" → leads back into verse repeat</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Final Chorus ×2</div>
           <div class="sec-cue">Full band, biggest lift of the medley</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Hand-off</div>
           <div class="sec-cue">Sustained crash resolves into Ancient of Days — no break</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
       </div>
     </div>
+    <div class="lyrics-block">
+        <div class="lyrics-block-head">Lyrics</div>
+        <div class="slide-list">
+          <div class="slide-pair"><div class="slide-l1">Lord, I lift Your name on high</div><div class="slide-l2">Lord, I love to sing Your praises</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">I'm so glad You're in my life</div><div class="slide-l2">I'm so glad You came to save us</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">You came from heaven to earth</div><div class="slide-l2">To show the way</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">From the earth to the cross</div><div class="slide-l2">My debt to pay</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">From the cross to the grave</div><div class="slide-l2">From the grave to the sky</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair single"><div class="slide-l1">Lord, I lift Your name on high</div></div>
+        </div>
+      </div>
     <button class="lyrics-toggle" type="button" data-song-num="2" aria-expanded="false">
       <span class="lyrics-toggle-icon" aria-hidden="true">▾</span>
       <span class="lyrics-toggle-label">Show lyrics</span>
@@ -517,40 +559,50 @@
         <div class="sec">
           <div class="sec-label">Blessing and Honour · Verse 1</div>
           <div class="sec-cue">Standard progression — not Anthem Nights treatment</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">"Every tongue in heaven and earth"</div>
           <div class="sec-cue">×1</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Blessing and Honour · Verse repeat</div>
           <div class="sec-cue">×1</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Chorus</div>
           <div class="sec-cue">Full band</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">"Every tongue in heaven and earth"</div>
           <div class="sec-cue">×2 this time</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">"Oh Ancient of Days"</div>
           <div class="sec-cue">×4 — Caster drives the lifts</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Ending</div>
           <div class="sec-cue">1-6-7-1 progression → definitive crash on the one. Let the room sit before Holy Spirit</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
       </div>
     </div>
+    <div class="lyrics-block">
+        <div class="lyrics-block-head">Lyrics</div>
+        <div class="slide-list">
+          <div class="slide-pair"><div class="slide-l1">Blessing and honour, glory and power</div><div class="slide-l2">Be unto the Ancient of Days</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">From every nation, all of creation</div><div class="slide-l2">Bow before the Ancient of Days</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Every tongue in Heaven and Earth</div><div class="slide-l2">Shall declare your glory</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Every knee shall bow at your throne</div><div class="slide-l2">In worship</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">You will be exalted, O God</div><div class="slide-l2">And your kingdom shall not pass away</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Blessing and honour, glory and power</div><div class="slide-l2">Be unto the Ancient of Days</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">From every nation, all of creation</div><div class="slide-l2">Bow before the Ancient of Days</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Your kingdom shall reign over all the earth</div><div class="slide-l2">Sing unto the Ancient of Days</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">For none can compare to your matchless worth</div><div class="slide-l2">Sing unto the Ancient of Days</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Every tongue in Heaven and Earth</div><div class="slide-l2">Shall declare your glory</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Every knee shall bow at your throne</div><div class="slide-l2">In worship</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">You will be exalted, O God</div><div class="slide-l2">And your kingdom shall not pass away</div></div>
+        </div>
+      </div>
     <button class="lyrics-toggle" type="button" data-song-num="3" aria-expanded="false">
       <span class="lyrics-toggle-icon" aria-hidden="true">▾</span>
       <span class="lyrics-toggle-label">Show lyrics</span>
@@ -571,15 +623,29 @@
         <div class="sec">
           <div class="sec-label">Song body</div>
           <div class="sec-cue">Chorus only (skip the verses) · 4 passes building dynamically: (1) Uncle Caster + keys, soft (2) Abraham keeps time on ride only, Esther joins (3) full kit enters with toms — full energy (4) builds at "your glory God is what our hearts long for" — transitions into Atmosphere Shift</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Repeat lines as needed</div>
           <div class="sec-cue">If the room sits in a phrase, sit with the room. Silence is part of the worship</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
       </div>
     </div>
+    <div class="lyrics-block">
+        <div class="lyrics-block-head">Lyrics</div>
+        <div class="slide-list">
+          <div class="slide-pair"><div class="slide-l1">There's nothing worth more</div><div class="slide-l2">That will ever come close</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Nothing can compare</div><div class="slide-l2">You're our living hope</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair single"><div class="slide-l1">Your presence, Lord</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">I've tasted and seen</div><div class="slide-l2">Of the sweetest of love</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">When my heart becomes free</div><div class="slide-l2">And my shame is undone</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair single"><div class="slide-l1">Your presence, Lord</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Holy Spirit, You are welcome here</div><div class="slide-l2">Come flood this place and fill the atmosphere</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Your glory, God, is what our hearts long for</div><div class="slide-l2">To be overcome by Your presence, Lord</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair single"><div class="slide-l1">Your presence, Lord</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair single"><div class="slide-l1">Let us become more aware of Your presence</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair single"><div class="slide-l1">Let us experience the glory of Your goodness</div></div>
+        </div>
+      </div>
     <button class="lyrics-toggle" type="button" data-song-num="4" aria-expanded="false">
       <span class="lyrics-toggle-icon" aria-hidden="true">▾</span>
       <span class="lyrics-toggle-label">Show lyrics</span>
@@ -600,25 +666,34 @@
         <div class="sec">
           <div class="sec-label">Verse</div>
           <div class="sec-cue">"There is only one name"</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Chorus</div>
           <div class="sec-cue">"A God He's champion, He reigns forever more, forever more"</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Bridge</div>
           <div class="sec-cue">"Atmosphere shift now, change me, broken break now, Holy Spirit come down, Heaven open over us" — THE moment of the song</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Bridge repeats</div>
           <div class="sec-cue">Hold "Heaven open over us" — repeat if the room is in it · transition to Spirit Break Out happens at the chorus ("forever more / forever more / Spirit break out"), not the bridge</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
       </div>
     </div>
+    <div class="lyrics-block">
+        <div class="lyrics-block-head">Lyrics</div>
+        <div class="slide-list">
+          <div class="slide-pair"><div class="slide-l1">There is only one name</div><div class="slide-l2">There is only one name</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">With the power to save</div><div class="slide-l2">The power to save</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Our God He is champion</div><div class="slide-l2">He reigns forevermore</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair single"><div class="slide-l1">Forevermore</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Every knee will bow down</div><div class="slide-l2">Every tongue will confess</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair single"><div class="slide-l1">Jesus Christ You are Lord</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Atmosphere shift now</div><div class="slide-l2">Chains be broken, break now</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Holy Spirit come down</div><div class="slide-l2">Heaven open, heaven open</div></div>
+        </div>
+      </div>
     <button class="lyrics-toggle" type="button" data-song-num="5" aria-expanded="false">
       <span class="lyrics-toggle-icon" aria-hidden="true">▾</span>
       <span class="lyrics-toggle-label">Show lyrics</span>
@@ -639,20 +714,32 @@
         <div class="sec">
           <div class="sec-label">Verse / Build</div>
           <div class="sec-cue">No fixed structure · the team knows it cold</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Chorus</div>
           <div class="sec-cue">"Spirit break out" — full band, lift</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
         <div class="sec">
           <div class="sec-label">Spontaneous</div>
           <div class="sec-cue">Caster decides length. If atmosphere is heavy, sit in it. This is the end of worship — no rush</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
       </div>
     </div>
+    <div class="lyrics-block">
+        <div class="lyrics-block-head">Lyrics</div>
+        <div class="slide-list">
+          <div class="slide-pair"><div class="slide-l1">Our Father</div><div class="slide-l2">All of Heaven roars Your name</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Sing louder</div><div class="slide-l2">Let this place erupt with praise</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Can you hear it</div><div class="slide-l2">A sound of Heaven touching earth</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair single"><div class="slide-l1">A sound of Heaven touching earth</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Spirit break out</div><div class="slide-l2">Break our walls down</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Spirit break out</div><div class="slide-l2">Heaven come down, oh</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">So King Jesus</div><div class="slide-l2">You're the name we're lifting high</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Your glory</div><div class="slide-l2">Shaking up the earth and sky</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Revival</div><div class="slide-l2">We wanna see Your Kingdom here</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair single"><div class="slide-l1">We wanna see Your Kingdom here</div></div>
+        </div>
+      </div>
     <button class="lyrics-toggle" type="button" data-song-num="6" aria-expanded="false">
       <span class="lyrics-toggle-icon" aria-hidden="true">▾</span>
       <span class="lyrics-toggle-label">Show lyrics</span>
@@ -673,10 +760,20 @@
         <div class="sec">
           <div class="sec-label">Song body</div>
           <div class="sec-cue">Single pass · simple, reverent · don't milk it</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
       </div>
     </div>
+    <div class="lyrics-block">
+        <div class="lyrics-block-head">Lyrics</div>
+        <div class="slide-list">
+          <div class="slide-pair"><div class="slide-l1">Open the eyes of my heart, Lord</div><div class="slide-l2">Open the eyes of my heart</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">I want to see You</div><div class="slide-l2">I want to see You</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">To see You high and lifted up</div><div class="slide-l2">Shinin' in the light of Your glory</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Pour out Your power and love</div><div class="slide-l2">As we sing holy, holy, holy</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Holy, holy, holy</div><div class="slide-l2">Holy, holy, holy</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair single"><div class="slide-l1">I want to see You</div></div>
+        </div>
+      </div>
     <button class="lyrics-toggle" type="button" data-song-num="7" aria-expanded="false">
       <span class="lyrics-toggle-icon" aria-hidden="true">▾</span>
       <span class="lyrics-toggle-label">Show lyrics</span>
@@ -697,10 +794,17 @@
         <div class="sec">
           <div class="sec-label">Song body</div>
           <div class="sec-cue">One stanza · let the room sit · Caster calls the cut</div>
-          <div class="sec-lyrics placeholder">— lyrics to be added —</div>
         </div>
       </div>
     </div>
+    <div class="lyrics-block">
+        <div class="lyrics-block-head">Lyrics</div>
+        <div class="slide-list">
+          <div class="slide-pair"><div class="slide-l1">Sing praise, sing praise</div><div class="slide-l2">Sing praise, sing praise</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Forever, God is faithful</div><div class="slide-l2">Forever, God is strong</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Forever, God is with us</div><div class="slide-l2">Forever</div></div>
+        </div>
+      </div>
     <button class="lyrics-toggle" type="button" data-song-num="8" aria-expanded="false">
       <span class="lyrics-toggle-icon" aria-hidden="true">▾</span>
       <span class="lyrics-toggle-label">Show lyrics</span>
