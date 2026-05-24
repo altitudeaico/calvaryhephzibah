@@ -91,8 +91,8 @@
   }
   /* Bottom anchor */
   .stage[data-anchor="bottom"] {
-    bottom: calc(var(--stage-offset) + var(--lt-pad, 0px));
-    top: auto;
+    bottom: calc(var(--stage-offset) + var(--lt-pad, 0px)) !important;
+    top: auto !important;
     transform: translateY(20px);
   }
   .stage[data-anchor="bottom"].active {
@@ -101,8 +101,8 @@
   }
   /* Top anchor */
   .stage[data-anchor="top"] {
-    top: var(--stage-offset);
-    bottom: auto;
+    top: var(--stage-offset) !important;
+    bottom: auto !important;
     transform: translateY(-20px);
   }
   .stage[data-anchor="top"].active {
@@ -111,8 +111,8 @@
   }
   /* Middle anchor */
   .stage[data-anchor="middle"] {
-    top: 50%;
-    bottom: auto;
+    top: 50% !important;
+    bottom: auto !important;
     transform: translateY(calc(-50% + 20px));
   }
   .stage[data-anchor="middle"].active {
