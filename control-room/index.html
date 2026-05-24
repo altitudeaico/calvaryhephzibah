@@ -457,6 +457,47 @@
     vertical-align: text-top;
   }
 
+  /* Set list section headers — group songs / scripture / sermon */
+  .setlist-section {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    padding: 18px 4px 8px;
+    margin-top: 4px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  /* First section has no top border / less top padding */
+  .song-cards-wrap .setlist-section:first-child,
+  #setlist > .setlist-section:first-child {
+    border-top: none;
+    padding-top: 4px;
+    margin-top: 0;
+  }
+  /* Sermon section is highlighted — preacher's working scriptures */
+  .setlist-section.sermon-section {
+    color: #BF9B30;
+    border-top-color: rgba(191,155,48,0.25);
+  }
+
+  /* Translation badge next to scripture reference */
+  .version-badge {
+    display: inline-block;
+    margin-left: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #BF9B30;
+    background: rgba(191,155,48,0.15);
+    border: 1px solid rgba(191,155,48,0.35);
+    border-radius: 3px;
+    padding: 2px 6px;
+    vertical-align: middle;
+  }
+
   /* ============ LOWER THIRD PANEL ============ */
   .lt-panel {
     margin: 16px 20px 0;
@@ -2173,9 +2214,33 @@ function renderSetlist() {
       Songs are read live from the published media briefing for this date. To make this permanent, build the plan in admin → Today's set list.
     </div>` : '';
 
+  // Group items by section. Insert a section header whenever section changes.
+  // Sections render in plan-order (items are already sorted by position).
+  let lastSection = null;
+  const sectionLabels = {
+    'praise':    'Praise',
+    'worship':   'Worship',
+    'offering':  'Offering',
+    'end':       'End of Service',
+    'reading':   'Scripture',
+    'sermon':    'Sermon Scriptures',
+    'other':     'Other'
+  };
+
   sl.innerHTML = briefingBanner + plan.items.map((item, i) => {
     const isActive = i === currentSongIdx;
     const isScripture = item.kind === 'scripture';
+
+    // Section header: emit if section changed
+    let header = '';
+    const thisSection = item.section || 'other';
+    if (thisSection !== lastSection) {
+      const label = sectionLabels[thisSection] || thisSection;
+      const headerClass = thisSection === 'sermon' ? 'setlist-section sermon-section' : 'setlist-section';
+      header = `<div class="${headerClass}">${escapeHtml(label)}</div>`;
+      lastSection = thisSection;
+    }
+
     const slides = (item.slides || []).map((s, j) => {
       const isLive = isActive && j === currentSlideIdx;
       if (isScripture) {
@@ -2183,11 +2248,12 @@ function renderSetlist() {
         const verseHtml = (s.verses || []).map(v =>
           `<span class="vnum-inline">${v.n}</span>${escapeHtml(v.text)}`
         ).join(' ');
+        const versionBadge = s.version ? `<span class="version-badge">${escapeHtml(s.version)}</span>` : '';
         return `
           <div class="slide-row scripture ${isLive ? 'live' : ''}" onclick="window.goto(${i}, ${j})">
             <div class="slide-num">${s.rangeLabel || (j + 1)}</div>
             <div class="slide-text">
-              <div class="scripture-ref">${escapeHtml(s.reference || item.title)}</div>
+              <div class="scripture-ref">${escapeHtml(s.reference || item.title)}${versionBadge}</div>
               <div class="scripture-text">${verseHtml}</div>
             </div>
           </div>
@@ -2208,7 +2274,7 @@ function renderSetlist() {
     const missingBadge = item._libraryMissing ? ' · <span style="color:#FF6B6B;">⚠ not in library</span>' : '';
     const kindClass = isScripture ? 'kind-scripture' : '';
 
-    return `
+    return header + `
       <div class="song-card ${kindClass} ${isActive ? 'active open' : ''}" data-idx="${i}">
         <div class="song-head" onclick="window.toggleSong(${i})">
           <div class="meta">
