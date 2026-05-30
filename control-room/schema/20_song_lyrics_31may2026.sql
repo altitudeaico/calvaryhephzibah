@@ -4,14 +4,18 @@
 -- Real lyrics for the 31 May 2026 set list, formatted for the 2-line
 -- slide format used by control_room_plan_items.slides.
 --
--- This batch: 10,000 Reasons (Bless the Lord) — Matt Redman;
--- Hallelujah (You Won the Victory); and How Great Is Our God — Chris Tomlin.
+-- This batch completes the 31 May set list:
+--     · 10,000 Reasons (Bless the Lord) — Matt Redman
+--     · Hallelujah (You Won the Victory)
+--     · How Great Is Our God — Chris Tomlin (bridge = lead lines only)
+--     · Give Thanks — this is Chris Tomlin's "Forever" ("Give thanks to
+--       the Lord our God and King..."), stored under the set-list title
+--       "Give Thanks" so it matches the plan. Rename if you prefer.
 -- (Lyrics supplied by the worship team; CCLI-covered, for in-service
--- slide display only. How Great's bridge is set to the lead lines only —
--- the parenthetical BV echoes are not projected.)
+-- slide display only.)
 --
--- Still outstanding for 31 May after this file:
---     · Give Thanks
+-- All 31 May set-list songs now have lyrics (the praise medley and the
+-- offering were already in the library).
 --
 -- This migration:
 --   1. Upserts the song into control_room_songs (persistent library)
@@ -116,7 +120,35 @@ insert into control_room_songs (title, slides, section_default, artist) values
    {"line1":"How great is our God, sing with me","line2":"How great is our God, and all will see"},
    {"line1":"How great,","line2":"how great is our God"}
  ]',
- 'worship', 'Chris Tomlin')
+ 'worship', 'Chris Tomlin'),
+
+('Give Thanks',
+ '[
+   {"line1":"Give thanks to the Lord,","line2":"our God and King"},
+   {"line1":"His love endures forever","line2":""},
+   {"line1":"For He is good,","line2":"He is above all things"},
+   {"line1":"His love endures forever","line2":""},
+   {"line1":"Sing praise, sing praise","line2":""},
+
+   {"line1":"With a mighty hand","line2":"and an outstretched arm"},
+   {"line1":"His love endures forever","line2":""},
+   {"line1":"For the life that''s been reborn","line2":""},
+   {"line1":"His love endures forever","line2":""},
+   {"line1":"Sing praise, sing praise,","line2":"sing praise, sing praise"},
+
+   {"line1":"Forever God is faithful,","line2":"forever God is strong"},
+   {"line1":"Forever God is with us,","line2":"forever"},
+
+   {"line1":"Forever God is faithful,","line2":"forever God is strong"},
+   {"line1":"Forever God is with us,","line2":"forever, forever"},
+
+   {"line1":"From the rising","line2":"to the setting sun"},
+   {"line1":"His love endures forever","line2":""},
+   {"line1":"By the grace of God,","line2":"we will carry on"},
+   {"line1":"His love endures forever","line2":""},
+   {"line1":"Sing praise, sing praise,","line2":"sing praise, sing praise"}
+ ]',
+ 'end', 'Chris Tomlin')
 
 on conflict (title) do update
   set slides          = excluded.slides,
@@ -142,7 +174,7 @@ update control_room_plan_items pi
 -- The songs in the library
 select title, artist, section_default, jsonb_array_length(slides) as slides
   from control_room_songs
- where title in ('10,000 Reasons', 'Hallelujah (You Won the Victory)', 'How Great Is Our God');
+ where title in ('10,000 Reasons', 'Hallelujah (You Won the Victory)', 'How Great Is Our God', 'Give Thanks');
 
 -- 31 May plan items — which still need lyrics?
 select i.position, i.section, i.title, jsonb_array_length(i.slides) as slides,
