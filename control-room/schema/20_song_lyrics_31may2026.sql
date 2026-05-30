@@ -14,8 +14,10 @@
 -- (Lyrics supplied by the worship team; CCLI-covered, for in-service
 -- slide display only.)
 --
--- All 31 May set-list songs now have lyrics (the praise medley and the
--- offering were already in the library).
+-- All 31 May set-list songs now have lyrics. The offering (Open the
+-- Eyes of My Heart, Lord) is included here too so this file is fully
+-- self-contained — it loads even if the 24 May lyrics were never run.
+-- The praise medley is already in the library.
 --
 -- This migration:
 --   1. Upserts the song into control_room_songs (persistent library)
@@ -148,7 +150,18 @@ insert into control_room_songs (title, slides, section_default, artist) values
    {"line1":"His love endures forever","line2":""},
    {"line1":"Sing praise, sing praise,","line2":"sing praise, sing praise"}
  ]',
- 'end', 'Chris Tomlin')
+ 'end', 'Chris Tomlin'),
+
+('Open the Eyes of My Heart, Lord',
+ '[
+   {"line1":"Open the eyes of my heart, Lord","line2":"Open the eyes of my heart"},
+   {"line1":"I want to see You","line2":"I want to see You"},
+   {"line1":"To see You high and lifted up","line2":"Shinin'' in the light of Your glory"},
+   {"line1":"Pour out Your power and love","line2":"As we sing holy, holy, holy"},
+   {"line1":"Holy, holy, holy","line2":"Holy, holy, holy"},
+   {"line1":"I want to see You","line2":""}
+ ]',
+ 'offering', 'Paul Baloche')
 
 on conflict (title) do update
   set slides          = excluded.slides,
@@ -174,7 +187,7 @@ update control_room_plan_items pi
 -- The songs in the library
 select title, artist, section_default, jsonb_array_length(slides) as slides
   from control_room_songs
- where title in ('10,000 Reasons', 'Hallelujah (You Won the Victory)', 'How Great Is Our God', 'Give Thanks');
+ where title in ('10,000 Reasons', 'Hallelujah (You Won the Victory)', 'How Great Is Our God', 'Give Thanks', 'Open the Eyes of My Heart, Lord');
 
 -- 31 May plan items — which still need lyrics?
 select i.position, i.section, i.title, jsonb_array_length(i.slides) as slides,
