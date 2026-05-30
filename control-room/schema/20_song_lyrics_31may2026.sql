@@ -4,13 +4,13 @@
 -- Real lyrics for the 31 May 2026 set list, formatted for the 2-line
 -- slide format used by control_room_plan_items.slides.
 --
--- This batch: 10,000 Reasons (Bless the Lord) — Matt Redman; and
--- Hallelujah (You Won the Victory).
+-- This batch: 10,000 Reasons (Bless the Lord) — Matt Redman;
+-- Hallelujah (You Won the Victory); and How Great Is Our God — Chris Tomlin.
 -- (Lyrics supplied by the worship team; CCLI-covered, for in-service
--- slide display only.)
+-- slide display only. How Great's bridge is set to the lead lines only —
+-- the parenthetical BV echoes are not projected.)
 --
 -- Still outstanding for 31 May after this file:
---     · How Great Is Our God
 --     · Give Thanks
 --
 -- This migration:
@@ -85,7 +85,38 @@ insert into control_room_songs (title, slides, section_default, artist) values
    {"line1":"Our God is risen","line2":"He is alive"},
    {"line1":"He''s won the victory","line2":"He reigns on high"}
  ]',
- 'worship', null)
+ 'worship', null),
+
+('How Great Is Our God',
+ '[
+   {"line1":"The splendor of a King,","line2":"clothed in majesty"},
+   {"line1":"Let all the earth rejoice","line2":"All the earth rejoice"},
+
+   {"line1":"He wraps Himself in light","line2":"And darkness tries to hide"},
+   {"line1":"And trembles at His voice","line2":"Trembles at His voice"},
+
+   {"line1":"How great is our God, sing with me","line2":"How great is our God, and all will see"},
+   {"line1":"How great,","line2":"how great is our God"},
+
+   {"line1":"Age to age He stands","line2":"And time is in His hands"},
+   {"line1":"Beginning and the end","line2":"Beginning and the end"},
+
+   {"line1":"The Godhead, Three in One","line2":"Father, Spirit, Son"},
+   {"line1":"The Lion and the Lamb","line2":"The Lion and the Lamb"},
+
+   {"line1":"How great is our God, sing with me","line2":"How great is our God, and all will see"},
+   {"line1":"How great,","line2":"how great is our God"},
+
+   {"line1":"Name above all names","line2":"Worthy of our praise"},
+   {"line1":"My heart will sing","line2":"How great is our God"},
+
+   {"line1":"You''re the name above all names","line2":"You are worthy of our praise"},
+   {"line1":"And my heart will sing","line2":"How great is our God"},
+
+   {"line1":"How great is our God, sing with me","line2":"How great is our God, and all will see"},
+   {"line1":"How great,","line2":"how great is our God"}
+ ]',
+ 'worship', 'Chris Tomlin')
 
 on conflict (title) do update
   set slides          = excluded.slides,
@@ -111,7 +142,7 @@ update control_room_plan_items pi
 -- The songs in the library
 select title, artist, section_default, jsonb_array_length(slides) as slides
   from control_room_songs
- where title in ('10,000 Reasons', 'Hallelujah (You Won the Victory)');
+ where title in ('10,000 Reasons', 'Hallelujah (You Won the Victory)', 'How Great Is Our God');
 
 -- 31 May plan items — which still need lyrics?
 select i.position, i.section, i.title, jsonb_array_length(i.slides) as slides,
