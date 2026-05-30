@@ -4,12 +4,12 @@
 -- Real lyrics for the 31 May 2026 set list, formatted for the 2-line
 -- slide format used by control_room_plan_items.slides.
 --
--- This batch: 10,000 Reasons (Bless the Lord) — Matt Redman.
+-- This batch: 10,000 Reasons (Bless the Lord) — Matt Redman; and
+-- Hallelujah (You Won the Victory).
 -- (Lyrics supplied by the worship team; CCLI-covered, for in-service
 -- slide display only.)
 --
 -- Still outstanding for 31 May after this file:
---     · Hallelujah (You Won the Victory)
 --     · How Great Is Our God
 --     · Give Thanks
 --
@@ -66,7 +66,26 @@ insert into control_room_songs (title, slides, section_default, artist) values
    {"line1":"O I''ll worship Your holy name","line2":"I will worship Your holy name"},
    {"line1":"Holy name","line2":""}
  ]',
- 'worship', 'Matt Redman')
+ 'worship', 'Matt Redman'),
+
+('Hallelujah (You Won the Victory)',
+ '[
+   {"line1":"Hallelujah,","line2":"You have won the victory"},
+   {"line1":"Hallelujah,","line2":"You have won it all for me"},
+
+   {"line1":"Death could not hold You down","line2":"You are the risen King"},
+   {"line1":"Seated in majesty","line2":"You are the risen King"},
+
+   {"line1":"By His stripes we are healed","line2":"By His nail-pierced hands we''re free"},
+   {"line1":"By His blood we''re washed clean","line2":"Now we have the victory"},
+
+   {"line1":"The power of sin is broken","line2":"Jesus overcame it all"},
+   {"line1":"He has won our freedom","line2":"Jesus has won it all"},
+
+   {"line1":"Our God is risen","line2":"He is alive"},
+   {"line1":"He''s won the victory","line2":"He reigns on high"}
+ ]',
+ 'worship', null)
 
 on conflict (title) do update
   set slides          = excluded.slides,
@@ -89,10 +108,10 @@ update control_room_plan_items pi
 -- VERIFY
 -- ────────────────────────────────────────────────────────────────────
 
--- The song in the library
+-- The songs in the library
 select title, artist, section_default, jsonb_array_length(slides) as slides
   from control_room_songs
- where title = '10,000 Reasons';
+ where title in ('10,000 Reasons', 'Hallelujah (You Won the Victory)');
 
 -- 31 May plan items — which still need lyrics?
 select i.position, i.section, i.title, jsonb_array_length(i.slides) as slides,
