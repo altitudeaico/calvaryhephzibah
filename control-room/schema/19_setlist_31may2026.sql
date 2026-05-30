@@ -12,7 +12,7 @@
 --                        Ancient of Days / Blessing and Honour
 --   Worship (Key of D):  10,000 Reasons · Hallelujah (You Won the Victory) ·
 --                        How Great Is Our God
---   Offering:            Uncle Caster — piano single (INSTRUMENTAL, no lyrics)
+--   Offering:            Open the Eyes of My Heart, Lord
 --   End of Service:      Give Thanks
 --
 -- LYRICS: each song's slides are pulled from the control_room_songs
@@ -24,7 +24,7 @@
 --     · Hallelujah (You Won the Victory)
 --     · How Great Is Our God
 --     · Give Thanks
--- The offering item is instrumental — it intentionally has no slides.
+-- (Open the Eyes of My Heart, Lord is already in the library.)
 --
 -- The pre-sermon Bible reading (reader + passage) is still TBC and is
 -- not cued here.
@@ -80,9 +80,8 @@ from (values
       {"line1":"[placeholder slide 3]","line2":"[replace with real lyrics]"}]'),
 
   -- ── OFFERING ──────────────────────────────────────────────────
-  -- Instrumental piano — no lyrics to display. Empty slides on purpose.
-  (7, 'song', 'Uncle Caster — Piano Single (instrumental)', 'offering',
-    '[]'),
+  (7, 'song', 'Open the Eyes of My Heart, Lord', 'offering',
+    '[{"line1":"[lyrics in library]","line2":"[re-run after lyrics load]"}]'),
 
   -- ── END OF SERVICE ────────────────────────────────────────────
   (8, 'song', 'Give Thanks', 'end',
