@@ -107,7 +107,7 @@ from control_room_plans p,
   (4,  'Communion',               'Pastor Gbenga Adebanjo',   null),
   (5,  'Announcements',           'Pastor Kayode Ogungbenro', null),
   (6,  'Thanksgiving',            'Pastor Gbenga Adebanjo',   null),
-  (7,  'Bible Reading',           null,                       'Reader & passage TBC'),
+  (7,  'Bible Reading',           'Pastor Kemi & Sister Tash', 'Passage TBC'),
   (8,  'Sermon',                  'Pastor Shade Olatoye',     'David Encouraged Himself In The LORD · 1 Samuel 30:6'),
   (9,  'Closing Prayer',          'Sister Folake Okunubi',    null),
   (10, 'Benediction',             'Sister Yinka Osipitan',    null)
