@@ -1,7 +1,16 @@
 {
-  "generated_at": "2026-05-30T09:43:50.000Z",
-  "count": 17,
+  "generated_at": "2026-06-07T07:10:00.000Z",
+  "count": 18,
   "briefings": [
+    {
+      "file": "media-briefing-07-jun-2026.html",
+      "service_date": "2026-06-07",
+      "display_date": "7 Jun 2026",
+      "subtitle": "The Divine Key — Bishop Henry Emmanuel",
+      "sermon_title": "The Divine Key",
+      "preacher": "Bishop Henry Emmanuel",
+      "og_image": "https://calvaryhfgc.github.io/calvaryhephzibah/sermon-thumbnail-07-jun-2026.jpg"
+    },
     {
       "file": "media-briefing-31-may-2026.html",
       "service_date": "2026-05-31",
