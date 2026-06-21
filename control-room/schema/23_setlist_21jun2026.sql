@@ -8,11 +8,8 @@
 -- Seeds the full plan for the Control Room: plan + song set list +
 -- order of service + the pre-sermon scripture reading.
 --
--- ⚠ SET LIST IS A PLACEHOLDER — carried forward unchanged from
---   14 Jun (= 7 Jun = 31 May). No Father's Day set was supplied at
---   seed time. CONFIRM the set with Bolaji before Sunday; if it
---   changes, edit the values block below and re-run this file.
---   Carried-forward set, same order, same keys:
+-- SET LIST: confirmed same as last week (14 Jun = 7 Jun = 31 May).
+--   Same order, same keys:
 --     Praise  (Key of B):  These Are the Days of Elijah ·
 --                          Lord I Lift Your Name on High ·
 --                          Ancient of Days / Blessing and Honour
@@ -50,7 +47,7 @@ delete from control_room_plans where service_date = '2026-06-21';
 with new_plan as (
   insert into control_room_plans (service_date, notes)
   values ('2026-06-21',
-    'Father''s Day — The Father''s Heart (Rev Ifeayin Obi · Guest Minister) — set carried forward from last week (PLACEHOLDER, confirm): Praise Key of B, Worship Key of D')
+    'Father''s Day — The Father''s Heart (Rev Ifeayin Obi · Guest Minister) — set same as last week: Praise Key of B, Worship Key of D')
   returning id
 )
 insert into control_room_plan_items (plan_id, position, kind, title, section, slides)
