@@ -366,6 +366,77 @@
       .hero { padding: 60px 0 40px; }
       .scripture, .admonish { padding: 22px 22px; }
     }
+
+    /* HEAR THE HILL — interactive player */
+    .hill-player {
+      background: var(--slate);
+      border-top: 2px solid var(--red);
+      padding: 26px 28px;
+      margin: 32px 0 8px;
+    }
+    .hill-player-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 14px; flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .hp-title {
+      font-family: var(--font-display);
+      font-size: 24px; letter-spacing: 0.03em; text-transform: uppercase;
+      color: var(--bone);
+    }
+    .hp-beat {
+      font-family: var(--font-body);
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--fg-3); font-weight: 600;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .hp-beat-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--fg-3); transition: background 0.08s ease, box-shadow 0.08s ease;
+    }
+    .hp-beat-dot.hit { background: var(--red); box-shadow: 0 0 10px var(--red); }
+    .hp-meter {
+      height: 14px; background: rgba(255,255,255,0.06);
+      border-radius: 2px; overflow: hidden; margin-bottom: 16px;
+    }
+    .hp-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--red), #f0683a);
+      transition: width 0.25s ease;
+    }
+    .hp-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .hp-chip {
+      font-family: var(--font-body);
+      font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--fg-2); background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line-soft); border-radius: 100px;
+      padding: 8px 16px; cursor: pointer; transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+    .hp-chip:hover { color: var(--bone); border-color: var(--red); }
+    .hp-chip.on { color: var(--obsidian); background: var(--red); border-color: var(--red); }
+    .hp-controls { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+    .hp-play {
+      font-family: var(--font-body);
+      font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--bone); background: var(--red); border: none; border-radius: 100px;
+      padding: 13px 26px; cursor: pointer; transition: filter 0.15s ease;
+    }
+    .hp-play:hover { filter: brightness(1.1); }
+    .hp-now {
+      font-family: var(--font-serif); font-style: italic;
+      font-size: 16px; color: var(--fg-2);
+    }
+    .hp-caption {
+      font-family: var(--font-body);
+      font-size: 13px; line-height: 1.5; color: var(--fg-3);
+      border-top: 1px solid var(--line-soft); padding-top: 14px;
+    }
+    .hp-caption strong { color: var(--bone); }
+    .hp-chip:focus-visible, .hp-play:focus-visible { outline: 2px solid var(--bone); outline-offset: 2px; }
+    @media (max-width: 640px) { .hill-player { padding: 20px 18px; } }
+    @media (prefers-reduced-motion: reduce) {
+      .hp-fill { transition: none; }
+      .hp-beat-dot { transition: none; }
+    }
   </style>
 </head>
 <body>
@@ -459,6 +530,27 @@
 
       <div class="prose" style="margin-top: 28px;">
         <p>Soft, then loud, then soft, then loud. The pattern is what makes praise <em>feel</em> like praise.</p>
+      </div>
+
+      <div class="hill-player" id="hillPlayer">
+        <div class="hill-player-head">
+          <div class="hp-title">Hear the Hill</div>
+          <div class="hp-beat"><span class="hp-beat-dot" id="hpBeatDot"></span> 84 BPM · the beat never changes</div>
+        </div>
+        <div class="hp-meter"><div class="hp-fill" id="hpFill"></div></div>
+        <div class="hp-chips" id="hpChips">
+          <button class="hp-chip" type="button" data-i="0">Intro</button>
+          <button class="hp-chip" type="button" data-i="1">Verse</button>
+          <button class="hp-chip" type="button" data-i="2">Chorus</button>
+          <button class="hp-chip" type="button" data-i="3">Verse</button>
+          <button class="hp-chip" type="button" data-i="4">Chorus</button>
+          <button class="hp-chip" type="button" data-i="5">Outro</button>
+        </div>
+        <div class="hp-controls">
+          <button class="hp-play" type="button" id="hpPlay">▶ Play the hill</button>
+          <span class="hp-now" id="hpNow">Tap play — or tap a section to jump there</span>
+        </div>
+        <div class="hp-caption">Watch the bar: it grows wide for the chorus and shrinks for the verse — that's the hill. And listen — the click <strong>never speeds up</strong>. The chorus gets bigger with <strong>more notes and more volume</strong>, never more speed. <span>(Turn your sound on. Headphones are best.)</span></div>
       </div>
     </section>
 
@@ -602,6 +694,135 @@
     </div>
 
   </main>
+
+  <script>
+  (function () {
+    var player = document.getElementById('hillPlayer');
+    if (!player) return;
+    var playBtn = document.getElementById('hpPlay');
+    var nowEl   = document.getElementById('hpNow');
+    var fill    = document.getElementById('hpFill');
+    var beatDot = document.getElementById('hpBeatDot');
+    var chips   = Array.prototype.slice.call(player.querySelectorAll('.hp-chip'));
+
+    var BPM = 84;
+    var beatDur = 60 / BPM;
+    var sections = [
+      { name: 'Intro',  vol: 0.62, density: 1, beats: 8, label: 'Intro — set the scene' },
+      { name: 'Verse',  vol: 0.26, density: 1, beats: 8, label: 'Verse — soft, make room for the words' },
+      { name: 'Chorus', vol: 0.95, density: 2, beats: 8, label: 'Chorus — top of the hill, more notes' },
+      { name: 'Verse',  vol: 0.26, density: 1, beats: 8, label: 'Verse — back down, soft again' },
+      { name: 'Chorus', vol: 0.95, density: 2, beats: 8, label: 'Chorus — lift it back up' },
+      { name: 'Outro',  vol: 0.50, density: 1, beats: 8, label: 'Outro — bring it home gently' }
+    ];
+
+    var ctx = null, master = null, padGain = null, pads = [];
+    var playing = false, seqIndex = 0, beatInSection = 0, nextNoteTime = 0, timerId = null;
+    var LOOKAHEAD = 25, SCHEDULE_AHEAD = 0.12;
+
+    function ensureAudio() {
+      if (ctx) return;
+      var AC = window.AudioContext || window.webkitAudioContext;
+      ctx = new AC();
+      master = ctx.createGain(); master.gain.value = 0; master.connect(ctx.destination);
+      padGain = ctx.createGain(); padGain.gain.value = 0;
+      var filter = ctx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 1100;
+      padGain.connect(filter); filter.connect(master);
+      [261.63, 329.63, 392.00].forEach(function (f) {
+        var o = ctx.createOscillator(); o.type = 'triangle'; o.frequency.value = f;
+        var g = ctx.createGain(); g.gain.value = 0.3;
+        o.connect(g); g.connect(padGain); o.start(); pads.push(o);
+      });
+    }
+
+    function click(time, accent) {
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'square'; o.frequency.value = accent ? 1400 : 900;
+      g.gain.setValueAtTime(0.0001, time);
+      g.gain.linearRampToValueAtTime(accent ? 0.85 : 0.5, time + 0.002);
+      g.gain.exponentialRampToValueAtTime(0.0008, time + 0.05);
+      o.connect(g); g.connect(master);
+      o.start(time); o.stop(time + 0.06);
+    }
+
+    function applySection(i) {
+      var s = sections[i];
+      if (master) {
+        master.gain.cancelScheduledValues(ctx.currentTime);
+        master.gain.linearRampToValueAtTime(s.vol, ctx.currentTime + 0.15);
+        padGain.gain.linearRampToValueAtTime(s.vol * 0.12, ctx.currentTime + 0.3);
+      }
+      chips.forEach(function (c, ci) { c.classList.toggle('on', ci === i); });
+      fill.style.width = Math.round(s.vol * 100) + '%';
+      nowEl.textContent = s.label;
+    }
+
+    function flashDot(time) {
+      var delay = Math.max(0, (time - ctx.currentTime) * 1000);
+      setTimeout(function () {
+        beatDot.classList.add('hit');
+        setTimeout(function () { beatDot.classList.remove('hit'); }, 90);
+      }, delay);
+    }
+
+    function scheduler() {
+      while (nextNoteTime < ctx.currentTime + SCHEDULE_AHEAD) {
+        var s = sections[seqIndex];
+        var accent = (beatInSection % 4) === 0;
+        click(nextNoteTime, accent);
+        if (s.density > 1) click(nextNoteTime + beatDur / 2, false);
+        flashDot(nextNoteTime);
+        nextNoteTime += beatDur;
+        beatInSection++;
+        if (beatInSection >= s.beats) {
+          beatInSection = 0;
+          seqIndex = (seqIndex + 1) % sections.length;
+          var ni = seqIndex;
+          var when = Math.max(0, (nextNoteTime - ctx.currentTime) * 1000);
+          setTimeout(function () { if (playing) applySection(ni); }, when);
+        }
+      }
+      timerId = setTimeout(scheduler, LOOKAHEAD);
+    }
+
+    function start() {
+      ensureAudio();
+      if (ctx.state === 'suspended') ctx.resume();
+      playing = true;
+      playBtn.textContent = '■ Stop';
+      seqIndex = 0; beatInSection = 0;
+      nextNoteTime = ctx.currentTime + 0.12;
+      applySection(0);
+      scheduler();
+    }
+
+    function stop() {
+      playing = false;
+      playBtn.textContent = '▶ Play the hill';
+      if (timerId) clearTimeout(timerId);
+      if (master) {
+        master.gain.cancelScheduledValues(ctx.currentTime);
+        master.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
+        padGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
+      }
+      chips.forEach(function (c) { c.classList.remove('on'); });
+      fill.style.width = '0%';
+      nowEl.textContent = 'Tap play — or tap a section to jump there';
+    }
+
+    playBtn.addEventListener('click', function () { playing ? stop() : start(); });
+    chips.forEach(function (c, i) {
+      c.addEventListener('click', function () {
+        if (!playing) { start(); }
+        seqIndex = i; beatInSection = 0; applySection(i);
+      });
+    });
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden && playing) stop();
+    });
+  })();
+  </script>
 
 </body>
 </html>
