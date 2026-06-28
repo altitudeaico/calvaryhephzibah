@@ -9,10 +9,10 @@
 -- This batch (so far):
 --     · Jesus at the Centre — Israel Houghton
 --     · Awesome God, Mighty God
+--     · Thank You Lord
 --
 -- STILL PENDING lyrics (placeholder until added here and re-run):
 --     · Be Magnified — Lynn DeShazo
---     · Thank You Lord
 --   (Praise medley + Here I Am to Worship already resolve from prior
 --    plans, so they are not in this file.)
 --
@@ -60,7 +60,14 @@ insert into control_room_songs (title, slides, section_default, artist) values
    {"line1":"You are high and lifted up,","line2":"Awesome God"},
    {"line1":"You are high and lifted up,","line2":"Mighty God"}
  ]',
- 'offering', null)
+ 'offering', null),
+
+('Thank You Lord',
+ '[
+   {"line1":"Thank You Lord, thank You Lord,","line2":"thank You Lord"},
+   {"line1":"I just want to thank You Lord","line2":""}
+ ]',
+ 'end', null)
 
 on conflict (title) do update
   set slides          = excluded.slides,
@@ -86,7 +93,7 @@ update control_room_plan_items pi
 -- The songs added to the library by this file
 select title, artist, section_default, jsonb_array_length(slides) as slides
   from control_room_songs
- where title in ('Jesus at the Centre', 'Awesome God, Mighty God');
+ where title in ('Jesus at the Centre', 'Awesome God, Mighty God', 'Thank You Lord');
 
 -- 28 June plan items — which still need lyrics?
 select i.position, i.section, i.title, jsonb_array_length(i.slides) as slides,
