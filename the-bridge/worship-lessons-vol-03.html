@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worship Lessons · Vol 03 · Timing &amp; the Pocket | Calvary Worship</title>
+  <meta name="description" content="A teaching for the worship team — timing and the pocket. How to lock in with the drummer so the whole band plays as one.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Worship Lessons · Vol 03 — Timing &amp; the Pocket">
+  <meta property="og:description" content="Rush, drag, and the pocket. How to lock in with the drummer and stop the band from rushing.">
+  <meta property="og:url" content="https://calvaryhfgc.github.io/calvaryhephzibah/the-bridge/worship-lessons-vol-03.html">
+
+  <link rel="stylesheet" href="https://calvaryhfgc.github.io/calvaryhephzibah/anniversary-design-system/colors_and_type.css">
+  <link rel="icon" type="image/png" href="https://calvaryhfgc.github.io/calvaryhephzibah/anniversary-design-system/assets/logo-eagle.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--obsidian);
+      color: var(--fg-1);
+      font-family: var(--font-body);
+      font-size: var(--fs-body);
+      line-height: 1.55;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 20% 0%, rgba(208, 68, 28, 0.22), transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(110, 26, 15, 0.18), transparent 60%);
+    }
+    body::after {
+      content: "";
+      position: fixed; inset: 0; pointer-events: none; z-index: 1;
+      opacity: 0.05; mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    }
+
+    .container { max-width: 780px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 2; }
+
+    /* TICKER */
+    .ticker {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--obsidian);
+      border-bottom: 1px solid var(--line-soft);
+      padding: 14px 28px;
+      font-size: var(--fs-micro);
+      letter-spacing: var(--track-eyebrow);
+      text-transform: uppercase;
+      color: var(--fg-2);
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      flex-wrap: wrap;
+    }
+    .ticker-left { display: flex; align-items: center; gap: 12px; }
+    .ticker-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--red); box-shadow: 0 0 12px var(--red);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+    .ticker-right { color: var(--fg-3); font-size: 11px; }
+
+    /* HERO */
+    .hero {
+      padding: 80px 0 56px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .hero-eyebrow {
+      font-size: var(--fs-eyebrow);
+      letter-spacing: var(--track-eyebrow);
+      text-transform: uppercase;
+      color: var(--red);
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(58px, 11vw, 140px);
+      line-height: 0.88;
+      letter-spacing: -0.02em;
+      color: var(--bone);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .hero h1 .accent { color: var(--red); }
+    .hero-deck {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 22px;
+      line-height: 1.4;
+      color: var(--fg-2);
+      max-width: 560px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    /* SECTIONS */
+    section { padding: 56px 0; border-bottom: 1px solid var(--line-soft); }
+    section:last-of-type { border-bottom: none; }
+
+    .section-eyebrow {
+      font-size: var(--fs-eyebrow);
+      letter-spacing: var(--track-eyebrow);
+      text-transform: uppercase;
+      color: var(--red);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 56px);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--bone);
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .section-lede {
+      font-family: var(--font-serif);
+      font-size: 19px;
+      line-height: 1.5;
+      color: var(--fg-2);
+      max-width: 640px;
+      margin-bottom: 28px;
+    }
+
+    /* PROSE */
+    .prose p {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--fg-1);
+      margin-bottom: 18px;
+      max-width: 640px;
+    }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose em { color: var(--bone); font-style: italic; }
+    .prose strong { color: var(--bone); font-weight: 600; }
+
+    /* SCRIPTURE BLOCK */
+    .scripture {
+      background: var(--slate);
+      border-top: 2px solid var(--red);
+      padding: 28px 32px;
+      margin: 32px 0;
+    }
+    .scripture-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .scripture-text {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 20px;
+      line-height: 1.5;
+      color: var(--bone);
+      margin-bottom: 10px;
+    }
+    .scripture-ref {
+      font-family: var(--font-body);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+      font-weight: 600;
+    }
+
+    /* PULL QUOTE */
+    .pullquote {
+      margin: 36px 0;
+      padding: 32px 0;
+      border-top: 2px solid var(--red);
+      border-bottom: 2px solid var(--red);
+    }
+    .pullquote-text {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: var(--bone);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .pullquote-attr {
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+      font-weight: 600;
+    }
+
+    /* FILM EMBED */
+    .film-card {
+      background: var(--slate);
+      border-top: 2px solid var(--red);
+      margin: 32px 0;
+    }
+    .film-aspect {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: var(--obsidian);
+    }
+    .film-aspect iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+    .film-caption {
+      padding: 16px 20px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+      font-weight: 600;
+      border-top: 1px solid var(--line-soft);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .film-caption .arrow { color: var(--red); margin-right: 8px; }
+    .film-caption .time { color: var(--red); }
+
+    /* MOVE GRID — the journey of a song */
+    .move-grid { display: grid; gap: 18px; }
+    .move {
+      background: var(--slate);
+      border-top: 2px solid var(--red);
+      padding: 28px 30px;
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 24px;
+      align-items: baseline;
+    }
+    .move .move-num {
+      font-family: var(--font-display);
+      font-size: 56px;
+      line-height: 0.85;
+      color: var(--red);
+    }
+    .move .move-label {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--bone);
+      margin-bottom: 6px;
+    }
+    .move .move-vol {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--red);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .move .move-body {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--fg-1);
+    }
+    .move .move-body strong { color: var(--bone); }
+    @media (max-width: 640px) {
+      .move { grid-template-columns: 60px 1fr; gap: 16px; padding: 22px 22px; }
+      .move .move-num { font-size: 42px; }
+    }
+
+    /* STACK — high / middle / low spots */
+    .stack { display: flex; flex-direction: column; gap: 10px; margin: 8px 0 4px; }
+    .stack-row {
+      background: var(--slate);
+      border-left: 3px solid var(--red);
+      padding: 18px 22px;
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 18px;
+      align-items: baseline;
+    }
+    .stack-tier {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+    .stack-who {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--fg-1);
+    }
+    .stack-who strong { color: var(--bone); }
+    @media (max-width: 640px) {
+      .stack-row { grid-template-columns: 78px 1fr; gap: 12px; padding: 14px 16px; }
+      .stack-tier { font-size: 18px; }
+    }
+
+    /* ADMONISH — closing, red wash */
+    .admonish {
+      padding: 40px 36px;
+      background: rgba(208, 68, 28, 0.08);
+      border-left: 3px solid var(--red);
+      margin-top: 32px;
+    }
+    .admonish-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--bone);
+      margin-bottom: 14px;
+      line-height: 1.05;
+    }
+    .admonish-body {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--fg-1);
+    }
+    .admonish-body p { margin-bottom: 14px; }
+    .admonish-body p:last-child { margin-bottom: 0; }
+    .admonish-body strong { color: var(--bone); }
+
+    /* FOOTER */
+    .footer-note { padding: 48px 0 32px; text-align: center; }
+    .footer-note p {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 19px;
+      color: var(--fg-2);
+      line-height: 1.55;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .footer-rule { width: 60px; height: 2px; background: var(--red); margin: 32px auto 0; }
+    .footer-meta {
+      margin-top: 24px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 60px 0 40px; }
+      .scripture, .admonish { padding: 22px 22px; }
+    }
+    /* RUSH / POCKET / DRAG — interactive timing player */
+    .pocket-player {
+      background: var(--slate);
+      border-top: 2px solid var(--red);
+      padding: 26px 28px;
+      margin: 32px 0 8px;
+    }
+    .pocket-player-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 14px; flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .pp-title {
+      font-family: var(--font-display);
+      font-size: 24px; letter-spacing: 0.03em; text-transform: uppercase;
+      color: var(--bone);
+    }
+    .pp-beat {
+      font-family: var(--font-body);
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--fg-3); font-weight: 600;
+    }
+    .pp-lanes { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+    .pp-lane {
+      display: grid; grid-template-columns: 88px 1fr; gap: 16px; align-items: center;
+    }
+    .pp-lane-label {
+      font-family: var(--font-body);
+      font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--fg-3); font-weight: 700;
+    }
+    .pp-track {
+      position: relative; height: 26px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 3px; overflow: hidden;
+    }
+    .pp-grid-line {
+      position: absolute; top: 0; bottom: 0; width: 1px;
+      background: var(--line-soft);
+    }
+    .pp-dot {
+      position: absolute; top: 50%; left: 0;
+      width: 14px; height: 14px; border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0.6);
+      opacity: 0.25; transition: opacity 0.06s ease, transform 0.06s ease;
+    }
+    .pp-dot.drum { background: var(--fg-2); }
+    .pp-dot.you  { background: var(--red); }
+    .pp-dot.hit { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    .pp-dot.you.hit { box-shadow: 0 0 12px var(--red); }
+    .pp-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .pp-chip {
+      font-family: var(--font-body);
+      font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--fg-2); background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line-soft); border-radius: 100px;
+      padding: 8px 16px; cursor: pointer; transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+    .pp-chip:hover { color: var(--bone); border-color: var(--red); }
+    .pp-chip.on { color: var(--obsidian); background: var(--red); border-color: var(--red); }
+    .pp-controls { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+    .pp-play {
+      font-family: var(--font-body);
+      font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--bone); background: var(--red); border: none; border-radius: 100px;
+      padding: 13px 26px; cursor: pointer; transition: filter 0.15s ease;
+    }
+    .pp-play:hover { filter: brightness(1.1); }
+    .pp-now {
+      font-family: var(--font-serif); font-style: italic;
+      font-size: 16px; color: var(--fg-2);
+    }
+    .pp-caption {
+      font-family: var(--font-body);
+      font-size: 13px; line-height: 1.5; color: var(--fg-3);
+      border-top: 1px solid var(--line-soft); padding-top: 14px;
+    }
+    .pp-caption strong { color: var(--bone); }
+    .pp-chip:focus-visible, .pp-play:focus-visible { outline: 2px solid var(--bone); outline-offset: 2px; }
+    @media (max-width: 640px) {
+      .pocket-player { padding: 20px 18px; }
+      .pp-lane { grid-template-columns: 64px 1fr; gap: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pp-dot { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ticker">
+    <div class="ticker-left">
+      <span class="ticker-dot"></span>
+      <span>Worship · Lessons · Vol 03</span>
+    </div>
+    <div class="ticker-right">Worship Team · Internal</div>
+  </div>
+
+  <main class="container">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-eyebrow">Lessons · Vol 03 · 3 July 2026</div>
+      <h1>In the<br><span class="accent">Pocket.</span></h1>
+      <p class="hero-deck">There’s a word bands use — <em>the pocket</em>. Here’s the easy meaning: playing right in step with the drummer. Not rushing ahead, not dragging behind. When we’re all in the pocket, the music stops feeling like a scramble and starts to feel <em>good</em> — like it’s carrying us.</p>
+    </section>
+
+    <!-- WHERE WE LEFT OFF -->
+    <section>
+      <div class="section-eyebrow">00 · Where We Left Off</div>
+      <h2 class="section-title">Last Time<br>We Made a Rule.</h2>
+
+      <div class="prose">
+        <p>In Vol 02 we learned about <strong>dynamics</strong> — loud, soft, and space — and we made one golden rule: <em>get bigger by playing more, never by playing faster.</em> We said the beat is like a <strong>fence post</strong> stuck in the ground. Straight and still. It does not move.</p>
+        <p>Good. That rule tells you <em>not</em> to speed up. But it doesn’t yet tell you <em>how</em> to stay glued to that fence post — how to actually sit right on the beat, together, all night. That’s this week.</p>
+        <p>The place where you’re locked to the beat, not early and not late, has a name. Bands call it <strong>the pocket</strong>. Learn to live in it and half our rushing problems disappear on their own.</p>
+      </div>
+    </section>
+
+    <!-- THE BIG IDEA: WALKING TOGETHER -->
+    <section>
+      <div class="section-eyebrow">01 · The Big Idea</div>
+      <h2 class="section-title">It’s Just<br>Walking Together.</h2>
+      <p class="section-lede">Picture walking down the road next to a friend, in step — left, right, left, right — without even trying. That easy, matched feeling is the pocket. Now picture one of you speeding up. Suddenly you’re bumping shoulders, out of step, and it feels awkward. That’s rushing.</p>
+
+      <div class="prose">
+        <p>Playing in a band is exactly that. The beat is the footstep you all share. When everyone puts their note down on the <strong>same step</strong>, at the <strong>same moment</strong>, the music feels solid and easy. When one person keeps jumping ahead, the whole thing trips.</p>
+        <p>The Bible actually pins the whole thing on one plain question:</p>
+      </div>
+
+      <div class="scripture">
+        <div class="scripture-eyebrow">Amos 3 · 3</div>
+        <p class="scripture-text">"Do two walk together, unless they have agreed?"</p>
+        <div class="scripture-ref">Walking together means agreeing on the step · WEB translation</div>
+      </div>
+
+      <div class="prose">
+        <p>Two people can’t walk together unless they’ve agreed — agreed on the pace, agreed on the step. That’s us. Before we worry about clever parts or big choruses, we have to <strong>agree on the step</strong>. And the step is the beat. Remember what we said in Vol 02 — the goal is to play as <em>one</em>. Well, this is where “as one” actually happens or falls apart: in the timing.</p>
+      </div>
+    </section>
+
+    <!-- RUSH, DRAG, POCKET + PLAYER -->
+    <section>
+      <div class="section-eyebrow">02 · Three Places to Land</div>
+      <h2 class="section-title">Rush, Drag,<br>&amp; the Pocket.</h2>
+      <p class="section-lede">Every time you play a note, it lands in one of three places. A tiny bit <em>early</em>, a tiny bit <em>late</em>, or <em>right on the beat</em>. Same three places, every single time. So it’s worth learning what each one feels like.</p>
+
+      <div class="move-grid">
+
+        <div class="move">
+          <div class="move-num">01</div>
+          <div>
+            <div class="move-label">Rushing</div>
+            <div class="move-vol">▸ Landing early</div>
+            <div class="move-body">
+              Your note jumps in <strong>front</strong> of the beat. It feels panicky, like you’re dragging everyone faster. This is the most common mistake in the room — and it usually happens the moment a song gets exciting.
+            </div>
+          </div>
+        </div>
+
+        <div class="move">
+          <div class="move-num">02</div>
+          <div>
+            <div class="move-label">Dragging</div>
+            <div class="move-vol">▸ Landing late</div>
+            <div class="move-body">
+              Your note flops in <strong>behind</strong> the beat. It feels heavy and tired, like the song is wading through mud. Less common than rushing, but it kills the energy just as fast.
+            </div>
+          </div>
+        </div>
+
+        <div class="move">
+          <div class="move-num">03</div>
+          <div>
+            <div class="move-label">The Pocket</div>
+            <div class="move-vol">▸ Right on the beat</div>
+            <div class="move-body">
+              Your note lands <strong>with</strong> the drum. Not early, not late — together. This is the one we want. It feels relaxed and strong at the same time, and the whole band suddenly sounds twice as tight.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="prose" style="margin-top: 28px;">
+        <p>Reading about it only gets you so far — timing is a <em>sound</em>, so let’s hear it. Tap play below. The grey dot is the drum, keeping steady time. The red dot is <strong>you</strong>. Switch between the three and listen to where your note lands.</p>
+      </div>
+
+      <div class="pocket-player" id="pocketPlayer">
+        <div class="pocket-player-head">
+          <div class="pp-title">Rush · Pocket · Drag</div>
+          <div class="pp-beat">84 BPM · the drum never moves</div>
+        </div>
+
+        <div class="pp-lanes">
+          <div class="pp-lane">
+            <div class="pp-lane-label">Drum</div>
+            <div class="pp-track" id="ppTrackDrum">
+              <span class="pp-grid-line" style="left:12.5%"></span>
+              <span class="pp-grid-line" style="left:37.5%"></span>
+              <span class="pp-grid-line" style="left:62.5%"></span>
+              <span class="pp-grid-line" style="left:87.5%"></span>
+              <span class="pp-dot drum" id="ppDrumDot" style="left:12.5%"></span>
+            </div>
+          </div>
+          <div class="pp-lane">
+            <div class="pp-lane-label">You</div>
+            <div class="pp-track" id="ppTrackYou">
+              <span class="pp-grid-line" style="left:12.5%"></span>
+              <span class="pp-grid-line" style="left:37.5%"></span>
+              <span class="pp-grid-line" style="left:62.5%"></span>
+              <span class="pp-grid-line" style="left:87.5%"></span>
+              <span class="pp-dot you" id="ppYouDot" style="left:12.5%"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pp-chips" id="ppChips">
+          <button class="pp-chip" type="button" data-mode="rush">Rushing</button>
+          <button class="pp-chip on" type="button" data-mode="pocket">The Pocket</button>
+          <button class="pp-chip" type="button" data-mode="drag">Dragging</button>
+        </div>
+
+        <div class="pp-controls">
+          <button class="pp-play" type="button" id="ppPlay">▶ Play</button>
+          <span class="pp-now" id="ppNow">In the pocket — your note lands right with the drum.</span>
+        </div>
+
+        <div class="pp-caption">Listen and watch. In <strong>the pocket</strong>, the red dot lands together with the grey dot — it sounds locked. In <strong>rushing</strong>, red jumps ahead of grey and it feels edgy. In <strong>dragging</strong>, red flops behind and it feels heavy. The drum <strong>never changes speed</strong> — only you do. <span>(Sound on. Headphones best.)</span></div>
+      </div>
+    </section>
+
+    <!-- FOLLOW THE DRUMMER -->
+    <section>
+      <div class="section-eyebrow">03 · Who Holds the Clock</div>
+      <h2 class="section-title">Follow<br>the Drummer.</h2>
+      <p class="section-lede">If everyone tries to keep their own time, we get a room full of clocks all ticking slightly differently — chaos. So we don’t all keep time. We pick <em>one</em> clock, and everybody sets themselves to it. That clock is the drummer.</p>
+
+      <div class="prose">
+        <p>BJ on the drums holds the time for the whole band. His job is to be the steady one. <strong>Your job is to listen down to him and lock on</strong> — not to lead him, not to pull him faster, just to sit on what he’s giving you.</p>
+        <p>Two specials things to lock onto:</p>
+        <p>→ The <strong>kick drum</strong> (the low “boom”) and the <strong>snare</strong> (the sharp “crack” on beats 2 and 4). If your note lands with the kick and snare, you’re in the pocket. That’s your target.</p>
+        <p>And bass — this one’s for you especially: <strong>marry the kick drum.</strong> When the kick goes boom, your bass note goes with it. Kick and bass together are the engine of the whole song. Get those two locked and everything on top has a floor to stand on.</p>
+      </div>
+
+      <div class="scripture">
+        <div class="scripture-eyebrow">1 Corinthians 14 · 40</div>
+        <p class="scripture-text">"Let all things be done decently and in order."</p>
+        <div class="scripture-ref">One clock, everyone in order · WEB translation</div>
+      </div>
+
+      <div class="prose">
+        <p>Order isn’t a boring church word. It’s the thing that lets ten people make one sound instead of ten. When we all agree to follow the same clock, that’s order — and order is what makes room for God to move without us tripping over each other.</p>
+      </div>
+
+      <div class="pullquote">
+        <p class="pullquote-text">"The drummer keeps time. Everyone else keeps to the drummer."</p>
+        <p class="pullquote-attr">▸ The one to remember · for Calvary Worship</p>
+      </div>
+    </section>
+
+    <!-- RELAX INTO IT -->
+    <section>
+      <div class="section-eyebrow">04 · The Hard Part</div>
+      <h2 class="section-title">Don’t Chase It.<br>Sit In It.</h2>
+
+      <div class="prose">
+        <p>Here’s the honest bit. Rushing isn’t really a music problem — it’s a <em>nerves</em> problem. When a song lifts and the room gets going, your heart speeds up, and your hands want to speed up with it. Every band on earth fights this.</p>
+        <p>So the skill is almost the opposite of what feels natural. When the chorus hits and everything in you wants to push — <strong>breathe, sit back, and trust the beat.</strong> Let the drummer carry it. You don’t have to drive; you just have to stay. The pocket feels a tiny bit <em>lazy</em>, like you’re leaning back into a chair rather than leaning forward off the edge. That leaned-back feeling is exactly right.</p>
+      </div>
+
+      <div class="scripture">
+        <div class="scripture-eyebrow">1 Corinthians 15 · 58</div>
+        <p class="scripture-text">"Be steadfast, immovable, always abounding in the Lord’s work."</p>
+        <div class="scripture-ref">Steady and unmoved · WEB translation</div>
+      </div>
+
+      <div class="prose">
+        <p><strong>Steadfast. Immovable.</strong> That’s a picture of the heart, and it’s also a picture of good timing. A player who won’t be rushed — who stays planted when the room is pulling — is a gift to the whole team. Being unmovable on the beat is a small way of being unmovable, full stop.</p>
+      </div>
+
+      <div class="scripture">
+        <div class="scripture-eyebrow">Psalm 40 · 2</div>
+        <p class="scripture-text">"He set my feet on a rock, and gave my steps a firm place to stand."</p>
+        <div class="scripture-ref">A firm place to stand · WEB translation</div>
+      </div>
+
+      <div class="prose">
+        <p>That’s what a steady beat is for the band — <strong>a firm place to stand.</strong> When the time is solid, nobody’s slipping, everybody knows where the ground is, and we’re free to actually worship instead of fighting to stay together. Firm feet, firm time. Same idea.</p>
+      </div>
+    </section>
+
+    <!-- CLOSING -->
+    <section>
+      <div class="section-eyebrow">05 · So Here’s the Job</div>
+      <h2 class="section-title">Four Things<br>to Take to Sunday.</h2>
+
+      <div class="admonish">
+        <div class="admonish-title">Hold These Four.</div>
+        <div class="admonish-body">
+          <p><strong>1. Walk together.</strong> Put your note on the same step as everyone else. In step is the whole game.</p>
+          <p><strong>2. Follow the drummer.</strong> One clock. BJ keeps time; everyone keeps to BJ — lock to the kick and snare.</p>
+          <p><strong>3. Bass marries the kick.</strong> Low boom and bass note together. That’s the engine.</p>
+          <p><strong>4. Don’t chase — sit back.</strong> When it lifts, breathe and stay put. Leaned-back beats rushed.</p>
+        </div>
+      </div>
+
+      <div class="prose" style="margin-top: 28px;">
+        <p>If you only remember one, remember this: <strong>don’t chase the beat — sit in it.</strong> Get that one right and we already sound twice as tight.</p>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="footer-note">
+      <p>"The drummer keeps time. Everyone else keeps to the drummer."<br><br>Let’s find the pocket and stay in it together. See you on the call.</p>
+      <div class="footer-rule"></div>
+      <div class="footer-meta">Uncle B · Worship · Lessons · Vol 03</div>
+    </div>
+
+  </main>
+
+  <script>
+  (function () {
+    var player = document.getElementById('pocketPlayer');
+    if (!player) return;
+    var playBtn  = document.getElementById('ppPlay');
+    var nowEl    = document.getElementById('ppNow');
+    var drumDot  = document.getElementById('ppDrumDot');
+    var youDot   = document.getElementById('ppYouDot');
+    var chips    = Array.prototype.slice.call(player.querySelectorAll('.pp-chip'));
+
+    var BPM = 84;
+    var beatDur = 60 / BPM;
+
+    // Four beats across the track, drawn at 12.5% / 37.5% / 62.5% / 87.5%.
+    var GRID = [12.5, 37.5, 62.5, 87.5];
+
+    // Offset as a fraction of one beat. Negative = early (rush), positive = late (drag).
+    var MODES = {
+      rush:   { off: -0.15, now: 'Rushing — your note jumps ahead of the drum.' },
+      pocket: { off:  0.00, now: 'In the pocket — your note lands right with the drum.' },
+      drag:   { off:  0.15, now: 'Dragging — your note flops in behind the drum.' }
+    };
+    var mode = 'pocket';
+
+    var ctx = null, master = null;
+    var playing = false, beat = 0, nextNoteTime = 0, timerId = null;
+    var LOOKAHEAD = 25, SCHEDULE_AHEAD = 0.20; // 0.20s covers the earliest rush offset
+
+    function ensureAudio() {
+      if (ctx) return;
+      var AC = window.AudioContext || window.webkitAudioContext;
+      ctx = new AC();
+      master = ctx.createGain();
+      master.gain.value = 0.9;
+      master.connect(ctx.destination);
+    }
+
+    // Drum click: square wave, accented on beat 0 (like a kick/snare pulse).
+    function drum(time, accent) {
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'square';
+      o.frequency.value = accent ? 180 : 320;
+      g.gain.setValueAtTime(0.0001, time);
+      g.gain.linearRampToValueAtTime(accent ? 0.9 : 0.55, time + 0.002);
+      g.gain.exponentialRampToValueAtTime(0.0008, time + 0.06);
+      o.connect(g); g.connect(master);
+      o.start(time); o.stop(time + 0.07);
+    }
+
+    // "You" note: a soft triangle pluck, clearly a different colour from the drum.
+    function you(time) {
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'triangle';
+      o.frequency.value = 587.33; // D5
+      g.gain.setValueAtTime(0.0001, time);
+      g.gain.linearRampToValueAtTime(0.5, time + 0.004);
+      g.gain.exponentialRampToValueAtTime(0.0008, time + 0.16);
+      o.connect(g); g.connect(master);
+      o.start(time); o.stop(time + 0.18);
+    }
+
+    function flash(dot, time) {
+      var delay = Math.max(0, (time - ctx.currentTime) * 1000);
+      setTimeout(function () {
+        dot.classList.add('hit');
+        setTimeout(function () { dot.classList.remove('hit'); }, 110);
+      }, delay);
+    }
+
+    function scheduler() {
+      while (nextNoteTime < ctx.currentTime + SCHEDULE_AHEAD) {
+        var accent = (beat % 4) === 0;
+        var pos = GRID[beat % 4];
+
+        // Drum: always dead on the grid.
+        drum(nextNoteTime, accent);
+        drumDot.style.left = pos + '%';
+        flash(drumDot, nextNoteTime);
+
+        // You: offset by the current mode.
+        var off = MODES[mode].off * beatDur;
+        var youTime = Math.max(ctx.currentTime + 0.001, nextNoteTime + off);
+        you(youTime);
+        // Nudge the red dot's drawn position slightly early/late so the eye sees it too.
+        var visShift = MODES[mode].off * 9; // percent of track width, visual only
+        youDot.style.left = (pos + visShift) + '%';
+        flash(youDot, youTime);
+
+        nextNoteTime += beatDur;
+        beat++;
+      }
+      timerId = setTimeout(scheduler, LOOKAHEAD);
+    }
+
+    function start() {
+      ensureAudio();
+      if (ctx.state === 'suspended') ctx.resume();
+      playing = true;
+      playBtn.textContent = '■ Stop';
+      beat = 0;
+      nextNoteTime = ctx.currentTime + 0.2;
+      scheduler();
+    }
+
+    function stop() {
+      playing = false;
+      playBtn.textContent = '▶ Play';
+      if (timerId) clearTimeout(timerId);
+      drumDot.classList.remove('hit');
+      youDot.classList.remove('hit');
+    }
+
+    function setMode(m) {
+      mode = m;
+      chips.forEach(function (c) { c.classList.toggle('on', c.getAttribute('data-mode') === m); });
+      nowEl.textContent = MODES[m].now;
+    }
+
+    playBtn.addEventListener('click', function () { playing ? stop() : start(); });
+    chips.forEach(function (c) {
+      c.addEventListener('click', function () {
+        setMode(c.getAttribute('data-mode'));
+        if (!playing) start();
+      });
+    });
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden && playing) stop();
+    });
+  })();
+  </script>
+
+</body>
+</html>
