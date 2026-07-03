@@ -271,6 +271,23 @@
     .film-caption .arrow { color: var(--red); margin-right: 8px; }
     .film-caption .time { color: var(--red); }
 
+    /* VIDEO CHAPTERS — tap to jump */
+    .chapters { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 8px; }
+    .chapter {
+      font-family: var(--font-body);
+      font-size: 13px; font-weight: 600; letter-spacing: 0.02em;
+      color: var(--fg-2); background: var(--slate);
+      border: 1px solid var(--line-soft); border-radius: 100px;
+      padding: 9px 16px; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: color .15s ease, background .15s ease, border-color .15s ease;
+    }
+    .chapter:hover { color: var(--bone); border-color: var(--red); }
+    .chapter.on { color: var(--obsidian); background: var(--red); border-color: var(--red); }
+    .chapter .ch-t { font-size: 11px; letter-spacing: 0.06em; color: var(--red); font-weight: 700; }
+    .chapter.on .ch-t { color: var(--obsidian); }
+    .chapter:focus-visible { outline: 2px solid var(--bone); outline-offset: 2px; }
+
     /* MOVE GRID — the journey of a song */
     .move-grid { display: grid; gap: 18px; }
     .move {
@@ -598,20 +615,27 @@
     <!-- WATCH IT -->
     <section>
       <div class="section-eyebrow">04 · See It For Real</div>
-      <h2 class="section-title">Watch It<br>Before the Call.</h2>
-      <p class="section-lede">You’ve got the idea, and you’ve heard it in the demo above. Now watch two real players — a guitarist and a pianist — do this exact thing on a real gig. Please watch it <em>before</em> the call so we can spend our time playing, not lecturing.</p>
+      <h2 class="section-title">Watch It<br>Right Now.</h2>
+      <p class="section-lede">You’ve got the idea, and you’ve heard it in the demo above. Here’s two real players — a guitarist and a pianist — doing this exact thing. We’ll watch the key bits together: <strong>tap a chapter</strong> to jump straight to each tip.</p>
 
       <div class="film-card">
         <div class="film-aspect">
-          <iframe src="https://www.youtube.com/embed/lkPxryLeC6c"
+          <iframe id="lessonVideo" src="https://www.youtube.com/embed/lkPxryLeC6c?rel=0"
                   title="Playing guitar and piano together — sharing the space"
-                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen></iframe>
         </div>
         <div class="film-caption">
           <span><span class="arrow">▸</span>Two chordal players · sharing the space</span>
-          <span class="time">≈ 7 min · watch before the call</span>
+          <span class="time">≈ 7 min · tap a chapter to jump</span>
         </div>
+      </div>
+
+      <div class="chapters" id="lessonChapters">
+        <button class="chapter" type="button" data-t="0">Intro<span class="ch-t">0:00</span></button>
+        <button class="chapter" type="button" data-t="26">Tip 1 · Talk it out<span class="ch-t">0:26</span></button>
+        <button class="chapter" type="button" data-t="78">Tip 2 · Leave space<span class="ch-t">1:18</span></button>
+        <button class="chapter" type="button" data-t="194">Tip 3 · Share the role<span class="ch-t">3:14</span></button>
       </div>
 
       <div class="prose">
@@ -849,6 +873,23 @@
 
     document.addEventListener('visibilitychange', function () {
       if (document.hidden && playing) stop();
+    });
+  })();
+  </script>
+  <script>
+  (function () {
+    var wrap = document.getElementById('lessonChapters');
+    var frame = document.getElementById('lessonVideo');
+    if (!wrap || !frame) return;
+    var BASE = 'https://www.youtube.com/embed/lkPxryLeC6c';
+    var btns = Array.prototype.slice.call(wrap.querySelectorAll('.chapter'));
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        var t = b.getAttribute('data-t');
+        frame.src = BASE + '?start=' + t + '&autoplay=1&rel=0';
+        btns.forEach(function (x) { x.classList.toggle('on', x === b); });
+        frame.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
     });
   })();
   </script>
