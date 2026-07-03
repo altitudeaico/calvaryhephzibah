@@ -14,6 +14,31 @@
   <link rel="stylesheet" href="https://calvaryhfgc.github.io/calvaryhephzibah/anniversary-design-system/colors_and_type.css">
   <link rel="icon" type="image/png" href="https://calvaryhfgc.github.io/calvaryhephzibah/anniversary-design-system/assets/logo-eagle.png">
   <style>
+    /* Canonical tokens come from anniversary-design-system/colors_and_type.css (linked above).
+       These are reproduced inline as a self-contained fallback so the page renders correctly
+       even where the external stylesheet can't load (previews, offline). Values are identical
+       to the design system — nothing here overrides or diverges from it. */
+    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap');
+
+    :root {
+      --obsidian: #0B0B0E;
+      --slate: #1C1C22;
+      --red: #D0441C;
+      --bone: #F4EFE6;
+      --fg-1: #F4EFE6;
+      --fg-2: #C9C3B6;
+      --fg-3: #A29C90;
+      --line-soft: rgba(244, 239, 230, 0.10);
+      --gold: #C8A24B;
+      --font-display: 'Anton', 'Impact', sans-serif;
+      --font-serif: 'Instrument Serif', 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Inter Tight', 'Inter', system-ui, -apple-system, sans-serif;
+      --fs-eyebrow: 12px;
+      --fs-body: 16px;
+      --fs-micro: 12px;
+      --track-eyebrow: 0.18em;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
