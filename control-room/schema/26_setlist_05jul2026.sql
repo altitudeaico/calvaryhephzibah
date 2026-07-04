@@ -10,37 +10,40 @@
 -- order of service. Scripture is NOT cued yet -- the reading passage
 -- has not been confirmed (see part 3 below).
 --
--- SET LIST (PROVISIONAL -- NOT yet confirmed by the worship team):
---   Carried forward from Sunday 28 June so lyrics resolve cleanly.
---   Confirm or replace before Sunday, then re-run this file.
---     Praise   (Key of B): These Are the Days of Elijah ·
---                          Lord I Lift Your Name on High ·
---                          Ancient of Days / Blessing and Honour
---     Worship  (Key TBC):  Here I Am to Worship ·
---                          Be Magnified ·
---                          Jesus at the Centre
---     Offering (Key TBC):  Awesome God, Mighty God
---     End      (Key TBC):  Thank You Lord
+-- SET LIST (CONFIRMED at the Tue 3 Jul virtual rehearsal):
+--     Praise   (Key of E, 4 choruses back-to-back):
+--                          Trading My Sorrows ·
+--                          Lord You Are Good ·
+--                          Friend of God ·
+--                          Every Praise
+--     Worship  (6/8, keys set at soundcheck):
+--                          King of Glory ·
+--                          Indescribable ·
+--                          You Deserve It (My Hallelujah)
+--     Offering (Key TBC, kept short):
+--                          We Lift Our Hands in the Sanctuary
+--     End      (Key TBC):  My Jesus (Shout to the Lord)
+--
+-- This is a fresh set -- NONE of these nine songs have lyrics in the
+-- Control Room yet, so they seed as honest placeholders and the verify
+-- query at the end will flag every one. Load the lyrics next (Lyric
+-- Formatter, or a 27_song_lyrics_05jul2026.sql upsert into
+-- control_room_songs) and re-run this file so they resolve.
 --
 -- LYRICS resolution (coalesce, first hit wins):
---     28 Jun -> 21 Jun -> 14 Jun -> song library -> placeholder.
---   Every song above resolves to REAL slides:
---     * Praise (x3) + Here I Am to Worship resolve from the 28 Jun plan.
---     * Be Magnified, Jesus at the Centre, Awesome God (Mighty God) and
---       Thank You Lord were saved to control_room_songs by
---       25_song_lyrics_28jun2026.sql, so they resolve from the library.
---   No placeholders expected -- the verify query at the end should
---   return zero rows.
+--     song library (control_room_songs) -> placeholder.
+--   Kept minimal on purpose -- there are no recent plans to pull these
+--   specific songs from. Anything already sitting in the library (e.g.
+--   a canonical "My Jesus (Shout to the Lord)") will resolve; the rest
+--   placeholder until lyrics are loaded.
 --
--- ORDER OF SERVICE: 11 items. Two announcement moments this week --
--- Social Media and Online Giving -- both live in plan_speakers only
--- (no slides of their own). Closing Prayer is Brother Ernest.
--- Benediction is TBC.
+-- ORDER OF SERVICE: 11 items. Two announcement moments -- Social Media
+-- and Online Giving -- live in plan_speakers only (no slides). Closing
+-- Prayer is Brother Ernest. Benediction is TBC.
 --
 -- SCRIPTURE: the pre-sermon reading passage is NOT confirmed. The
--- cr_add_scripture_to_plan() calls are left commented below -- fill in
--- the book/chapter/verses once Pastor Shade confirms, uncomment, and
--- re-run this file.
+-- cr_add_scripture_to_plan() call is left commented below -- fill in
+-- book/chapter/verses once Pastor Shade confirms, uncomment, re-run.
 --
 -- Idempotent: re-running replaces the plan, items, and speakers for
 -- 2026-07-05 cleanly.
@@ -56,52 +59,45 @@ delete from control_room_plans where service_date = '2026-07-05';
 with new_plan as (
   insert into control_room_plans (service_date, notes)
   values ('2026-07-05',
-    'Prayer Postures and War the Room (Pastor Shade Olatoye · General Overseer) — PROVISIONAL set carried from 28 Jun, confirm with worship team; Praise Key of B, rest keys TBC')
+    'Prayer Postures and War the Room (Pastor Shade Olatoye · General Overseer) — CONFIRMED set (Tue 3 Jul rehearsal): Praise Key of E; Worship 6/8, keys at soundcheck; new songs, load lyrics')
   returning id
 )
 insert into control_room_plan_items (plan_id, position, kind, title, section, slides)
 select
   (select id from new_plan),
   v.position, v.kind, v.title, v.section,
-  -- 28 Jun -> 21 Jun -> 14 Jun -> song library -> placeholder
+  -- song library -> placeholder (fresh set, nothing recent to pull from)
   coalesce(
-    (select i1.slides from control_room_plan_items i1
-       join control_room_plans p1 on p1.id = i1.plan_id
-      where p1.service_date = '2026-06-28' and lower(i1.title) = lower(v.title) limit 1),
-    (select i2.slides from control_room_plan_items i2
-       join control_room_plans p2 on p2.id = i2.plan_id
-      where p2.service_date = '2026-06-21' and lower(i2.title) = lower(v.title) limit 1),
-    (select i3.slides from control_room_plan_items i3
-       join control_room_plans p3 on p3.id = i3.plan_id
-      where p3.service_date = '2026-06-14' and lower(i3.title) = lower(v.title) limit 1),
     (select s.slides from control_room_songs s where lower(s.title) = lower(v.title) limit 1),
     v.fallback::jsonb
   )
 from (values
 
-  -- PRAISE (Key of B) -- resolves from 28 Jun
-  (1, 'song', 'These Are the Days of Elijah', 'praise',
-    '[{"line1":"[lyrics to be added]","line2":"These Are the Days of Elijah"}]'),
-  (2, 'song', 'Lord I Lift Your Name on High', 'praise',
-    '[{"line1":"[lyrics to be added]","line2":"Lord I Lift Your Name on High"}]'),
-  (3, 'song', 'Ancient of Days / Blessing and Honour', 'praise',
-    '[{"line1":"[lyrics to be added]","line2":"Ancient of Days / Blessing and Honour"}]'),
+  -- PRAISE (Key of E) -- four choruses, back-to-back
+  (1, 'song', 'Trading My Sorrows', 'praise',
+    '[{"line1":"[lyrics to be added]","line2":"Trading My Sorrows"}]'),
+  (2, 'song', 'Lord You Are Good', 'praise',
+    '[{"line1":"[lyrics to be added]","line2":"Lord You Are Good"}]'),
+  (3, 'song', 'Friend of God', 'praise',
+    '[{"line1":"[lyrics to be added]","line2":"Friend of God"}]'),
+  (4, 'song', 'Every Praise', 'praise',
+    '[{"line1":"[lyrics to be added]","line2":"Every Praise"}]'),
 
-  -- WORSHIP (Key TBC)
-  (4, 'song', 'Here I Am to Worship', 'worship',
-    '[{"line1":"[lyrics to be added]","line2":"Here I Am to Worship"}]'),
-  (5, 'song', 'Be Magnified', 'worship',
-    '[{"line1":"[lyrics to be added]","line2":"Be Magnified"}]'),
-  (6, 'song', 'Jesus at the Centre', 'worship',
-    '[{"line1":"[lyrics to be added]","line2":"Jesus at the Centre"}]'),
+  -- WORSHIP (6/8, key set at soundcheck)
+  (5, 'song', 'King of Glory', 'worship',
+    '[{"line1":"[lyrics to be added]","line2":"King of Glory"}]'),
+  (6, 'song', 'Indescribable', 'worship',
+    '[{"line1":"[lyrics to be added]","line2":"Indescribable"}]'),
+  (7, 'song', 'You Deserve It (My Hallelujah)', 'worship',
+    '[{"line1":"[lyrics to be added]","line2":"You Deserve It (My Hallelujah)"}]'),
 
-  -- OFFERING (Key TBC)
-  (7, 'song', 'Awesome God, Mighty God', 'offering',
-    '[{"line1":"[lyrics to be added]","line2":"Awesome God, Mighty God"}]'),
+  -- OFFERING (Key TBC) -- kept short, no intro
+  (8, 'song', 'We Lift Our Hands in the Sanctuary', 'offering',
+    '[{"line1":"[lyrics to be added]","line2":"We Lift Our Hands in the Sanctuary"}]'),
 
   -- END OF SERVICE (Key TBC)
-  (8, 'song', 'Thank You Lord', 'end',
-    '[{"line1":"[lyrics to be added]","line2":"Thank You Lord"}]')
+  (9, 'song', 'My Jesus (Shout to the Lord)', 'end',
+    '[{"line1":"[lyrics to be added]","line2":"My Jesus (Shout to the Lord)"}]')
 
 ) as v(position, kind, title, section, fallback);
 
@@ -118,7 +114,7 @@ from control_room_plans p,
 (values
   (1,  'Welcome & Bible Reading',   'Pastor Shade Olatoye',   null),
   (2,  'Opening Prayer',            'Pastor Kemi Ogungbenro', null),
-  (3,  'Worship',                   null,                     'Worship Team · PROVISIONAL set (carried from 28 Jun) · Praise Key of B, rest TBC'),
+  (3,  'Worship',                   null,                     'Worship Team · Praise Key of E; Worship 6/8, keys at soundcheck'),
   (4,  'Communion',                 'Pastor Gbenga Adebanjo', null),
   (5,  'Announcements',             'Pastor Gbenga Adebanjo', null),
   (6,  'Social Media Announcement', 'Media Team',             'Slide / QR on screen'),
@@ -133,9 +129,9 @@ where p.service_date = '2026-07-05';
 -- --------------------------------------------------------------------
 -- 3. SCRIPTURE -- pre-sermon reading (Noah Femi-Ade · KJV)
 -- PASSAGE NOT YET CONFIRMED. Once Pastor Shade confirms the reading,
--- fill in book/chapter/verses, uncomment, and re-run. Positions start
--- at 98 so they don't collide with song positions. KJV is already
--- seeded in control_room_bible, so no verse inserts are needed.
+-- fill in book/chapter/verses, uncomment, and re-run. Position 98 so it
+-- doesn't collide with song positions. KJV is already seeded in
+-- control_room_bible, so no verse inserts are needed.
 -- --------------------------------------------------------------------
 
 -- select cr_add_scripture_to_plan(
@@ -165,7 +161,7 @@ left join control_room_plan_speakers s on s.plan_id = p.id
 where p.service_date = '2026-07-05'
 group by p.service_date, p.notes;
 
--- Which songs still need lyrics added? (should be ZERO rows)
+-- Which songs still need lyrics added? (fresh set -- expect all 9 until loaded)
 select i.position, i.section, i.title, jsonb_array_length(i.slides) as slides
 from control_room_plan_items i
 join control_room_plans p on p.id = i.plan_id
