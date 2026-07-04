@@ -9,10 +9,10 @@
 -- This batch (add songs here and re-run as they come in):
 --     · King of Glory — Todd Dulaney (verse/chorus labels removed)
 --     · Indescribable — Chris Tomlin / Laura Story
+--     · You Deserve It (My Hallelujah) — J.J. Hairston
 --
 -- STILL PENDING lyrics for the 5 Jul set (placeholder until added here
 -- and re-run):
---     · You Deserve It (My Hallelujah) — J.J. Hairston
 --     · We Lift Our Hands in the Sanctuary
 --   (The four praise songs + My Jesus / Shout to the Lord already resolve
 --    from the control_room_songs library, so they are not in this file.)
@@ -76,7 +76,24 @@ insert into control_room_songs (title, slides, section_default, artist) values
    {"line1":"You see the depths of my heart and You love me the same","line2":"You are amazing God"},
    {"line1":"You are amazing God","line2":""}
  ]',
- 'worship', 'Chris Tomlin')
+ 'worship', 'Chris Tomlin'),
+
+('You Deserve It (My Hallelujah)',
+ '[
+   {"line1":"My hallelujah belongs to You","line2":"My hallelujah belongs to You"},
+   {"line1":"My hallelujah belongs to You","line2":"My hallelujah belongs to You"},
+
+   {"line1":"You deserve it, you deserve it","line2":"You deserve it, you deserve it"},
+
+   {"line1":"All of the glory belongs to You","line2":"All of the glory belongs to You"},
+
+   {"line1":"Hallelujah, hallelujah","line2":"Hallelujah, hallelujah"},
+   {"line1":"All the glory, all the glory","line2":"And all the honor"},
+   {"line1":"And all the praise","line2":""},
+
+   {"line1":"You deserve it","line2":""}
+ ]',
+ 'worship', 'J.J. Hairston')
 
 on conflict (title) do update
   set slides          = excluded.slides,
@@ -103,7 +120,7 @@ update control_room_plan_items pi
 -- The songs added to the library by this file
 select title, artist, section_default, jsonb_array_length(slides) as slides
   from control_room_songs
- where title in ('King of Glory', 'Indescribable');
+ where title in ('King of Glory', 'Indescribable', 'You Deserve It (My Hallelujah)');
 
 -- 5 July plan items — which still need lyrics?
 select i.position, i.section, i.title, jsonb_array_length(i.slides) as slides,
