@@ -184,29 +184,77 @@
     width: 88%;
     border-radius: 24px;
     background:
-      radial-gradient(ellipse 68% 100% at 28% 32%,
-        rgba(208, 36, 48, 0.68) 0%,
-        rgba(208, 36, 48, 0.32) 58%,
-        rgba(208, 36, 48, 0) 100%),
-      radial-gradient(ellipse 62% 92% at 74% 70%,
-        rgba(170, 22, 34, 0.62) 0%,
-        rgba(170, 22, 34, 0.26) 62%,
-        rgba(170, 22, 34, 0) 100%),
-      radial-gradient(ellipse 55% 80% at 52% 16%,
-        rgba(232, 72, 80, 0.36) 0%,
-        rgba(232, 72, 80, 0) 100%),
       radial-gradient(ellipse at center,
         rgba(12, 4, 5, 0.80) 0%,
         rgba(12, 4, 5, 0.72) 45%,
         rgba(12, 4, 5, 0.52) 70%,
         rgba(12, 4, 5, 0) 100%);
-    /* Feathered alpha mask fades ALL layers together toward the edges, so the
-       plate dissolves into the feed with no visible boundary anywhere. */
+    /* Feathered alpha mask — the plate dissolves into the feed with no boundary. */
     -webkit-mask-image: radial-gradient(ellipse at center,
         rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0.60) 72%, rgba(0,0,0,0) 97%);
     mask-image: radial-gradient(ellipse at center,
         rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0.60) 72%, rgba(0,0,0,0) 97%);
     filter: blur(9px);
+  }
+  /* Living red clouds — three blobs drifting on different slow cycles so the
+     motion never visibly repeats. Transform-only animation (GPU-composited,
+     no repaints), so it costs the OBS machine essentially nothing. The
+     container carries the same feathered mask, so the clouds keep dissolving
+     at the edges wherever they drift. Sits behind the text, above the base. */
+  .verse-clouds {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -48px;
+    bottom: -48px;
+    width: 88%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    border-radius: 24px;
+    -webkit-mask-image: radial-gradient(ellipse at center,
+        rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0.60) 72%, rgba(0,0,0,0) 97%);
+    mask-image: radial-gradient(ellipse at center,
+        rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0.60) 72%, rgba(0,0,0,0) 97%);
+    filter: blur(14px);
+  }
+  .verse-clouds .vc {
+    position: absolute;
+    border-radius: 50%;
+    will-change: transform;
+  }
+  .verse-clouds .vc1 {
+    left: -6%; top: -30%;
+    width: 72%; height: 150%;
+    background: radial-gradient(ellipse at center,
+      rgba(208, 36, 48, 0.68) 0%, rgba(208, 36, 48, 0.30) 55%, rgba(208, 36, 48, 0) 78%);
+    animation: vcDrift1 28s ease-in-out infinite alternate;
+  }
+  .verse-clouds .vc2 {
+    right: -8%; bottom: -35%;
+    width: 66%; height: 140%;
+    background: radial-gradient(ellipse at center,
+      rgba(170, 22, 34, 0.62) 0%, rgba(170, 22, 34, 0.24) 58%, rgba(170, 22, 34, 0) 80%);
+    animation: vcDrift2 36s ease-in-out infinite alternate;
+  }
+  .verse-clouds .vc3 {
+    left: 30%; top: -55%;
+    width: 55%; height: 120%;
+    background: radial-gradient(ellipse at center,
+      rgba(232, 72, 80, 0.36) 0%, rgba(232, 72, 80, 0) 72%);
+    animation: vcDrift3 22s ease-in-out infinite alternate;
+  }
+  @keyframes vcDrift1 {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(9%, 6%) scale(1.12); }
+  }
+  @keyframes vcDrift2 {
+    from { transform: translate(0, 0) scale(1.08); }
+    to   { transform: translate(-10%, -7%) scale(0.96); }
+  }
+  @keyframes vcDrift3 {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(-7%, 9%) scale(1.15); }
   }
   /* Stage container must be positioned for the absolute pseudo-element to anchor.
      `.stage` is already position:absolute; nothing else needed. */
@@ -482,6 +530,11 @@
 </div>
 
 <div id="verse-stage" class="stage" data-anchor="bottom">
+  <div class="verse-clouds" aria-hidden="true">
+    <span class="vc vc1"></span>
+    <span class="vc vc2"></span>
+    <span class="vc vc3"></span>
+  </div>
   <div id="verse-text" class="verse-text"></div>
   <div id="verse-ref" class="verse-ref"></div>
 </div>
