@@ -179,9 +179,9 @@
      different sizes/positions read as soft cloud rather than a flat tint,
      and the heavier blur dissolves any hard edge into the camera feed. */
   #verse-stage::before {
-    top: -32px;
-    bottom: -32px;
-    width: 80%;
+    top: -48px;
+    bottom: -48px;
+    width: 88%;
     border-radius: 24px;
     background:
       radial-gradient(ellipse 60% 90% at 28% 30%,
@@ -197,10 +197,16 @@
         rgba(220, 60, 70, 0) 100%),
       radial-gradient(ellipse at center,
         rgba(12, 4, 5, 0.80) 0%,
-        rgba(12, 4, 5, 0.70) 45%,
-        rgba(12, 4, 5, 0.48) 75%,
+        rgba(12, 4, 5, 0.72) 45%,
+        rgba(12, 4, 5, 0.52) 70%,
         rgba(12, 4, 5, 0) 100%);
-    filter: blur(6px);
+    /* Feathered alpha mask fades ALL layers together toward the edges, so the
+       plate dissolves into the feed with no visible boundary anywhere. */
+    -webkit-mask-image: radial-gradient(ellipse at center,
+        rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0) 96%);
+    mask-image: radial-gradient(ellipse at center,
+        rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0) 96%);
+    filter: blur(9px);
   }
   /* Stage container must be positioned for the absolute pseudo-element to anchor.
      `.stage` is already position:absolute; nothing else needed. */
