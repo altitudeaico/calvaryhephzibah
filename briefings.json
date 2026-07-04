@@ -1,39 +1,75 @@
 {
-  "generated_at": "2026-06-14T07:10:00.000Z",
-  "count": 19,
+  "generated_at": "2026-07-04T17:12:45.431Z",
+  "count": 23,
   "briefings": [
+    {
+      "file": "media-briefing-05-jul-2026.html",
+      "service_date": "2026-07-05",
+      "display_date": "5 Jul 2026",
+      "subtitle": "Prayer Postures and War the Room — Pastor Shade Olatoye",
+      "sermon_title": "Prayer Postures and War the Room",
+      "preacher": null,
+      "og_image": "https://calvaryhfgc.github.io/calvaryhephzibah/sermon-thumbnail-05-jul-2026.jpg?v=1"
+    },
+    {
+      "file": "media-briefing-28-jun-2026.html",
+      "service_date": "2026-06-28",
+      "display_date": "28 Jun 2026",
+      "subtitle": "The Posture of the Heart, in Prayer — Apostle Sarah Bunjo",
+      "sermon_title": "The Posture of the Heart, in Prayer",
+      "preacher": null,
+      "og_image": "https://calvaryhfgc.github.io/calvaryhephzibah/sermon-thumbnail-28-jun-2026.jpg?v=1"
+    },
+    {
+      "file": "media-briefing-21-jun-2026.html",
+      "service_date": "2026-06-21",
+      "display_date": "21 Jun 2026",
+      "subtitle": "The Father’s Heart — Rev Ifeayin Obi",
+      "sermon_title": "The Father’s Heart",
+      "preacher": null,
+      "og_image": "https://calvaryhfgc.github.io/calvaryhephzibah/sermon-thumbnail-21-jun-2026.jpg?v=3"
+    },
     {
       "file": "media-briefing-14-jun-2026.html",
       "service_date": "2026-06-14",
       "display_date": "14 Jun 2026",
-      "subtitle": "Agreeing With GOD In Prayer \u2014 Bishop Henry Emmanuel",
+      "subtitle": "Agreeing With GOD In Prayer — Bishop Henry Emmanuel",
       "sermon_title": "Agreeing With GOD In Prayer",
-      "preacher": "Bishop Henry Emmanuel",
-      "og_image": "https://calvaryhfgc.github.io/calvaryhephzibah/sermon-thumbnail-14-jun-2026.jpg"
+      "preacher": null,
+      "og_image": "https://calvaryhfgc.github.io/calvaryhephzibah/sermon-thumbnail-14-jun-2026.jpg?v=2"
     },
     {
       "file": "media-briefing-07-jun-2026.html",
       "service_date": "2026-06-07",
       "display_date": "7 Jun 2026",
-      "subtitle": "The Divine Key \u2014 Bishop Henry Emmanuel",
+      "subtitle": "The Divine Key — Bishop Henry Emmanuel",
       "sermon_title": "The Divine Key",
-      "preacher": "Bishop Henry Emmanuel",
+      "preacher": null,
       "og_image": "https://calvaryhfgc.github.io/calvaryhephzibah/sermon-thumbnail-07-jun-2026.jpg"
     },
     {
       "file": "media-briefing-31-may-2026.html",
       "service_date": "2026-05-31",
       "display_date": "31 May 2026",
-      "subtitle": "David Encouraged Himself In The LORD \u2014 Pastor Shade Olatoye",
+      "subtitle": "David Encouraged Himself In The LORD — Pastor Shade Olatoye",
       "sermon_title": "David Encouraged Himself In The LORD",
-      "preacher": "Pastor Shade Olatoye",
+      "preacher": null,
       "og_image": "https://calvaryhfgc.github.io/calvaryhephzibah/sermon-thumbnail-31-may-2026.jpg"
+    },
+    {
+      "file": "media-briefing-24-may-2026.html",
+      "service_date": "2026-05-24",
+      "display_date": "24 May 2026",
+      "subtitle": "Doing Good Has A Pay Day — Bishop Bayo Yusuf",
+      "sermon_title": "Doing Good Has A Pay Day",
+      "preacher": null,
+      "og_image": "https://calvaryhfgc.github.io/calvaryhephzibah/sermon-thumbnail-24-may-2026.jpg"
     },
     {
       "file": "media-briefing-10-may-2026.html",
       "service_date": "2026-05-10",
       "display_date": "10 May 2026",
-      "subtitle": "The Resurrection of Jesus Christ: Implication and the Believer's Yieldedness \u2014 Pastor Shade Olatoye",
+      "subtitle": "The Resurrection of Jesus Christ: Implication and the Believer's Yieldedness — Pastor Shade Olatoye",
       "sermon_title": "The Resurrection of Jesus Christ: Implication and the Believer's Yieldedness",
       "preacher": "Pastor Shade Olatoye",
       "og_image": "https://calvaryhfgc.github.io/calvaryhephzibah/sermon-thumbnail-10-may-2026.jpg"
@@ -42,7 +78,7 @@
       "file": "media-briefing-03-may-2026.html",
       "service_date": "2026-05-03",
       "display_date": "3 May 2026",
-      "subtitle": "That I May Know Him and the Power of His Resurrection \u2014 Dr Titi Sodipo",
+      "subtitle": "That I May Know Him and the Power of His Resurrection — Dr Titi Sodipo",
       "sermon_title": "That I May Know Him and the Power of His Resurrection",
       "preacher": "Dr Titi Sodipo",
       "og_image": "https://calvaryhfgc.github.io/calvaryhephzibah/sermon-thumbnail-03-may-2026.jpg"
@@ -51,7 +87,7 @@
       "file": "media-briefing-26-apr-2026.html",
       "service_date": "2026-04-26",
       "display_date": "26 Apr 2026",
-      "subtitle": "The Hope and Power of the Resurrection \u2014 Bro Michael Kabalu",
+      "subtitle": "The Hope and Power of the Resurrection — Bro Michael Kabalu",
       "sermon_title": "The Hope and Power of the Resurrection of Jesus Christ",
       "preacher": "Brother Michael Kabalu",
       "og_image": "https://calvaryhfgc.github.io/calvaryhephzibah/sermon-thumbnail-26-apr-2026.jpg"
