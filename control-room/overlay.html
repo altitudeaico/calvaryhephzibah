@@ -121,6 +121,21 @@
     transform: translateY(-50%);
     opacity: 1;
   }
+  /* Free positioning — used when the operator has dragged/resized the block.
+     data-anchor is removed in this mode so the anchor rules above don't apply;
+     the block is centred on (pos-x, pos-y) of the 1920x1080 frame and scaled.
+     Only opacity transitions, so it tracks a live drag tightly. */
+  .stage.free {
+    left: calc(var(--pos-x, 0.5) * 1920px);
+    top: calc(var(--pos-y, 0.82) * 1080px);
+    right: auto;
+    bottom: auto;
+    width: 1760px;
+    padding: 0;
+    transform: translate(-50%, -50%) scale(var(--free-scale, 1));
+    transform-origin: center center;
+    transition: opacity 0.4s ease;
+  }
   /* Anchor-less stages (graphic, announcement) — full-screen, just fade in */
   .stage.active {
     opacity: 1;
@@ -618,21 +633,42 @@ function render(mode, payload) {
 const SIZE_SCALE = { small: 0.8, medium: 1.0, large: 1.25 };
 
 function applyDisplaySettings(settings) {
-  const anchor = settings.position || 'bottom';
-  // Default offset is now 14 (matches a comfortable lower-third position).
-  // 14 * 10.8 = 151px from canvas edge — sits lyrics in lower third without crowding edge.
-  const offset = typeof settings.vertical_offset === 'number' ? settings.vertical_offset : 14;
-  const scale = SIZE_SCALE[settings.size] || 1.0;
+  const lyricStage = document.getElementById('lyric-stage');
+  const verseStage = document.getElementById('verse-stage');
+  const stages = [lyricStage, verseStage];
 
-  // Convert offset to pixels against the 1080 canvas height
-  const offsetPx = Math.round(offset * 10.8);
-  document.documentElement.style.setProperty('--stage-offset', offsetPx + 'px');
-  document.documentElement.style.setProperty('--lyric-scale', scale);
-  document.documentElement.style.setProperty('--verse-scale', scale);
-
-  // Update anchor on both stages
-  document.getElementById('lyric-stage').dataset.anchor = anchor;
-  document.getElementById('verse-stage').dataset.anchor = anchor;
+  if (settings.custom_pos) {
+    // Free positioning: centre the block on (pos_x, pos_y) and scale it.
+    const px = typeof settings.pos_x === 'number' ? settings.pos_x : 0.5;
+    const py = typeof settings.pos_y === 'number' ? settings.pos_y : 0.82;
+    const sc = typeof settings.scale === 'number' ? settings.scale : 1;
+    stages.forEach(st => {
+      st.classList.add('free');
+      st.removeAttribute('data-anchor');
+      st.style.setProperty('--pos-x', px);
+      st.style.setProperty('--pos-y', py);
+      st.style.setProperty('--free-scale', sc);
+    });
+    // The transform handles size in free mode; keep font scale neutral.
+    document.documentElement.style.setProperty('--lyric-scale', 1);
+    document.documentElement.style.setProperty('--verse-scale', 1);
+  } else {
+    // Preset positioning (top/middle/bottom + offset + size) — unchanged.
+    const anchor = settings.position || 'bottom';
+    const offset = typeof settings.vertical_offset === 'number' ? settings.vertical_offset : 14;
+    const scale = SIZE_SCALE[settings.size] || 1.0;
+    const offsetPx = Math.round(offset * 10.8);
+    document.documentElement.style.setProperty('--stage-offset', offsetPx + 'px');
+    document.documentElement.style.setProperty('--lyric-scale', scale);
+    document.documentElement.style.setProperty('--verse-scale', scale);
+    stages.forEach(st => {
+      st.classList.remove('free');
+      st.dataset.anchor = anchor;
+      st.style.removeProperty('--pos-x');
+      st.style.removeProperty('--pos-y');
+      st.style.removeProperty('--free-scale');
+    });
+  }
 
   // Logo bug
   const corner = settings.logo_corner || 'off';
@@ -647,7 +683,7 @@ function applyDisplaySettings(settings) {
 async function fetchDisplaySettings() {
   const { data, error } = await client
     .from('control_room_display')
-    .select('position, vertical_offset, size, logo_corner, logo_opacity, logo_size')
+    .select('*')
     .eq('id', 1)
     .single();
   if (error) { console.error('display settings fetch:', error); return; }

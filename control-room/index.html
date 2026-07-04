@@ -1675,6 +1675,40 @@
   .lt-clear:active, .lt-clear-always:active, .lt-push-custom:active {
     transform: scale(0.97);
   }
+  .pos-editor-field { border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+  .pos-editor-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .pos-mode-btn {
+    background: var(--surface); border: 1px solid var(--border-strong); color: var(--text-muted);
+    padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .pos-mode-btn.editing { background: var(--red); border-color: var(--red); color: #fff; }
+  .pos-frame {
+    position: relative; width: 100%; aspect-ratio: 16 / 9;
+    background: #000; border: 1px solid var(--border-strong); border-radius: 10px;
+    overflow: hidden; touch-action: none;
+  }
+  .pos-box {
+    position: absolute; left: 50%; top: 82%;
+    transform: translate(-50%, -50%) scale(1); transform-origin: center center;
+    min-width: 38%; max-width: 82%; padding: 6px 12px; text-align: center;
+    color: #fff; font-weight: 700; font-size: 13px; line-height: 1.2;
+    border: 1px dashed transparent; border-radius: 6px;
+    white-space: nowrap; user-select: none; pointer-events: none;
+  }
+  .pos-frame.editing .pos-box {
+    border-color: rgba(255, 255, 255, 0.55); background: rgba(196, 30, 42, 0.18);
+    pointer-events: auto; cursor: grab;
+  }
+  .pos-frame.editing .pos-box:active { cursor: grabbing; }
+  .pos-resize {
+    position: absolute; right: -8px; bottom: -8px; width: 18px; height: 18px;
+    background: var(--red); border: 2px solid #fff; border-radius: 50%;
+    display: none; cursor: nwse-resize; touch-action: none;
+  }
+  .pos-frame.editing .pos-resize { display: block; }
+  .pos-editor-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; }
+  .pos-hint { font-size: 11px; color: var(--text-muted); flex: 1; line-height: 1.4; }
 </style>
 </head>
 <body>
@@ -1799,6 +1833,22 @@
     <p class="muted" style="font-size: 13px; margin: 4px 0 0;">Position and size of text on the overlay. Changes apply live to OBS.</p>
 
     <div id="display-body" class="display-body">
+      <div class="display-field pos-editor-field">
+        <div class="pos-editor-head">
+          <span class="display-label" style="margin:0">Position &amp; size</span>
+          <button id="pos-mode-btn" class="pos-mode-btn" onclick="togglePosMode()">🔒 Locked</button>
+        </div>
+        <div id="pos-frame" class="pos-frame">
+          <div id="pos-box" class="pos-box">
+            <span id="pos-box-text">Lyrics</span>
+            <span id="pos-resize" class="pos-resize" aria-hidden="true"></span>
+          </div>
+        </div>
+        <div class="pos-editor-actions">
+          <span id="pos-hint" class="pos-hint">Tap “Move &amp; resize”, then drag the text. Drag the corner to resize.</span>
+          <button class="btn" onclick="resetToPreset()">Reset to preset</button>
+        </div>
+      </div>
       <div class="display-field">
         <span class="display-label">Position</span>
         <div class="preset-row">
@@ -2758,20 +2808,155 @@ function parseRef(q) {
 // ============================================================
 // DISPLAY SETTINGS
 // ============================================================
-let displaySaved = { position: 'bottom', vertical_offset: 8, size: 'medium', logo_corner: 'off', logo_opacity: 80, logo_size: 80 };
-let displayDraft = { position: 'bottom', vertical_offset: 8, size: 'medium', logo_corner: 'off', logo_opacity: 80, logo_size: 80 };
+let displaySaved = { position: 'bottom', vertical_offset: 8, size: 'medium', logo_corner: 'off', logo_opacity: 80, logo_size: 80, custom_pos: false, pos_x: 0.5, pos_y: 0.82, scale: 1 };
+let displayDraft = { position: 'bottom', vertical_offset: 8, size: 'medium', logo_corner: 'off', logo_opacity: 80, logo_size: 80, custom_pos: false, pos_x: 0.5, pos_y: 0.82, scale: 1 };
 
 async function loadDisplaySettings() {
   const { data, error } = await client
     .from('control_room_display')
-    .select('position, vertical_offset, size, logo_corner, logo_opacity, logo_size')
+    .select('*')
     .eq('id', 1)
     .single();
   if (error || !data) { console.error('display load:', error); return; }
   displaySaved = { ...displaySaved, ...data };
   displayDraft = { ...displayDraft, ...data };
   renderDisplayPanel();
+  renderPosEditor();
 }
+
+// ============================================================
+// POSITION & SIZE EDITOR — drag to move, corner to resize, with a lock toggle.
+// Writes free pos_x / pos_y / scale to control_room_display, live.
+// ============================================================
+let posMode = 'locked';        // 'locked' | 'edit'
+let posSaveTimer = null;
+
+function round3(n) { return Math.round(n * 1000) / 1000; }
+function clampNum(v, d) { return (typeof v === 'number' && !isNaN(v)) ? v : d; }
+
+// Where the block sits: custom coords if set, otherwise derived from the preset
+// so the editor box still shows roughly where preset text lands.
+function posFromSettings() {
+  if (displaySaved.custom_pos) {
+    return { x: clampNum(displaySaved.pos_x, 0.5), y: clampNum(displaySaved.pos_y, 0.82), s: clampNum(displaySaved.scale, 1) };
+  }
+  const y = displaySaved.position === 'top' ? 0.18 : displaySaved.position === 'middle' ? 0.5 : 0.82;
+  const s = ({ small: 0.8, medium: 1, large: 1.25 })[displaySaved.size] || 1;
+  return { x: 0.5, y, s };
+}
+
+function renderPosEditor() {
+  const box = document.getElementById('pos-box');
+  if (!box) return;
+  const p = posFromSettings();
+  box.style.left = (p.x * 100) + '%';
+  box.style.top = (p.y * 100) + '%';
+  box.style.transform = `translate(-50%, -50%) scale(${p.s})`;
+}
+
+// When the operator first touches the editor, seed the custom coords from the
+// current preset so moving doesn't also jump the size and vice-versa.
+function ensureCustomSeed() {
+  if (!displaySaved.custom_pos) {
+    const p = posFromSettings();
+    displaySaved.pos_x = p.x; displaySaved.pos_y = p.y; displaySaved.scale = p.s;
+    displaySaved.custom_pos = true;
+  }
+}
+
+async function savePosition() {
+  const { error } = await client.from('control_room_display').update({
+    custom_pos: displaySaved.custom_pos,
+    pos_x: displaySaved.pos_x,
+    pos_y: displaySaved.pos_y,
+    scale: displaySaved.scale,
+    updated_at: new Date().toISOString(),
+    updated_by: currentUser.name
+  }).eq('id', 1);
+  if (error) console.error('position save:', error);
+}
+function savePositionThrottled() {
+  if (posSaveTimer) return;
+  posSaveTimer = setTimeout(() => { posSaveTimer = null; savePosition(); }, 120);
+}
+
+window.togglePosMode = () => {
+  posMode = (posMode === 'edit') ? 'locked' : 'edit';
+  const editing = posMode === 'edit';
+  document.getElementById('pos-frame').classList.toggle('editing', editing);
+  const btn = document.getElementById('pos-mode-btn');
+  btn.classList.toggle('editing', editing);
+  btn.textContent = editing ? '✋ Move & resize' : '🔒 Locked';
+  document.getElementById('pos-hint').textContent = editing
+    ? 'Drag the text to move it. Drag the corner to resize. Tap 🔒 when done.'
+    : 'Tap “Move & resize”, then drag the text. Drag the corner to resize.';
+};
+
+window.resetToPreset = async () => {
+  displaySaved.custom_pos = false;
+  displayDraft.custom_pos = false;
+  renderPosEditor();
+  await savePosition();
+};
+
+(function setupPosEditor() {
+  const frame = document.getElementById('pos-frame');
+  const box = document.getElementById('pos-box');
+  const handle = document.getElementById('pos-resize');
+  if (!frame || !box || !handle) return;
+
+  let dragging = false, resizing = false, startScale = 1, startDist = 1, cX = 0, cY = 0;
+  const rect = () => frame.getBoundingClientRect();
+
+  // Move — drag the box
+  box.addEventListener('pointerdown', (e) => {
+    if (posMode !== 'edit' || e.target === handle) return;
+    dragging = true; ensureCustomSeed();
+    box.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  box.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const r = rect();
+    const x = Math.min(0.95, Math.max(0.05, (e.clientX - r.left) / r.width));
+    const y = Math.min(0.95, Math.max(0.05, (e.clientY - r.top) / r.height));
+    displaySaved.pos_x = round3(x); displaySaved.pos_y = round3(y);
+    renderPosEditor(); savePositionThrottled();
+  });
+  const endDrag = (e) => {
+    if (!dragging) return;
+    dragging = false;
+    try { box.releasePointerCapture(e.pointerId); } catch (_) {}
+    savePosition();
+  };
+  box.addEventListener('pointerup', endDrag);
+  box.addEventListener('pointercancel', endDrag);
+
+  // Resize — drag the corner handle
+  handle.addEventListener('pointerdown', (e) => {
+    if (posMode !== 'edit') return;
+    e.stopPropagation(); resizing = true; ensureCustomSeed();
+    handle.setPointerCapture(e.pointerId);
+    const r = rect(), p = posFromSettings();
+    cX = r.left + p.x * r.width; cY = r.top + p.y * r.height;
+    startDist = Math.max(8, Math.hypot(e.clientX - cX, e.clientY - cY));
+    startScale = p.s; e.preventDefault();
+  });
+  handle.addEventListener('pointermove', (e) => {
+    if (!resizing) return;
+    const d = Math.max(8, Math.hypot(e.clientX - cX, e.clientY - cY));
+    const s = Math.min(2.5, Math.max(0.4, startScale * (d / startDist)));
+    displaySaved.scale = round3(s);
+    renderPosEditor(); savePositionThrottled();
+  });
+  const endResize = (e) => {
+    if (!resizing) return;
+    resizing = false;
+    try { handle.releasePointerCapture(e.pointerId); } catch (_) {}
+    savePosition();
+  };
+  handle.addEventListener('pointerup', endResize);
+  handle.addEventListener('pointercancel', endResize);
+})();
 
 function renderDisplayPanel() {
   document.querySelectorAll('.preset-btn[data-pos]').forEach(b => {
