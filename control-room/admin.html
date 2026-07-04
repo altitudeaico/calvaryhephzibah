@@ -459,11 +459,28 @@ window.logout = () => {
 };
 
 // ============ APP ============
+// Local calendar date (not UTC toISOString, which can be a day off in the
+// small hours of BST).
+function localISO(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+// The coming Sunday (or today, if today is Sunday) — the service you're most
+// likely prepping. So admin opens ready on the right date, not on today.
+function upcomingSundayISO() {
+  const d = new Date();
+  const dow = d.getDay();                 // 0 = Sunday
+  d.setDate(d.getDate() + (dow === 0 ? 0 : 7 - dow));
+  return localISO(d);
+}
+
 async function enterApp() {
   document.getElementById('login').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
   document.getElementById('user-display').textContent = currentUser.name;
-  document.getElementById('plan-date').value = new Date().toISOString().slice(0, 10);
+  document.getElementById('plan-date').value = upcomingSundayISO();
   await loadSongs();
   await loadTodayPlan();
   newSong();
