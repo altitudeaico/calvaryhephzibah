@@ -173,12 +173,34 @@
     width: 78%;
     border-radius: 20px;
   }
-  /* Verse plate — sized for longer scripture text, ref line below */
+  /* Verse plate — sized for longer scripture text, ref line below.
+     Distinct from lyrics: a cloudy wash of the brand red over a dark base.
+     The dark layer keeps white text legible; the offset red ellipses at
+     different sizes/positions read as soft cloud rather than a flat tint,
+     and the heavier blur dissolves any hard edge into the camera feed. */
   #verse-stage::before {
     top: -32px;
     bottom: -32px;
     width: 80%;
-    border-radius: 20px;
+    border-radius: 24px;
+    background:
+      radial-gradient(ellipse 60% 90% at 28% 30%,
+        rgba(196, 30, 42, 0.42) 0%,
+        rgba(196, 30, 42, 0.18) 55%,
+        rgba(196, 30, 42, 0) 100%),
+      radial-gradient(ellipse 55% 80% at 74% 72%,
+        rgba(150, 18, 30, 0.38) 0%,
+        rgba(150, 18, 30, 0.14) 60%,
+        rgba(150, 18, 30, 0) 100%),
+      radial-gradient(ellipse 45% 70% at 55% 15%,
+        rgba(220, 60, 70, 0.20) 0%,
+        rgba(220, 60, 70, 0) 100%),
+      radial-gradient(ellipse at center,
+        rgba(12, 4, 5, 0.80) 0%,
+        rgba(12, 4, 5, 0.70) 45%,
+        rgba(12, 4, 5, 0.48) 75%,
+        rgba(12, 4, 5, 0) 100%);
+    filter: blur(6px);
   }
   /* Stage container must be positioned for the absolute pseudo-element to anchor.
      `.stage` is already position:absolute; nothing else needed. */
