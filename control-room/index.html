@@ -1636,7 +1636,7 @@
   <div class="brand">
     <span class="brand-badge">Calvary</span>
     <h1>Control Room</h1>
-    <p>Lyrics · Verses · Graphics</p>
+    <p>Lyrics · Verses · Images</p>
   </div>
 
   <div id="pin-entry" class="pin-entry show">
@@ -1680,7 +1680,7 @@
 
   <!-- Lower Third panel — coexists with lyrics/verses -->
   <div class="lt-panel">
-    <h3>Speaker name (lower third)</h3>
+    <h3>Name banner</h3>
     <p class="helper">Push a name banner. Stays visible alongside lyrics and verses until cleared.</p>
 
     <div id="lt-current" class="lt-current">
@@ -1690,8 +1690,8 @@
     </div>
 
     <!-- Single, always-available clear (works whether or not a banner is showing). -->
-    <button class="lt-clear-always" onclick="clearLowerThird()" title="Clear any lower third on screen">
-      Clear lower third
+    <button class="lt-clear-always" onclick="clearLowerThird()" title="Clear any name banner on screen">
+      Clear name banner
     </button>
 
     <!-- Order of Service for the loaded date -->
@@ -1755,7 +1755,7 @@
       </div>
 
       <div class="display-field">
-        <span class="display-label">Distance from edge</span>
+        <span class="display-label">Margin</span>
         <div class="slider-row">
           <input type="range" id="offset-slider" min="0" max="30" value="8" oninput="onOffsetChange()">
           <span class="slider-value" id="offset-value">8%</span>
@@ -1772,7 +1772,7 @@
       </div>
 
       <div class="display-field" style="border-top: 1px solid var(--border); padding-top: 16px; margin-top: 6px;">
-        <span class="display-label">Logo bug corner</span>
+        <span class="display-label">Logo</span>
         <div class="preset-row" style="grid-template-columns: repeat(5, 1fr);">
           <button class="preset-btn" data-corner="off" onclick="setLogoCorner('off')">Off</button>
           <button class="preset-btn" data-corner="tl" onclick="setLogoCorner('tl')">TL</button>
@@ -1808,7 +1808,7 @@
 
   <!-- Graphics: images + announcements -->
   <div class="gfx-panel">
-    <h3>Graphics</h3>
+    <h3>Slides & images</h3>
     <p class="helper">Push full-screen images, looping videos, or announcement banners.</p>
 
     <div class="gfx-tabs">
@@ -2010,16 +2010,22 @@ async function enterApp() {
   document.getElementById('app').classList.add('show');
   document.getElementById('user-display').textContent = currentUser.name;
   document.getElementById('overlay-link').href = 'overlay.html';
-  // Find the nearest current-or-future plan date and load it.
+  // Critical path first: get the live set on screen as fast as possible.
   // Today wins if there's a plan for it; otherwise the next upcoming one.
   const startDate = await findCurrentOrNextPlanDate();
   await loadPlan(startDate);
-  await loadDisplaySettings();
-  await loadSpeakers();
-  await loadImages();
-  await loadAnnouncements();
-  await loadPeople();
-  await loadBackdrops();
+
+  // The rest isn't needed in the first second. Load it all in parallel instead
+  // of six sequential round-trips stacked end to end on venue wifi.
+  await Promise.all([
+    loadDisplaySettings(),
+    loadSpeakers(),
+    loadImages(),
+    loadAnnouncements(),
+    loadPeople(),
+    loadBackdrops()
+  ]);
+
   subscribeLive();
 }
 
