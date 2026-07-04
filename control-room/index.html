@@ -1520,7 +1520,11 @@
     padding: 14px;
     margin-top: 10px;
     display: none;
+    cursor: pointer;
+    transition: border-color 0.15s ease, transform 0.06s ease;
   }
+  .bible-result:hover { border-color: var(--border-strong); }
+  .bible-result:active { transform: scale(0.995); }
   .bible-result.show { display: block; }
   .bible-ref {
     font-size: 11px;
@@ -1948,14 +1952,14 @@
   <div class="bible-panel">
     <h3>Scripture search</h3>
     <div class="bible-input-row">
-      <input id="bible-input" class="bible-input" type="text" placeholder="e.g. John 3:16  or  Romans 6:1-23" autocomplete="off">
+      <input id="bible-input" class="bible-input" type="text" enterkeyhint="search" placeholder="e.g. John 3:16  or  Romans 6:1-23" autocomplete="off">
       <button class="bible-go" onclick="searchVerse()">Find</button>
     </div>
     <div class="bible-hint">Single verse <em>(John 3:16)</em> or a range <em>(Romans 6:1-23)</em>. Use Next/Prev to walk through.</div>
-    <div id="bible-result" class="bible-result">
+    <div id="bible-result" class="bible-result" onclick="pushVerse()">
       <div id="bible-ref" class="bible-ref"></div>
       <div id="bible-text" class="bible-text"></div>
-      <button class="bible-push" onclick="pushVerse()">Push to screen</button>
+      <button class="bible-push" onclick="event.stopPropagation(); pushVerse()">Put on screen</button>
     </div>
     <div id="bible-error" class="bible-error"></div>
   </div>
