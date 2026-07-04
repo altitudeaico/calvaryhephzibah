@@ -258,11 +258,11 @@
 
   /* ============ TRANSPORT (Next / Prev / Blank) ============ */
   .transport {
-    display: grid;
-    grid-template-columns: 1fr 1fr 2fr;
-    gap: 10px;
-    /* Pinned to the bottom so Next and Blank are always one thumb-tap away,
-       no matter how far the operator has scrolled the setlist. */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    /* Pinned to the bottom so the live state and Next/Blank are always
+       one thumb-tap away, no matter how far the operator has scrolled. */
     position: fixed;
     left: 0; right: 0; bottom: 0;
     z-index: 900;
@@ -271,15 +271,43 @@
     padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
     box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.35);
   }
-  /* Keep the last of the scrolling content clear of the fixed bar. */
-  #app { padding-bottom: 104px; }
+  .transport-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    gap: 10px;
+  }
+  /* Persistent "what's on screen right now" — a mini now-playing bar. */
+  .live-strip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+    border-radius: 8px;
+    padding: 2px 4px;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+  .ls-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--text-dim); flex: none;
+    transition: background 0.25s ease, box-shadow 0.25s ease;
+  }
+  .live-strip.on .ls-dot { background: var(--red); box-shadow: 0 0 0 3px var(--red-glow); }
+  .live-strip.on .ls-label { color: var(--text); font-weight: 600; }
+  .ls-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* Success flash: every push that lands turns the strip green for a beat. */
+  .live-strip.ok { background: rgba(34, 197, 94, 0.14); }
+  .live-strip.ok .ls-dot { background: var(--green); box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25); }
+  /* Keep the last of the scrolling content clear of the taller fixed bar. */
+  #app { padding-bottom: 138px; }
   /* Float the preview toggle/panel above the fixed transport bar. */
-  #preview-toggle { bottom: 92px; }
-  #preview-panel  { bottom: 156px; }
+  #preview-toggle { bottom: 126px; }
+  #preview-panel  { bottom: 190px; }
   /* Push-failure banner (F1) — sits just above the transport bar, impossible to miss. */
   .push-error {
     position: fixed;
-    left: 12px; right: 12px; bottom: 92px;
+    left: 12px; right: 12px; bottom: 126px;
     z-index: 1100;
     display: none;
     align-items: center;
@@ -1667,9 +1695,15 @@
 
   <!-- Transport (pinned to the bottom of the viewport) -->
   <div class="transport">
-    <button onclick="prev()" id="btn-prev">← Prev</button>
-    <button onclick="blank()" id="btn-blank">Blank</button>
-    <button onclick="next()" class="next" id="btn-next">Next →</button>
+    <div class="live-strip" id="live-strip">
+      <span class="ls-dot" id="ls-dot"></span>
+      <span class="ls-label" id="ls-text">Connecting…</span>
+    </div>
+    <div class="transport-btns">
+      <button onclick="prev()" id="btn-prev">← Prev</button>
+      <button onclick="blank()" id="btn-blank">Blank</button>
+      <button onclick="next()" class="next" id="btn-next">Next →</button>
+    </div>
   </div>
 
   <!-- Push-failure banner: shown by F1 when a live push doesn't land -->
@@ -3612,7 +3646,17 @@ async function pushLive(mode, payload, extra = {}) {
     return false;
   }
   hidePushError();
+  flashLiveOk();
   return true;
+}
+
+let lsFlashTimer = null;
+function flashLiveOk() {
+  const strip = document.getElementById('live-strip');
+  if (!strip) return;
+  strip.classList.add('ok');
+  if (lsFlashTimer) clearTimeout(lsFlashTimer);
+  lsFlashTimer = setTimeout(() => strip.classList.remove('ok'), 650);
 }
 
 function showPushError() {
@@ -3729,6 +3773,15 @@ function renderNowPlaying(mode, payload) {
     title.textContent = payload.eyebrow || 'Announcement';
     l1.textContent = payload.title || '';
     l2.textContent = payload.body || '';
+  }
+
+  // Mirror into the always-visible live strip in the transport bar, so the
+  // operator knows what's on screen no matter how far they've scrolled.
+  const strip = document.getElementById('live-strip');
+  const lsText = document.getElementById('ls-text');
+  if (strip && lsText) {
+    lsText.textContent = title.textContent;
+    strip.classList.toggle('on', mode !== 'blank');
   }
 }
 
