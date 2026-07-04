@@ -444,6 +444,7 @@
     justify-content: space-between;
     padding: 14px 16px;
     cursor: pointer;
+    transition: transform 0.08s ease;
   }
   .song-head .meta {
     display: flex;
@@ -473,13 +474,14 @@
   }
   .song-card.open .song-slides { display: flex; }
   .slide-row {
-    padding: 10px 12px;
+    padding: 12px;
     border-radius: 8px;
     cursor: pointer;
     display: flex;
     gap: 10px;
     align-items: flex-start;
-    transition: background 0.12s;
+    min-height: 44px;
+    transition: background 0.12s, transform 0.08s ease;
   }
   .slide-row:hover { background: var(--surface-2); }
   .slide-row.live { background: var(--red-glow); border-left: 3px solid var(--red); padding-left: 9px; }
@@ -1658,6 +1660,20 @@
     font-size: 13px;
     text-decoration: underline;
     text-underline-offset: 3px;
+  }
+  /* Tactile press feedback — every tappable element answers to a touch, not
+     just a hover (hover never fires on a phone). Keeps the console feeling
+     responsive and premium. Transport buttons + verse card already have theirs. */
+  .slide-row:active, .song-head:active,
+  .lt-item:active, .lt-item .push-btn:active, .oos-push:active,
+  .bible-go:active, .bible-push:active, .img-card:active,
+  .date-nav-btn:active, .date-today-btn:active, .date-pill:active,
+  .gfx-tab:active, .ann-kind-btn:active, .ann-suggest .push-btn:active, .ann-push:active,
+  .bd-ctrl:active, .backdrop-list .bd-row:active, .bd-lib-item:active,
+  .bd-row-del:active, .bd-builder-remove:active,
+  .preset-btn:active, .display-toggle:active, .display-actions .btn:active,
+  .lt-clear:active, .lt-clear-always:active, .lt-push-custom:active {
+    transform: scale(0.97);
   }
 </style>
 </head>
