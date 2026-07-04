@@ -261,7 +261,51 @@
     display: grid;
     grid-template-columns: 1fr 1fr 2fr;
     gap: 10px;
-    padding: 0 20px 16px;
+    /* Pinned to the bottom so Next and Blank are always one thumb-tap away,
+       no matter how far the operator has scrolled the setlist. */
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 900;
+    background: var(--bg);
+    border-top: 1px solid var(--border-strong);
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.35);
+  }
+  /* Keep the last of the scrolling content clear of the fixed bar. */
+  #app { padding-bottom: 104px; }
+  /* Float the preview toggle/panel above the fixed transport bar. */
+  #preview-toggle { bottom: 92px; }
+  #preview-panel  { bottom: 156px; }
+  /* Push-failure banner (F1) — sits just above the transport bar, impossible to miss. */
+  .push-error {
+    position: fixed;
+    left: 12px; right: 12px; bottom: 92px;
+    z-index: 1100;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: #B0201A;
+    color: #fff;
+    border: 1px solid #E0554E;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+  }
+  .push-error.show { display: flex; }
+  .push-error .pe-retry {
+    background: #fff;
+    color: #B0201A;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
   }
   .transport button {
     height: 64px;
@@ -1621,11 +1665,17 @@
     <div class="np-line" id="np-line2"></div>
   </div>
 
-  <!-- Transport -->
+  <!-- Transport (pinned to the bottom of the viewport) -->
   <div class="transport">
     <button onclick="prev()" id="btn-prev">← Prev</button>
     <button onclick="blank()" id="btn-blank">Blank</button>
     <button onclick="next()" class="next" id="btn-next">Next →</button>
+  </div>
+
+  <!-- Push-failure banner: shown by F1 when a live push doesn't land -->
+  <div id="push-error" class="push-error" onclick="retryPush()">
+    <span>⚠ That didn't reach the screen.</span>
+    <button class="pe-retry" onclick="event.stopPropagation(); retryPush()">Retry</button>
   </div>
 
   <!-- Lower Third panel — coexists with lyrics/verses -->
@@ -2307,6 +2357,9 @@ window.goto = async (songIdx, slideIdx) => {
     renderSetlist();
     return;
   }
+  // Optimistic: highlight the tapped slide immediately, before the network write,
+  // so the console feels instant on venue wifi. If the push fails, F1's banner shows.
+  renderSetlist();
   if (item.kind === 'scripture') {
     // Scripture slide — push as verse (same payload shape as ad-hoc Bible search)
     const text = (slide.verses || []).map(v => v.text).join('  ');
@@ -2327,7 +2380,6 @@ window.goto = async (songIdx, slideIdx) => {
       line2: slide.line2 || ''
     });
   }
-  renderSetlist();
 };
 
 // ============================================================
@@ -2373,7 +2425,9 @@ window.blank = async () => {
   currentPassageSlideIdx = -1;
   currentImageId = null;
   currentAnnouncementKey = null;
-  await pushLive('blank', {});
+  // Blank clears the foreground content AND any lower-third banner in one write.
+  // (Backdrop is intentional background scenery with its own Stop control, so it stays.)
+  await pushLive('blank', {}, { lower_third: null });
   renderSetlist();
 };
 
@@ -3468,17 +3522,43 @@ document.addEventListener('DOMContentLoaded', () => {
 // ============================================================
 // LIVE STATE (push + subscribe)
 // ============================================================
-async function pushLive(mode, payload) {
+let lastPush = null;   // remembers the last attempted push so a failed one can be retried
+
+async function pushLive(mode, payload, extra = {}) {
+  lastPush = { mode, payload, extra };
   const { error } = await client
     .from('control_room_live')
     .update({
       mode, payload,
       updated_at: new Date().toISOString(),
-      updated_by: currentUser.name
+      updated_by: currentUser.name,
+      ...extra
     })
     .eq('id', 1);
-  if (error) console.error('push failed', error);
+  if (error) {
+    console.error('push failed', error);
+    showPushError();
+    return false;
+  }
+  hidePushError();
+  return true;
 }
+
+function showPushError() {
+  const b = document.getElementById('push-error');
+  if (b) b.classList.add('show');
+}
+function hidePushError() {
+  const b = document.getElementById('push-error');
+  if (b) b.classList.remove('show');
+}
+window.retryPush = async () => {
+  if (!lastPush) { hidePushError(); return; }
+  const btn = document.querySelector('#push-error .pe-retry');
+  if (btn) { btn.textContent = 'Retrying…'; btn.disabled = true; }
+  await pushLive(lastPush.mode, lastPush.payload, lastPush.extra);
+  if (btn) { btn.textContent = 'Retry'; btn.disabled = false; }
+};
 
 function subscribeLive() {
   const indicator = document.getElementById('live-indicator');
