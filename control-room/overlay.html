@@ -171,7 +171,18 @@
     top: -40px;
     bottom: -40px;
     width: 78%;
-    border-radius: 20px;
+    border-radius: 24px;
+    background:
+      radial-gradient(ellipse at center,
+        rgba(12, 4, 5, 0.80) 0%,
+        rgba(12, 4, 5, 0.72) 45%,
+        rgba(12, 4, 5, 0.52) 70%,
+        rgba(12, 4, 5, 0) 100%);
+    -webkit-mask-image: radial-gradient(ellipse at center,
+        rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0.60) 72%, rgba(0,0,0,0) 97%);
+    mask-image: radial-gradient(ellipse at center,
+        rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0.60) 72%, rgba(0,0,0,0) 97%);
+    filter: blur(9px);
   }
   /* Verse plate — sized for longer scripture text, ref line below.
      Distinct from lyrics: a cloudy wash of the brand red over a dark base.
@@ -201,7 +212,7 @@
      no repaints), so it costs the OBS machine essentially nothing. The
      container carries the same feathered mask, so the clouds keep dissolving
      at the edges wherever they drift. Sits behind the text, above the base. */
-  .verse-clouds {
+  .stage-clouds {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -218,26 +229,32 @@
         rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0.60) 72%, rgba(0,0,0,0) 97%);
     filter: blur(14px);
   }
-  .verse-clouds .vc {
+  /* Lyric plate is shorter (two lines) — match its geometry. */
+  #lyric-stage .stage-clouds {
+    top: -40px;
+    bottom: -40px;
+    width: 78%;
+  }
+  .stage-clouds .vc {
     position: absolute;
     border-radius: 50%;
     will-change: transform;
   }
-  .verse-clouds .vc1 {
+  .stage-clouds .vc1 {
     left: -6%; top: -30%;
     width: 72%; height: 150%;
     background: radial-gradient(ellipse at center,
       rgba(208, 36, 48, 0.68) 0%, rgba(208, 36, 48, 0.30) 55%, rgba(208, 36, 48, 0) 78%);
     animation: vcDrift1 28s ease-in-out infinite alternate;
   }
-  .verse-clouds .vc2 {
+  .stage-clouds .vc2 {
     right: -8%; bottom: -35%;
     width: 66%; height: 140%;
     background: radial-gradient(ellipse at center,
       rgba(170, 22, 34, 0.62) 0%, rgba(170, 22, 34, 0.24) 58%, rgba(170, 22, 34, 0) 80%);
     animation: vcDrift2 36s ease-in-out infinite alternate;
   }
-  .verse-clouds .vc3 {
+  .stage-clouds .vc3 {
     left: 30%; top: -55%;
     width: 55%; height: 120%;
     background: radial-gradient(ellipse at center,
@@ -525,12 +542,17 @@
 </div>
 
 <div id="lyric-stage" class="stage" data-anchor="bottom">
+  <div class="stage-clouds" aria-hidden="true">
+    <span class="vc vc1"></span>
+    <span class="vc vc2"></span>
+    <span class="vc vc3"></span>
+  </div>
   <div id="lyric-line1" class="lyric-line"></div>
   <div id="lyric-line2" class="lyric-line"></div>
 </div>
 
 <div id="verse-stage" class="stage" data-anchor="bottom">
-  <div class="verse-clouds" aria-hidden="true">
+  <div class="stage-clouds" aria-hidden="true">
     <span class="vc vc1"></span>
     <span class="vc vc2"></span>
     <span class="vc vc3"></span>
