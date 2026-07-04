@@ -1687,12 +1687,11 @@
       <div class="live-tag">On screen</div>
       <div class="lt-cur-name" id="lt-cur-name">—</div>
       <div class="lt-cur-role" id="lt-cur-role"></div>
-      <button class="lt-clear" onclick="clearLowerThird()">Clear lower third</button>
     </div>
 
-    <!-- Always-available clear, in case the conditional one above is hidden -->
-    <button class="lt-clear-always" onclick="clearLowerThird()" title="Force-clear any lower third on screen">
-      Clear lower third (force)
+    <!-- Single, always-available clear (works whether or not a banner is showing). -->
+    <button class="lt-clear-always" onclick="clearLowerThird()" title="Clear any lower third on screen">
+      Clear lower third
     </button>
 
     <!-- Order of Service for the loaded date -->
@@ -2024,12 +2023,12 @@ async function enterApp() {
   subscribeLive();
 }
 
-let currentPlanDate = new Date().toISOString().slice(0, 10);
+let currentPlanDate = todayISO();
 
 // Find the nearest plan whose service_date is today or in the future.
 // Falls back to today's date if none exists (loadPlan will show empty state).
 async function findCurrentOrNextPlanDate() {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = todayISO();
   try {
     const { data, error } = await client
       .from('control_room_plans')
@@ -2052,6 +2051,16 @@ async function findCurrentOrNextPlanDate() {
   }
 }
 
+// Local calendar date as YYYY-MM-DD. Using getFullYear/Month/Date (not
+// toISOString, which is UTC) so "today" is correct in the small hours of BST.
+function localISO(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+function todayISO() { return localISO(new Date()); }
+
 function formatPlanDate(isoDate) {
   const d = new Date(isoDate + 'T00:00:00');
   return d.toLocaleDateString('en-GB', {
@@ -2060,11 +2069,11 @@ function formatPlanDate(isoDate) {
 }
 
 function isFutureDate(isoDate) {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = todayISO();
   return isoDate > today;
 }
 function isPastDate(isoDate) {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = todayISO();
   return isoDate < today;
 }
 
@@ -2078,7 +2087,7 @@ async function loadPlan(targetDate) {
 
   // Heading reflects whether we're looking at today, future, or past
   const heading = document.getElementById('setlist-heading');
-  if (currentPlanDate === new Date().toISOString().slice(0, 10)) {
+  if (currentPlanDate === todayISO()) {
     heading.textContent = "Today's set list";
   } else if (isFutureDate(currentPlanDate)) {
     heading.textContent = 'Upcoming set list';
@@ -2217,11 +2226,11 @@ function parseBriefingSongs(html) {
 window.navigateDate = (deltaDays) => {
   const d = new Date(currentPlanDate + 'T00:00:00');
   d.setDate(d.getDate() + deltaDays);
-  loadPlan(d.toISOString().slice(0, 10));
+  loadPlan(localISO(d));
 };
 
 window.jumpToToday = () => {
-  loadPlan(new Date().toISOString().slice(0, 10));
+  loadPlan(todayISO());
 };
 
 window.openDatePicker = () => {
@@ -2242,7 +2251,7 @@ window.onDatePickerChange = () => {
 };
 
 function renderEmptyPlan() {
-  const isToday = currentPlanDate === new Date().toISOString().slice(0, 10);
+  const isToday = currentPlanDate === todayISO();
   const dateLabel = formatPlanDate(currentPlanDate);
   document.getElementById('setlist').innerHTML = `
     <div style="padding: 32px; text-align: center; background: var(--surface); border-radius: var(--radius-lg); border: 1px dashed var(--border-strong);">

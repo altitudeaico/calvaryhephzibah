@@ -78,6 +78,8 @@
     --stage-offset: 86px;          /* fixed within 1920x1080 canvas */
     --lyric-scale: 1;
     --verse-scale: 1;
+    --lyric-fit: 1;   /* content-aware shrink so long lines never clip */
+    --verse-fit: 1;
   }
   .stage {
     position: absolute;
@@ -168,7 +170,7 @@
 
   .lyric-line {
     font-weight: 700;
-    font-size: calc(64px * var(--lyric-scale));
+    font-size: calc(64px * var(--lyric-scale) * var(--lyric-fit));
     line-height: 1.2;
     letter-spacing: -0.02em;
     text-shadow: var(--halo);
@@ -186,7 +188,7 @@
   .verse-text {
     font-family: 'Inter', serif;
     font-weight: 600;
-    font-size: calc(54px * var(--verse-scale));
+    font-size: calc(54px * var(--verse-scale) * var(--verse-fit));
     line-height: 1.35;
     letter-spacing: -0.015em;
     text-shadow: var(--halo);
@@ -535,6 +537,20 @@ function escapeHtmlForOverlay(s) {
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
+// Shrink a stage's text (via its --*-fit variable) until the block fits within
+// maxHeight, so an unusually long verse or lyric line can't overflow the frame.
+// offsetHeight is a layout metric and ignores the canvas scale transform, so we
+// measure directly in the 1080-design space. Floor at 0.55 to stay readable.
+function fitText(stageEl, cssVar, maxHeight) {
+  const root = document.documentElement.style;
+  root.setProperty(cssVar, '1');
+  let fit = 1;
+  while (fit > 0.55 && stageEl.offsetHeight > maxHeight) {
+    fit = Math.round((fit - 0.05) * 100) / 100;
+    root.setProperty(cssVar, String(fit));
+  }
+}
+
 function render(mode, payload) {
   hideAll();
 
@@ -543,6 +559,7 @@ function render(mode, payload) {
   if (mode === 'lyric') {
     document.getElementById('lyric-line1').textContent = payload.line1 || '';
     document.getElementById('lyric-line2').textContent = payload.line2 || '';
+    fitText(stages.lyric, '--lyric-fit', 500);
     requestAnimationFrame(() => stages.lyric.classList.add('active'));
   } else if (mode === 'verse') {
     // If payload includes a `verses` array, render each verse with a small inline number marker.
@@ -557,6 +574,7 @@ function render(mode, payload) {
     }
     document.getElementById('verse-ref').textContent =
       [payload.reference, payload.version].filter(Boolean).join(' · ');
+    fitText(stages.verse, '--verse-fit', 820);
     requestAnimationFrame(() => stages.verse.classList.add('active'));
   } else if (mode === 'graphic') {
     // Accepts payload.media_url (Storage URL — preferred), payload.data_url (legacy base64), or payload.image_url
