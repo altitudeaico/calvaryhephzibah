@@ -2333,7 +2333,7 @@ function renderSetlist() {
           </div>
           <div class="right">${isActive ? 'Playing' : ''}</div>
         </div>
-        <div class="song-slides">${slides}</div>
+        <div class="song-slides">${slides || `<div style="padding:12px 14px;color:var(--text-muted);font-size:13px;line-height:1.5;">No lyrics saved yet — add this song in <strong>Admin → Songs</strong> to push it to the screen.</div>`}</div>
       </div>
     `;
   }).join('');
@@ -2442,7 +2442,7 @@ window.searchVerse = async () => {
   const q = document.getElementById('bible-input').value.trim();
   const err = document.getElementById('bible-error');
   const res = document.getElementById('bible-result');
-  err.textContent = '';
+  err.innerHTML = '';
   res.classList.remove('show');
   if (!q) return;
 
@@ -2452,14 +2452,43 @@ window.searchVerse = async () => {
     return;
   }
 
+  const r = parsed.bookResolution;
+  if (!r) {
+    err.textContent = `Book "${parsed.rawBook}" not recognised. Check the spelling.`;
+    return;
+  }
+  if (r.candidates) {
+    // Ambiguous prefix (e.g. "jud" → Judges/Jude): ask instead of silently combining.
+    const chip = 'display:inline-block;margin:6px 6px 0 0;padding:6px 12px;background:var(--surface);color:var(--text);border:1px solid var(--border-strong);border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit;';
+    err.innerHTML = 'Did you mean: ' + r.candidates.map(b =>
+      `<button style="${chip}" onclick="window.chooseBook('${b}', ${parsed.chapter}, ${parsed.verseStart}, ${parsed.verseEnd})">${escapeHtml(b)}</button>`
+    ).join('');
+    return;
+  }
+
+  await runVerseQuery(r.book, parsed.chapter, parsed.verseStart, parsed.verseEnd);
+};
+
+// Pick one book from a "did you mean" chooser and run the lookup.
+window.chooseBook = async (book, chapter, vs, ve) => {
+  document.getElementById('bible-error').innerHTML = '';
+  await runVerseQuery(book, chapter, vs, ve);
+};
+
+// Shared verse lookup — one exact book, verse range → preview. Used by both
+// direct search and the disambiguation chooser.
+async function runVerseQuery(book, chapter, verseStart, verseEnd) {
+  const err = document.getElementById('bible-error');
+  const res = document.getElementById('bible-result');
+
   const { data, error } = await client
     .from('control_room_bible')
     .select('book, chapter, verse, text, version')
     .eq('version', 'KJV')
-    .ilike('book', parsed.book + '%')
-    .eq('chapter', parsed.chapter)
-    .gte('verse', parsed.verseStart)
-    .lte('verse', parsed.verseEnd)
+    .eq('book', book)
+    .eq('chapter', chapter)
+    .gte('verse', verseStart)
+    .lte('verse', verseEnd)
     .order('verse');
 
   if (error || !data || data.length === 0) {
@@ -2485,7 +2514,7 @@ window.searchVerse = async () => {
   document.getElementById('bible-ref').textContent = verseResult.rangeLabel + ' · ' + verseResult.version;
   document.getElementById('bible-text').innerHTML = renderPassagePreview(verseResult);
   res.classList.add('show');
-};
+}
 
 // Auto-pack verses into slides.
 // Threshold: if a verse alone is < THRESH chars, try to pair it with the next.
@@ -2611,6 +2640,36 @@ const BOOK_ALIASES = {
   'rev': 'Revelation'
 };
 
+// The 66 KJV book names exactly as stored in control_room_bible. Used to resolve
+// a typed reference to ONE exact book so we can query with .eq('book', ...) rather
+// than a prefix match (which used to silently combine e.g. "jud" → Judges + Jude).
+const CANONICAL_BOOKS = [
+  'Genesis','Exodus','Leviticus','Numbers','Deuteronomy','Joshua','Judges','Ruth',
+  '1 Samuel','2 Samuel','1 Kings','2 Kings','1 Chronicles','2 Chronicles','Ezra',
+  'Nehemiah','Esther','Job','Psalms','Proverbs','Ecclesiastes','Song of Solomon',
+  'Isaiah','Jeremiah','Lamentations','Ezekiel','Daniel','Hosea','Joel','Amos',
+  'Obadiah','Jonah','Micah','Nahum','Habakkuk','Zephaniah','Haggai','Zechariah',
+  'Malachi','Matthew','Mark','Luke','John','Acts','Romans','1 Corinthians',
+  '2 Corinthians','Galatians','Ephesians','Philippians','Colossians','1 Thessalonians',
+  '2 Thessalonians','1 Timothy','2 Timothy','Titus','Philemon','Hebrews','James',
+  '1 Peter','2 Peter','1 John','2 John','3 John','Jude','Revelation'
+];
+
+// Resolve typed book text to exactly one canonical book, or report ambiguity.
+// Returns { book } (resolved), { candidates:[...] } (ambiguous prefix), or null (unknown).
+function resolveBook(raw) {
+  const key = raw.trim().toLowerCase();
+  const aliased = BOOK_ALIASES[key] || BOOK_ALIASES[key.replace(/\s/g, '')];
+  if (aliased) return { book: aliased };
+  const exact = CANONICAL_BOOKS.find(b => b.toLowerCase() === key);
+  if (exact) return { book: exact };
+  const norm = key.replace(/\s/g, '');
+  const matches = CANONICAL_BOOKS.filter(b => b.toLowerCase().replace(/\s/g, '').startsWith(norm));
+  if (matches.length === 1) return { book: matches[0] };
+  if (matches.length > 1)  return { candidates: matches };
+  return null;
+}
+
 // Parses references like:
 //   "John 3:16"           → { book, chapter, verseStart: 16, verseEnd: 16 }
 //   "John 3:16-17"        → { book, chapter, verseStart: 16, verseEnd: 17 }
@@ -2620,14 +2679,11 @@ function parseRef(q) {
   const m = q.match(/^\s*(\d?\s?[a-z]+)\s*(\d+)\s*[:\.]\s*(\d+)(?:\s*[-–—]\s*(\d+))?\s*$/i);
   if (!m) return null;
   const rawBook = m[1].trim().toLowerCase().replace(/\s+/g, ' ');
-  const book = BOOK_ALIASES[rawBook]
-            || BOOK_ALIASES[rawBook.replace(/\s/g, '')]
-            || (rawBook.charAt(0).toUpperCase() + rawBook.slice(1));
   const chapter = parseInt(m[2]);
   const verseStart = parseInt(m[3]);
   const verseEnd = m[4] ? parseInt(m[4]) : verseStart;
   if (verseEnd < verseStart) return null; // sanity check
-  return { book, chapter, verseStart, verseEnd };
+  return { rawBook, bookResolution: resolveBook(rawBook), chapter, verseStart, verseEnd };
 }
 
 // ============================================================
@@ -3560,11 +3616,14 @@ window.retryPush = async () => {
   if (btn) { btn.textContent = 'Retry'; btn.disabled = false; }
 };
 
+let liveChannel = null;
+let liveReconnectTimer = null;
 function subscribeLive() {
   const indicator = document.getElementById('live-indicator');
   const text = document.getElementById('live-text');
 
-  // Initial fetch
+  // Fetch current state (runs on first connect and on every reconnect, so the
+  // console re-syncs to whatever is actually live after a dropout).
   client.from('control_room_live').select('mode, payload, lower_third, backdrop').eq('id', 1).single()
     .then(({ data }) => {
       if (!data) return;
@@ -3575,7 +3634,10 @@ function subscribeLive() {
       renderBackdropList();
     });
 
-  client.channel('control-room-live-operator')
+  // Drop any previous channel before (re)subscribing so we don't leak channels.
+  if (liveChannel) { client.removeChannel(liveChannel); liveChannel = null; }
+
+  liveChannel = client.channel('control-room-live-operator')
     .on('postgres_changes',
       { event: 'UPDATE', schema: 'public', table: 'control_room_live', filter: 'id=eq.1' },
       ({ new: row }) => {
@@ -3587,9 +3649,16 @@ function subscribeLive() {
       })
     .subscribe((status) => {
       indicator.classList.remove('connected', 'error');
-      if (status === 'SUBSCRIBED') { indicator.classList.add('connected'); text.textContent = 'live'; }
-      else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+      if (status === 'SUBSCRIBED') {
+        indicator.classList.add('connected'); text.textContent = 'live';
+        if (liveReconnectTimer) { clearTimeout(liveReconnectTimer); liveReconnectTimer = null; }
+      } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
         indicator.classList.add('error'); text.textContent = 'reconnecting';
+        // Mirror the overlay: drop the dead channel and resubscribe after a short backoff.
+        // The guard stops repeated error callbacks stacking multiple timers.
+        if (!liveReconnectTimer) {
+          liveReconnectTimer = setTimeout(() => { liveReconnectTimer = null; subscribeLive(); }, 2000);
+        }
       }
     });
 }
