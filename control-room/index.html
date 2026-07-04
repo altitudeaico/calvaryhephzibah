@@ -2120,6 +2120,32 @@ let allUsers = [];
 let verseResult = null;
 let bibleVersion = 'KJV';      // selected translation for ad-hoc search
 let bibleVersions = ['KJV'];   // discovered from the DB at startup
+let apiBibles = {};            // code -> bibleId, for API.Bible-backed versions
+const BIBLE_PROXY = SUPABASE_URL + '/functions/v1/bible-proxy';
+// Surface only recognisable translations as chips (his key may expose dozens).
+const API_PREFERRED = ['NIV','NKJV','AMP','AMPC','ESV','NLT','NASB','CSB','MSG','WEB','ASV'];
+
+async function loadApiBibleVersions() {
+  try {
+    const r = await fetch(BIBLE_PROXY + '?action=versions', {
+      headers: { 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'apikey': SUPABASE_ANON_KEY }
+    });
+    if (!r.ok) return;                    // proxy not deployed yet — silently skip
+    const d = await r.json();
+    if (!d.versions) return;
+    console.log('api.bible versions available:', d.versions.map(v => v.code).join(', '));
+    let added = 0;
+    for (const v of d.versions) {
+      if (added >= 6) break;
+      if (!API_PREFERRED.includes(v.code)) continue;
+      if (bibleVersions.includes(v.code)) continue;   // DB-seeded versions win
+      apiBibles[v.code] = v.bibleId;
+      bibleVersions.push(v.code);
+      added++;
+    }
+    if (added) renderBibleVersionRow();
+  } catch (e) { console.warn('api bible versions:', e); }
+}
 
 // Discover which translations are actually seeded, so new ones (BSB, etc.)
 // appear as chips automatically the moment their seed SQL is run — and the
@@ -2140,6 +2166,7 @@ async function loadBibleVersions() {
     }
     renderBibleVersionRow();
   } catch (e) { console.warn('bible versions:', e); }
+  loadApiBibleVersions();   // then merge in API.Bible-backed translations
 }
 function renderBibleVersionRow() {
   const row = document.getElementById('bible-version-row');
@@ -2676,6 +2703,24 @@ async function runVerseQuery(book, chapter, verseStart, verseEnd) {
   const err = document.getElementById('bible-error');
   const res = document.getElementById('bible-result');
 
+  // API.Bible-backed translation: fetch through the key-holding proxy.
+  if (apiBibles[bibleVersion]) {
+    let data = null;
+    try {
+      const u = BIBLE_PROXY + '?action=passage'
+        + '&bibleId=' + encodeURIComponent(apiBibles[bibleVersion])
+        + '&book=' + encodeURIComponent(book)
+        + '&chapter=' + chapter + '&start=' + verseStart + '&end=' + verseEnd
+        + '&version=' + encodeURIComponent(bibleVersion);
+      const r = await fetch(u, { headers: { 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'apikey': SUPABASE_ANON_KEY } });
+      const d = await r.json();
+      if (r.ok && d.verses && d.verses.length) data = d.verses;
+    } catch (e) { console.warn('api passage:', e); }
+    if (!data) { err.textContent = bibleVersion + ' lookup failed — check connection, or try KJV/BSB.'; return; }
+    renderVersePreviewFrom(data);
+    return;
+  }
+
   const { data, error } = await client
     .from('control_room_bible')
     .select('book, chapter, verse, text, version')
@@ -2691,7 +2736,12 @@ async function runVerseQuery(book, chapter, verseStart, verseEnd) {
     return;
   }
 
-  // Pack into slides: pair short consecutive verses, single-verse for long ones
+  renderVersePreviewFrom(data);
+}
+
+// Shared: turn a verses array (from DB or API) into the packed preview.
+function renderVersePreviewFrom(data) {
+  const res = document.getElementById('bible-result');
   const slides = packVersesIntoSlides(data);
   const isRange = data.length > 1;
 
@@ -2705,7 +2755,6 @@ async function runVerseQuery(book, chapter, verseStart, verseEnd) {
       : `${data[0].book} ${data[0].chapter}:${data[0].verse}`
   };
 
-  // Render preview
   document.getElementById('bible-ref').textContent = verseResult.rangeLabel + ' · ' + verseResult.version;
   document.getElementById('bible-text').innerHTML = renderPassagePreview(verseResult);
   res.classList.add('show');
