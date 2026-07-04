@@ -1707,6 +1707,21 @@
     display: none; cursor: nwse-resize; touch-action: none;
   }
   .pos-frame.editing .pos-resize { display: block; }
+  .pos-target-row { display: flex; gap: 8px; margin-bottom: 10px; }
+  .pos-target-btn {
+    flex: 1;
+    padding: 8px 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .pos-target-btn.active { background: var(--surface-2); border-color: var(--border-strong); color: var(--text); }
+  .pos-target-btn:active { transform: scale(0.97); }
   .pos-editor-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; }
   .pos-hint { font-size: 11px; color: var(--text-muted); flex: 1; line-height: 1.4; }
 </style>
@@ -1837,6 +1852,10 @@
         <div class="pos-editor-head">
           <span class="display-label" style="margin:0">Position &amp; size</span>
           <button id="pos-mode-btn" class="pos-mode-btn" onclick="togglePosMode()">🔒 Locked</button>
+        </div>
+        <div class="pos-target-row">
+          <button class="pos-target-btn active" data-target="lyric" onclick="setPosTarget('lyric')">Lyrics</button>
+          <button class="pos-target-btn" data-target="verse" onclick="setPosTarget('verse')">Verses</button>
         </div>
         <div id="pos-frame" class="pos-frame">
           <div id="pos-box" class="pos-box">
@@ -2808,8 +2827,8 @@ function parseRef(q) {
 // ============================================================
 // DISPLAY SETTINGS
 // ============================================================
-let displaySaved = { position: 'bottom', vertical_offset: 8, size: 'medium', logo_corner: 'off', logo_opacity: 80, logo_size: 80, custom_pos: false, pos_x: 0.5, pos_y: 0.82, scale: 1 };
-let displayDraft = { position: 'bottom', vertical_offset: 8, size: 'medium', logo_corner: 'off', logo_opacity: 80, logo_size: 80, custom_pos: false, pos_x: 0.5, pos_y: 0.82, scale: 1 };
+let displaySaved = { position: 'bottom', vertical_offset: 8, size: 'medium', logo_corner: 'off', logo_opacity: 80, logo_size: 80, custom_pos: false, pos_x: 0.5, pos_y: 0.82, scale: 1, verse_custom_pos: false, verse_pos_x: 0.5, verse_pos_y: 0.82, verse_scale: 1 };
+let displayDraft = { position: 'bottom', vertical_offset: 8, size: 'medium', logo_corner: 'off', logo_opacity: 80, logo_size: 80, custom_pos: false, pos_x: 0.5, pos_y: 0.82, scale: 1, verse_custom_pos: false, verse_pos_x: 0.5, verse_pos_y: 0.82, verse_scale: 1 };
 
 async function loadDisplaySettings() {
   const { data, error } = await client
@@ -2829,16 +2848,25 @@ async function loadDisplaySettings() {
 // Writes free pos_x / pos_y / scale to control_room_display, live.
 // ============================================================
 let posMode = 'locked';        // 'locked' | 'edit'
+let posTarget = 'lyric';       // 'lyric' | 'verse' — which text block we're placing
 let posSaveTimer = null;
 
 function round3(n) { return Math.round(n * 1000) / 1000; }
 function clampNum(v, d) { return (typeof v === 'number' && !isNaN(v)) ? v : d; }
 
+// The control_room_display field names for the currently-selected target.
+function posFields(t) {
+  return (t || posTarget) === 'verse'
+    ? { custom: 'verse_custom_pos', x: 'verse_pos_x', y: 'verse_pos_y', s: 'verse_scale', label: 'Verses' }
+    : { custom: 'custom_pos', x: 'pos_x', y: 'pos_y', s: 'scale', label: 'Lyrics' };
+}
+
 // Where the block sits: custom coords if set, otherwise derived from the preset
 // so the editor box still shows roughly where preset text lands.
-function posFromSettings() {
-  if (displaySaved.custom_pos) {
-    return { x: clampNum(displaySaved.pos_x, 0.5), y: clampNum(displaySaved.pos_y, 0.82), s: clampNum(displaySaved.scale, 1) };
+function posFromSettings(t) {
+  const f = posFields(t || posTarget);
+  if (displaySaved[f.custom]) {
+    return { x: clampNum(displaySaved[f.x], 0.5), y: clampNum(displaySaved[f.y], 0.82), s: clampNum(displaySaved[f.s], 1) };
   }
   const y = displaySaved.position === 'top' ? 0.18 : displaySaved.position === 'middle' ? 0.5 : 0.82;
   const s = ({ small: 0.8, medium: 1, large: 1.25 })[displaySaved.size] || 1;
@@ -2852,15 +2880,18 @@ function renderPosEditor() {
   box.style.left = (p.x * 100) + '%';
   box.style.top = (p.y * 100) + '%';
   box.style.transform = `translate(-50%, -50%) scale(${p.s})`;
+  const lbl = document.getElementById('pos-box-text');
+  if (lbl) lbl.textContent = posFields(posTarget).label;
 }
 
 // When the operator first touches the editor, seed the custom coords from the
 // current preset so moving doesn't also jump the size and vice-versa.
 function ensureCustomSeed() {
-  if (!displaySaved.custom_pos) {
+  const f = posFields(posTarget);
+  if (!displaySaved[f.custom]) {
     const p = posFromSettings();
-    displaySaved.pos_x = p.x; displaySaved.pos_y = p.y; displaySaved.scale = p.s;
-    displaySaved.custom_pos = true;
+    displaySaved[f.x] = p.x; displaySaved[f.y] = p.y; displaySaved[f.s] = p.s;
+    displaySaved[f.custom] = true;
   }
 }
 
@@ -2870,6 +2901,10 @@ async function savePosition() {
     pos_x: displaySaved.pos_x,
     pos_y: displaySaved.pos_y,
     scale: displaySaved.scale,
+    verse_custom_pos: displaySaved.verse_custom_pos,
+    verse_pos_x: displaySaved.verse_pos_x,
+    verse_pos_y: displaySaved.verse_pos_y,
+    verse_scale: displaySaved.verse_scale,
     updated_at: new Date().toISOString(),
     updated_by: currentUser.name
   }).eq('id', 1);
@@ -2893,10 +2928,19 @@ window.togglePosMode = () => {
 };
 
 window.resetToPreset = async () => {
-  displaySaved.custom_pos = false;
-  displayDraft.custom_pos = false;
+  const f = posFields(posTarget);
+  displaySaved[f.custom] = false;
+  displayDraft[f.custom] = false;
   renderPosEditor();
   await savePosition();
+};
+
+// Switch which text block the editor is placing (Lyrics vs Verses).
+window.setPosTarget = (t) => {
+  posTarget = (t === 'verse') ? 'verse' : 'lyric';
+  document.querySelectorAll('.pos-target-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.target === posTarget));
+  renderPosEditor();
 };
 
 (function setupPosEditor() {
@@ -2919,7 +2963,8 @@ window.resetToPreset = async () => {
     const r = rect();
     const x = Math.min(0.95, Math.max(0.05, (e.clientX - r.left) / r.width));
     const y = Math.min(0.95, Math.max(0.05, (e.clientY - r.top) / r.height));
-    displaySaved.pos_x = round3(x); displaySaved.pos_y = round3(y);
+    const f = posFields(posTarget);
+    displaySaved[f.x] = round3(x); displaySaved[f.y] = round3(y);
     renderPosEditor(); savePositionThrottled();
   });
   const endDrag = (e) => {
@@ -2945,7 +2990,7 @@ window.resetToPreset = async () => {
     if (!resizing) return;
     const d = Math.max(8, Math.hypot(e.clientX - cX, e.clientY - cY));
     const s = Math.min(2.5, Math.max(0.4, startScale * (d / startDist)));
-    displaySaved.scale = round3(s);
+    displaySaved[posFields(posTarget).s] = round3(s);
     renderPosEditor(); savePositionThrottled();
   });
   const endResize = (e) => {

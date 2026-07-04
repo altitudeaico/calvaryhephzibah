@@ -632,43 +632,45 @@ function render(mode, payload) {
 // ============================================================
 const SIZE_SCALE = { small: 0.8, medium: 1.0, large: 1.25 };
 
+function placeStage(stage, free, anchor, scaleVar, presetScale) {
+  if (free.custom) {
+    // Free positioning: centre the block on (x, y) of the 1920x1080 frame, scaled.
+    stage.classList.add('free');
+    stage.removeAttribute('data-anchor');
+    stage.style.setProperty('--pos-x', typeof free.x === 'number' ? free.x : 0.5);
+    stage.style.setProperty('--pos-y', typeof free.y === 'number' ? free.y : 0.82);
+    stage.style.setProperty('--free-scale', typeof free.s === 'number' ? free.s : 1);
+    document.documentElement.style.setProperty(scaleVar, 1); // transform handles size in free mode
+  } else {
+    // Preset positioning (top/middle/bottom + offset + size).
+    stage.classList.remove('free');
+    stage.dataset.anchor = anchor;
+    stage.style.removeProperty('--pos-x');
+    stage.style.removeProperty('--pos-y');
+    stage.style.removeProperty('--free-scale');
+    document.documentElement.style.setProperty(scaleVar, presetScale);
+  }
+}
+
 function applyDisplaySettings(settings) {
   const lyricStage = document.getElementById('lyric-stage');
   const verseStage = document.getElementById('verse-stage');
-  const stages = [lyricStage, verseStage];
 
-  if (settings.custom_pos) {
-    // Free positioning: centre the block on (pos_x, pos_y) and scale it.
-    const px = typeof settings.pos_x === 'number' ? settings.pos_x : 0.5;
-    const py = typeof settings.pos_y === 'number' ? settings.pos_y : 0.82;
-    const sc = typeof settings.scale === 'number' ? settings.scale : 1;
-    stages.forEach(st => {
-      st.classList.add('free');
-      st.removeAttribute('data-anchor');
-      st.style.setProperty('--pos-x', px);
-      st.style.setProperty('--pos-y', py);
-      st.style.setProperty('--free-scale', sc);
-    });
-    // The transform handles size in free mode; keep font scale neutral.
-    document.documentElement.style.setProperty('--lyric-scale', 1);
-    document.documentElement.style.setProperty('--verse-scale', 1);
-  } else {
-    // Preset positioning (top/middle/bottom + offset + size) — unchanged.
-    const anchor = settings.position || 'bottom';
-    const offset = typeof settings.vertical_offset === 'number' ? settings.vertical_offset : 14;
-    const scale = SIZE_SCALE[settings.size] || 1.0;
-    const offsetPx = Math.round(offset * 10.8);
-    document.documentElement.style.setProperty('--stage-offset', offsetPx + 'px');
-    document.documentElement.style.setProperty('--lyric-scale', scale);
-    document.documentElement.style.setProperty('--verse-scale', scale);
-    stages.forEach(st => {
-      st.classList.remove('free');
-      st.dataset.anchor = anchor;
-      st.style.removeProperty('--pos-x');
-      st.style.removeProperty('--pos-y');
-      st.style.removeProperty('--free-scale');
-    });
-  }
+  // Shared preset params — used by whichever stage isn't in free mode.
+  const anchor = settings.position || 'bottom';
+  const offset = typeof settings.vertical_offset === 'number' ? settings.vertical_offset : 14;
+  const presetScale = SIZE_SCALE[settings.size] || 1.0;
+  document.documentElement.style.setProperty('--stage-offset', Math.round(offset * 10.8) + 'px');
+
+  // Lyrics and verses are placed independently: each has its own optional
+  // custom position/scale, and falls back to the shared presets when off.
+  placeStage(lyricStage, {
+    custom: !!settings.custom_pos, x: settings.pos_x, y: settings.pos_y, s: settings.scale
+  }, anchor, '--lyric-scale', presetScale);
+
+  placeStage(verseStage, {
+    custom: !!settings.verse_custom_pos, x: settings.verse_pos_x, y: settings.verse_pos_y, s: settings.verse_scale
+  }, anchor, '--verse-scale', presetScale);
 
   // Logo bug
   const corner = settings.logo_corner || 'off';
