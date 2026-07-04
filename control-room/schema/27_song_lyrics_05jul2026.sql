@@ -6,26 +6,25 @@
 -- (Lyrics supplied by the worship team; CCLI-covered, for in-service
 -- slide display only.)
 --
--- This batch:
---     · King of Glory — Todd Dulaney (feat. Shana Wilson-Williams)
---       (verse/chorus attribution labels removed; worship arrangement)
+-- This batch (add songs here and re-run as they come in):
+--     · King of Glory — Todd Dulaney (verse/chorus labels removed)
+--     · Indescribable — Chris Tomlin / Laura Story
 --
 -- STILL PENDING lyrics for the 5 Jul set (placeholder until added here
 -- and re-run):
---     · Indescribable — Chris Tomlin
 --     · You Deserve It (My Hallelujah) — J.J. Hairston
 --     · We Lift Our Hands in the Sanctuary
 --   (The four praise songs + My Jesus / Shout to the Lord already resolve
 --    from the control_room_songs library, so they are not in this file.)
 --
 -- This migration:
---   1. Upserts King of Glory into control_room_songs (persistent library)
+--   1. Upserts each song into control_room_songs (persistent library)
 --      so it's available for every future Sunday.
---   2. Patches the matching item in control_room_plan_items for the
---      5 July plan, replacing the placeholder with real lyrics.
+--   2. Patches the matching items in control_room_plan_items for the
+--      5 July plan, replacing placeholders with real lyrics.
 --
 -- Idempotent: safe to re-run. Library uses ON CONFLICT update; plan
--- items use targeted UPDATE on (plan_id, title).
+-- items use targeted UPDATE on (plan_id, title = library title).
 -- Run in Supabase SQL editor (project: pfycvgbrsbecznkcikwt).
 -- ============================================================
 
@@ -52,7 +51,32 @@ insert into control_room_songs (title, slides, section_default, artist) values
    {"line1":"Just wanna be with You","line2":"King of Glory, fill this place"},
    {"line1":"Just wanna be with You","line2":"Just wanna be with You"}
  ]',
- 'worship', 'Todd Dulaney')
+ 'worship', 'Todd Dulaney'),
+
+('Indescribable',
+ '[
+   {"line1":"From the highest of heights to the depths of the sea","line2":"Creation''s revealing Your majesty"},
+   {"line1":"From the colors of fall to the fragrance of spring","line2":"Every creature unique in the song that it sings"},
+   {"line1":"All exclaiming","line2":""},
+
+   {"line1":"Indescribable, uncontainable,","line2":"You placed the stars in the sky and You know them by name"},
+   {"line1":"You are amazing God","line2":"All powerful, untameable,"},
+   {"line1":"Awestruck we fall to our knees as we humbly proclaim","line2":"You are amazing God"},
+
+   {"line1":"Who has told every lightning bolt where it should go","line2":"Or seen heavenly storehouses laden with snow"},
+   {"line1":"Who imagined the sun and gives source to its light","line2":"Yet conceals it to bring us the coolness of night"},
+   {"line1":"None can fathom","line2":""},
+
+   {"line1":"Indescribable, uncontainable,","line2":"You placed the stars in the sky and You know them by name"},
+   {"line1":"You are amazing God","line2":"All powerful, untameable,"},
+   {"line1":"Awestruck we fall to our knees as we humbly proclaim","line2":"You are amazing God"},
+
+   {"line1":"Indescribable, uncontainable,","line2":"You placed the stars in the sky and You know them by name"},
+   {"line1":"You are amazing God","line2":"Incomparable, unchangeable"},
+   {"line1":"You see the depths of my heart and You love me the same","line2":"You are amazing God"},
+   {"line1":"You are amazing God","line2":""}
+ ]',
+ 'worship', 'Chris Tomlin')
 
 on conflict (title) do update
   set slides          = excluded.slides,
@@ -61,7 +85,8 @@ on conflict (title) do update
       updated_at      = now();
 
 -- --------------------------------------------------------------------
--- 2. Patch 5 July 2026 plan — replace placeholder with real lyrics
+-- 2. Patch 5 July 2026 plan — replace placeholders with real lyrics
+--    (patches every 5 Jul song that now has a library entry)
 -- --------------------------------------------------------------------
 
 update control_room_plan_items pi
@@ -69,17 +94,16 @@ update control_room_plan_items pi
   from control_room_songs s
  where pi.plan_id = (select id from control_room_plans where service_date = '2026-07-05')
    and pi.kind = 'song'
-   and pi.title = s.title
-   and pi.title = 'King of Glory';
+   and pi.title = s.title;
 
 -- --------------------------------------------------------------------
 -- VERIFY
 -- --------------------------------------------------------------------
 
--- The song added to the library by this file
+-- The songs added to the library by this file
 select title, artist, section_default, jsonb_array_length(slides) as slides
   from control_room_songs
- where title = 'King of Glory';
+ where title in ('King of Glory', 'Indescribable');
 
 -- 5 July plan items — which still need lyrics?
 select i.position, i.section, i.title, jsonb_array_length(i.slides) as slides,
