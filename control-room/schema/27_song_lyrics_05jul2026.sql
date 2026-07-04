@@ -10,11 +10,10 @@
 --     · King of Glory — Todd Dulaney (verse/chorus labels removed)
 --     · Indescribable — Chris Tomlin / Laura Story
 --     · You Deserve It (My Hallelujah) — J.J. Hairston
+--     · We Lift Our Hands in the Sanctuary — Kurt Carr
 --
--- STILL PENDING lyrics for the 5 Jul set (placeholder until added here
--- and re-run):
---     · We Lift Our Hands in the Sanctuary
---   (The four praise songs + My Jesus / Shout to the Lord already resolve
+-- ALL NINE songs in the 5 Jul set now have real lyrics — nothing pending.
+--   (The four praise songs + My Jesus / Shout to the Lord already resolved
 --    from the control_room_songs library, so they are not in this file.)
 --
 -- This migration:
@@ -93,7 +92,39 @@ insert into control_room_songs (title, slides, section_default, artist) values
 
    {"line1":"You deserve it","line2":""}
  ]',
- 'worship', 'J.J. Hairston')
+ 'worship', 'J.J. Hairston'),
+
+('We Lift Our Hands in the Sanctuary',
+ '[
+   {"line1":"We lift our hands in the sanctuary","line2":"We lift our hands to give You the glory"},
+   {"line1":"We lift our hands to give You the praise","line2":"And we will praise You for the rest of our days"},
+   {"line1":"Yes, we will praise You for the rest of our days","line2":""},
+
+   {"line1":"We clap our hands in the sanctuary","line2":"We clap our hands to give You the glory"},
+   {"line1":"We clap our hands to give You the praise","line2":"And we will praise You for the rest of our days"},
+   {"line1":"Yes, we will praise You for the rest of our days","line2":""},
+
+   {"line1":"We sing our song in the sanctuary","line2":"We sing our song to give You the glory"},
+   {"line1":"We sing our song to give You the praise","line2":"And we will praise You for the rest of our days"},
+   {"line1":"Yes, we will praise You for the rest of our days","line2":""},
+
+   {"line1":"Jesus, we give You the praise","line2":"Emmanuel, we lift up Your name"},
+   {"line1":"Heavenly Father, coming Messiah","line2":"And we will praise You for the rest of our days"},
+   {"line1":"Yes, will praise You for the rest of our days","line2":""},
+
+   {"line1":"Hallelujah in the sanctuary","line2":"Hallelujah we give You the glory"},
+   {"line1":"Hallelujah we give You the praise","line2":"And we will praise You for the rest of our days"},
+   {"line1":"Yes, we will praise You for the rest of our days","line2":""},
+
+   {"line1":"Jesus, we give You the praise","line2":"Emmanuel, we lift up Your name"},
+   {"line1":"Heavenly Father, coming Messiah","line2":"And we will praise You for the rest of our days"},
+   {"line1":"Yes, will praise You for the rest of our days","line2":""},
+
+   {"line1":"Yes! Yes, Lord for the rest of our days","line2":""},
+   {"line1":"Hallelujah, hallelujah,","line2":"Hallelujah for the rest of our days"},
+   {"line1":"And we will praise You for the rest of our days","line2":""}
+ ]',
+ 'offering', 'Kurt Carr')
 
 on conflict (title) do update
   set slides          = excluded.slides,
@@ -120,7 +151,7 @@ update control_room_plan_items pi
 -- The songs added to the library by this file
 select title, artist, section_default, jsonb_array_length(slides) as slides
   from control_room_songs
- where title in ('King of Glory', 'Indescribable', 'You Deserve It (My Hallelujah)');
+ where title in ('King of Glory', 'Indescribable', 'You Deserve It (My Hallelujah)', 'We Lift Our Hands in the Sanctuary');
 
 -- 5 July plan items — which still need lyrics?
 select i.position, i.section, i.title, jsonb_array_length(i.slides) as slides,
