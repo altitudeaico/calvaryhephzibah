@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beyond These Four Walls · Sunday Announcement | Calvary Hephzibah</title>
+
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Calvary Hephzibah Full Gospel Church">
+<meta property="og:title" content="Beyond These Four Walls · Sunday Announcement">
+<meta property="og:description" content="Sharing our services online, so the gospel reaches beyond these walls. A gentle Sunday encouragement from Calvary Hephzibah.">
+<meta property="og:image" content="https://calvaryhfgc.github.io/calvaryhephzibah/social-media-announcement-og.png?v=1">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Beyond These Four Walls, Calvary Hephzibah Sunday announcement">
+<meta property="og:url" content="https://calvaryhfgc.github.io/calvaryhephzibah/social-media-announcement.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Beyond These Four Walls · Sunday Announcement">
+<meta name="twitter:description" content="Sharing our services online, so the gospel reaches beyond these walls.">
+<meta name="twitter:image" content="https://calvaryhfgc.github.io/calvaryhephzibah/social-media-announcement-og.png?v=1">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --obsidian:#0A0A0A;
+    --obsidian-2:#0B0B0E;
+    --red:#D0441C;
+    --bone:#F5F0E8;
+    --bone-dim:rgba(245,240,232,0.62);
+    --bone-faint:rgba(245,240,232,0.55);
+    --line:rgba(245,240,232,0.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--obsidian);
+    color:var(--bone);
+    font-family:'Inter Tight',system-ui,sans-serif;
+    line-height:1.55;
+    padding:28px 20px 64px;
+    max-width:760px;
+    margin:0 auto;
+  }
+
+  /* ---- Header ---- */
+  .eyebrow{
+    font-size:0.72rem;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--red);
+    font-weight:600;
+    margin-bottom:14px;
+  }
+  h1{
+    font-family:'Anton',sans-serif;
+    font-weight:400;
+    font-size:clamp(2.2rem,7.4vw,3.4rem);
+    line-height:0.98;
+    letter-spacing:0.01em;
+    text-transform:uppercase;
+  }
+  .subhead{
+    font-family:'Instrument Serif',serif;
+    font-style:italic;
+    font-size:clamp(1.05rem,3.4vw,1.35rem);
+    color:var(--bone-dim);
+    margin-top:12px;
+  }
+  .rule{height:1px;background:var(--line);margin:28px 0}
+
+  /* ---- The script (hero / autocue) ---- */
+  .script-label{
+    display:flex;align-items:baseline;gap:12px;
+    margin-bottom:18px;flex-wrap:wrap;
+  }
+  .script-label .tag{
+    font-family:'Anton',sans-serif;font-weight:400;
+    font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--obsidian);background:var(--red);
+    padding:5px 11px 4px;border-radius:4px;
+  }
+  .script-label .time{
+    font-size:0.8rem;color:var(--bone-faint);
+    letter-spacing:0.04em;text-transform:uppercase;
+  }
+  .script{
+    border-left:3px solid var(--red);
+    padding:6px 0 6px 22px;
+  }
+  .say{
+    font-size:clamp(1.3rem,4.6vw,1.75rem);
+    line-height:1.42;font-weight:500;color:var(--bone);
+    margin-bottom:1em;
+  }
+  .say .red{color:var(--red);font-weight:600}
+  .cue{
+    font-size:clamp(1.05rem,3.4vw,1.2rem);
+    color:var(--bone-dim);font-weight:600;
+    text-transform:uppercase;letter-spacing:0.06em;
+    margin:22px 0 14px;
+  }
+
+  /* ---- Bulleted asks ---- */
+  .asks{list-style:none;margin-bottom:1.2em}
+  .asks li{
+    position:relative;
+    padding:12px 0 12px 34px;
+    font-size:clamp(1.25rem,4.4vw,1.6rem);
+    line-height:1.34;font-weight:500;
+    border-top:1px solid var(--line);
+  }
+  .asks li:first-child{border-top:none}
+  .asks li::before{
+    content:"";
+    position:absolute;left:4px;top:1.05em;
+    width:11px;height:11px;border-radius:50%;
+    background:var(--red);
+  }
+  .asks li .red{color:var(--red);font-weight:600}
+
+  /* ---- Short version ---- */
+  .short{
+    background:var(--obsidian-2);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 24px;
+  }
+  .short .script-label{margin-bottom:12px}
+  .short .say{
+    font-size:clamp(1.02rem,3.4vw,1.18rem);
+    line-height:1.5;margin-bottom:0.8em;
+  }
+  .short .asks li{
+    font-size:clamp(1.02rem,3.4vw,1.18rem);
+    padding:9px 0 9px 30px;
+  }
+  .short .asks li::before{width:9px;height:9px;top:0.95em}
+
+  /* ---- Find us ---- */
+  .find{
+    background:var(--obsidian-2);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px 24px;
+    margin-top:22px;
+  }
+  .find-label{
+    font-family:'Anton',sans-serif;font-weight:400;
+    font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--red);margin-bottom:14px;
+  }
+  .handles{list-style:none;display:flex;flex-direction:column;gap:12px}
+  .handles li{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .handles .plat{
+    min-width:104px;color:var(--bone-dim);font-weight:600;
+    font-size:0.95rem;text-transform:uppercase;letter-spacing:0.04em;
+  }
+  .handles .handle{color:var(--red);font-weight:600;font-size:clamp(1.1rem,3.6vw,1.35rem)}
+
+  /* ---- Footer ---- */
+  .foot{
+    margin-top:34px;color:var(--bone-faint);
+    font-size:0.82rem;line-height:1.6;
+  }
+  @media print{
+    body{background:#fff;color:#111;max-width:none}
+    .eyebrow,.say .red,.script-label .time,.cue{color:#C0391A}
+    .script{border-left-color:#C0391A}
+    .script-label .tag{background:#C0391A;color:#fff}
+    .asks li::before{background:#C0391A}
+    .subhead,.foot,.short .say,.handles .plat{color:#333}
+    .short,.find{background:#f6f4f0;border-color:#ddd}
+    .find-label,.handles .handle{color:#C0391A}
+    .rule,.asks li{border-color:#ddd}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="eyebrow">Sunday Announcement</div>
+    <h1>Beyond These Four Walls</h1>
+    <p class="subhead">For the announcer. A gentle encouragement to read from the front, before the benediction.</p>
+  </header>
+
+  <div class="rule"></div>
+
+  <!-- HERO SCRIPT -->
+  <section>
+    <div class="script-label">
+      <span class="tag">Read this</span>
+      <span class="time">About 30 seconds</span>
+    </div>
+    <div class="script">
+      <p class="say">Every week, the gospel goes out well beyond these four walls. We share short clips from our services on <span class="red">Instagram, TikTok and YouTube Shorts</span>. They reach people who may never walk through our doors, and every one of us can help them travel further.</p>
+
+      <p class="cue">So here's a gentle encouragement</p>
+      <ul class="asks">
+        <li>Follow us, so our clips come up in your feed.</li>
+        <li>When one of our clips comes up, give it a <span class="red">like</span>.</li>
+        <li>Leave a quick <span class="red">comment</span>.</li>
+        <li>And tap <span class="red">share</span> or repost. That's the button that carries our clips onto new feeds.</li>
+      </ul>
+
+      <p class="say">None of this takes more than a few seconds, but it carries the gospel to places we could never reach on our own.</p>
+      <p class="say">If you're not on social media, that's completely fine. But if you are, you can help us take the word beyond these walls this week.</p>
+    </div>
+  </section>
+
+  <!-- WHERE TO FIND US -->
+  <div class="find">
+    <div class="find-label">Where to find us</div>
+    <ul class="handles">
+      <li><span class="plat">TikTok</span><span class="handle">@calvaryhephzibah</span></li>
+      <li><span class="plat">Instagram</span><span class="handle">@calvaryhephzibahfgc</span></li>
+      <li><span class="plat">YouTube</span><span class="handle">Search &ldquo;Calvary Hephzibah&rdquo;</span></li>
+    </ul>
+  </div>
+
+  <div class="rule"></div>
+
+  <!-- SHORT VERSION -->
+  <section class="short">
+    <div class="script-label">
+      <span class="tag">Short week</span>
+      <span class="time">About 15 seconds</span>
+    </div>
+    <p class="say">Sharing short clips from our services is one of the simplest ways we take the gospel beyond these four walls. If you're on Instagram, TikTok or YouTube, follow us. Then when our clips come up:</p>
+    <ul class="asks">
+      <li>Give it a like.</li>
+      <li>Leave a comment.</li>
+      <li>Tap share or repost.</li>
+    </ul>
+    <p class="say">It only takes a few seconds, and it helps our clips reach people we could never meet in this room.</p>
+  </section>
+
+  <!-- FOOTER -->
+  <!-- Editor note (not shown on page): platform handles are in the "Where to find us" block above. Update them there if they change. -->
+  <div class="foot">
+    Calvary Hephzibah Full Gospel Church · Media &amp; Communications
+  </div>
+
+</body>
+</html>
