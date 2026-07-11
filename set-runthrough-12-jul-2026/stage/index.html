@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0e">
+  <title>Stage View · Sunday 12 July 2026</title>
+  <meta name="description" content="On-stage setlist, structure and keys for Sunday 12 July 2026.">
+  <meta name="robots" content="noindex,nofollow">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Stage View · Sunday 12 July 2026">
+  <meta property="og:description" content="Setlist, structure and keys on your phone. For the band, in-service.">
+  <meta property="og:image" content="https://calvaryhfgc.github.io/calvaryhephzibah/set-runthrough-12-jul-2026/stage/og-card.png?v=1">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Calvary Hephzibah · Stage View — on-phone lyrics and structure for the band, Sunday 12 July 2026">
+  <meta property="og:url" content="https://calvaryhfgc.github.io/calvaryhephzibah/set-runthrough-12-jul-2026/stage/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Stage View · Sunday 12 July 2026">
+  <meta name="twitter:description" content="Lyrics + structure on your phone. For the band, in-service.">
+  <meta name="twitter:image" content="https://calvaryhfgc.github.io/calvaryhephzibah/set-runthrough-12-jul-2026/stage/og-card.png?v=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif&family=Inter+Tight:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --obsidian: #0b0b0e;
+      --slate: #16161a;
+      --slate-2: #1d1d22;
+      --bone: #f4efe6;
+      --fg-2: #c9c3b6;
+      --fg-3: #a29c90;
+      --line-soft: #2a2a30;
+      --red: #d0441c;
+      --red-bright: #e85a30;
+      --gold: #c8a24b;
+      --gold-bright: #e0bc64;
+      --font-display: 'Anton', system-ui, sans-serif;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-body: 'Inter Tight', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--obsidian);
+      color: var(--bone);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overscroll-behavior-y: none;
+    }
+
+    /* ── Top bar (persistent) ── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 11, 14, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line-soft);
+      padding: 12px 16px;
+      padding-top: max(12px, env(safe-area-inset-top));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .topbar-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .topbar-context {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+    }
+    .topbar-now {
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: var(--bone);
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+    .topbar-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .topbar-btn {
+      background: var(--slate);
+      border: 1px solid var(--line-soft);
+      color: var(--fg-2);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+      font-family: var(--font-body);
+    }
+    .topbar-btn:hover { border-color: var(--gold); color: var(--bone); }
+    .topbar-btn.active {
+      border-color: var(--gold-bright);
+      background: rgba(200, 162, 75, 0.12);
+      color: var(--gold-bright);
+    }
+    .topbar-btn .dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--fg-3);
+      margin-right: 6px;
+      vertical-align: middle;
+      transition: background 120ms ease;
+    }
+    .topbar-btn.active .dot { background: var(--red-bright); animation: pulse 1.8s ease-in-out infinite; }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(232, 90, 48, 0.6); }
+      50% { box-shadow: 0 0 0 5px rgba(232, 90, 48, 0); }
+    }
+
+    /* ── Song cards ── */
+    main {
+      padding-bottom: 120px;  /* leave room for the nav strip */
+    }
+
+    .song-card {
+      min-height: calc(100vh - 60px);
+      padding: 28px 20px 40px;
+      border-bottom: 1px solid var(--line-soft);
+      display: flex;
+      flex-direction: column;
+      scroll-margin-top: 56px;  /* keep song-num below sticky top bar on jump */
+    }
+
+    .card-head {
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 1px dashed var(--line-soft);
+    }
+    .card-num {
+      font-family: var(--font-display);
+      font-size: 16px;
+      color: var(--red-bright);
+      letter-spacing: 0.16em;
+      margin-bottom: 4px;
+    }
+    .card-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: clamp(34px, 7vw, 56px);
+      line-height: 1;
+      letter-spacing: 0.005em;
+      color: var(--bone);
+      margin: 0;
+      flex: 1;
+      min-width: 0;
+    }
+    .card-key {
+      flex-shrink: 0;
+      background: rgba(200, 162, 75, 0.16);
+      border: 1.5px solid var(--gold);
+      color: var(--gold-bright);
+      font-family: var(--font-display);
+      font-size: clamp(28px, 6vw, 44px);
+      line-height: 1;
+      padding: 8px 18px 6px;
+      border-radius: 12px;
+      letter-spacing: 0.03em;
+      min-width: 68px;
+      text-align: center;
+    }
+    .card-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .meta-pill {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--fg-2);
+      background: var(--slate-2);
+      border: 1px solid var(--line-soft);
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+    .card-credit {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--fg-3);
+      margin-top: 12px;
+    }
+
+    .card-body {
+      flex: 1;
+    }
+
+    .sections {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .sec {
+      padding: 14px 16px;
+      background: var(--slate);
+      border: 1px solid var(--line-soft);
+      border-left: 3px solid var(--gold);
+      border-radius: 6px;
+    }
+    .sec-label {
+      font-family: var(--font-display);
+      font-size: 20px;
+      color: var(--bone);
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+      line-height: 1.1;
+    }
+    .sec-cue {
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: var(--fg-2);
+      line-height: 1.45;
+    }
+
+    .no-sections {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 17px;
+      color: var(--fg-3);
+      padding: 24px;
+      background: var(--slate);
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    /* ── Lyrics block (collapsed by default, expand on toggle) ── */
+    .lyrics-block {
+      display: none;
+      margin-top: 22px;
+      padding: 18px 18px 20px;
+      background: var(--slate);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+    }
+    .song-card.lyrics-open .lyrics-block {
+      display: block;
+    }
+    .lyrics-block-head {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line-soft);
+      margin-bottom: 14px;
+    }
+    .slide-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .slide-pair {
+      padding: 10px 0;
+    }
+    .slide-pair.single {
+      padding: 8px 0;
+    }
+    .slide-l1, .slide-l2 {
+      font-family: var(--font-body);
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--bone);
+      line-height: 1.32;
+      letter-spacing: 0.005em;
+    }
+    .slide-l2 {
+      margin-top: 2px;
+      color: var(--fg-2);
+    }
+    .slide-sep {
+      height: 0;
+      border-top: 1px dashed var(--line-soft);
+      margin: 2px 0;
+    }
+
+    /* Toggle button */
+    .lyrics-toggle {
+      margin-top: 22px;
+      align-self: flex-start;
+      background: transparent;
+      border: 1px solid var(--line-soft);
+      color: var(--fg-2);
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+      min-height: 44px;
+    }
+    .lyrics-toggle:hover {
+      border-color: var(--gold);
+      color: var(--bone);
+    }
+    .lyrics-toggle-icon {
+      font-size: 12px;
+      transition: transform 160ms ease;
+    }
+    .song-card.lyrics-open .lyrics-toggle {
+      border-color: var(--gold-bright);
+      background: rgba(200, 162, 75, 0.08);
+      color: var(--gold-bright);
+    }
+    .song-card.lyrics-open .lyrics-toggle-icon {
+      transform: rotate(180deg);
+      color: var(--gold-bright);
+    }
+
+    /* ── Bottom song-nav strip ── */
+    .navbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(11, 11, 14, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--line-soft);
+      padding: 12px 12px;
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+    .nav-pill {
+      flex-shrink: 0;
+      min-width: 38px;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--slate);
+      border: 1px solid var(--line-soft);
+      color: var(--fg-2);
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-size: 16px;
+      letter-spacing: 0.05em;
+      border-radius: 8px;
+      transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+    }
+    .nav-pill:hover, .nav-pill.current {
+      border-color: var(--gold);
+      color: var(--bone);
+      background: rgba(200, 162, 75, 0.1);
+    }
+
+    /* ── Bottom-of-page out link ── */
+    .outlink {
+      text-align: center;
+      padding: 24px 20px 60px;
+      font-size: 13px;
+      color: var(--fg-3);
+    }
+    .outlink a {
+      color: var(--gold-bright);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--gold);
+    }
+
+    /* ── Better tap target sizing for thumb use ── */
+    @media (hover: none) {
+      .nav-pill, .topbar-btn { min-height: 44px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-context">Sunday · 12 July 2026</span>
+      <span class="topbar-now" id="topbar-now">Stage View</span>
+    </div>
+    <div class="topbar-actions">
+      <button class="topbar-btn" id="lyrics-master-toggle" aria-pressed="false" title="Show lyrics on all songs">
+        Lyrics
+      </button>
+      <button class="topbar-btn" id="wake-toggle" aria-pressed="false" title="Keep screen on">
+        <span class="dot"></span>Awake
+      </button>
+    </div>
+  </div>
+
+  <main>
+  <section class="song-card" id="stage-setlist-tbc" data-song-num="1">
+    <div class="card-head">
+      <div class="card-num">•</div>
+      <div class="card-title-row">
+        <h2 class="card-title">Setlist to be confirmed</h2>
+        <div class="card-key" aria-label="Key">TBC</div>
+      </div>
+      <div class="card-pills"><span class="meta-pill">Worship</span></div>
+    </div>
+    <div class="card-body">
+      <div class="no-sections">The worship team hasn't locked this Sunday's set yet. As soon as the songs are confirmed, this page fills with the running order, keys and lyrics for each — same as every week. Nothing has been carried over from last Sunday.</div>
+    </div>
+  </section>
+
+    <div class="outlink">
+      <a href="../">← Back to the full runthrough</a>
+    </div>
+  </main>
+
+  <nav class="navbar" aria-label="Jump to song"></nav>
+
+  <script>
+    (function() {
+      // ── Track which song is currently in view (top-bar update + nav-pill highlight) ──
+      const cards = document.querySelectorAll('.song-card');
+      const pills = document.querySelectorAll('.nav-pill');
+      const topbarNow = document.getElementById('topbar-now');
+      const titlesByNum = {};
+      cards.forEach(card => {
+        titlesByNum[card.dataset.songNum] = card.querySelector('.card-title').textContent;
+      });
+
+      let current = '01';
+      function setCurrent(num) {
+        if (num === current) return;
+        current = num;
+        const title = titlesByNum[num] || 'Stage View';
+        topbarNow.textContent = num + ' · ' + title;
+        pills.forEach(p => p.classList.toggle('current', p.dataset.target === num));
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        // Pick the card whose top is closest to the top of the viewport
+        let bestNum = current;
+        let bestDist = Infinity;
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            const dist = Math.abs(e.boundingClientRect.top);
+            if (dist < bestDist) {
+              bestDist = dist;
+              bestNum = e.target.dataset.songNum;
+            }
+          }
+        });
+        setCurrent(bestNum);
+      }, { rootMargin: '-80px 0px -60% 0px', threshold: [0, 0.25, 0.5, 1] });
+
+      cards.forEach(c => io.observe(c));
+
+      // Set initial state for whichever card is visible on load
+      setCurrent('01');
+
+      // ── LYRICS TOGGLES: per-card + master ──
+      // Per-card state persists in sessionStorage so it survives navigation.
+      const LYRICS_KEY_PREFIX = 'stage-lyrics-open-';
+      const MASTER_KEY = 'stage-lyrics-master';
+
+      function setCardLyrics(card, open) {
+        card.classList.toggle('lyrics-open', open);
+        const btn = card.querySelector('.lyrics-toggle');
+        if (btn) {
+          const label = btn.querySelector('.lyrics-toggle-label');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          if (label) label.textContent = open ? 'Hide lyrics' : 'Show lyrics';
+        }
+        const num = card.dataset.songNum;
+        if (open) {
+          sessionStorage.setItem(LYRICS_KEY_PREFIX + num, '1');
+        } else {
+          sessionStorage.removeItem(LYRICS_KEY_PREFIX + num);
+        }
+      }
+
+      // Wire each card's toggle (skip cards without one)
+      cards.forEach(card => {
+        const btn = card.querySelector('.lyrics-toggle');
+        if (!btn) return;
+        btn.addEventListener('click', () => {
+          const isOpen = card.classList.contains('lyrics-open');
+          setCardLyrics(card, !isOpen);
+        });
+        // Restore per-card state from session
+        const stored = sessionStorage.getItem(LYRICS_KEY_PREFIX + card.dataset.songNum);
+        if (stored === '1') setCardLyrics(card, true);
+      });
+
+      // Master toggle: opens/closes ALL cards
+      const masterBtn = document.getElementById('lyrics-master-toggle');
+      function setMaster(active) {
+        masterBtn.classList.toggle('active', active);
+        masterBtn.setAttribute('aria-pressed', active ? 'true' : 'false');
+        cards.forEach(card => setCardLyrics(card, active));
+        if (active) {
+          sessionStorage.setItem(MASTER_KEY, '1');
+        } else {
+          sessionStorage.removeItem(MASTER_KEY);
+        }
+      }
+      masterBtn.addEventListener('click', () => {
+        setMaster(!masterBtn.classList.contains('active'));
+      });
+      // Restore master state
+      if (sessionStorage.getItem(MASTER_KEY) === '1') {
+        setMaster(true);
+      }
+
+      // ── WAKE LOCK: keep screen on during service ──
+      const wakeBtn = document.getElementById('wake-toggle');
+      let wakeLock = null;
+
+      async function requestWakeLock() {
+        if (!('wakeLock' in navigator)) {
+          alert('Keep-screen-on is not supported on this browser. Adjust your phone settings to keep the screen on manually.');
+          return false;
+        }
+        try {
+          wakeLock = await navigator.wakeLock.request('screen');
+          wakeLock.addEventListener('release', () => {
+            wakeBtn.classList.remove('active');
+            wakeBtn.setAttribute('aria-pressed', 'false');
+          });
+          return true;
+        } catch (err) {
+          console.error('Wake lock failed:', err);
+          return false;
+        }
+      }
+
+      function releaseWakeLock() {
+        if (wakeLock) {
+          wakeLock.release();
+          wakeLock = null;
+        }
+      }
+
+      wakeBtn.addEventListener('click', async () => {
+        const isActive = wakeBtn.classList.contains('active');
+        if (isActive) {
+          releaseWakeLock();
+          wakeBtn.classList.remove('active');
+          wakeBtn.setAttribute('aria-pressed', 'false');
+        } else {
+          const ok = await requestWakeLock();
+          if (ok) {
+            wakeBtn.classList.add('active');
+            wakeBtn.setAttribute('aria-pressed', 'true');
+          }
+        }
+      });
+
+      // Re-acquire wake lock if user returns to the tab
+      document.addEventListener('visibilitychange', async () => {
+        if (wakeBtn.classList.contains('active') && document.visibilityState === 'visible' && !wakeLock) {
+          await requestWakeLock();
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
