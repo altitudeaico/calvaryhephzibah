@@ -37,7 +37,7 @@
 --   Won the Victory)" (the recurring Calvary anthem). Titles are
 --   spelled canonically here so lyrics resolve.
 --
--- ORDER OF SERVICE: Media Awareness + Announcements (Pastor Gbenga),
+-- ORDER OF SERVICE: Social Media Announcement + Announcements (Pastor Gbenga),
 -- then reading, sermon, Birthday Thanksgiving, closing & benediction
 -- (Brother Ernest Omoregie), photographs. Speaker-only items live in
 -- plan_speakers.
@@ -117,7 +117,7 @@ from control_room_plans p,
   (2,  'Opening Prayer',            'Tinu Ibitoye',            null),
   (3,  'Worship',                   null,                      'Worship Team · Praise Key of E; worship keys at soundcheck'),
   (4,  'Communion',                 'Pastor Shade Olatoye',    null),
-  (5,  'Media Awareness',           'Pastor Gbenga Adebanjo',  'Awareness slide on screen'),
+  (5,  'Social Media Announcement',   'Pastor Gbenga Adebanjo',  'Slide / QR on screen'),
   (6,  'Announcements',             'Pastor Gbenga Adebanjo',  null),
   (7,  'Bible Reading',             'Sister Petty Femi-Ade',   'Passage TBC'),
   (8,  'Sermon',                    'Pastor Kayode Ogungbenro','I Will Not Be Ungrateful To You LORD'),
