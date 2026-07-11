@@ -9,33 +9,98 @@
 --   the cake, prayers for the celebrant & family) led by Pastor
 --   Shade Olatoye.
 --
--- Seeds the plan for the Control Room: plan + order of service.
+-- Seeds the full plan for the Control Room: plan + song set list +
+-- order of service.
 --
--- WORSHIP SET: NOT YET CONFIRMED. The worship team had not finalised
--- this Sunday's songs when this plan was seeded, so NO song items are
--- inserted here on purpose (nothing is carried over from last week).
--- When the set lands, add a section-4 song-items block (copy the
--- coalesce pattern from 26_setlist_05jul2026.sql) and re-run this file.
+-- SET LIST (confirmed by Bolaji):
+--     Praise   (Key of E): Trading My Sorrows · Lord You Are Good ·
+--                          Friend of God · Every Praise
+--     Worship  (keys at soundcheck):
+--                          Oh Be Lifted · Reign Jesus ·
+--                          Hallelujah (You Won the Victory) · No Longer Slaves
+--     Offering (kept short): We Lift Our Hands in the Sanctuary
+--     End      : My Jesus (Shout to the Lord)
+--
+-- LYRICS resolution (coalesce, first hit wins): library -> placeholder.
+--   Resolve now from control_room_songs:
+--       We Lift Our Hands in the Sanctuary, Hallelujah (You Won the Victory).
+--   Resolve after running 31_song_lyrics_12jul2026.sql (which loads them
+--   into the library and patches this plan):
+--       Trading My Sorrows, Lord You Are Good, Friend of God, Every Praise,
+--       My Jesus (Shout to the Lord).
+--   Placeholder until lyrics are loaded (new songs, no lyrics anywhere yet):
+--       Oh Be Lifted, Reign Jesus, No Longer Slaves.
+--
+--   Bolaji wrote the set as: "In the sanctuary" -> canonical
+--   "We Lift Our Hands in the Sanctuary"; "Shout to the Lord" ->
+--   "My Jesus (Shout to the Lord)"; "Hallelujah" -> "Hallelujah (You
+--   Won the Victory)" (the recurring Calvary anthem). Titles are
+--   spelled canonically here so lyrics resolve.
+--
+-- ORDER OF SERVICE: Media Awareness + Announcements (Pastor Gbenga),
+-- then reading, sermon, Birthday Thanksgiving, closing & benediction
+-- (Brother Ernest Omoregie), photographs. Speaker-only items live in
+-- plan_speakers.
 --
 -- SCRIPTURE: the pre-sermon reading passage is NOT confirmed. The
--- cr_add_scripture_to_plan() call is left commented below -- fill in
--- book/chapter/verses once confirmed, uncomment, re-run.
+-- cr_add_scripture_to_plan() call is left commented below.
 --
--- Idempotent: re-running replaces the plan and speakers for
--- 2026-07-12 cleanly.
+-- Idempotent: re-running replaces the plan, items, and speakers for
+-- 2026-07-12 cleanly. Run this FIRST, then 31_song_lyrics_12jul2026.sql.
 -- Run in Supabase SQL editor (project: pfycvgbrsbecznkcikwt).
 -- ============================================================
 
 -- --------------------------------------------------------------------
--- 1. PLAN (control_room_plans)
---    No song items yet -- worship set to be confirmed (see header).
+-- 1. PLAN + SONG SET LIST (control_room_plan_items)
 -- --------------------------------------------------------------------
 
 delete from control_room_plans where service_date = '2026-07-12';
 
-insert into control_room_plans (service_date, notes)
-values ('2026-07-12',
-  'I Will Not Be Ungrateful To You LORD (Pastor Kayode Ogungbenro). Birthday Thanksgiving today (praise & dance, cake, prayers) led by Pastor Shade. WORSHIP SET TBC -- no songs seeded yet; add song items and re-run once the team confirms.');
+with new_plan as (
+  insert into control_room_plans (service_date, notes)
+  values ('2026-07-12',
+    'I Will Not Be Ungrateful To You LORD (Pastor Kayode Ogungbenro). Birthday Thanksgiving today (praise & dance, cake, prayers) led by Pastor Shade. Praise Key of E (lyrics loaded); worship keys at soundcheck; Oh Be Lifted / Reign Jesus / No Longer Slaves need lyrics loaded.')
+  returning id
+)
+insert into control_room_plan_items (plan_id, position, kind, title, section, slides)
+select
+  (select id from new_plan),
+  v.position, v.kind, v.title, v.section,
+  coalesce(
+    (select s.slides from control_room_songs s where lower(s.title) = lower(v.title) limit 1),
+    v.fallback::jsonb
+  )
+from (values
+
+  -- PRAISE (Key of E)
+  (1, 'song', 'Trading My Sorrows', 'praise',
+    '[{"line1":"[lyrics to be added]","line2":"Trading My Sorrows"}]'),
+  (2, 'song', 'Lord You Are Good', 'praise',
+    '[{"line1":"[lyrics to be added]","line2":"Lord You Are Good"}]'),
+  (3, 'song', 'Friend of God', 'praise',
+    '[{"line1":"[lyrics to be added]","line2":"Friend of God"}]'),
+  (4, 'song', 'Every Praise', 'praise',
+    '[{"line1":"[lyrics to be added]","line2":"Every Praise"}]'),
+
+  -- WORSHIP (keys at soundcheck)
+  (5, 'song', 'Oh Be Lifted', 'worship',
+    '[{"line1":"[lyrics to be added]","line2":"Oh Be Lifted"}]'),
+  (6, 'song', 'Reign Jesus', 'worship',
+    '[{"line1":"[lyrics to be added]","line2":"Reign Jesus"}]'),
+  (7, 'song', 'Hallelujah (You Won the Victory)', 'worship',
+    '[{"line1":"[lyrics to be added]","line2":"Hallelujah (You Won the Victory)"}]'),
+  (8, 'song', 'No Longer Slaves', 'worship',
+    '[{"line1":"[lyrics to be added]","line2":"No Longer Slaves"}]'),
+
+  -- OFFERING (kept short)
+  (9, 'song', 'We Lift Our Hands in the Sanctuary', 'offering',
+    '[{"line1":"[lyrics to be added]","line2":"We Lift Our Hands in the Sanctuary"}]'),
+
+  -- END OF SERVICE
+  (10, 'song', 'My Jesus (Shout to the Lord)', 'end',
+    '[{"line1":"[lyrics to be added]","line2":"My Jesus (Shout to the Lord)"}]')
+
+) as v(position, kind, title, section, fallback);
 
 -- --------------------------------------------------------------------
 -- 2. ORDER OF SERVICE (control_room_plan_speakers)
@@ -50,7 +115,7 @@ from control_room_plans p,
 (values
   (1,  'Welcome & Bible Reading',   'Pastor Shade Olatoye',    null),
   (2,  'Opening Prayer',            'Tinu Ibitoye',            null),
-  (3,  'Worship',                   null,                      'Worship Team · set TBC, keys at soundcheck'),
+  (3,  'Worship',                   null,                      'Worship Team · Praise Key of E; worship keys at soundcheck'),
   (4,  'Communion',                 'Pastor Shade Olatoye',    null),
   (5,  'Media Awareness',           'Pastor Gbenga Adebanjo',  'Awareness slide on screen'),
   (6,  'Announcements',             'Pastor Gbenga Adebanjo',  null),
@@ -81,28 +146,10 @@ where p.service_date = '2026-07-12';
 -- ) as reading_item_id;
 
 -- --------------------------------------------------------------------
--- 4. SONG SET LIST -- NOT SEEDED (worship set TBC).
--- When the team confirms songs, paste a block like this (canonical
--- titles so lyrics resolve from prior plans / control_room_songs),
--- then re-run this whole file:
---
--- with plan as (select id from control_room_plans where service_date='2026-07-12')
--- insert into control_room_plan_items (plan_id, position, kind, title, section, slides)
--- select (select id from plan), v.position, v.kind, v.title, v.section,
---   coalesce(
---     (select s.slides from control_room_songs s where lower(s.title)=lower(v.title) limit 1),
---     v.fallback::jsonb)
--- from (values
---   (1,'song','<Praise song>','praise','[{"line1":"[lyrics to be added]","line2":"<Title>"}]')
---   -- ...more rows...
--- ) as v(position,kind,title,section,fallback);
+-- 4. VERIFY
 -- --------------------------------------------------------------------
 
--- --------------------------------------------------------------------
--- 5. VERIFY
--- --------------------------------------------------------------------
-
--- Plan summary (expect 0 songs until the set is seeded)
+-- Plan summary
 select p.service_date, p.notes,
        count(distinct i.id) filter (where i.kind = 'song')      as songs,
        count(distinct i.id) filter (where i.kind = 'scripture') as scriptures,
@@ -114,13 +161,20 @@ left join control_room_plan_speakers s on s.plan_id = p.id
 where p.service_date = '2026-07-12'
 group by p.service_date, p.notes;
 
--- Which songs still need lyrics added? (none seeded yet -- expect 0 rows)
+-- Which songs still need lyrics? (before 31: expect 8; after 31: expect the 3 new)
 select i.position, i.section, i.title, jsonb_array_length(i.slides) as slides
 from control_room_plan_items i
 join control_room_plans p on p.id = i.plan_id
 where p.service_date = '2026-07-12'
   and i.kind = 'song'
   and (i.slides::text like '%to be added%' or i.slides::text like '%plan]%')
+order by i.position;
+
+-- Full running order: songs + scripture
+select i.position, i.kind, i.title, i.section, jsonb_array_length(i.slides) as slides
+from control_room_plan_items i
+join control_room_plans p on p.id = i.plan_id
+where p.service_date = '2026-07-12'
 order by i.position;
 
 -- Order of service speakers
