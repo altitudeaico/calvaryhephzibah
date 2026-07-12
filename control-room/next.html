@@ -1946,7 +1946,7 @@
     <button class="tool-chip" data-accent="verses" onclick="openSheet('word')">Bible Verses</button>
     <button class="tool-chip" data-accent="tags" onclick="openSheet('banner')">Name Tags</button>
     <button class="tool-chip" data-accent="order" onclick="openSheet('order')">Order of Service</button>
-    <button class="tool-chip" data-accent="slides" onclick="openSheet('images')">Slides</button>
+    <button class="tool-chip" data-accent="slides" onclick="openSheet('images')">Announcements</button>
   </div>
 
   <!-- Transport (pinned to the bottom of the viewport) -->
@@ -2100,7 +2100,7 @@
     <div class="sheet-title-row">
       <div>
         <span class="sheet-eyebrow">You're in</span>
-        <h3 class="sheet-title">Slides</h3>
+        <h3 class="sheet-title">Announcements</h3>
       </div>
       <button class="sheet-done" onclick="closeSheet()">Done ✓</button>
     </div>
@@ -2112,13 +2112,13 @@
     <p class="helper">Push full-screen images, looping videos, or announcement banners.</p>
 
     <div class="gfx-tabs">
-      <button class="gfx-tab active" data-tab="images" onclick="switchGfxTab('images')">Images</button>
-      <button class="gfx-tab" data-tab="announcements" onclick="switchGfxTab('announcements')">Announcements</button>
+      <button class="gfx-tab active" data-tab="announcements" onclick="switchGfxTab('announcements')">Announcements</button>
+      <button class="gfx-tab" data-tab="images" onclick="switchGfxTab('images')">Images</button>
       <button class="gfx-tab" data-tab="backdrops"     onclick="switchGfxTab('backdrops')">Backdrops</button>
     </div>
 
     <!-- Images tab -->
-    <div id="gfx-tab-images" class="gfx-tab-body active">
+    <div id="gfx-tab-images" class="gfx-tab-body">
       <div class="img-section">
         <div class="img-section-label">Anniversary overlays</div>
         <div id="img-grid-anniversary" class="img-grid"></div>
@@ -2147,7 +2147,7 @@
     </div>
 
     <!-- Announcements tab -->
-    <div id="gfx-tab-announcements" class="gfx-tab-body">
+    <div id="gfx-tab-announcements" class="gfx-tab-body active">
       <div id="ann-suggestions" class="ann-suggestions"></div>
 
       <div class="ann-custom">
