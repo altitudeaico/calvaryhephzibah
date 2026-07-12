@@ -1761,16 +1761,43 @@
     padding: 0 20px 4px;
   }
   .tool-chip {
-    padding: 12px 4px;
+    padding: 13px 4px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    color: var(--text-muted);
+    color: var(--text);
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
+    position: relative;
     transition: all 0.12s;
   }
-  .tool-chip:hover { border-color: var(--border-strong); color: var(--text); }
+  /* Each tool is illuminated in its own accent so the row reads as four live,
+     distinct tools at a glance — brand red as the family through-line. The
+     colour is echoed on that tool's sheet header (the "you are here" bar). */
+  .tool-chip[data-accent="verses"] { --chip: #C41E2A; }  /* brand red */
+  .tool-chip[data-accent="tags"]   { --chip: #E0554E; }  /* warm red */
+  .tool-chip[data-accent="order"]  { --chip: #D98A2B; }  /* amber */
+  .tool-chip[data-accent="slides"] { --chip: #3B82F6; }  /* blue */
+  .tool-chip {
+    border-color: color-mix(in srgb, var(--chip) 55%, transparent);
+    background: color-mix(in srgb, var(--chip) 14%, var(--surface));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--chip) 20%, transparent),
+                0 4px 14px color-mix(in srgb, var(--chip) 22%, transparent);
+  }
+  .tool-chip::before {
+    content: '';
+    position: absolute;
+    left: 12px; right: 12px; top: 6px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--chip);
+    opacity: 0.9;
+  }
+  .tool-chip:hover {
+    background: color-mix(in srgb, var(--chip) 22%, var(--surface));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--chip) 35%, transparent),
+                0 6px 18px color-mix(in srgb, var(--chip) 32%, transparent);
+  }
   .tool-chip:active { transform: scale(0.96); }
 
   /* Sheets slide up over Live but UNDER the transport bar (z 900), so the
@@ -1789,29 +1816,56 @@
   .sheet.open { transform: translateY(0); pointer-events: auto; }
   .sheet-head {
     flex: none;
-    padding: 8px 20px 10px;
+    padding: 8px 20px 12px;
     border-bottom: 1px solid var(--border);
     background: var(--bg);
+    position: relative;
+  }
+  /* A coloured top bar echoes the pill you tapped — the "you are here" signal.
+     Colour set per-sheet via --sheet-accent below. */
+  .sheet-head::before {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: 3px;
+    background: var(--sheet-accent, var(--red));
   }
   .sheet-grab {
     width: 36px; height: 4px;
     border-radius: 2px;
     background: var(--border-strong);
-    margin: 4px auto 10px;
+    margin: 6px auto 12px;
   }
-  .sheet-title-row { display: flex; align-items: center; justify-content: space-between; }
-  .sheet-title { font-family: 'Instrument Serif', serif; font-size: 20px; font-weight: 400; margin: 0; }
+  .sheet-title-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .sheet-eyebrow {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--sheet-accent, var(--red));
+    margin-bottom: 2px;
+  }
+  .sheet-title { font-family: 'Instrument Serif', serif; font-size: 22px; font-weight: 400; margin: 0; line-height: 1.1; }
   .sheet-done {
-    padding: 8px 18px;
-    background: var(--surface);
-    border: 1px solid var(--border-strong);
+    flex: none;
+    padding: 9px 20px;
+    background: var(--sheet-accent, var(--red));
+    border: none;
     border-radius: 100px;
-    color: var(--text);
+    color: #fff;
     font-size: 14px;
     font-weight: 700;
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--sheet-accent, var(--red)) 40%, transparent);
     transition: all 0.12s;
   }
   .sheet-done:active { transform: scale(0.95); }
+  /* Per-sheet accents matching the pills */
+  #sheet-word     { --sheet-accent: #C41E2A; }
+  #sheet-banner   { --sheet-accent: #E0554E; }
+  #sheet-order    { --sheet-accent: #D98A2B; }
+  #sheet-images   { --sheet-accent: #3B82F6; }
+  #sheet-settings { --sheet-accent: var(--text-muted); }
   .sheet-body {
     flex: 1;
     overflow-y: auto;
@@ -1864,10 +1918,10 @@
 
   <!-- Tools — everything that isn't the live set lives one tap away -->
   <div class="tools-row">
-    <button class="tool-chip" onclick="openSheet('word')">Bible Verses</button>
-    <button class="tool-chip" onclick="openSheet('banner')">Name Tags</button>
-    <button class="tool-chip" onclick="openSheet('order')">Order of Service</button>
-    <button class="tool-chip" onclick="openSheet('images')">Slides</button>
+    <button class="tool-chip" data-accent="verses" onclick="openSheet('word')">Bible Verses</button>
+    <button class="tool-chip" data-accent="tags" onclick="openSheet('banner')">Name Tags</button>
+    <button class="tool-chip" data-accent="order" onclick="openSheet('order')">Order of Service</button>
+    <button class="tool-chip" data-accent="slides" onclick="openSheet('images')">Slides</button>
   </div>
 
   <!-- Transport (pinned to the bottom of the viewport) -->
@@ -1912,8 +1966,11 @@
   <div class="sheet-head">
     <div class="sheet-grab"></div>
     <div class="sheet-title-row">
-      <h3 class="sheet-title">Bible Verses</h3>
-      <button class="sheet-done" onclick="closeSheet()">Done</button>
+      <div>
+        <span class="sheet-eyebrow">You're in</span>
+        <h3 class="sheet-title">Bible Verses</h3>
+      </div>
+      <button class="sheet-done" onclick="closeSheet()">Done ✓</button>
     </div>
   </div>
   <div class="sheet-body">
@@ -1942,8 +1999,11 @@
   <div class="sheet-head">
     <div class="sheet-grab"></div>
     <div class="sheet-title-row">
-      <h3 class="sheet-title">Name Tags</h3>
-      <button class="sheet-done" onclick="closeSheet()">Done</button>
+      <div>
+        <span class="sheet-eyebrow">You're in</span>
+        <h3 class="sheet-title">Name Tags</h3>
+      </div>
+      <button class="sheet-done" onclick="closeSheet()">Done ✓</button>
     </div>
   </div>
   <div class="sheet-body">
@@ -1988,8 +2048,11 @@
   <div class="sheet-head">
     <div class="sheet-grab"></div>
     <div class="sheet-title-row">
-      <h3 class="sheet-title">Order of Service</h3>
-      <button class="sheet-done" onclick="closeSheet()">Done</button>
+      <div>
+        <span class="sheet-eyebrow">You're in</span>
+        <h3 class="sheet-title">Order of Service</h3>
+      </div>
+      <button class="sheet-done" onclick="closeSheet()">Done ✓</button>
     </div>
   </div>
   <div class="sheet-body">
@@ -2010,8 +2073,11 @@
   <div class="sheet-head">
     <div class="sheet-grab"></div>
     <div class="sheet-title-row">
-      <h3 class="sheet-title">Slides</h3>
-      <button class="sheet-done" onclick="closeSheet()">Done</button>
+      <div>
+        <span class="sheet-eyebrow">You're in</span>
+        <h3 class="sheet-title">Slides</h3>
+      </div>
+      <button class="sheet-done" onclick="closeSheet()">Done ✓</button>
     </div>
   </div>
   <div class="sheet-body">
@@ -2126,8 +2192,11 @@
   <div class="sheet-head">
     <div class="sheet-grab"></div>
     <div class="sheet-title-row">
-      <h3 class="sheet-title">Display settings</h3>
-      <button class="sheet-done" onclick="closeSheet()">Done</button>
+      <div>
+        <span class="sheet-eyebrow">You're in</span>
+        <h3 class="sheet-title">Display settings</h3>
+      </div>
+      <button class="sheet-done" onclick="closeSheet()">Done ✓</button>
     </div>
   </div>
   <div class="sheet-body">
