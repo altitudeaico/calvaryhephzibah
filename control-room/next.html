@@ -1872,9 +1872,34 @@
     -webkit-overflow-scrolling: touch;
     padding-bottom: 150px;  /* clear the fixed transport bar */
   }
-  /* Panels inside sheets fill the width naturally */
-  .sheet-body > .lt-panel, .sheet-body > .display-panel,
-  .sheet-body > .gfx-panel, .sheet-body > .bible-panel { margin-top: 12px; }
+  /* Inside a full-screen sheet, panels sit flush against the sheet — no
+     card-in-a-card. They lose their own surface/border/margins and get one
+     consistent gutter. Nested cards (verse result, setlist, image tiles)
+     keep their own surfaces and pop against the sheet background. */
+  .sheet-body > .bible-panel,
+  .sheet-body > .lt-panel,
+  .sheet-body > .gfx-panel,
+  .sheet-body > .display-panel,
+  .sheet-body > .sheet-plain {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 20px 20px 28px;
+    max-width: 640px;              /* keep line lengths sane on wide screens */
+    margin-inline: auto;
+  }
+  /* The sheet header already names the section — hide the panel's own title
+     so the same words don't stack twice. */
+  .sheet-body > .bible-panel > h3:first-child,
+  .sheet-body > .lt-panel > h3:first-child,
+  .sheet-body > .gfx-panel > h3:first-child {
+    display: none;
+  }
+  /* The intro/help line under a (now-hidden) heading shouldn't carry the
+     heading's top gap. */
+  .sheet-body > .bible-panel > h3:first-child + p,
+  .sheet-body > .gfx-panel > h3:first-child + p { margin-top: 0; }
 </style>
 </head>
 <body>
@@ -2056,7 +2081,7 @@
     </div>
   </div>
   <div class="sheet-body">
-  <div class="lt-panel" style="border:none;padding:0;margin:0;background:transparent;">
+  <div class="lt-panel sheet-plain">
     <!-- Order of Service for the loaded date -->
     <div id="oos-section">
       <div class="oos-head">
