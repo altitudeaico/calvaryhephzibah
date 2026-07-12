@@ -22,15 +22,15 @@
 -- any time after 30_setlist_12jul2026.sql.
 -- ============================================================
 
--- 1. Remove any prior seed of this date's sermon image (idempotent)
-update control_room_plan_speakers s
-  set image_id = null
-  from control_room_plans p
-  where s.plan_id = p.id
-    and p.service_date = '2026-07-12'
-    and s.image_id in (select id from control_room_images where name = 'Sermon — 12 Jul 2026');
-
-delete from control_room_images where name = 'Sermon — 12 Jul 2026';
+-- 1. Remove ALL previously URL-registered sermon thumbnails (previous weeks +
+--    any prior seed of this date), so only this week's ever exists. The
+--    plan_speakers.image_id FK is ON DELETE SET NULL, so old attachments clear
+--    automatically. Manual / base64 uploads are NOT touched — they don't have a
+--    github.io sermon-thumbnail data_url.
+delete from control_room_images
+where category = 'sermon'
+  and storage_path is null
+  and data_url like 'https://calvaryhfgc.github.io/%sermon-thumbnail-%';
 
 -- 2. Register the thumbnail by URL, and link it to the Sermon OOS row
 with img as (
