@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Clips — Media Board | Calvary Hephzibah</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --obsidian:#0A0A0A; --panel:#141414; --panel-2:#1B1B1B;
+  --red:#D0441C; --bone:#F5F0E8; --line:rgba(245,240,232,0.09);
+  --t1:#F5F0E8; --t2:rgba(245,240,232,0.62); --t3:rgba(245,240,232,0.4);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter Tight',sans-serif;background:var(--obsidian);color:var(--t1);line-height:1.6;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:920px;margin:0 auto;padding:40px 22px 90px;}
+
+/* Header */
+.brand{display:flex;align-items:center;gap:9px;margin-bottom:30px;}
+.brand-mark{width:26px;height:26px;border:2px solid var(--red);border-right:none;border-bottom:none;}
+.brand-txt{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--t2);}
+.hero-eyebrow{font-size:12.5px;letter-spacing:3px;text-transform:uppercase;color:var(--red);font-weight:600;margin-bottom:10px;}
+h1{font-family:'Anton',sans-serif;font-size:clamp(2.1rem,6vw,3.2rem);line-height:0.98;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:14px;}
+.lede{font-size:15px;color:var(--t2);max-width:660px;margin-bottom:8px;}
+.lede em{font-family:'Instrument Serif',serif;font-style:italic;color:var(--bone);font-size:17px;}
+
+/* Legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 6px;}
+.badge{font-size:11px;letter-spacing:0.4px;font-weight:600;padding:4px 10px;border-radius:100px;text-transform:uppercase;}
+.b-todo{background:rgba(208,68,28,0.14);color:#F2926F;border:1px solid rgba(208,68,28,0.4);}
+.b-cap{background:rgba(234,179,8,0.12);color:#EAB308;border:1px solid rgba(234,179,8,0.35);}
+.b-post{background:rgba(34,197,94,0.12);color:#4ADE80;border:1px solid rgba(34,197,94,0.35);}
+.b-care{background:rgba(245,240,232,0.06);color:var(--t2);border:1px solid var(--line);}
+
+/* Service block */
+.svc{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px 24px;margin-top:26px;}
+.svc-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:18px;}
+.svc-date{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-bottom:6px;}
+.svc-title{font-family:'Instrument Serif',serif;font-style:italic;font-size:24px;color:var(--bone);line-height:1.15;}
+.svc-meta{font-size:13.5px;color:var(--t2);margin-top:5px;}
+.svc-yt{font-size:12.5px;color:var(--t3);white-space:nowrap;}
+.svc-yt b{color:var(--red);font-weight:600;}
+
+/* Care note */
+.care{display:flex;gap:10px;background:var(--panel-2);border:1px solid var(--line);border-left:3px solid var(--red);border-radius:10px;padding:12px 14px;margin-bottom:18px;font-size:13px;color:var(--t2);}
+.care b{color:var(--bone);font-weight:600;}
+
+/* Clip rows */
+.clip{border:1px solid var(--line);border-radius:12px;padding:15px 16px;margin-bottom:11px;background:var(--panel-2);}
+.clip-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;}
+.clip-hook{font-size:15px;font-weight:600;color:var(--bone);line-height:1.35;flex:1;min-width:220px;}
+.clip-hook .t{color:var(--t3);font-weight:500;font-size:12px;letter-spacing:1px;margin-right:8px;}
+.clip-sub{font-size:13px;color:var(--t2);margin-top:6px;}
+.clip-tags{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:10px;}
+.tag{font-size:11px;color:var(--t2);background:rgba(245,240,232,0.05);border:1px solid var(--line);padding:3px 9px;border-radius:6px;}
+.rank{font-family:'Anton',sans-serif;font-size:15px;color:var(--red);min-width:26px;}
+
+.foot{margin-top:34px;font-size:12px;color:var(--t3);text-align:center;line-height:1.7;}
+
+/* Gate */
+#gate{position:fixed;inset:0;background:var(--obsidian);z-index:9999;display:flex;align-items:center;justify-content:center;padding:22px;}
+.gate-wrap{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:34px 28px;max-width:370px;width:100%;}
+.gate-mark{width:30px;height:30px;border:2px solid var(--red);border-right:none;border-bottom:none;margin-bottom:22px;}
+.gate-h{font-family:'Anton',sans-serif;font-size:24px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;}
+.gate-sub{font-size:13px;color:var(--t2);margin-bottom:22px;}
+.gate-input{width:100%;background:var(--panel-2);border:1.5px solid var(--line);border-radius:11px;padding:14px 16px;font-size:16px;font-family:'Inter Tight',sans-serif;color:var(--bone);outline:none;letter-spacing:2px;margin-bottom:12px;}
+.gate-input:focus{border-color:var(--red);}
+.gate-input::placeholder{letter-spacing:0;color:var(--t3);}
+.gate-btn{width:100%;padding:14px;background:var(--red);color:#fff;border:none;border-radius:11px;font-size:15px;font-weight:700;font-family:'Inter Tight',sans-serif;cursor:pointer;}
+.gate-btn:hover{background:#B23A18;}
+.gate-err{font-size:13px;color:#FCA5A5;text-align:center;margin-top:10px;min-height:18px;}
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="gate-wrap">
+    <div class="gate-mark"></div>
+    <div class="gate-h">Social Clips</div>
+    <div class="gate-sub">Internal media board — Calvary Hephzibah. Enter the team passcode.</div>
+    <input id="gate-input" class="gate-input" type="password" placeholder="Passcode" autocomplete="off" onkeydown="if(event.key==='Enter')tryGate()">
+    <button class="gate-btn" onclick="tryGate()">Enter</button>
+    <div id="gate-err" class="gate-err"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="brand"><div class="brand-mark"></div><div class="brand-txt">Calvary Hephzibah · Media</div></div>
+
+  <div class="hero-eyebrow">Social Clip Board</div>
+  <h1>Clips we can<br>pull from Sunday</h1>
+  <p class="lede">A running record of clip candidates from each service, and where they are in the pipeline. Clips are chosen to <em>reach people the church wants to attract</em> — the curious, the church-distant, the church-hurt — not to preach to the choir.</p>
+
+  <div class="legend">
+    <span class="badge b-todo">To caption</span>
+    <span class="badge b-cap">Captioned</span>
+    <span class="badge b-post">Posted</span>
+    <span class="badge b-care">Care check</span>
+  </div>
+
+  <!-- ============ 12 JULY 2026 ============ -->
+  <div class="svc">
+    <div class="svc-top">
+      <div>
+        <div class="svc-date">Sunday 12 July 2026</div>
+        <div class="svc-title">I Will Not Be Ungrateful To You LORD</div>
+        <div class="svc-meta">Pastor Kayode Ogungbenro · gratitude · Deacon Sokoya's 60th thanksgiving</div>
+      </div>
+      <div class="svc-yt">Full sermon → <b>search YouTube “Calvary Hephzibah”</b></div>
+    </div>
+
+    <div class="care">
+      <span>⚠️</span>
+      <div><b>Care check before publishing.</b> Confirm consent for anyone individually featured in the celebration footage before it goes out. Detailed care notes are in the internal clip log (kept off this page on purpose).</div>
+    </div>
+
+    <!-- clip candidates, ranked by travel potential -->
+    <div class="clip">
+      <div class="clip-head">
+        <div class="clip-hook"><span class="rank">1</span> “Count your blessings before your burdens”</div>
+        <span class="badge b-todo">To caption</span>
+      </div>
+      <div class="clip-sub">Short, universal, screenshot-able — the single strongest line of the sermon.</div>
+      <div class="clip-tags"><span class="tag">~11:49</span><span class="tag">Reel / TikTok</span><span class="tag">on-screen text</span></div>
+    </div>
+
+    <div class="clip">
+      <div class="clip-head">
+        <div class="clip-hook"><span class="rank">2</span> Gratitude in the hard season — “don’t let a temporary problem erase your permanent blessings”</div>
+        <span class="badge b-todo">To caption</span>
+      </div>
+      <div class="clip-sub">Job’s “the Lord gave and the Lord has taken away”; thanking God when circumstances aren’t good. Best for church-hurt / a hard stretch.</div>
+      <div class="clip-tags"><span class="tag">~11:56–11:57</span><span class="tag">Reel + carousel</span></div>
+    </div>
+
+    <div class="clip">
+      <div class="clip-head">
+        <div class="clip-hook"><span class="rank">3</span> The one who came back — “ten were healed, one returned. Are we the one, or the nine?”</div>
+        <span class="badge b-todo">To caption</span>
+      </div>
+      <div class="clip-sub">Luke 17. Gentle, relatable challenge; the grateful one was made whole.</div>
+      <div class="clip-tags"><span class="tag">~11:58–11:59</span><span class="tag">Reel / Short</span></div>
+    </div>
+
+    <div class="clip">
+      <div class="clip-head">
+        <div class="clip-hook"><span class="rank">4</span> Habakkuk — “though the fig tree does not blossom… yet I will rejoice”</div>
+        <span class="badge b-todo">To caption</span>
+      </div>
+      <div class="clip-sub">Reads through everything failing, lands on praise anyway. For lack / waiting seasons.</div>
+      <div class="clip-tags"><span class="tag">~11:54–11:56</span><span class="tag">Reel</span></div>
+    </div>
+
+    <div class="clip">
+      <div class="clip-head">
+        <div class="clip-hook"><span class="rank">5</span> Salvation — “while we were yet sinners, Christ died for us. We did nothing to deserve it”</div>
+        <span class="badge b-todo">To caption</span>
+      </div>
+      <div class="clip-sub">The clearest gospel moment — good for the church-distant.</div>
+      <div class="clip-tags"><span class="tag">~12:02–12:03</span><span class="tag">Reel / Short</span></div>
+    </div>
+
+    <div class="clip">
+      <div class="clip-head">
+        <div class="clip-hook"><span class="rank">6</span> “I will bless the Lord at ALL times — not sometimes, not only when prayers are answered”</div>
+        <span class="badge b-todo">To caption</span>
+      </div>
+      <div class="clip-sub">Psalm 34:1. Clean closing line / pull-quote.</div>
+      <div class="clip-tags"><span class="tag">~12:04</span><span class="tag">Short / pull-quote</span></div>
+    </div>
+  </div>
+
+  <p class="foot">Internal to the Calvary media team. Statuses on this page are set by hand for now — if we want everyone to tick them off live, that’s the version backed by the Control Room database.<br>Regenerated from each Sunday’s service. Newest service on top.</p>
+</div>
+
+<script>
+function tryGate(){
+  var v=document.getElementById('gate-input').value.trim().toLowerCase();
+  if(v==='calvary2026'){
+    document.getElementById('gate').style.display='none';
+    try{sessionStorage.setItem('clipboard_ok','1');}catch(e){}
+  } else {
+    document.getElementById('gate-err').textContent='Incorrect passcode.';
+    document.getElementById('gate-input').value='';
+  }
+}
+try{ if(sessionStorage.getItem('clipboard_ok')==='1'){ document.getElementById('gate').style.display='none'; } }catch(e){}
+document.getElementById('gate-input').focus();
+</script>
+
+</body>
+</html>
