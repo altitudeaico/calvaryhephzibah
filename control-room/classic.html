@@ -1740,166 +1740,6 @@
   .pos-target-btn:active { transform: scale(0.97); }
   .pos-editor-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; }
   .pos-hint { font-size: 11px; color: var(--text-muted); flex: 1; line-height: 1.4; }
-  /* ============ LIVE-FIRST SHELL: gear, tools, sheets ============ */
-  .gear-btn {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text-muted);
-    font-size: 17px;
-    line-height: 1;
-    transition: all 0.12s;
-  }
-  .gear-btn:hover { border-color: var(--border-strong); color: var(--text); }
-  .gear-btn:active { transform: scale(0.94); }
-
-  .tools-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    padding: 0 20px 4px;
-  }
-  .tool-chip {
-    padding: 13px 4px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    color: var(--text);
-    font-size: 13px;
-    font-weight: 700;
-    position: relative;
-    transition: all 0.12s;
-  }
-  /* Each tool is illuminated in its own accent so the row reads as four live,
-     distinct tools at a glance — brand red as the family through-line. The
-     colour is echoed on that tool's sheet header (the "you are here" bar). */
-  .tool-chip[data-accent="verses"] { --chip: #C41E2A; }  /* brand red */
-  .tool-chip[data-accent="tags"]   { --chip: #E0554E; }  /* warm red */
-  .tool-chip[data-accent="order"]  { --chip: #D98A2B; }  /* amber */
-  .tool-chip[data-accent="slides"] { --chip: #3B82F6; }  /* blue */
-  .tool-chip {
-    border-color: color-mix(in srgb, var(--chip) 55%, transparent);
-    background: color-mix(in srgb, var(--chip) 14%, var(--surface));
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--chip) 20%, transparent),
-                0 4px 14px color-mix(in srgb, var(--chip) 22%, transparent);
-  }
-  .tool-chip::before {
-    content: '';
-    position: absolute;
-    left: 12px; right: 12px; top: 6px;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--chip);
-    opacity: 0.9;
-  }
-  .tool-chip:hover {
-    background: color-mix(in srgb, var(--chip) 22%, var(--surface));
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--chip) 35%, transparent),
-                0 6px 18px color-mix(in srgb, var(--chip) 32%, transparent);
-  }
-  .tool-chip:active { transform: scale(0.96); }
-
-  /* Sheets slide up over Live but UNDER the transport bar (z 900), so the
-     live strip and Next/Blank stay visible and tappable inside any sheet. */
-  .sheet {
-    position: fixed;
-    left: 0; right: 0; top: 0; bottom: 0;
-    z-index: 850;
-    background: var(--bg);
-    transform: translateY(100%);
-    transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
-    display: flex;
-    flex-direction: column;
-    pointer-events: none;
-  }
-  .sheet.open { transform: translateY(0); pointer-events: auto; }
-  .sheet-head {
-    flex: none;
-    padding: 8px 20px 12px;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg);
-    position: relative;
-  }
-  /* A coloured top bar echoes the pill you tapped — the "you are here" signal.
-     Colour set per-sheet via --sheet-accent below. */
-  .sheet-head::before {
-    content: '';
-    position: absolute;
-    left: 0; right: 0; top: 0;
-    height: 3px;
-    background: var(--sheet-accent, var(--red));
-  }
-  .sheet-grab {
-    width: 36px; height: 4px;
-    border-radius: 2px;
-    background: var(--border-strong);
-    margin: 6px auto 12px;
-  }
-  .sheet-title-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .sheet-eyebrow {
-    display: block;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: var(--sheet-accent, var(--red));
-    margin-bottom: 2px;
-  }
-  .sheet-title { font-family: 'Instrument Serif', serif; font-size: 22px; font-weight: 400; margin: 0; line-height: 1.1; }
-  .sheet-done {
-    flex: none;
-    padding: 9px 20px;
-    background: var(--sheet-accent, var(--red));
-    border: none;
-    border-radius: 100px;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 700;
-    box-shadow: 0 4px 14px color-mix(in srgb, var(--sheet-accent, var(--red)) 40%, transparent);
-    transition: all 0.12s;
-  }
-  .sheet-done:active { transform: scale(0.95); }
-  /* Per-sheet accents matching the pills */
-  #sheet-word     { --sheet-accent: #C41E2A; }
-  #sheet-banner   { --sheet-accent: #E0554E; }
-  #sheet-order    { --sheet-accent: #D98A2B; }
-  #sheet-images   { --sheet-accent: #3B82F6; }
-  #sheet-settings { --sheet-accent: var(--text-muted); }
-  .sheet-body {
-    flex: 1;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 150px;  /* clear the fixed transport bar */
-  }
-  /* Inside a full-screen sheet, panels sit flush against the sheet — no
-     card-in-a-card. They lose their own surface/border/margins and get one
-     consistent gutter. Nested cards (verse result, setlist, image tiles)
-     keep their own surfaces and pop against the sheet background. */
-  .sheet-body > .bible-panel,
-  .sheet-body > .lt-panel,
-  .sheet-body > .gfx-panel,
-  .sheet-body > .display-panel,
-  .sheet-body > .sheet-plain {
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    margin: 0;
-    padding: 20px 20px 28px;
-    max-width: 640px;              /* keep line lengths sane on wide screens */
-    margin-inline: auto;
-  }
-  /* The sheet header already names the section — hide the panel's own title
-     so the same words don't stack twice. */
-  .sheet-body > .bible-panel > h3:first-child,
-  .sheet-body > .lt-panel > h3:first-child,
-  .sheet-body > .gfx-panel > h3:first-child {
-    display: none;
-  }
-  /* The intro/help line under a (now-hidden) heading shouldn't carry the
-     heading's top gap. */
-  .sheet-body > .bible-panel > h3:first-child + p,
-  .sheet-body > .gfx-panel > h3:first-child + p { margin-top: 0; }
 </style>
 </head>
 <body>
@@ -1924,12 +1764,9 @@
 <div id="app">
   <div class="topbar">
     <div class="title">Control Room</div>
-    <div style="display:flex;align-items:center;gap:12px;">
-      <div id="live-indicator" class="live">
-        <span class="live-dot"></span>
-        <span id="live-text">connecting</span>
-      </div>
-      <button class="gear-btn" onclick="openSheet('settings')" aria-label="Display settings" title="Display settings">⚙</button>
+    <div id="live-indicator" class="live">
+      <span class="live-dot"></span>
+      <span id="live-text">connecting</span>
     </div>
   </div>
 
@@ -1939,14 +1776,6 @@
     <div class="np-title" id="np-title">Nothing on screen</div>
     <div class="np-line" id="np-line1">—</div>
     <div class="np-line" id="np-line2"></div>
-  </div>
-
-  <!-- Tools — everything that isn't the live set lives one tap away -->
-  <div class="tools-row">
-    <button class="tool-chip" data-accent="verses" onclick="openSheet('word')">Bible Verses</button>
-    <button class="tool-chip" data-accent="tags" onclick="openSheet('banner')">Name Tags</button>
-    <button class="tool-chip" data-accent="order" onclick="openSheet('order')">Order of Service</button>
-    <button class="tool-chip" data-accent="slides" onclick="openSheet('images')">Announcements</button>
   </div>
 
   <!-- Transport (pinned to the bottom of the viewport) -->
@@ -1968,70 +1797,6 @@
     <button class="pe-retry" onclick="event.stopPropagation(); retryPush()">Retry</button>
   </div>
 
-
-  <!-- Setlist -->
-  <div class="section-head">
-    <h3 id="setlist-heading">Today's set list</h3>
-    <div style="display: flex; align-items: center; gap: 6px;">
-      <button id="date-prev" class="date-nav-btn" onclick="navigateDate(-7)" title="Previous Sunday">‹</button>
-      <span class="date-pill" id="date-pill" onclick="openDatePicker()" style="cursor: pointer;">—</span>
-      <input type="date" id="date-picker-input" style="position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px;" onchange="onDatePickerChange()">
-      <button id="date-next" class="date-nav-btn" onclick="navigateDate(7)" title="Next Sunday">›</button>
-      <button id="date-today" class="date-today-btn" onclick="jumpToToday()" title="Jump to today">Today</button>
-    </div>
-  </div>
-  <div id="setlist" class="setlist">
-    <!-- populated -->
-  </div>
-
-
-
-
-<div class="sheet" id="sheet-word" aria-hidden="true">
-  <div class="sheet-head">
-    <div class="sheet-grab"></div>
-    <div class="sheet-title-row">
-      <div>
-        <span class="sheet-eyebrow">You're in</span>
-        <h3 class="sheet-title">Bible Verses</h3>
-      </div>
-      <button class="sheet-done" onclick="closeSheet()">Done ✓</button>
-    </div>
-  </div>
-  <div class="sheet-body">
-  <!-- Bible -->
-  <div class="bible-panel">
-    <h3>Scripture search</h3>
-    <div id="bible-version-row" class="bible-version-row"></div>
-    <div class="bible-input-row">
-      <input id="bible-input" class="bible-input" type="text" enterkeyhint="search" placeholder="e.g. John 3:16  or  Romans 6:1-23" autocomplete="off">
-      <button class="bible-go" onclick="searchVerse()">Find</button>
-    </div>
-    <div class="bible-hint">Single verse <em>(John 3:16)</em> or a range <em>(Romans 6:1-23)</em>. Use Next/Prev to walk through.</div>
-    <div id="bible-result" class="bible-result" onclick="pushVerse()">
-      <div id="bible-ref" class="bible-ref"></div>
-      <div id="bible-text" class="bible-text"></div>
-      <button class="bible-push" onclick="event.stopPropagation(); pushVerse()">Put on screen</button>
-    </div>
-    <div id="bible-error" class="bible-error"></div>
-  </div>
-
-
-  </div>
-</div>
-
-<div class="sheet" id="sheet-banner" aria-hidden="true">
-  <div class="sheet-head">
-    <div class="sheet-grab"></div>
-    <div class="sheet-title-row">
-      <div>
-        <span class="sheet-eyebrow">You're in</span>
-        <h3 class="sheet-title">Name Tags</h3>
-      </div>
-      <button class="sheet-done" onclick="closeSheet()">Done ✓</button>
-    </div>
-  </div>
-  <div class="sheet-body">
   <!-- Lower Third panel — coexists with lyrics/verses -->
   <div class="lt-panel">
     <h3>Name banner</h3>
@@ -2048,8 +1813,14 @@
       Clear name banner
     </button>
 
-</div>
-      
+    <!-- Order of Service for the loaded date -->
+    <div id="oos-section">
+      <div class="oos-head">
+        <span class="oos-label">Order of service</span>
+        <span class="oos-date muted" id="oos-date-label">—</span>
+      </div>
+      <div id="oos-list" class="oos-list"></div>
+    </div>
 
     <!-- Speaker library — collapsible fallback -->
     <details class="lib-details">
@@ -2062,169 +1833,26 @@
       <div class="lt-custom-fields">
         <input id="lt-name-input" class="lt-input" placeholder="Name" oninput="onLtCustomChange()">
         <input id="lt-role-input" class="lt-input" placeholder="Role (optional)" oninput="onLtCustomChange()">
+      </div>
       <button id="lt-push-btn" class="lt-push-custom" onclick="pushCustomLowerThird()" disabled>Push to overlay</button>
     </div>
   </div>
 
-  </div>
-</div>
-
-<div class="sheet" id="sheet-order" aria-hidden="true">
-  <div class="sheet-head">
-    <div class="sheet-grab"></div>
-    <div class="sheet-title-row">
-      <div>
-        <span class="sheet-eyebrow">You're in</span>
-        <h3 class="sheet-title">Order of Service</h3>
-      </div>
-      <button class="sheet-done" onclick="closeSheet()">Done ✓</button>
+  <!-- Setlist -->
+  <div class="section-head">
+    <h3 id="setlist-heading">Today's set list</h3>
+    <div style="display: flex; align-items: center; gap: 6px;">
+      <button id="date-prev" class="date-nav-btn" onclick="navigateDate(-7)" title="Previous Sunday">‹</button>
+      <span class="date-pill" id="date-pill" onclick="openDatePicker()" style="cursor: pointer;">—</span>
+      <input type="date" id="date-picker-input" style="position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px;" onchange="onDatePickerChange()">
+      <button id="date-next" class="date-nav-btn" onclick="navigateDate(7)" title="Next Sunday">›</button>
+      <button id="date-today" class="date-today-btn" onclick="jumpToToday()" title="Jump to today">Today</button>
     </div>
   </div>
-  <div class="sheet-body">
-  <div class="lt-panel sheet-plain">
-    <!-- Order of Service for the loaded date -->
-    <div id="oos-section">
-      <div class="oos-head">
-        <span class="oos-label">Order of service</span>
-        <span class="oos-date muted" id="oos-date-label">—</span>
-      </div>
-      <div id="oos-list" class="oos-list"></div>
-    </div>
-  </div>
-  </div>
-</div>
-
-<div class="sheet" id="sheet-images" aria-hidden="true">
-  <div class="sheet-head">
-    <div class="sheet-grab"></div>
-    <div class="sheet-title-row">
-      <div>
-        <span class="sheet-eyebrow">You're in</span>
-        <h3 class="sheet-title">Announcements</h3>
-      </div>
-      <button class="sheet-done" onclick="closeSheet()">Done ✓</button>
-    </div>
-  </div>
-  <div class="sheet-body">
-  <!-- Graphics: images + announcements -->
-  <div class="gfx-panel">
-    <h3>Slides & images</h3>
-    <p class="helper">Push full-screen images, looping videos, or announcement banners.</p>
-
-    <div class="gfx-tabs">
-      <button class="gfx-tab active" data-tab="announcements" onclick="switchGfxTab('announcements')">Announcements</button>
-      <button class="gfx-tab" data-tab="images" onclick="switchGfxTab('images')">Images</button>
-      <button class="gfx-tab" data-tab="backdrops"     onclick="switchGfxTab('backdrops')">Backdrops</button>
-    </div>
-
-    <!-- Images tab -->
-    <div id="gfx-tab-images" class="gfx-tab-body">
-      <div class="img-section">
-        <div class="img-section-label">Anniversary overlays</div>
-        <div id="img-grid-anniversary" class="img-grid"></div>
-      </div>
-      <div class="img-section">
-        <div class="img-section-label">Offering</div>
-        <div id="img-grid-offering" class="img-grid"></div>
-      </div>
-      <div class="img-section">
-        <div class="img-section-label">Sermon thumbnails</div>
-        <div id="img-grid-sermon" class="img-grid"></div>
-      </div>
-      <div class="img-section">
-        <div class="img-section-label">Communion</div>
-        <div id="img-grid-communion" class="img-grid"></div>
-      </div>
-      <div class="img-section">
-        <div class="img-section-label">Announcements</div>
-        <div id="img-grid-announcement" class="img-grid"></div>
-      </div>
-      <div class="img-section">
-        <div class="img-section-label">Other</div>
-        <div id="img-grid-general" class="img-grid"></div>
-      </div>
-      <p class="helper" style="margin-top: 12px; font-size: 12px;">Upload images and silent looping videos via the <a href="admin.html" style="color: var(--text-muted); text-decoration: underline;">admin page →</a></p>
-    </div>
-
-    <!-- Announcements tab -->
-    <div id="gfx-tab-announcements" class="gfx-tab-body active">
-      <div id="ann-suggestions" class="ann-suggestions"></div>
-
-      <div class="ann-custom">
-        <div class="img-section-label">Custom announcement</div>
-        <div class="ann-kind-row">
-          <button class="ann-kind-btn active" data-kind="midweek"     onclick="setAnnKind('midweek')">Mid-week</button>
-          <button class="ann-kind-btn"        data-kind="birthday"    onclick="setAnnKind('birthday')">Birthday</button>
-          <button class="ann-kind-btn"        data-kind="anniversary" onclick="setAnnKind('anniversary')">Anniversary</button>
-          <button class="ann-kind-btn"        data-kind="special"     onclick="setAnnKind('special')">Special</button>
-        </div>
-        <div class="ann-fields">
-          <input id="ann-title" class="ann-input" placeholder="Title (e.g. Happy Birthday Auntie Pauline)" oninput="onAnnInput()">
-          <input id="ann-body"  class="ann-input" placeholder="Subtitle / details (optional)" oninput="onAnnInput()">
-        </div>
-        <button id="ann-push-btn" class="ann-push" onclick="pushCustomAnn()" disabled>Push to overlay</button>
-      </div>
-    </div>
-
-    <!-- Backdrops tab -->
-    <div id="gfx-tab-backdrops" class="gfx-tab-body">
-
-      <!-- Currently playing transport (only visible when active) -->
-      <div id="backdrop-transport" class="backdrop-transport">
-        <div class="bd-now">
-          <div class="bd-now-label">Backdrop running</div>
-          <div class="bd-now-name" id="backdrop-now-name">—</div>
-          <div class="bd-now-meta" id="backdrop-now-meta">item 1 of 1</div>
-        </div>
-        <div class="bd-controls">
-          <button class="bd-ctrl"      onclick="backdropPause()" id="backdrop-pause-btn"  title="Pause auto-advance">⏸︎</button>
-          <button class="bd-ctrl"      onclick="backdropResume()" id="backdrop-resume-btn" title="Resume auto-advance" style="display:none">▶</button>
-          <button class="bd-ctrl"      onclick="backdropNext()"  title="Skip to next item">⏭</button>
-          <button class="bd-ctrl stop" onclick="backdropStop()"  title="Stop backdrop">Stop</button>
-        </div>
-      </div>
-
-      <!-- Saved playlists -->
-      <div class="img-section">
-        <div class="img-section-label">Saved backdrops</div>
-        <div id="backdrop-list" class="backdrop-list"></div>
-      </div>
-
-      <!-- Build new playlist -->
-      <div class="img-section">
-        <div class="img-section-label">Build new backdrop</div>
-        <input id="backdrop-name" class="ann-input" placeholder="Name (e.g. Pre-service welcome)">
-        <div id="backdrop-builder" class="backdrop-builder">
-          <p class="helper">Tap items from the media library below to add them. Each item plays for 8 seconds by default.</p>
-          <div id="backdrop-builder-items" class="backdrop-builder-items">
-            <div class="bd-empty">No items yet — pick from below.</div>
-          </div>
-          <div class="backdrop-builder-actions">
-            <button class="bd-save"     onclick="saveBackdrop()" id="bd-save-btn" disabled>Save backdrop</button>
-            <button class="bd-play-now" onclick="playBackdropDraft()" id="bd-play-now-btn" disabled>Play without saving</button>
-          </div>
-        </div>
-        <div class="backdrop-library-label">Pick from library:</div>
-        <div id="backdrop-library" class="backdrop-library"></div>
-      </div>
-    </div>
+  <div id="setlist" class="setlist">
+    <!-- populated -->
   </div>
 
-  </div>
-</div>
-
-<div class="sheet" id="sheet-settings" aria-hidden="true">
-  <div class="sheet-head">
-    <div class="sheet-grab"></div>
-    <div class="sheet-title-row">
-      <div>
-        <span class="sheet-eyebrow">You're in</span>
-        <h3 class="sheet-title">Display settings</h3>
-      </div>
-      <button class="sheet-done" onclick="closeSheet()">Done ✓</button>
-    </div>
-  </div>
-  <div class="sheet-body">
   <!-- Display settings -->
   <div class="display-panel">
     <div class="display-head">
@@ -2317,8 +1945,126 @@
     </div>
   </div>
 
+  <!-- Graphics: images + announcements -->
+  <div class="gfx-panel">
+    <h3>Slides & images</h3>
+    <p class="helper">Push full-screen images, looping videos, or announcement banners.</p>
+
+    <div class="gfx-tabs">
+      <button class="gfx-tab active" data-tab="images" onclick="switchGfxTab('images')">Images</button>
+      <button class="gfx-tab" data-tab="announcements" onclick="switchGfxTab('announcements')">Announcements</button>
+      <button class="gfx-tab" data-tab="backdrops"     onclick="switchGfxTab('backdrops')">Backdrops</button>
+    </div>
+
+    <!-- Images tab -->
+    <div id="gfx-tab-images" class="gfx-tab-body active">
+      <div class="img-section">
+        <div class="img-section-label">Anniversary overlays</div>
+        <div id="img-grid-anniversary" class="img-grid"></div>
+      </div>
+      <div class="img-section">
+        <div class="img-section-label">Offering</div>
+        <div id="img-grid-offering" class="img-grid"></div>
+      </div>
+      <div class="img-section">
+        <div class="img-section-label">Sermon thumbnails</div>
+        <div id="img-grid-sermon" class="img-grid"></div>
+      </div>
+      <div class="img-section">
+        <div class="img-section-label">Communion</div>
+        <div id="img-grid-communion" class="img-grid"></div>
+      </div>
+      <div class="img-section">
+        <div class="img-section-label">Announcements</div>
+        <div id="img-grid-announcement" class="img-grid"></div>
+      </div>
+      <div class="img-section">
+        <div class="img-section-label">Other</div>
+        <div id="img-grid-general" class="img-grid"></div>
+      </div>
+      <p class="helper" style="margin-top: 12px; font-size: 12px;">Upload images and silent looping videos via the <a href="admin.html" style="color: var(--text-muted); text-decoration: underline;">admin page →</a></p>
+    </div>
+
+    <!-- Announcements tab -->
+    <div id="gfx-tab-announcements" class="gfx-tab-body">
+      <div id="ann-suggestions" class="ann-suggestions"></div>
+
+      <div class="ann-custom">
+        <div class="img-section-label">Custom announcement</div>
+        <div class="ann-kind-row">
+          <button class="ann-kind-btn active" data-kind="midweek"     onclick="setAnnKind('midweek')">Mid-week</button>
+          <button class="ann-kind-btn"        data-kind="birthday"    onclick="setAnnKind('birthday')">Birthday</button>
+          <button class="ann-kind-btn"        data-kind="anniversary" onclick="setAnnKind('anniversary')">Anniversary</button>
+          <button class="ann-kind-btn"        data-kind="special"     onclick="setAnnKind('special')">Special</button>
+        </div>
+        <div class="ann-fields">
+          <input id="ann-title" class="ann-input" placeholder="Title (e.g. Happy Birthday Auntie Pauline)" oninput="onAnnInput()">
+          <input id="ann-body"  class="ann-input" placeholder="Subtitle / details (optional)" oninput="onAnnInput()">
+        </div>
+        <button id="ann-push-btn" class="ann-push" onclick="pushCustomAnn()" disabled>Push to overlay</button>
+      </div>
+    </div>
+
+    <!-- Backdrops tab -->
+    <div id="gfx-tab-backdrops" class="gfx-tab-body">
+
+      <!-- Currently playing transport (only visible when active) -->
+      <div id="backdrop-transport" class="backdrop-transport">
+        <div class="bd-now">
+          <div class="bd-now-label">Backdrop running</div>
+          <div class="bd-now-name" id="backdrop-now-name">—</div>
+          <div class="bd-now-meta" id="backdrop-now-meta">item 1 of 1</div>
+        </div>
+        <div class="bd-controls">
+          <button class="bd-ctrl"      onclick="backdropPause()" id="backdrop-pause-btn"  title="Pause auto-advance">⏸︎</button>
+          <button class="bd-ctrl"      onclick="backdropResume()" id="backdrop-resume-btn" title="Resume auto-advance" style="display:none">▶</button>
+          <button class="bd-ctrl"      onclick="backdropNext()"  title="Skip to next item">⏭</button>
+          <button class="bd-ctrl stop" onclick="backdropStop()"  title="Stop backdrop">Stop</button>
+        </div>
+      </div>
+
+      <!-- Saved playlists -->
+      <div class="img-section">
+        <div class="img-section-label">Saved backdrops</div>
+        <div id="backdrop-list" class="backdrop-list"></div>
+      </div>
+
+      <!-- Build new playlist -->
+      <div class="img-section">
+        <div class="img-section-label">Build new backdrop</div>
+        <input id="backdrop-name" class="ann-input" placeholder="Name (e.g. Pre-service welcome)">
+        <div id="backdrop-builder" class="backdrop-builder">
+          <p class="helper">Tap items from the media library below to add them. Each item plays for 8 seconds by default.</p>
+          <div id="backdrop-builder-items" class="backdrop-builder-items">
+            <div class="bd-empty">No items yet — pick from below.</div>
+          </div>
+          <div class="backdrop-builder-actions">
+            <button class="bd-save"     onclick="saveBackdrop()" id="bd-save-btn" disabled>Save backdrop</button>
+            <button class="bd-play-now" onclick="playBackdropDraft()" id="bd-play-now-btn" disabled>Play without saving</button>
+          </div>
+        </div>
+        <div class="backdrop-library-label">Pick from library:</div>
+        <div id="backdrop-library" class="backdrop-library"></div>
+      </div>
+    </div>
   </div>
-</div>
+
+  <!-- Bible -->
+  <div class="bible-panel">
+    <h3>Scripture search</h3>
+    <div id="bible-version-row" class="bible-version-row"></div>
+    <div class="bible-input-row">
+      <input id="bible-input" class="bible-input" type="text" enterkeyhint="search" placeholder="e.g. John 3:16  or  Romans 6:1-23" autocomplete="off">
+      <button class="bible-go" onclick="searchVerse()">Find</button>
+    </div>
+    <div class="bible-hint">Single verse <em>(John 3:16)</em> or a range <em>(Romans 6:1-23)</em>. Use Next/Prev to walk through.</div>
+    <div id="bible-result" class="bible-result" onclick="pushVerse()">
+      <div id="bible-ref" class="bible-ref"></div>
+      <div id="bible-text" class="bible-text"></div>
+      <button class="bible-push" onclick="event.stopPropagation(); pushVerse()">Put on screen</button>
+    </div>
+    <div id="bible-error" class="bible-error"></div>
+  </div>
 
   <div class="footer">
     <p>Signed in as <span id="user-display" class="muted">—</span> · <button class="logout-btn" onclick="logout()">Sign out</button></p>
@@ -4492,35 +4238,6 @@ window.togglePreview = () => {
   handle.addEventListener('mousedown', onDown);
   handle.addEventListener('touchstart', onDown, { passive: false });
 })();
-
-// ============================================================
-// SHEETS — Live is home; Word / Banner / Order / Images / Settings
-// slide up over it. The transport bar stays on top throughout, so
-// Next / Blank and the live strip are reachable inside any sheet.
-// ============================================================
-let openSheetId = null;
-
-window.openSheet = (id) => {
-  if (openSheetId) closeSheet();
-  const el = document.getElementById('sheet-' + id);
-  if (!el) return;
-  el.classList.add('open');
-  el.setAttribute('aria-hidden', 'false');
-  openSheetId = id;
-  document.body.style.overflow = 'hidden';   // Live doesn't scroll behind the sheet
-};
-
-window.closeSheet = () => {
-  if (!openSheetId) return;
-  const el = document.getElementById('sheet-' + openSheetId);
-  if (el) { el.classList.remove('open'); el.setAttribute('aria-hidden', 'true'); }
-  openSheetId = null;
-  document.body.style.overflow = '';
-};
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeSheet();
-});
 </script>
 
 </body>
