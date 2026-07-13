@@ -192,17 +192,7 @@
   .pay-summary .pr.big b{font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--red-bright);letter-spacing:-.01em;}
   .divider{display:flex;align-items:center;gap:14px;margin:20px 0;color:var(--fg-3);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;}
   .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line-soft);}
-  .mock-card{border:1px solid var(--line-mid);border-radius:var(--r-2);padding:2px 14px;margin-bottom:16px;}
-  .mock-card .mc-row{display:flex;align-items:center;gap:10px;padding:14px 0;border-bottom:1px solid var(--line-soft);}
-  .mock-card .mc-row:last-child{border-bottom:0;}
-  .mock-card input{border:0;outline:none;font-family:var(--font-body);font-size:15px;width:100%;background:transparent;color:var(--fg-1);}
-  .mock-card input::placeholder{color:#5A5A62;}
-  .mc-ico{font-size:15px;width:20px;text-align:center;opacity:.7;}
-  .fee-toggle{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--fg-2);cursor:pointer;margin:2px 0 4px;}
-  .mini-switch{width:40px;height:23px;border-radius:var(--r-pill);background:var(--line-mid);position:relative;flex-shrink:0;transition:.2s;}
-  .mini-switch i{position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;background:var(--bone);transition:.2s var(--ease);}
-  .fee-toggle.on .mini-switch{background:var(--red);}
-  .fee-toggle.on .mini-switch i{transform:translateX(17px);}
+  .handoff-note{font-size:12.5px;color:var(--fg-2);line-height:1.5;background:var(--obsidian);border:1px solid var(--line-soft);border-radius:var(--r-2);padding:14px 16px;margin-bottom:18px;text-align:center;}
 
   /* confirmation */
   .done{text-align:center;padding:10px 0 4px;}
@@ -350,27 +340,18 @@
 
       <div class="pay-summary" id="paySummary"></div>
 
-      <label class="fee-toggle" id="feeToggle" onclick="toggleFee()">
-        <div class="mini-switch"><i></i></div>
-        <span id="feeCopy">Add a little to cover card fees</span>
-      </label>
+      <!-- ============================================================
+           STRIPE CHECKOUT HANDOFF
+           The Give button POSTs the gift to your Supabase Edge Function
+           (CHECKOUT_ENDPOINT), which creates a Stripe Checkout Session
+           and returns its URL. Card, Apple / Google Pay, one-off and
+           monthly billing, and the receipt all happen on Stripe's
+           secure hosted checkout. Gift Aid details ride along in metadata
+           and are recorded by the webhook function for the 6-year audit.
+           ============================================================ -->
+      <div class="handoff-note">You'll be taken to our secure checkout, powered by Stripe, to complete your gift.</div>
 
-      <button class="btn apple btn-row" onclick="pay()">
-        <svg viewBox="0 0 24 24" fill="#000"><path d="M17.05 12.5c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.56-2.73-1.78-3.32-1.8-1.41-.14-2.76.83-3.48.83-.72 0-1.82-.81-3-.79-1.54.02-2.96.9-3.75 2.28-1.6 2.78-.41 6.89 1.15 9.15.76 1.1 1.67 2.34 2.86 2.3 1.15-.05 1.58-.74 2.97-.74 1.39 0 1.78.74 3 .72 1.24-.02 2.02-1.12 2.78-2.23.88-1.28 1.24-2.52 1.26-2.58-.03-.01-2.42-.93-2.45-3.68zM14.77 5.6c.64-.77 1.07-1.85.95-2.92-.92.04-2.03.61-2.69 1.38-.59.68-1.11 1.78-.97 2.83 1.03.08 2.07-.52 2.71-1.29z"/></svg>
-        Pay
-      </button>
-
-      <div class="divider">or pay by card</div>
-
-      <div class="mock-card">
-        <div class="mc-row"><span class="mc-ico">💳</span><input placeholder="Card number" inputmode="numeric"></div>
-        <div class="mc-row">
-          <span class="mc-ico">📅</span><input placeholder="MM / YY" inputmode="numeric" style="border-right:1px solid var(--line-soft);">
-          <input placeholder="CVC" inputmode="numeric" style="padding-left:12px;">
-        </div>
-      </div>
-
-      <button class="btn btn-primary" id="payCardBtn" onclick="pay()">Give <span id="payCardAmt"></span></button>
+      <button class="btn btn-primary" id="payCardBtn" onclick="submitToStripe()">Give <span id="payCardAmt"></span></button>
       <button class="btn btn-ghost btn-sub" onclick="back(2)">Back</button>
 
       <div class="secure">
@@ -405,8 +386,15 @@
 </div>
 
 <script>
-  const S = { amount:0, freq:'once', fund:'General Offering', giftAid:false, coverFee:false };
-  const FEE_PCT = 0.015, FEE_FIXED = 0.20; // Stripe nonprofit estimate: 1.5% + 20p
+  const S = { amount:0, freq:'once', fund:'General Offering', giftAid:false };
+  // == Stripe Checkout via Supabase Edge Function ===================
+  // Paste your deployed 'create-checkout' function URL below, e.g.
+  //   https://<project-ref>.functions.supabase.co/create-checkout
+  // The page POSTs the gift to it; the function creates the Stripe
+  // Checkout Session (one-off = payment, monthly = subscription) and
+  // returns { url }, which we redirect the donor to. The amount is
+  // re-validated server-side, so it can't be tampered with in the page.
+  const CHECKOUT_ENDPOINT = 'https://pfycvgbrsbecznkcikwt.supabase.co/functions/v1/create-checkout';
   const gbp = n => '£' + (Number(n)).toLocaleString('en-GB',{minimumFractionDigits:(n%1?2:0),maximumFractionDigits:2});
 
   function setFreq(f){
@@ -459,26 +447,47 @@
   }
   function goPay(){ if(S.giftAid && !validGiftAid()) return; buildPaySummary(); show(3); }
 
-  function feeAmount(){ return S.coverFee ? +(S.amount*FEE_PCT + FEE_FIXED).toFixed(2) : 0; }
-  function chargeTotal(){ return +(S.amount + feeAmount()).toFixed(2); }
+  function chargeTotal(){ return +(S.amount).toFixed(2); }
   function toChurch(){ return +((S.giftAid? S.amount*1.25 : S.amount)).toFixed(2); }
-  function toggleFee(){ S.coverFee=!S.coverFee; document.getElementById('feeToggle').classList.toggle('on',S.coverFee); buildPaySummary(); }
 
   function buildPaySummary(){
     const per=S.freq==='monthly'?'/month':'';
     document.getElementById('paySub').textContent=(S.freq==='monthly'?'A monthly gift':'A one-off gift')+` to ${S.fund}.`;
-    const fee=feeAmount();
     let rows=`<div class="pr"><span>${S.fund}</span><b>${gbp(S.amount)}${per}</b></div>`;
     if(S.giftAid) rows+=`<div class="pr"><span>Gift Aid (+25%, from HMRC)</span><b style="color:var(--success)">+ ${gbp(S.amount*0.25)}</b></div>`;
-    if(fee>0) rows+=`<div class="pr"><span>Card fee you're covering</span><b>+ ${gbp(fee)}</b></div>`;
     rows+=`<div class="pr big"><span>${S.giftAid?'Total to the church':'You give'}</span><b>${gbp(S.giftAid?toChurch():chargeTotal())}${per}</b></div>`;
     if(S.giftAid) rows+=`<div class="pr" style="font-size:12px;padding-top:4px;color:var(--fg-3)"><span>Charged to your card today</span><span>${gbp(chargeTotal())}${per}</span></div>`;
     document.getElementById('paySummary').innerHTML=rows;
-    document.getElementById('feeCopy').textContent=`Add ${gbp((S.amount*FEE_PCT+FEE_FIXED).toFixed(2))} to cover card fees`;
     document.getElementById('payCardAmt').textContent=gbp(chargeTotal())+per;
   }
 
-  function pay(){ buildReceipt(); show(4); }
+  function getDonationPayload(){
+    return {
+      amount: S.amount,
+      currency: 'GBP',
+      frequency: S.freq,            // 'once' | 'monthly'
+      fund: S.fund,
+      giftAid: S.giftAid,
+      donor: S.giftAid ? { name:val('gaName'), address:val('gaAddr'), city:val('gaCity'), postcode:val('gaPost') } : null
+    };
+  }
+  async function submitToStripe(){
+    const btn = document.getElementById('payCardBtn');
+    const payload = getDonationPayload();
+    if(!CHECKOUT_ENDPOINT){ buildReceipt(); show(4); return; } // preview mode
+    const label = btn.innerHTML;
+    btn.disabled = true; btn.textContent = 'Taking you to secure checkout...';
+    try{
+      const res = await fetch(CHECKOUT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      const data = await res.json();
+      if(data && data.url){ window.location.href = data.url; return; }  // -> Stripe Checkout
+      throw new Error((data && data.error) || 'No checkout URL returned');
+    }catch(e){
+      console.error('Checkout error', e);
+      btn.disabled = false; btn.innerHTML = label;
+      alert('Sorry, we could not start checkout just now. Please try again in a moment.');
+    }
+  }
   function buildReceipt(){
     const per=S.freq==='monthly'?'/month':'';
     const ref='CAL-'+Math.random().toString(36).slice(2,7).toUpperCase();
@@ -512,13 +521,12 @@
     });
   }
   function reset(){
-    Object.assign(S,{amount:0,freq:'once',fund:'General Offering',giftAid:false,coverFee:false});
+    Object.assign(S,{amount:0,freq:'once',fund:'General Offering',giftAid:false});
     document.getElementById('amountInput').value='';
     document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
     document.getElementById('fund').value='General Offering';
     document.getElementById('gaToggle').classList.remove('on');
     document.getElementById('gaForm').classList.remove('open');
-    document.getElementById('feeToggle').classList.remove('on');
     ['gaName','gaAddr','gaCity','gaPost'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('gaConfirm').checked=false;
     document.querySelectorAll('.err').forEach(e=>e.classList.remove('show'));
