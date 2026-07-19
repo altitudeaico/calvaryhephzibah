@@ -37,7 +37,7 @@ with img as (
     'Sermon — 19 Jul 2026',
     'sermon',
     'image',
-    'https://calvaryhfgc.github.io/calvaryhephzibah/sermon-thumbnail-19-jul-2026.jpg?v=1',
+    'https://calvaryhfgc.github.io/calvaryhephzibah/sermon-thumbnail-19-jul-2026.jpg?v=2',
     null,
     1280, 720
   )
