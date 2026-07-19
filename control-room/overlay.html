@@ -483,7 +483,7 @@
     position: absolute;
     top: 84px; right: 0;
     min-width: 460px; max-width: 820px;
-    padding: 120px 64px 172px 170px;
+    padding: 84px 64px 112px 170px;
     text-align: right; color: #fff;
     opacity: 0; transform: translateX(28px);
     transition: opacity 0.55s ease, transform 0.55s ease;
@@ -497,8 +497,14 @@
       linear-gradient(to left,
         rgba(140,16,26,0.97) 0%, rgba(150,18,28,0.96) 82%,
         rgba(150,18,28,0.86) 93%, rgba(150,18,28,0.45) 98%, rgba(150,18,28,0) 100%);
-    -webkit-mask-image: linear-gradient(to left, #000 0%, #000 94%, rgba(0,0,0,0.6) 98%, transparent 100%);
-    mask-image: linear-gradient(to left, #000 0%, #000 94%, rgba(0,0,0,0.6) 98%, transparent 100%);
+    -webkit-mask-image:
+      linear-gradient(to left, #000 0%, #000 94%, rgba(0,0,0,0.6) 98%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 16%, #000 80%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(to left, #000 0%, #000 94%, rgba(0,0,0,0.6) 98%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 16%, #000 80%, transparent 100%);
+    mask-composite: intersect;
     filter: blur(3px);
     border-radius: 18px 0 0 18px;
   }
