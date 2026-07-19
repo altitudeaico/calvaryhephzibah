@@ -1146,6 +1146,23 @@
     margin-bottom: 18px;
   }
   .giving-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .card-preset-row { display: flex; gap: 6px; margin: 12px 0 4px; flex-wrap: wrap; }
+  .card-preset-btn {
+    flex: 1;
+    min-width: 90px;
+    padding: 8px 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .card-preset-btn.active { background: color-mix(in srgb, var(--red) 20%, var(--surface)); border-color: color-mix(in srgb, var(--red) 55%, transparent); color: var(--text); }
+  .card-preset-btn:active { transform: scale(0.96); }
+  .card-fields[hidden] { display: none; }
   .giving-toggle {
     padding: 9px 18px;
     background: var(--red);
@@ -2182,17 +2199,38 @@
 
       <div class="giving-control">
         <div class="giving-head">
-          <span class="img-section-label" style="margin:0">Giving / offering</span>
-          <button id="giving-show-btn" class="giving-toggle" onclick="toggleGiving()">Show on screen</button>
+          <span class="img-section-label" style="margin:0">Overlay card</span>
+          <button id="card-show-btn" class="giving-toggle" onclick="toggleCard()">Show on screen</button>
         </div>
-        <p class="muted" style="font-size:12px;margin:2px 0 12px;">Persistent card, top-right of the overlay. Stays up through the offering; tap again to clear.</p>
-        <input id="giving-name" class="giving-input" value="Calvary Hephzibah Full Gospel Church" placeholder="Account name" oninput="onGivingEdit()">
-        <div class="giving-row3">
-          <input id="giving-bank" class="giving-input" value="NatWest" placeholder="Bank" oninput="onGivingEdit()">
-          <input id="giving-sort" class="giving-input" value="01-06-57" placeholder="Sort code" oninput="onGivingEdit()">
-          <input id="giving-acc"  class="giving-input" value="47136545" placeholder="Account no." oninput="onGivingEdit()">
+        <div class="card-preset-row">
+          <button class="card-preset-btn active" data-preset="giving" onclick="setCardPreset('giving')">Giving</button>
+          <button class="card-preset-btn" data-preset="prayer" onclick="setCardPreset('prayer')">Prayer Meeting</button>
+          <button class="card-preset-btn" data-preset="bible" onclick="setCardPreset('bible')">Bible Study</button>
         </div>
-        <input id="giving-ref" class="giving-input" value="" placeholder="Reference (optional)" oninput="onGivingEdit()">
+        <p class="muted" style="font-size:12px;margin:2px 0 12px;">Persistent card, top-right of the overlay. One shows at a time; tap Hide to clear.</p>
+
+        <div class="card-fields" data-fields="giving">
+          <input id="giving-name" class="giving-input" value="Calvary Hephzibah Full Gospel Church" placeholder="Account name" oninput="onCardEdit()">
+          <div class="giving-row3">
+            <input id="giving-bank" class="giving-input" value="NatWest" placeholder="Bank" oninput="onCardEdit()">
+            <input id="giving-sort" class="giving-input" value="01-06-57" placeholder="Sort code" oninput="onCardEdit()">
+            <input id="giving-acc"  class="giving-input" value="47136545" placeholder="Account no." oninput="onCardEdit()">
+          </div>
+          <input id="giving-ref" class="giving-input" value="" placeholder="Reference (optional)" oninput="onCardEdit()">
+        </div>
+
+        <div class="card-fields" data-fields="prayer" hidden>
+          <input id="prayer-when"  class="giving-input" value="Wednesdays · 7:30pm" placeholder="When" oninput="onCardEdit()">
+          <input id="prayer-where" class="giving-input" value="Online on Zoom" placeholder="Where / how to join" oninput="onCardEdit()">
+          <input id="prayer-join"  class="giving-input" value="" placeholder="Zoom link or meeting ID (optional)" oninput="onCardEdit()">
+        </div>
+
+        <div class="card-fields" data-fields="bible" hidden>
+          <input id="bible-name"  class="giving-input" value="Application of the Word" placeholder="Series / name" oninput="onCardEdit()">
+          <input id="bible-when"  class="giving-input" value="Fridays · 7:30pm" placeholder="When" oninput="onCardEdit()">
+          <input id="bible-where" class="giving-input" value="Online on Zoom" placeholder="Where / how to join" oninput="onCardEdit()">
+          <input id="bible-join"  class="giving-input" value="" placeholder="Zoom link or meeting ID (optional)" oninput="onCardEdit()">
+        </div>
       </div>
 
       <div id="ann-suggestions" class="ann-suggestions"></div>
@@ -3701,46 +3739,84 @@ window.clearLowerThird = async () => {
   document.getElementById('lt-push-btn').disabled = true;
 };
 
-let givingLive = false;
+// ============================================================
+// OVERLAY CARD — preset-driven top-right card (Giving / Prayer / Bible).
+// One card shows at a time via the control_room_live.giving channel; the
+// overlay renders whatever {title, lines} it receives.
+// ============================================================
+let cardPreset = 'giving';       // which preset is selected in the operator
+let cardLive = false;            // is a card currently on screen?
+let cardLivePreset = null;       // which preset is on screen
 
-function givingPayload(show) {
+function cardPayload(preset, show) {
+  if (!show) return { show: false };
   const g = id => (document.getElementById(id)?.value || '').trim();
-  const lines = [];
-  const name = g('giving-name'); if (name) lines.push({ name: true, value: name });
-  const bank = g('giving-bank'); if (bank) lines.push({ label: 'Bank', value: bank });
-  const sort = g('giving-sort'); if (sort) lines.push({ label: 'Sort code', value: sort });
-  const acc  = g('giving-acc');  if (acc)  lines.push({ label: 'Account', value: acc });
-  const ref  = g('giving-ref');  if (ref)  lines.push({ label: 'Reference', value: ref });
-  return show ? { show: true, title: 'Giving', lines } : { show: false };
+  if (preset === 'giving') {
+    const lines = [];
+    const name = g('giving-name'); if (name) lines.push({ name: true, value: name });
+    const bank = g('giving-bank'); if (bank) lines.push({ label: 'Bank', value: bank });
+    const sort = g('giving-sort'); if (sort) lines.push({ label: 'Sort code', value: sort });
+    const acc  = g('giving-acc');  if (acc)  lines.push({ label: 'Account', value: acc });
+    const ref  = g('giving-ref');  if (ref)  lines.push({ label: 'Reference', value: ref });
+    return { show: true, preset, title: 'Giving', lines };
+  }
+  if (preset === 'prayer') {
+    const lines = [];
+    const when  = g('prayer-when');  if (when)  lines.push({ name: true, value: when });
+    const where = g('prayer-where'); if (where) lines.push({ value: where });
+    const join  = g('prayer-join');  if (join)  lines.push({ value: join });
+    return { show: true, preset, title: 'Prayer Meeting', lines };
+  }
+  if (preset === 'bible') {
+    const lines = [];
+    const name  = g('bible-name');  if (name)  lines.push({ name: true, value: name });
+    const when  = g('bible-when');  if (when)  lines.push({ value: when });
+    const where = g('bible-where'); if (where) lines.push({ value: where });
+    const join  = g('bible-join');  if (join)  lines.push({ value: join });
+    return { show: true, preset, title: 'Bible Study', lines };
+  }
+  return { show: false };
 }
 
-async function pushGiving(payload) {
+async function pushCard(payload) {
   const { error } = await client.from('control_room_live')
     .update({ giving: payload, updated_at: new Date().toISOString(), updated_by: currentUser.name })
     .eq('id', 1);
-  if (error) { console.error('giving push:', error); alert('Failed: ' + error.message); return false; }
+  if (error) { console.error('card push:', error); alert('Failed: ' + error.message); return false; }
   return true;
 }
 
-window.toggleGiving = async () => {
-  const next = !givingLive;
-  const ok = await pushGiving(givingPayload(next));
-  if (ok) { givingLive = next; renderGivingBtn(); }
+window.setCardPreset = (p) => {
+  cardPreset = p;
+  document.querySelectorAll('.card-preset-btn').forEach(b => b.classList.toggle('active', b.dataset.preset === p));
+  document.querySelectorAll('.card-fields').forEach(f => { f.hidden = (f.dataset.fields !== p); });
+  renderCardBtn();
 };
 
-// If the block is already on screen, edits push through live.
-window.onGivingEdit = () => { if (givingLive) pushGiving(givingPayload(true)); };
+window.toggleCard = async () => {
+  const showingThis = cardLive && cardLivePreset === cardPreset;
+  if (showingThis) {
+    if (await pushCard({ show: false })) { cardLive = false; cardLivePreset = null; renderCardBtn(); }
+  } else {
+    if (await pushCard(cardPayload(cardPreset, true))) { cardLive = true; cardLivePreset = cardPreset; renderCardBtn(); }
+  }
+};
 
-function renderGivingBtn() {
-  const btn = document.getElementById('giving-show-btn');
+// Live edits push through only when the on-screen card is the one being edited.
+window.onCardEdit = () => { if (cardLive && cardLivePreset === cardPreset) pushCard(cardPayload(cardPreset, true)); };
+
+function renderCardBtn() {
+  const btn = document.getElementById('card-show-btn');
   if (!btn) return;
-  btn.textContent = givingLive ? 'Hide from screen' : 'Show on screen';
-  btn.classList.toggle('live', givingLive);
+  const showingThis = cardLive && cardLivePreset === cardPreset;
+  btn.textContent = showingThis ? 'Hide from screen' : (cardLive ? 'Show this instead' : 'Show on screen');
+  btn.classList.toggle('live', showingThis);
 }
 
-function syncGivingFromRow(giving) {
-  givingLive = !!(giving && giving.show);
-  renderGivingBtn();
+function syncCardFromRow(giving) {
+  cardLive = !!(giving && giving.show);
+  cardLivePreset = cardLive ? (giving.preset || null) : null;
+  renderCardBtn();
 }
 
 async function pushLowerThird(lt) {
@@ -4387,7 +4463,7 @@ function subscribeLive() {
       if (!data) return;
       renderNowPlaying(data.mode, data.payload);
       renderLowerThirdCurrent(data.lower_third);
-      syncGivingFromRow(data.giving);
+      syncCardFromRow(data.giving);
       currentBackdropOnLive = data.backdrop || null;
       renderBackdropTransport();
       renderBackdropList();
@@ -4402,7 +4478,7 @@ function subscribeLive() {
       ({ new: row }) => {
         renderNowPlaying(row.mode, row.payload);
         renderLowerThirdCurrent(row.lower_third);
-        syncGivingFromRow(row.giving);
+        syncCardFromRow(row.giving);
         currentBackdropOnLive = row.backdrop || null;
         renderBackdropTransport();
         renderBackdropList();
