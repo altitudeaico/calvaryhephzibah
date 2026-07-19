@@ -2566,7 +2566,6 @@ async function enterApp() {
     loadDisplaySettings(),
     loadSpeakers(),
     loadImages(),
-    loadAnnouncements(),
     loadPeople(),
     loadBackdrops(),
     loadBibleVersions()
@@ -3849,7 +3848,6 @@ function renderLowerThirdCurrent(lt) {
 // GRAPHICS — Images + Announcements
 // ============================================================
 let imageLibrary = [];          // all images
-let savedAnnouncements = [];    // saved announcement templates
 let people = [];                // people for birthdays/anniversaries
 let annKind = 'midweek';        // selected kind for custom announcement
 let currentImageId = null;      // image currently on screen (if any)
@@ -3937,16 +3935,6 @@ window.pushImage = async (id) => {
   renderSetlist();
 };
 
-async function loadAnnouncements() {
-  const { data, error } = await client
-    .from('control_room_announcements')
-    .select('id, title, body, category, position')
-    .eq('active', true)
-    .order('position');
-  if (error) { console.error('announcements load:', error); return; }
-  savedAnnouncements = data || [];
-  renderAnnouncementSuggestions();
-}
 
 async function loadPeople() {
   const { data, error } = await client
@@ -4027,25 +4015,8 @@ function renderAnnouncementSuggestions() {
     `);
   }
 
-  // Saved midweek/special announcements
-  for (const a of savedAnnouncements) {
-    const key = 'ann:' + a.id;
-    const isLive = currentAnnouncementKey === key;
-    const eyebrow = a.category === 'midweek' ? '📅 Mid-week meeting' : '⭐ Announcement';
-    out.push(`
-      <div class="ann-suggest ${isLive ? 'live' : ''}">
-        <div class="meta">
-          <div class="ann-eyebrow">${eyebrow}</div>
-          <div class="ann-title">${escapeHtml(a.title)}</div>
-          ${a.body ? `<div class="ann-body">${escapeHtml(a.body)}</div>` : ''}
-        </div>
-        <button class="push-btn" onclick="window.pushSavedAnn('${a.id}')">${isLive ? 'On screen' : 'Push'}</button>
-      </div>
-    `);
-  }
-
   if (!out.length) {
-    list.innerHTML = '<div class="img-empty">No announcements set up yet. Use the form below to push a custom one.</div>';
+    list.innerHTML = '<div class="img-empty">No birthdays or anniversaries this week. Use the form below for a custom announcement.</div>';
     return;
   }
   list.innerHTML = out.join('');
@@ -4073,18 +4044,6 @@ window.pushAnniversary = async (personId) => {
     eyebrow: years ? ordinal(years) + ' Wedding Anniversary' : 'Wedding Anniversary',
     title: p.name + ' & ' + p.spouse_name,
     body: p.daysFromNow === 0 ? 'Celebrating today' : ''
-  });
-};
-
-window.pushSavedAnn = async (annId) => {
-  const a = savedAnnouncements.find(x => x.id === annId);
-  if (!a) return;
-  currentAnnouncementKey = 'ann:' + annId;
-  await pushAnnouncement({
-    kind: a.category === 'midweek' ? 'midweek' : 'special',
-    eyebrow: a.category === 'midweek' ? 'Join Us' : 'Announcement',
-    title: a.title,
-    body: a.body || ''
   });
 };
 
