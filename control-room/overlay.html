@@ -475,6 +475,45 @@
     opacity: 1;
     transform: translateX(0);
   }
+
+  /* GIVING BLOCK — persistent top-right info card (offering / bank details,
+     midweek meeting). Coexists with lyrics/verses like the lower third. A soft
+     brand-red plate anchored to the right that feathers off to the LEFT. */
+  .giving-block {
+    position: absolute;
+    top: 84px; right: 0;
+    min-width: 460px; max-width: 820px;
+    padding: 30px 64px 32px 170px;
+    text-align: right; color: #fff;
+    opacity: 0; transform: translateX(28px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    pointer-events: none; z-index: 6;
+  }
+  .giving-block.active { opacity: 1; transform: translateX(0); }
+  .giving-block::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background:
+      radial-gradient(ellipse 60% 130% at 90% 32%, rgba(214,44,56,0.42) 0%, rgba(214,44,56,0) 68%),
+      linear-gradient(to left,
+        rgba(140,16,26,0.95) 0%, rgba(150,18,28,0.92) 30%,
+        rgba(150,18,28,0.68) 58%, rgba(150,18,28,0.28) 82%, rgba(150,18,28,0) 100%);
+    -webkit-mask-image: linear-gradient(to left, #000 0%, #000 48%, rgba(0,0,0,0.5) 78%, transparent 100%);
+    mask-image: linear-gradient(to left, #000 0%, #000 48%, rgba(0,0,0,0.5) 78%, transparent 100%);
+    filter: blur(3px);
+    border-radius: 18px 0 0 18px;
+  }
+  .giving-eyebrow {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 22px; font-weight: 800; letter-spacing: 4px;
+    text-transform: uppercase; opacity: 0.82; margin-bottom: 12px;
+  }
+  .giving-lines .gl {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 33px; font-weight: 600; line-height: 1.42;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .giving-lines .gl-name { font-size: 30px; font-weight: 700; }
+  .giving-lines .gl-label { font-weight: 500; opacity: 0.72; margin-right: 10px; }
   .lt-name {
     font-weight: 700;
     font-size: 36px;
@@ -539,6 +578,12 @@
     <div id="lt-name" class="lt-name"></div>
     <div id="lt-role" class="lt-role"></div>
   </div>
+</div>
+
+<!-- Giving block — persistent top-right offering / info card -->
+<div id="giving-block" class="giving-block">
+  <div id="giving-eyebrow" class="giving-eyebrow">Giving</div>
+  <div id="giving-lines" class="giving-lines"></div>
 </div>
 
 <div id="lyric-stage" class="stage" data-anchor="bottom">
@@ -826,6 +871,25 @@ function renderLowerThird(lt) {
 }
 
 // ============================================================
+// GIVING BLOCK (independent of mode) — top-right persistent card
+// ============================================================
+function renderGiving(giving) {
+  const block = document.getElementById('giving-block');
+  const lines = giving && typeof giving === 'object' && Array.isArray(giving.lines) ? giving.lines : [];
+  if (!(giving && giving.show && lines.length)) { block.classList.remove('active'); return; }
+  document.getElementById('giving-eyebrow').textContent = giving.title || 'Giving';
+  document.getElementById('giving-lines').innerHTML = lines.map(l => {
+    if (l && typeof l === 'object') {
+      const cls = l.name ? 'gl gl-name' : 'gl';
+      const label = l.label ? `<span class="gl-label">${escapeHtmlForOverlay(l.label)}</span>` : '';
+      return `<div class="${cls}">${label}${escapeHtmlForOverlay(l.value || '')}</div>`;
+    }
+    return `<div class="gl">${escapeHtmlForOverlay(String(l))}</div>`;
+  }).join('');
+  block.classList.add('active');
+}
+
+// ============================================================
 // BACKDROP — looped images/videos behind everything
 // ============================================================
 let backdropState = null;        // current backdrop config from DB
@@ -965,6 +1029,7 @@ async function fetchCurrent() {
   }
   render(data.mode, data.payload);
   renderLowerThird(data.lower_third);
+  renderGiving(data.giving);
   renderBackdrop(data.backdrop);
   setStatus('connected', 'live');
 }
@@ -977,6 +1042,7 @@ function subscribe() {
       ({ new: row }) => {
         render(row.mode, row.payload);
         renderLowerThird(row.lower_third);
+        renderGiving(row.giving);
         renderBackdrop(row.backdrop);
       })
     .subscribe((status) => {

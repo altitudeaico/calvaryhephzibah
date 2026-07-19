@@ -1138,6 +1138,40 @@
     gap: 6px;
     margin-bottom: 8px;
   }
+  .giving-control {
+    background: var(--bg);
+    border: 1px solid color-mix(in srgb, var(--red) 40%, var(--border));
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 18px;
+  }
+  .giving-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .giving-toggle {
+    padding: 9px 18px;
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .giving-toggle:active { transform: scale(0.96); }
+  .giving-toggle.live { background: var(--green); color: #05230f; }
+  .giving-input {
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+    margin-bottom: 8px;
+  }
+  .giving-row3 { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 8px; }
+  .giving-row3 .giving-input { margin-bottom: 8px; }
   .ann-suggestions {
     display: flex;
     flex-direction: column;
@@ -2145,6 +2179,22 @@
 
     <!-- Announcements tab -->
     <div id="gfx-tab-announcements" class="gfx-tab-body active">
+
+      <div class="giving-control">
+        <div class="giving-head">
+          <span class="img-section-label" style="margin:0">Giving / offering</span>
+          <button id="giving-show-btn" class="giving-toggle" onclick="toggleGiving()">Show on screen</button>
+        </div>
+        <p class="muted" style="font-size:12px;margin:2px 0 12px;">Persistent card, top-right of the overlay. Stays up through the offering; tap again to clear.</p>
+        <input id="giving-name" class="giving-input" value="Calvary Hephzibah Full Gospel Church" placeholder="Account name" oninput="onGivingEdit()">
+        <div class="giving-row3">
+          <input id="giving-bank" class="giving-input" value="NatWest" placeholder="Bank" oninput="onGivingEdit()">
+          <input id="giving-sort" class="giving-input" value="01-06-57" placeholder="Sort code" oninput="onGivingEdit()">
+          <input id="giving-acc"  class="giving-input" value="47136545" placeholder="Account no." oninput="onGivingEdit()">
+        </div>
+        <input id="giving-ref" class="giving-input" value="" placeholder="Reference (optional)" oninput="onGivingEdit()">
+      </div>
+
       <div id="ann-suggestions" class="ann-suggestions"></div>
 
       <div class="ann-custom">
@@ -3651,6 +3701,48 @@ window.clearLowerThird = async () => {
   document.getElementById('lt-push-btn').disabled = true;
 };
 
+let givingLive = false;
+
+function givingPayload(show) {
+  const g = id => (document.getElementById(id)?.value || '').trim();
+  const lines = [];
+  const name = g('giving-name'); if (name) lines.push({ name: true, value: name });
+  const bank = g('giving-bank'); if (bank) lines.push({ label: 'Bank', value: bank });
+  const sort = g('giving-sort'); if (sort) lines.push({ label: 'Sort code', value: sort });
+  const acc  = g('giving-acc');  if (acc)  lines.push({ label: 'Account', value: acc });
+  const ref  = g('giving-ref');  if (ref)  lines.push({ label: 'Reference', value: ref });
+  return show ? { show: true, title: 'Giving', lines } : { show: false };
+}
+
+async function pushGiving(payload) {
+  const { error } = await client.from('control_room_live')
+    .update({ giving: payload, updated_at: new Date().toISOString(), updated_by: currentUser.name })
+    .eq('id', 1);
+  if (error) { console.error('giving push:', error); alert('Failed: ' + error.message); return false; }
+  return true;
+}
+
+window.toggleGiving = async () => {
+  const next = !givingLive;
+  const ok = await pushGiving(givingPayload(next));
+  if (ok) { givingLive = next; renderGivingBtn(); }
+};
+
+// If the block is already on screen, edits push through live.
+window.onGivingEdit = () => { if (givingLive) pushGiving(givingPayload(true)); };
+
+function renderGivingBtn() {
+  const btn = document.getElementById('giving-show-btn');
+  if (!btn) return;
+  btn.textContent = givingLive ? 'Hide from screen' : 'Show on screen';
+  btn.classList.toggle('live', givingLive);
+}
+
+function syncGivingFromRow(giving) {
+  givingLive = !!(giving && giving.show);
+  renderGivingBtn();
+}
+
 async function pushLowerThird(lt) {
   const { error } = await client
     .from('control_room_live')
@@ -4295,6 +4387,7 @@ function subscribeLive() {
       if (!data) return;
       renderNowPlaying(data.mode, data.payload);
       renderLowerThirdCurrent(data.lower_third);
+      syncGivingFromRow(data.giving);
       currentBackdropOnLive = data.backdrop || null;
       renderBackdropTransport();
       renderBackdropList();
@@ -4309,6 +4402,7 @@ function subscribeLive() {
       ({ new: row }) => {
         renderNowPlaying(row.mode, row.payload);
         renderLowerThirdCurrent(row.lower_third);
+        syncGivingFromRow(row.giving);
         currentBackdropOnLive = row.backdrop || null;
         renderBackdropTransport();
         renderBackdropList();
