@@ -1235,68 +1235,6 @@
     flex-shrink: 0;
   }
   .ann-suggest .push-btn:hover { background: #e02b38; }
-  .ann-custom {
-    border-top: 1px solid var(--border);
-    padding-top: 14px;
-    margin-top: 14px;
-  }
-  .ann-fields {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-  .ann-input {
-    padding: 10px 12px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    font-weight: 500;
-    font-size: 14px;
-    font-family: inherit;
-    color: var(--text);
-  }
-  .ann-input:focus { border-color: var(--red); outline: none; }
-  .ann-kind-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-    margin-bottom: 8px;
-  }
-  .ann-kind-btn {
-    padding: 8px 4px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all 0.12s;
-  }
-  .ann-kind-btn:hover { color: var(--text); border-color: var(--border-strong); }
-  .ann-kind-btn.active {
-    background: var(--red);
-    border-color: var(--red);
-    color: white;
-  }
-  .ann-push {
-    background: var(--red);
-    color: white;
-    padding: 10px 16px;
-    border-radius: var(--radius);
-    font-weight: 700;
-    width: 100%;
-    border: none;
-    cursor: pointer;
-    font-size: 13px;
-  }
-  .ann-push:hover { background: #e02b38; }
-  .ann-push:disabled {
-    background: var(--surface-2);
-    color: var(--text-dim);
-    cursor: not-allowed;
-  }
 
   /* ============ BACKDROPS ============ */
   .backdrop-transport {
@@ -1732,8 +1670,7 @@
   .lt-item:active, .lt-item .push-btn:active, .oos-push:active,
   .bible-go:active, .bible-push:active, .img-card:active,
   .date-nav-btn:active, .date-today-btn:active, .date-pill:active,
-  .gfx-tab:active, .ann-kind-btn:active, .ann-suggest .push-btn:active, .ann-push:active,
-  .bd-ctrl:active, .backdrop-list .bd-row:active, .bd-lib-item:active,
+  .gfx-tab:active, .ann-suggest .push-btn:active,   .bd-ctrl:active, .backdrop-list .bd-row:active, .bd-lib-item:active,
   .bd-row-del:active, .bd-builder-remove:active,
   .preset-btn:active, .display-toggle:active, .display-actions .btn:active,
   .lt-clear:active, .lt-clear-always:active, .lt-push-custom:active {
@@ -2234,21 +2171,6 @@
       </div>
 
       <div id="ann-suggestions" class="ann-suggestions"></div>
-
-      <div class="ann-custom">
-        <div class="img-section-label">Custom announcement</div>
-        <div class="ann-kind-row">
-          <button class="ann-kind-btn active" data-kind="midweek"     onclick="setAnnKind('midweek')">Mid-week</button>
-          <button class="ann-kind-btn"        data-kind="birthday"    onclick="setAnnKind('birthday')">Birthday</button>
-          <button class="ann-kind-btn"        data-kind="anniversary" onclick="setAnnKind('anniversary')">Anniversary</button>
-          <button class="ann-kind-btn"        data-kind="special"     onclick="setAnnKind('special')">Special</button>
-        </div>
-        <div class="ann-fields">
-          <input id="ann-title" class="ann-input" placeholder="Title (e.g. Happy Birthday Auntie Pauline)" oninput="onAnnInput()">
-          <input id="ann-body"  class="ann-input" placeholder="Subtitle / details (optional)" oninput="onAnnInput()">
-        </div>
-        <button id="ann-push-btn" class="ann-push" onclick="pushCustomAnn()" disabled>Push to overlay</button>
-      </div>
     </div>
 
     <!-- Backdrops tab -->
@@ -3849,23 +3771,12 @@ function renderLowerThirdCurrent(lt) {
 // ============================================================
 let imageLibrary = [];          // all images
 let people = [];                // people for birthdays/anniversaries
-let annKind = 'midweek';        // selected kind for custom announcement
 let currentImageId = null;      // image currently on screen (if any)
 let currentAnnouncementKey = null; // 'ann:<id>' or 'birthday:<id>' or 'anniversary:<id>' for highlight
 
 window.switchGfxTab = (tab) => {
   document.querySelectorAll('.gfx-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
   document.querySelectorAll('.gfx-tab-body').forEach(b => b.classList.toggle('active', b.id === 'gfx-tab-' + tab));
-};
-
-window.setAnnKind = (kind) => {
-  annKind = kind;
-  document.querySelectorAll('.ann-kind-btn').forEach(b => b.classList.toggle('active', b.dataset.kind === kind));
-};
-
-window.onAnnInput = () => {
-  const title = document.getElementById('ann-title').value.trim();
-  document.getElementById('ann-push-btn').disabled = !title;
 };
 
 async function loadImages() {
@@ -4016,7 +3927,7 @@ function renderAnnouncementSuggestions() {
   }
 
   if (!out.length) {
-    list.innerHTML = '<div class="img-empty">No birthdays or anniversaries this week. Use the form below for a custom announcement.</div>';
+    list.innerHTML = '<div class="img-empty">No birthdays or anniversaries this week.</div>';
     return;
   }
   list.innerHTML = out.join('');
@@ -4044,25 +3955,6 @@ window.pushAnniversary = async (personId) => {
     eyebrow: years ? ordinal(years) + ' Wedding Anniversary' : 'Wedding Anniversary',
     title: p.name + ' & ' + p.spouse_name,
     body: p.daysFromNow === 0 ? 'Celebrating today' : ''
-  });
-};
-
-window.pushCustomAnn = async () => {
-  const title = document.getElementById('ann-title').value.trim();
-  const body  = document.getElementById('ann-body').value.trim();
-  if (!title) return;
-  const eyebrowMap = {
-    midweek:     'Join Us',
-    birthday:    'Happy Birthday',
-    anniversary: 'Anniversary',
-    special:     'Announcement'
-  };
-  currentAnnouncementKey = null;
-  await pushAnnouncement({
-    kind: annKind,
-    eyebrow: eyebrowMap[annKind] || 'Announcement',
-    title,
-    body
   });
 };
 
