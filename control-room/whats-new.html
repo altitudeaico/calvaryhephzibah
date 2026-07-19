@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>What's New · Control Room · Calvary Hephzibah</title>
+<meta name="robots" content="noindex">
+<meta property="og:title" content="What's New — Control Room">
+<meta property="og:description" content="The latest improvements to the media desk, for the Calvary Hephzibah media team.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --obsidian:#0A0A0A; --panel:#111114; --panel-2:#17171b;
+    --red:#C41E2A; --red-soft:#E0554E; --bone:#F5F0E8;
+    --text:#F5F0E8; --muted:#A5A5Ad; --dim:#6E6E76;
+    --border:#242429; --border-strong:#33333a; --green:#22C55E;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--obsidian); color:var(--text);
+    font-family:'Inter Tight',system-ui,sans-serif;
+    line-height:1.5; padding:0 20px 80px;
+    background-image:radial-gradient(120% 60% at 85% -10%, rgba(196,30,42,0.16) 0%, rgba(196,30,42,0) 60%);
+    background-repeat:no-repeat;
+  }
+  .wrap{max-width:720px;margin:0 auto}
+
+  /* Hero */
+  header{padding:56px 0 28px}
+  .eyebrow{
+    font-size:12px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;
+    color:var(--red-soft);display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .eyebrow::before{content:'';width:26px;height:3px;background:var(--red);border-radius:2px}
+  h1{
+    font-family:'Anton',sans-serif;font-weight:400;letter-spacing:0.5px;
+    font-size:clamp(46px,12vw,74px);line-height:0.94;text-transform:uppercase;
+  }
+  .lede{
+    font-family:'Instrument Serif',serif;font-style:italic;
+    font-size:clamp(19px,4.5vw,24px);color:var(--muted);margin-top:16px;max-width:34ch;
+  }
+
+  /* Release block */
+  .release{margin-top:40px}
+  .release-head{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    padding-bottom:18px;border-bottom:1px solid var(--border);margin-bottom:8px;
+  }
+  .release-date{font-family:'Anton',sans-serif;font-size:26px;letter-spacing:0.5px;text-transform:uppercase}
+  .release-tag{
+    font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--red-soft);border:1px solid var(--border-strong);border-radius:100px;
+    padding:5px 12px;
+  }
+  .release-intro{color:var(--muted);font-size:16px;margin:14px 0 4px}
+
+  /* Change items */
+  .item{
+    display:flex;gap:16px;padding:22px 0;border-bottom:1px solid var(--border);
+  }
+  .item:last-child{border-bottom:none}
+  .item-badge{
+    flex:none;width:40px;height:40px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;font-size:20px;
+    background:color-mix(in srgb, var(--red) 16%, var(--panel));
+    border:1px solid color-mix(in srgb, var(--red) 40%, transparent);
+  }
+  .item-body{flex:1;min-width:0}
+  .item-title{font-size:18px;font-weight:700;margin-bottom:5px}
+  .item-desc{color:var(--muted);font-size:15.5px}
+  .item-how{
+    margin-top:9px;font-size:14px;color:var(--text);
+    background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--red);
+    border-radius:8px;padding:9px 12px;
+  }
+  .item-how b{font-weight:700}
+  .fix .item-badge{
+    background:color-mix(in srgb, var(--green) 15%, var(--panel));
+    border-color:color-mix(in srgb, var(--green) 40%, transparent);
+  }
+
+  /* Footer */
+  footer{
+    margin-top:48px;padding-top:24px;border-top:1px solid var(--border);
+    color:var(--dim);font-size:14px;
+  }
+  footer b{color:var(--muted);font-weight:600}
+  .thanks{
+    font-family:'Instrument Serif',serif;font-style:italic;font-size:20px;
+    color:var(--bone);margin-bottom:14px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Control Room · For the media team</div>
+    <h1>What's New</h1>
+    <p class="lede">The desk keeps getting easier to drive. Here's what changed — and what it means for you on a Sunday.</p>
+  </header>
+
+  <!-- ============================================================
+       TO ADD THE NEXT EDITION: copy one <section class="release"> …
+       </section> block, put it directly BELOW this comment (newest at
+       the top), change the date + tag, and list the changes as <div
+       class="item"> rows. Use class "item fix" (green badge) for a
+       correction/fix, plain "item" (red badge) for a new/improved thing.
+       Keep the voice plain: what changed, and why it helps THEM.
+       ============================================================ -->
+
+  <section class="release">
+    <div class="release-head">
+      <div class="release-date">July 2026</div>
+      <div class="release-tag">Latest update</div>
+    </div>
+    <p class="release-intro">A big tidy-up of the operator desk, plus a clearer look on screen. Nothing you knew has moved far — most things are now quicker to reach.</p>
+
+    <div class="item">
+      <div class="item-badge">🧭</div>
+      <div class="item-body">
+        <div class="item-title">Much easier to get around</div>
+        <div class="item-desc">The desk now opens straight onto the live set, with four clear buttons across the top — <b>Bible Verses</b>, <b>Name Tags</b>, <b>Order of Service</b> and <b>Announcements</b>. Tap one to jump right to what you need instead of scrolling through everything.</div>
+        <div class="item-how"><b>On a Sunday:</b> tap a button to open its tools, do the thing, then tap <b>Done</b> to drop back to the live set. The Next / Blank controls stay put at the bottom the whole time.</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-badge">📱</div>
+      <div class="item-body">
+        <div class="item-title">Run the whole thing from your phone — anywhere</div>
+        <div class="item-desc">The desk now works properly on a phone screen. Anyone on the team can drive the stream from their phone — even from another room, or from home if you're covering remotely.</div>
+        <div class="item-how"><b>Handy for:</b> stepping away from the desk, covering a service when you can't be in the building, or a second person helping from their seat.</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-badge">👁️</div>
+      <div class="item-body">
+        <div class="item-title">The Preview button is now green — and easy to find</div>
+        <div class="item-desc">The "see what's going out" button is green now, so it stands out at a glance, and it no longer sits on top of the Next button. Tap it any time to check exactly what the congregation and the stream are seeing.</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-badge">💷</div>
+      <div class="item-body">
+        <div class="item-title">Giving details look clearer on screen</div>
+        <div class="item-desc">When you put the church bank details up, they now sit neatly in the top corner of the screen instead of taking over the whole picture — so worship can carry on behind them. Easier to read, and far less disruptive.</div>
+        <div class="item-how"><b>Where to find it:</b> Announcements → the <b>Giving</b> card → <b>Show on screen</b>. Tap again to clear it.</div>
+      </div>
+    </div>
+
+    <div class="item fix">
+      <div class="item-badge">✅</div>
+      <div class="item-body">
+        <div class="item-title">Midweek meeting days — corrected</div>
+        <div class="item-desc">We'd had the two meetings round the wrong way. It's now right: <b>Prayer Meeting is Wednesday, 7:30pm</b>, and <b>Application of the Word (Bible Study) is Friday, 7:30pm</b> — both online on Zoom, Meeting ID <b>330 030 8969</b>.</div>
+        <div class="item-how"><b>To put one up:</b> Announcements → tap <b>Prayer Meeting</b> or <b>Bible Study</b> → <b>Show on screen</b>. The details are already filled in.</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-badge">📖</div>
+      <div class="item-body">
+        <div class="item-title">Scripture and lyrics are easier to read</div>
+        <div class="item-desc">Verses and song words now sit on a soft red Calvary-branded backdrop, so they stand out clearly over any camera shot — bright stage, dark room, busy background — and the whole overlay looks a little more "us."</div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-badge">🎯</div>
+      <div class="item-body">
+        <div class="item-title">You can nudge the on-screen text</div>
+        <div class="item-desc">If a verse or a lyric is sitting awkwardly — over someone's face, or too low — you can now move it and resize it live, and lyrics and scripture can each sit in their own spot.</div>
+        <div class="item-how"><b>Where:</b> the settings (gear) → Position &amp; size → tap <b>Move &amp; resize</b>, drag it where you want, then lock it.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="thanks">Thank you for serving on the desk — this is all to make your Sunday smoother.</div>
+    Spotted something confusing, or got an idea to make it easier? Tell Bolaji — the desk keeps improving because the team says what's not working.
+    <br><br><b>Calvary Hephzibah</b> · Media &amp; Production
+  </footer>
+
+</div>
+</body>
+</html>
