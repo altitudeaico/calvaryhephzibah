@@ -507,6 +507,15 @@
     document.getElementById('nextSteps').textContent=next;
   }
 
+  function showSuccess(){
+    document.getElementById('doneSub').textContent =
+      'Your gift has been received. Thank you for giving to Calvary Hephzibah.';
+    document.getElementById('receipt').style.display = 'none';
+    document.getElementById('nextSteps').textContent =
+      "You'll receive an email receipt for your records. If you set up a monthly gift, you can change or stop it any time from the link in that email. Thank you for your generosity.";
+    show(4);
+  }
+
   function show(n){
     [1,2,3,4].forEach(i=>document.getElementById('step'+i).classList.toggle('show',i===n));
     setProgress(n);
@@ -532,7 +541,19 @@
     document.querySelectorAll('.err').forEach(e=>e.classList.remove('show'));
     setFreq('once'); refreshAmount(); show(1);
   }
-  setProgress(1);
+  // On return from Stripe Checkout: /give/?status=success | cancelled
+  (function initFromRedirect(){
+    const status = new URLSearchParams(location.search).get('status');
+    if(status === 'success'){
+      showSuccess();
+      history.replaceState(null, '', location.pathname);  // clean URL so refresh / Give again reset cleanly
+      return;
+    }
+    if(status === 'cancelled'){
+      history.replaceState(null, '', location.pathname);  // silently return to the form
+    }
+    setProgress(1);
+  })();
 </script>
 </body>
 </html>
