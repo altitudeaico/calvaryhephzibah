@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0e">
+  <title>Stage View · Sunday 26 July 2026</title>
+  <meta name="description" content="On-stage setlist, structure and keys for Sunday 26 July 2026.">
+  <meta name="robots" content="noindex,nofollow">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Stage View · Sunday 26 July 2026">
+  <meta property="og:description" content="Setlist, structure and keys on your phone. For the band, in-service.">
+  <meta property="og:image" content="https://calvaryhfgc.github.io/calvaryhephzibah/set-runthrough-26-jul-2026/stage/og-card.png?v=1">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Calvary Hephzibah · Stage View — on-phone lyrics and structure for the band, Sunday 26 July 2026">
+  <meta property="og:url" content="https://calvaryhfgc.github.io/calvaryhephzibah/set-runthrough-26-jul-2026/stage/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Stage View · Sunday 26 July 2026">
+  <meta name="twitter:description" content="Lyrics + structure on your phone. For the band, in-service.">
+  <meta name="twitter:image" content="https://calvaryhfgc.github.io/calvaryhephzibah/set-runthrough-26-jul-2026/stage/og-card.png?v=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif&family=Inter+Tight:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --obsidian: #0b0b0e;
+      --slate: #16161a;
+      --slate-2: #1d1d22;
+      --bone: #f4efe6;
+      --fg-2: #c9c3b6;
+      --fg-3: #a29c90;
+      --line-soft: #2a2a30;
+      --red: #d0441c;
+      --red-bright: #e85a30;
+      --gold: #c8a24b;
+      --gold-bright: #e0bc64;
+      --font-display: 'Anton', system-ui, sans-serif;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-body: 'Inter Tight', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--obsidian);
+      color: var(--bone);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overscroll-behavior-y: none;
+    }
+
+    /* ── Top bar (persistent) ── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 11, 14, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line-soft);
+      padding: 12px 16px;
+      padding-top: max(12px, env(safe-area-inset-top));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .topbar-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .topbar-context {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+    }
+    .topbar-now {
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: var(--bone);
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+    .topbar-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .topbar-btn {
+      background: var(--slate);
+      border: 1px solid var(--line-soft);
+      color: var(--fg-2);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+      font-family: var(--font-body);
+    }
+    .topbar-btn:hover { border-color: var(--gold); color: var(--bone); }
+    .topbar-btn.active {
+      border-color: var(--gold-bright);
+      background: rgba(200, 162, 75, 0.12);
+      color: var(--gold-bright);
+    }
+    .topbar-btn .dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--fg-3);
+      margin-right: 6px;
+      vertical-align: middle;
+      transition: background 120ms ease;
+    }
+    .topbar-btn.active .dot { background: var(--red-bright); animation: pulse 1.8s ease-in-out infinite; }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(232, 90, 48, 0.6); }
+      50% { box-shadow: 0 0 0 5px rgba(232, 90, 48, 0); }
+    }
+
+    /* ── Song cards ── */
+    main {
+      padding-bottom: 120px;  /* leave room for the nav strip */
+    }
+
+    .song-card {
+      min-height: calc(100vh - 60px);
+      padding: 28px 20px 40px;
+      border-bottom: 1px solid var(--line-soft);
+      display: flex;
+      flex-direction: column;
+      scroll-margin-top: 56px;  /* keep song-num below sticky top bar on jump */
+    }
+
+    .card-head {
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 1px dashed var(--line-soft);
+    }
+    .card-num {
+      font-family: var(--font-display);
+      font-size: 16px;
+      color: var(--red-bright);
+      letter-spacing: 0.16em;
+      margin-bottom: 4px;
+    }
+    .card-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: clamp(34px, 7vw, 56px);
+      line-height: 1;
+      letter-spacing: 0.005em;
+      color: var(--bone);
+      margin: 0;
+      flex: 1;
+      min-width: 0;
+    }
+    .card-key {
+      flex-shrink: 0;
+      background: rgba(200, 162, 75, 0.16);
+      border: 1.5px solid var(--gold);
+      color: var(--gold-bright);
+      font-family: var(--font-display);
+      font-size: clamp(28px, 6vw, 44px);
+      line-height: 1;
+      padding: 8px 18px 6px;
+      border-radius: 12px;
+      letter-spacing: 0.03em;
+      min-width: 68px;
+      text-align: center;
+    }
+    .card-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .meta-pill {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--fg-2);
+      background: var(--slate-2);
+      border: 1px solid var(--line-soft);
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+    .card-credit {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--fg-3);
+      margin-top: 12px;
+    }
+
+    .card-body {
+      flex: 1;
+    }
+
+    .sections {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .sec {
+      padding: 14px 16px;
+      background: var(--slate);
+      border: 1px solid var(--line-soft);
+      border-left: 3px solid var(--gold);
+      border-radius: 6px;
+    }
+    .sec-label {
+      font-family: var(--font-display);
+      font-size: 20px;
+      color: var(--bone);
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+      line-height: 1.1;
+    }
+    .sec-cue {
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: var(--fg-2);
+      line-height: 1.45;
+    }
+
+    .no-sections {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 17px;
+      color: var(--fg-3);
+      padding: 24px;
+      background: var(--slate);
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    /* ── Lyrics block (collapsed by default, expand on toggle) ── */
+    .lyrics-block {
+      display: none;
+      margin-top: 22px;
+      padding: 18px 18px 20px;
+      background: var(--slate);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+    }
+    .song-card.lyrics-open .lyrics-block {
+      display: block;
+    }
+    .lyrics-block-head {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line-soft);
+      margin-bottom: 14px;
+    }
+    .slide-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .slide-pair {
+      padding: 10px 0;
+    }
+    .slide-pair.single {
+      padding: 8px 0;
+    }
+    .slide-l1, .slide-l2 {
+      font-family: var(--font-body);
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--bone);
+      line-height: 1.32;
+      letter-spacing: 0.005em;
+    }
+    .slide-l2 {
+      margin-top: 2px;
+      color: var(--fg-2);
+    }
+    .slide-sep {
+      height: 0;
+      border-top: 1px dashed var(--line-soft);
+      margin: 2px 0;
+    }
+
+    /* Toggle button */
+    .lyrics-toggle {
+      margin-top: 22px;
+      align-self: flex-start;
+      background: transparent;
+      border: 1px solid var(--line-soft);
+      color: var(--fg-2);
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+      min-height: 44px;
+    }
+    .lyrics-toggle:hover {
+      border-color: var(--gold);
+      color: var(--bone);
+    }
+    .lyrics-toggle-icon {
+      font-size: 12px;
+      transition: transform 160ms ease;
+    }
+    .song-card.lyrics-open .lyrics-toggle {
+      border-color: var(--gold-bright);
+      background: rgba(200, 162, 75, 0.08);
+      color: var(--gold-bright);
+    }
+    .song-card.lyrics-open .lyrics-toggle-icon {
+      transform: rotate(180deg);
+      color: var(--gold-bright);
+    }
+
+    /* ── Bottom song-nav strip ── */
+    .navbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(11, 11, 14, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--line-soft);
+      padding: 12px 12px;
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+    .nav-pill {
+      flex-shrink: 0;
+      min-width: 38px;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--slate);
+      border: 1px solid var(--line-soft);
+      color: var(--fg-2);
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-size: 16px;
+      letter-spacing: 0.05em;
+      border-radius: 8px;
+      transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+    }
+    .nav-pill:hover, .nav-pill.current {
+      border-color: var(--gold);
+      color: var(--bone);
+      background: rgba(200, 162, 75, 0.1);
+    }
+
+    /* ── Bottom-of-page out link ── */
+    .outlink {
+      text-align: center;
+      padding: 24px 20px 60px;
+      font-size: 13px;
+      color: var(--fg-3);
+    }
+    .outlink a {
+      color: var(--gold-bright);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--gold);
+    }
+
+    /* ── Better tap target sizing for thumb use ── */
+    @media (hover: none) {
+      .nav-pill, .topbar-btn { min-height: 44px; }
+    }
+
+    .lyrics-missing {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--red-bright);
+      border: 1px dashed var(--red);
+      border-radius: 6px;
+      padding: 14px 16px;
+      margin: 6px 0 2px;
+      line-height: 1.45;
+    }
+    .seg-head {
+      font-family: var(--font-display);
+      font-size: 15px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 22px 0 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .seg-head:first-child { margin-top: 0; }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-context">Sunday · 26 July 2026</span>
+      <span class="topbar-now" id="topbar-now">Stage View</span>
+    </div>
+    <div class="topbar-actions">
+      <button class="topbar-btn" id="lyrics-master-toggle" aria-pressed="false" title="Show lyrics on all songs">
+        Lyrics
+      </button>
+      <button class="topbar-btn" id="wake-toggle" aria-pressed="false" title="Keep screen on">
+        <span class="dot"></span>Awake
+      </button>
+    </div>
+  </div>
+
+  <main>
+  <section class="song-card" id="stage-song-1" data-song-num="1">
+    <div class="card-head">
+      <div class="card-num">1</div>
+      <div class="card-title-row">
+        <h2 class="card-title">Afro Praise Medley</h2>
+        <div class="card-key" aria-label="Key">TBC</div>
+      </div>
+      <div class="card-pills"><span class="meta-pill">Praise</span><span class="meta-pill">Medley</span><span class="meta-pill">Backing track</span></div>
+      <div class="card-credit">New Afro arrangement &middot; backing track 111&ndash;112 BPM, confirm before Sunday &middot; runs about 3 minutes</div>
+    </div>
+    <div class="card-body">
+      <div class="sections">
+        <div class="sec">
+          <div class="sec-label">1 &middot; Intro</div>
+          <div class="sec-cue">Backing track runs in. Everyone comes in together on the count. This entry has to be tight or the whole opener sits wrong.</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">2 &middot; We Lift Our Hands</div>
+          <div class="sec-cue">Straight through. The last line turns into the lead-in for the next section rather than closing out.</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">3 &middot; Yes Lord</div>
+          <div class="sec-cue">Comes straight off that lead-in. Lands on the amen.</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">4 &middot; Blessing and Honour</div>
+          <div class="sec-cue">Into the every-tongue section. Keep the delivery staccato and on the original rhythm. Do not stretch the notes out, it pulls against the track.</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">5 &middot; Glory be to the Lord</div>
+          <div class="sec-cue">Call and response, twice round. Kept deliberately simple so the worship leader can land it.</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">6 &middot; Higher, Every Day</div>
+          <div class="sec-cue">Once through. Singing the phrase twice counts as once. Nothing added on top.</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">7 &middot; My Hands, My Feet</div>
+          <div class="sec-cue">Straight in off Higher. There is no gap here.</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">8 &middot; Break</div>
+          <div class="sec-cue">The gap inside the song, doubled to give it a breather. The song breaks down, it does not stop.</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">9 &middot; My Hands, My Feet</div>
+          <div class="sec-cue">Back in and repeat to the end.</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">10 &middot; Outro</div>
+          <div class="sec-cue">Land it together.</div>
+        </div>
+      </div>
+    </div>
+    <div class="lyrics-block">
+        <div class="lyrics-block-head">Lyrics</div>
+        <div class="slide-list">
+          <div class="seg-head">2 &middot; We Lift Our Hands</div>
+<div class="slide-pair"><div class="slide-l1">We lift our hands in the sanctuary</div><div class="slide-l2">We lift our hands to give You the glory</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">We lift our hands to give You the praise</div><div class="slide-l2">And we will praise You for the rest of our days</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Yes, we will praise You for the rest of our days</div><div class="slide-l2"></div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">We clap our hands in the sanctuary</div><div class="slide-l2">We clap our hands to give You the glory</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">We clap our hands to give You the praise</div><div class="slide-l2">And we will praise You for the rest of our days</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Yes, we will praise You for the rest of our days</div><div class="slide-l2"></div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">We sing our song in the sanctuary</div><div class="slide-l2">We sing our song to give You the glory</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">We sing our song to give You the praise</div><div class="slide-l2">And we will praise You for the rest of our days</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Yes, we will praise You for the rest of our days</div><div class="slide-l2"></div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Jesus, we give You the praise</div><div class="slide-l2">Emmanuel, we lift up Your name</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Heavenly Father, coming Messiah</div><div class="slide-l2">And we will praise You for the rest of our days</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Yes, will praise You for the rest of our days</div><div class="slide-l2"></div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Hallelujah in the sanctuary</div><div class="slide-l2">Hallelujah we give You the glory</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Hallelujah we give You the praise</div><div class="slide-l2">And we will praise You for the rest of our days</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Yes, we will praise You for the rest of our days</div><div class="slide-l2"></div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Jesus, we give You the praise</div><div class="slide-l2">Emmanuel, we lift up Your name</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Heavenly Father, coming Messiah</div><div class="slide-l2">And we will praise You for the rest of our days</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Yes, will praise You for the rest of our days</div><div class="slide-l2"></div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Yes! Yes, Lord for the rest of our days</div><div class="slide-l2"></div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Hallelujah, hallelujah,</div><div class="slide-l2">Hallelujah for the rest of our days</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">And we will praise You for the rest of our days</div><div class="slide-l2"></div></div>
+          <div class="seg-head">3 &middot; Yes Lord</div>
+<div class="slide-pair"><div class="slide-l1">Yes Lord, yes Lord</div><div class="slide-l2">yes yes Lord</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Yes Lord, yes Lord</div><div class="slide-l2">yes yes Lord</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Yes Lord, yes Lord</div><div class="slide-l2">yes yes Lord, amen</div></div>
+          <div class="seg-head">4 &middot; Blessing and Honour</div>
+<div class="slide-pair"><div class="slide-l1">Blessing and honour, glory and power</div><div class="slide-l2">Be unto the Ancient of Days</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">From every nation, all of creation</div><div class="slide-l2">Bow before the Ancient of Days</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Every tongue in Heaven and Earth</div><div class="slide-l2">Shall declare your glory</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Every knee shall bow at your throne</div><div class="slide-l2">In worship</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">You will be exalted, O God</div><div class="slide-l2">And your kingdom shall not pass away</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Blessing and honour, glory and power</div><div class="slide-l2">Be unto the Ancient of Days</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">From every nation, all of creation</div><div class="slide-l2">Bow before the Ancient of Days</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Your kingdom shall reign over all the earth</div><div class="slide-l2">Sing unto the Ancient of Days</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">For none can compare to your matchless worth</div><div class="slide-l2">Sing unto the Ancient of Days</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Every tongue in Heaven and Earth</div><div class="slide-l2">Shall declare your glory</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Every knee shall bow at your throne</div><div class="slide-l2">In worship</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">You will be exalted, O God</div><div class="slide-l2">And your kingdom shall not pass away</div></div>
+          <div class="seg-head">5 &middot; Glory be to the Lord</div>
+          <div class="slide-pair"><div class="slide-l1">Glory be to the Lord</div><div class="slide-l2">Hallelujah</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Glory be to the Lord</div><div class="slide-l2">Hallelujah</div></div>
+          <div class="seg-head">6 &middot; Higher, Every Day</div>
+          <div class="slide-pair"><div class="slide-l1">Higher, higher, every day</div><div class="slide-l2">I lift my Jesus higher, every day</div></div>
+          <div class="seg-head">7 &amp; 9 &middot; My Hands, My Feet</div>
+          <div class="slide-pair"><div class="slide-l1">My hands, my feet, my whole body</div><div class="slide-l2">All that I am will sing hallelujah to You</div></div>
+        </div>
+      </div>
+    <button class="lyrics-toggle" type="button" data-song-num="1" aria-expanded="false">
+      <span class="lyrics-toggle-icon" aria-hidden="true">&#9662;</span>
+      <span class="lyrics-toggle-label">Show lyrics</span>
+    </button>
+  </section>
+  <section class="song-card" id="stage-song-2" data-song-num="2">
+    <div class="card-head">
+      <div class="card-num">2</div>
+      <div class="card-title-row">
+        <h2 class="card-title">These Are the Days of Elijah / Lord I Lift Your Name on High</h2>
+        <div class="card-key" aria-label="Key">TBC</div>
+      </div>
+      <div class="card-pills"><span class="meta-pill">Praise</span><span class="meta-pill">Medley</span><span class="meta-pill">Click track loop</span></div>
+      <div class="card-credit">Robin Mark &middot; Rick Founds</div>
+    </div>
+    <div class="card-body">
+      <div class="sections">
+        <div class="sec">
+          <div class="sec-label">Loop</div>
+          <div class="sec-cue">Drums and percussion only, no kick in the loop so the drummer keeps his choices. Percussion loop sits at 105 BPM.</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Structure</div>
+          <div class="sec-cue">Days of Elijah into Lord I Lift. Transition to be confirmed at rehearsal.</div>
+        </div>
+      </div>
+    </div>
+    <div class="lyrics-block">
+        <div class="lyrics-block-head">Lyrics</div>
+        <div class="slide-list">
+<div class="slide-pair"><div class="slide-l1">These are the days of Elijah</div><div class="slide-l2">Declaring the Word of the Lord</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">And these are the days of Your servant Moses</div><div class="slide-l2">Righteousness being restored</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">And though these are days of great trials</div><div class="slide-l2">Of famine and darkness and sword</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Still we are the voice in the desert crying</div><div class="slide-l2">Prepare ye the way of the Lord!</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Behold He comes, riding on the clouds</div><div class="slide-l2">Shining like the sun, at the trumpet call</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Lift your voice, it's the year of Jubilee</div><div class="slide-l2">And out of Zion's hill salvation comes</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">And these are the days of Ezekiel</div><div class="slide-l2">The dry bones becoming as flesh</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">And these are the days of Your servant David</div><div class="slide-l2">Rebuilding a temple of praise</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">And these are the days of the harvest</div><div class="slide-l2">The fields are as white in the world</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">And we are the laborers in Your vineyard</div><div class="slide-l2">Declaring the Word of the Lord</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">There's no god like Jehovah</div><div class="slide-l2">There's no god like Jehovah</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">There's no god like Jehovah</div><div class="slide-l2">There's no god like Jehovah</div></div>
+          <div class="seg-head">Lord I Lift Your Name on High</div>
+<div class="slide-pair"><div class="slide-l1">Lord, I lift Your name on high</div><div class="slide-l2">Lord, I love to sing Your praises</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">I'm so glad You're in my life</div><div class="slide-l2">I'm so glad You came to save us</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">You came from heaven to earth</div><div class="slide-l2">To show the way</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">From the earth to the cross</div><div class="slide-l2">My debt to pay</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">From the cross to the grave</div><div class="slide-l2">From the grave to the sky</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair single"><div class="slide-l1">Lord, I lift Your name on high</div></div>
+        </div>
+      </div>
+    <button class="lyrics-toggle" type="button" data-song-num="2" aria-expanded="false">
+      <span class="lyrics-toggle-icon" aria-hidden="true">&#9662;</span>
+      <span class="lyrics-toggle-label">Show lyrics</span>
+    </button>
+  </section>
+  <section class="song-card" id="stage-song-3" data-song-num="3">
+    <div class="card-head">
+      <div class="card-num">3</div>
+      <div class="card-title-row">
+        <h2 class="card-title">Open the Eyes of My Heart, Lord</h2>
+        <div class="card-key" aria-label="Key">TBC</div>
+      </div>
+      <div class="card-pills"><span class="meta-pill">Praise</span><span class="meta-pill">Click track loop</span></div>
+      <div class="card-credit">Paul Baloche</div>
+    </div>
+    <div class="card-body">
+      <div class="sections">
+        <div class="sec">
+          <div class="sec-label">Loop</div>
+          <div class="sec-cue">Caribbean feel. BJ cutting it to match the song structure, including the planned break.</div>
+        </div>
+      </div>
+    </div>
+    <div class="lyrics-block">
+        <div class="lyrics-block-head">Lyrics</div>
+        <div class="slide-list">
+<div class="slide-pair"><div class="slide-l1">Open the eyes of my heart, Lord</div><div class="slide-l2">Open the eyes of my heart</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">I want to see You</div><div class="slide-l2">I want to see You</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">To see You high and lifted up</div><div class="slide-l2">Shinin' in the light of Your glory</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Pour out Your power and love</div><div class="slide-l2">As we sing holy, holy, holy</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Holy, holy, holy</div><div class="slide-l2">Holy, holy, holy</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair single"><div class="slide-l1">I want to see You</div></div>
+        </div>
+      </div>
+    <button class="lyrics-toggle" type="button" data-song-num="3" aria-expanded="false">
+      <span class="lyrics-toggle-icon" aria-hidden="true">&#9662;</span>
+      <span class="lyrics-toggle-label">Show lyrics</span>
+    </button>
+  </section>
+  <section class="song-card" id="stage-song-4" data-song-num="4">
+    <div class="card-head">
+      <div class="card-num">4</div>
+      <div class="card-title-row">
+        <h2 class="card-title">I Could Sing of Your Love Forever</h2>
+        <div class="card-key" aria-label="Key">TBC</div>
+      </div>
+      <div class="card-pills"><span class="meta-pill">Worship</span><span class="meta-pill">New arrangement</span></div>
+      <div class="card-credit">Delirious? &middot; new arrangement, this Sunday</div>
+    </div>
+    <div class="card-body">
+      <div class="sections">
+        <div class="sec">
+          <div class="sec-label">New arrangement</div>
+          <div class="sec-cue">Bass line 5, 2, 4, 1. Top end sits on 7 then holds on 1, including when the bass moves to 4.</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Ruling</div>
+          <div class="sec-cue">Play the progression only. The source melody is not played.</div>
+        </div>
+        <div class="sec">
+          <div class="sec-label">Order</div>
+          <div class="sec-cue">Verse 1, Verse 2, Chorus, Verse 1, Verse 2, Chorus, Bridge, Chorus.</div>
+        </div>
+      </div>
+    </div>
+    <div class="lyrics-block">
+        <div class="lyrics-block-head">Lyrics</div>
+        <div class="slide-list">
+          <div class="seg-head">Verse 1</div>
+          <div class="slide-pair"><div class="slide-l1">Over the mountains and the sea</div><div class="slide-l2">Your river runs with love for me</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">And I will open up my heart</div><div class="slide-l2">And let the Healer set me free</div></div>
+          <div class="seg-head">Verse 2</div>
+          <div class="slide-pair"><div class="slide-l1">I'm happy to be in the truth</div><div class="slide-l2">And I will daily lift my hands</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">For I will always sing</div><div class="slide-l2">Of when Your love came down</div></div>
+          <div class="seg-head">Chorus &middot; x4</div>
+          <div class="slide-pair"><div class="slide-l1">I could sing of Your love forever</div><div class="slide-l2">I could sing of Your love forever</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">I could sing of Your love forever</div><div class="slide-l2">I could sing of Your love forever</div></div>
+          <div class="seg-head">Bridge</div>
+          <div class="slide-pair"><div class="slide-l1">Oh, I feel like dancing</div><div class="slide-l2">It's foolishness, I know</div></div><div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">But when the world has seen the light</div><div class="slide-l2">They will dance with joy like we're dancing now</div></div>
+        </div>
+      </div>
+    <button class="lyrics-toggle" type="button" data-song-num="4" aria-expanded="false">
+      <span class="lyrics-toggle-icon" aria-hidden="true">&#9662;</span>
+      <span class="lyrics-toggle-label">Show lyrics</span>
+    </button>
+  </section>
+  <section class="song-card" id="stage-song-5" data-song-num="5">
+    <div class="card-head">
+      <div class="card-num">5</div>
+      <div class="card-title-row">
+        <h2 class="card-title">My Jesus (Shout to the Lord)</h2>
+        <div class="card-key" aria-label="Key">TBC</div>
+      </div>
+      <div class="card-pills"><span class="meta-pill">Worship</span></div>
+      <div class="card-credit">Darlene Zschech</div>
+    </div>
+    <div class="card-body">
+<div class="no-sections">Key set at soundcheck.</div>
+    </div>
+    <div class="lyrics-block">
+        <div class="lyrics-block-head">Lyrics</div>
+        <div class="slide-list">
+<div class="slide-pair"><div class="slide-l1">My Jesus, my Saviour</div><div class="slide-l2">Lord there is none like you</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">All of my days I want to praise</div><div class="slide-l2">the wonders of your mighty love</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">My comfort, my shelter</div><div class="slide-l2">tower of refuge and strength</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Let every breath, all that I am</div><div class="slide-l2">never cease to worship you</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Shout to the Lord</div><div class="slide-l2">all the earth let us sing</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Power and majesty</div><div class="slide-l2">praise to the King</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Mountains bow down</div><div class="slide-l2">and the seas will roar</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">At the sound of your name</div><div class="slide-l2"></div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">I sing for joy</div><div class="slide-l2">at the work of your hands</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Forever I'll love you</div><div class="slide-l2">forever I'll stand</div></div>
+          <div class="slide-sep" aria-hidden="true"></div>
+          <div class="slide-pair"><div class="slide-l1">Nothing compares to</div><div class="slide-l2">the promise I have in you</div></div>
+        </div>
+      </div>
+    <button class="lyrics-toggle" type="button" data-song-num="5" aria-expanded="false">
+      <span class="lyrics-toggle-icon" aria-hidden="true">&#9662;</span>
+      <span class="lyrics-toggle-label">Show lyrics</span>
+    </button>
+  </section>
+  <section class="song-card" id="stage-song-6" data-song-num="6">
+    <div class="card-head">
+      <div class="card-num">6</div>
+      <div class="card-title-row">
+        <h2 class="card-title">Offering</h2>
+        <div class="card-key" aria-label="Key">TBC</div>
+      </div>
+      <div class="card-pills"><span class="meta-pill">Offering</span></div>
+      <div class="card-credit">Not chosen yet</div>
+    </div>
+    <div class="card-body">
+      <div class="sections">
+        <div class="sec">
+          <div class="sec-label">Outstanding</div>
+          <div class="sec-cue">Not discussed in the rehearsal prep. Needs picking before Sunday.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="song-card" id="stage-song-7" data-song-num="7">
+    <div class="card-head">
+      <div class="card-num">7</div>
+      <div class="card-title-row">
+        <h2 class="card-title">End of Service</h2>
+        <div class="card-key" aria-label="Key">TBC</div>
+      </div>
+      <div class="card-pills"><span class="meta-pill">End of Service</span></div>
+      <div class="card-credit">Not chosen yet</div>
+    </div>
+    <div class="card-body">
+      <div class="sections">
+        <div class="sec">
+          <div class="sec-label">Outstanding</div>
+          <div class="sec-cue">Not discussed in the rehearsal prep. Needs picking before Sunday.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </main>
+
+
+  <nav class="navbar" aria-label="Jump to song">
+    <a class="nav-pill" href="#stage-song-1" data-target="1">1</a>
+    <a class="nav-pill" href="#stage-song-2" data-target="2">2</a>
+    <a class="nav-pill" href="#stage-song-3" data-target="3">3</a>
+    <a class="nav-pill" href="#stage-song-4" data-target="4">4</a>
+    <a class="nav-pill" href="#stage-song-5" data-target="5">5</a>
+    <a class="nav-pill" href="#stage-song-6" data-target="6">6</a>
+    <a class="nav-pill" href="#stage-song-7" data-target="7">7</a>
+  </nav>
+
+  <script>
+    (function() {
+      // ── Track which song is currently in view (top-bar update + nav-pill highlight) ──
+      const cards = document.querySelectorAll('.song-card');
+      const pills = document.querySelectorAll('.nav-pill');
+      const topbarNow = document.getElementById('topbar-now');
+      const titlesByNum = {};
+      cards.forEach(card => {
+        titlesByNum[card.dataset.songNum] = card.querySelector('.card-title').textContent;
+      });
+
+      let current = '01';
+      function setCurrent(num) {
+        if (num === current) return;
+        current = num;
+        const title = titlesByNum[num] || 'Stage View';
+        topbarNow.textContent = num + ' · ' + title;
+        pills.forEach(p => p.classList.toggle('current', p.dataset.target === num));
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        // Pick the card whose top is closest to the top of the viewport
+        let bestNum = current;
+        let bestDist = Infinity;
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            const dist = Math.abs(e.boundingClientRect.top);
+            if (dist < bestDist) {
+              bestDist = dist;
+              bestNum = e.target.dataset.songNum;
+            }
+          }
+        });
+        setCurrent(bestNum);
+      }, { rootMargin: '-80px 0px -60% 0px', threshold: [0, 0.25, 0.5, 1] });
+
+      cards.forEach(c => io.observe(c));
+
+      // Set initial state for whichever card is visible on load
+      setCurrent('01');
+
+      // ── LYRICS TOGGLES: per-card + master ──
+      // Per-card state persists in sessionStorage so it survives navigation.
+      const LYRICS_KEY_PREFIX = 'stage-lyrics-open-';
+      const MASTER_KEY = 'stage-lyrics-master';
+
+      function setCardLyrics(card, open) {
+        card.classList.toggle('lyrics-open', open);
+        const btn = card.querySelector('.lyrics-toggle');
+        if (btn) {
+          const label = btn.querySelector('.lyrics-toggle-label');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          if (label) label.textContent = open ? 'Hide lyrics' : 'Show lyrics';
+        }
+        const num = card.dataset.songNum;
+        if (open) {
+          sessionStorage.setItem(LYRICS_KEY_PREFIX + num, '1');
+        } else {
+          sessionStorage.removeItem(LYRICS_KEY_PREFIX + num);
+        }
+      }
+
+      // Wire each card's toggle (skip cards without one)
+      cards.forEach(card => {
+        const btn = card.querySelector('.lyrics-toggle');
+        if (!btn) return;
+        btn.addEventListener('click', () => {
+          const isOpen = card.classList.contains('lyrics-open');
+          setCardLyrics(card, !isOpen);
+        });
+        // Restore per-card state from session
+        const stored = sessionStorage.getItem(LYRICS_KEY_PREFIX + card.dataset.songNum);
+        if (stored === '1') setCardLyrics(card, true);
+      });
+
+      // Master toggle: opens/closes ALL cards
+      const masterBtn = document.getElementById('lyrics-master-toggle');
+      function setMaster(active) {
+        masterBtn.classList.toggle('active', active);
+        masterBtn.setAttribute('aria-pressed', active ? 'true' : 'false');
+        cards.forEach(card => setCardLyrics(card, active));
+        if (active) {
+          sessionStorage.setItem(MASTER_KEY, '1');
+        } else {
+          sessionStorage.removeItem(MASTER_KEY);
+        }
+      }
+      masterBtn.addEventListener('click', () => {
+        setMaster(!masterBtn.classList.contains('active'));
+      });
+      // Restore master state
+      if (sessionStorage.getItem(MASTER_KEY) === '1') {
+        setMaster(true);
+      }
+
+      // ── WAKE LOCK: keep screen on during service ──
+      const wakeBtn = document.getElementById('wake-toggle');
+      let wakeLock = null;
+
+      async function requestWakeLock() {
+        if (!('wakeLock' in navigator)) {
+          alert('Keep-screen-on is not supported on this browser. Adjust your phone settings to keep the screen on manually.');
+          return false;
+        }
+        try {
+          wakeLock = await navigator.wakeLock.request('screen');
+          wakeLock.addEventListener('release', () => {
+            wakeBtn.classList.remove('active');
+            wakeBtn.setAttribute('aria-pressed', 'false');
+          });
+          return true;
+        } catch (err) {
+          console.error('Wake lock failed:', err);
+          return false;
+        }
+      }
+
+      function releaseWakeLock() {
+        if (wakeLock) {
+          wakeLock.release();
+          wakeLock = null;
+        }
+      }
+
+      wakeBtn.addEventListener('click', async () => {
+        const isActive = wakeBtn.classList.contains('active');
+        if (isActive) {
+          releaseWakeLock();
+          wakeBtn.classList.remove('active');
+          wakeBtn.setAttribute('aria-pressed', 'false');
+        } else {
+          const ok = await requestWakeLock();
+          if (ok) {
+            wakeBtn.classList.add('active');
+            wakeBtn.setAttribute('aria-pressed', 'true');
+          }
+        }
+      });
+
+      // Re-acquire wake lock if user returns to the tab
+      document.addEventListener('visibilitychange', async () => {
+        if (wakeBtn.classList.contains('active') && document.visibilityState === 'visible' && !wakeLock) {
+          await requestWakeLock();
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
