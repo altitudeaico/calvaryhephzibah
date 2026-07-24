@@ -323,7 +323,7 @@
     }
     .track-row { display: flex; align-items: center; gap: 15px; }
     .track-play {
-      flex: 0 0 54px; height: 54px;
+      flex: 0 0 62px; height: 62px;
       border-radius: 50%;
       background: var(--accent);
       display: grid; place-items: center;
@@ -331,7 +331,7 @@
       transition: transform .16s var(--ease), background .16s var(--ease);
     }
     .track-play:active { transform: scale(.94); background: var(--accent-hi); }
-    .track-play svg { width: 22px; height: 22px; fill: currentColor; }
+    .track-play svg { width: 25px; height: 25px; fill: currentColor; }
     .track-play .ico-pause { display: none; }
     .track.is-playing .ico-play { display: none; }
     .track.is-playing .ico-pause { display: block; }
@@ -354,6 +354,39 @@
       background: var(--group-hi);
     }
     .track-out:active { color: var(--label); }
+
+    .track-times {
+      display: flex; justify-content: space-between;
+      margin-top: 2px;
+      font-size: 12.5px;
+      font-variant-numeric: tabular-nums;
+      color: var(--label-3);
+    }
+
+    .track-transport {
+      display: flex; align-items: center; justify-content: center;
+      gap: 26px;
+      margin-top: 14px;
+    }
+    .track-skip {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      display: grid; place-items: center;
+      position: relative;
+      color: var(--label-2);
+      transition: color .16s var(--ease), background .16s var(--ease);
+    }
+    .track-skip:active { background: rgba(255,255,255,0.08); color: var(--label); }
+    .track-skip svg { width: 30px; height: 30px; fill: currentColor; }
+    .track-skip.is-fwd svg { transform: scaleX(-1); }
+    .track-skip span {
+      position: absolute;
+      top: 55%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 10px; font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0;
+    }
 
     .track-bar {
       margin-top: 15px;
@@ -587,21 +620,39 @@
       <div class="song-tags"><span class="tag">Praise</span><span class="tag">Medley</span><span class="tag">Backing track</span></div>
 <p class="song-credit">New Afro arrangement · backing track 125 BPM · runs 2 min 34 sec</p>      <div class="track" id="track-afro">
         <div class="track-row">
+          <div class="track-meta">
+            <div class="track-title">Backing track</div>
+            <div class="track-sub">Afro Medley &middot; 125 BPM</div>
+          </div>
+          <a class="track-out" href="afro-medley-125bpm.mp3" download>Save</a>
+        </div>
+
+        <div class="track-bar" id="tk-bar" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="track-bar-line"><div class="track-bar-fill" id="tk-fill"></div></div>
+        </div>
+        <div class="track-times"><span id="tk-cur">0:00</span><span id="tk-dur">2:34</span></div>
+
+        <div class="track-transport">
+          <button class="track-skip" id="tk-back" aria-label="Back 10 seconds">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5V2.5L8.2 5.8 12 9.1V6.6a5.4 5.4 0 1 1-5.4 5.4H5.1A6.9 6.9 0 1 0 12 5z"/>
+            </svg>
+            <span>10</span>
+          </button>
           <button class="track-play" id="tk-play" aria-label="Play backing track">
             <svg class="ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>
             <svg class="ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4.5h4v15h-4zM13.5 4.5h4v15h-4z"/></svg>
           </button>
-          <div class="track-meta">
-            <div class="track-title">Backing track</div>
-            <div class="track-sub" id="tk-time">Afro Medley &middot; 125 BPM</div>
-          </div>
-          <a class="track-out" href="afro-medley-125bpm.mp3" download>Save</a>
+          <button class="track-skip is-fwd" id="tk-fwd" aria-label="Forward 10 seconds">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5V2.5L8.2 5.8 12 9.1V6.6a5.4 5.4 0 1 1-5.4 5.4H5.1A6.9 6.9 0 1 0 12 5z"/>
+            </svg>
+            <span>10</span>
+          </button>
         </div>
-        <div class="track-bar" id="tk-bar" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-          <div class="track-bar-line"><div class="track-bar-fill" id="tk-fill"></div></div>
-        </div>
+
         <p class="track-fail" id="tk-fail" hidden>Track will not play in this browser. <a href="afro-medley-125bpm.mp3" download>Download it</a> and play it from your files.</p>
-        <audio id="tk-audio" preload="metadata" playsinline crossorigin="anonymous">
+        <audio id="tk-audio" preload="metadata" playsinline>
           <source src="afro-medley-125bpm.mp3" type="audio/mpeg">
         </audio>
       </div>
@@ -953,54 +1004,71 @@
   (function () {
     var wrap = document.getElementById('track-afro');
     if (!wrap) return;
-    var a = document.getElementById('tk-audio');
-    var btn = document.getElementById('tk-play');
-    var bar = document.getElementById('tk-bar');
+    var a    = document.getElementById('tk-audio');
+    var play = document.getElementById('tk-play');
+    var back = document.getElementById('tk-back');
+    var fwd  = document.getElementById('tk-fwd');
+    var bar  = document.getElementById('tk-bar');
     var fill = document.getElementById('tk-fill');
-    var time = document.getElementById('tk-time');
+    var cur  = document.getElementById('tk-cur');
+    var dur  = document.getElementById('tk-dur');
     var fail = document.getElementById('tk-fail');
-    var base = 'Afro Medley \u00b7 125 BPM';
+    var STEP = 10;
 
     function clock(t) {
-      if (!isFinite(t)) return '0:00';
+      if (!isFinite(t) || t < 0) t = 0;
       var m = Math.floor(t / 60), s = Math.floor(t % 60);
       return m + ':' + (s < 10 ? '0' : '') + s;
     }
-    function paintTime() {
-      if (!isFinite(a.duration)) { time.textContent = base; return; }
-      time.textContent = clock(a.currentTime) + ' / ' + clock(a.duration);
-    }
-    btn.addEventListener('click', function () {
-      if (a.paused) { a.play().catch(function () { fail.hidden = false; }); }
-      else { a.pause(); }
-    });
-    a.addEventListener('play', function () {
-      wrap.classList.add('is-playing'); btn.setAttribute('aria-label', 'Pause backing track');
-    });
-    a.addEventListener('pause', function () {
-      wrap.classList.remove('is-playing'); btn.setAttribute('aria-label', 'Play backing track');
-    });
-    a.addEventListener('timeupdate', function () {
-      var pct = a.duration ? (a.currentTime / a.duration) * 100 : 0;
+    function paint() {
+      var d = a.duration;
+      var pct = (d && isFinite(d)) ? Math.min(100, (a.currentTime / d) * 100) : 0;
       fill.style.width = pct + '%';
       bar.setAttribute('aria-valuenow', Math.round(pct));
-      paintTime();
+      cur.textContent = clock(a.currentTime);
+      if (isFinite(d)) dur.textContent = clock(d);
+    }
+    function nudge(by) {
+      if (!isFinite(a.duration)) return;
+      a.currentTime = Math.min(a.duration, Math.max(0, a.currentTime + by));
+      paint();
+    }
+
+    play.addEventListener('click', function () {
+      if (a.paused) {
+        if (isFinite(a.duration) && a.currentTime >= a.duration - 0.15) a.currentTime = 0;
+        a.play().catch(function () { fail.hidden = false; });
+      }
+      else { a.pause(); }
     });
-    a.addEventListener('loadedmetadata', paintTime);
+    back.addEventListener('click', function () { nudge(-STEP); });
+    fwd.addEventListener('click', function () { nudge(STEP); });
+
+    a.addEventListener('play', function () {
+      wrap.classList.add('is-playing'); play.setAttribute('aria-label', 'Pause backing track');
+    });
+    a.addEventListener('pause', function () {
+      wrap.classList.remove('is-playing'); play.setAttribute('aria-label', 'Play backing track');
+    });
+    a.addEventListener('ended', function () { a.currentTime = 0; paint(); });
+    a.addEventListener('timeupdate', paint);
+    a.addEventListener('loadedmetadata', paint);
     a.addEventListener('error', function () { fail.hidden = false; });
 
     function seek(clientX) {
-      if (!a.duration) return;
+      if (!isFinite(a.duration)) return;
       var r = bar.getBoundingClientRect();
       var pct = Math.min(1, Math.max(0, (clientX - r.left) / r.width));
       a.currentTime = pct * a.duration;
+      paint();
     }
     bar.addEventListener('click', function (e) { seek(e.clientX); });
     bar.addEventListener('keydown', function (e) {
-      if (!a.duration) return;
-      if (e.key === 'ArrowRight') { a.currentTime = Math.min(a.duration, a.currentTime + 5); e.preventDefault(); }
-      if (e.key === 'ArrowLeft') { a.currentTime = Math.max(0, a.currentTime - 5); e.preventDefault(); }
+      if (e.key === 'ArrowRight') { nudge(STEP); e.preventDefault(); }
+      if (e.key === 'ArrowLeft')  { nudge(-STEP); e.preventDefault(); }
     });
+
+    paint();
   })();
 })();
 </script>
