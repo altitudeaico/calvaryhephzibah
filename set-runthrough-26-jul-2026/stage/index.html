@@ -312,6 +312,82 @@
       margin: 6px 0 10px;
     }
 
+
+    /* ── Practice track player ────────────────────────────── */
+
+    .track {
+      background: var(--group);
+      border-radius: var(--r-lg);
+      padding: 16px 18px 18px;
+      margin-bottom: 10px;
+    }
+    .track-row { display: flex; align-items: center; gap: 15px; }
+    .track-play {
+      flex: 0 0 54px; height: 54px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: grid; place-items: center;
+      color: #fff;
+      transition: transform .16s var(--ease), background .16s var(--ease);
+    }
+    .track-play:active { transform: scale(.94); background: var(--accent-hi); }
+    .track-play svg { width: 22px; height: 22px; fill: currentColor; }
+    .track-play .ico-pause { display: none; }
+    .track.is-playing .ico-play { display: none; }
+    .track.is-playing .ico-pause { display: block; }
+
+    .track-meta { flex: 1; min-width: 0; }
+    .track-title { font-size: 16px; font-weight: 600; letter-spacing: -0.012em; }
+    .track-sub {
+      font-size: 13px; color: var(--label-3); margin-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+    .track-out {
+      flex: 0 0 auto;
+      font-size: 13px; font-weight: 600;
+      color: var(--label-2);
+      text-decoration: none;
+      min-height: 44px;
+      display: grid; place-items: center;
+      padding: 0 14px;
+      border-radius: 12px;
+      background: var(--group-hi);
+    }
+    .track-out:active { color: var(--label); }
+
+    .track-bar {
+      margin-top: 15px;
+      height: 22px;
+      display: flex; align-items: center;
+      cursor: pointer;
+      touch-action: none;
+    }
+    .track-bar-line {
+      width: 100%; height: 5px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.13);
+      overflow: hidden;
+    }
+    .track-bar-fill {
+      height: 100%; width: 0%;
+      background: var(--accent);
+      border-radius: 3px;
+    }
+    .track-note {
+      margin-top: 13px;
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: var(--label-3);
+    }
+    .track-note b { color: var(--accent-hi); font-weight: 600; }
+    .track-fail {
+      margin-top: 13px;
+      font-size: 14px;
+      color: var(--accent-hi);
+      line-height: 1.5;
+    }
+    .track-fail a { color: inherit; }
+
     /* ── Bottom set bar (the signature) ───────────────────── */
 
     .setbar {
@@ -522,7 +598,26 @@
         <div class="song-key">TBC</div>
       </div>
       <div class="song-tags"><span class="tag">Praise</span><span class="tag">Medley</span><span class="tag">Backing track</span></div>
-<p class="song-credit">New Afro arrangement · backing track 111–112 BPM, confirm before Sunday · runs about 3 minutes</p>      <div class="card">
+<p class="song-credit">New Afro arrangement · backing track 111–112 BPM, confirm before Sunday · runs about 3 minutes</p>      <div class="track" id="track-afro">
+        <div class="track-row">
+          <button class="track-play" id="tk-play" aria-label="Play backing track">
+            <svg class="ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>
+            <svg class="ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4.5h4v15h-4zM13.5 4.5h4v15h-4z"/></svg>
+          </button>
+          <div class="track-meta">
+            <div class="track-title">Backing track</div>
+            <div class="track-sub" id="tk-time">Afro Medley &middot; MP3</div>
+          </div>
+          <a class="track-out" href="https://drive.google.com/file/d/1fBba-_hHJqp2tdpWl-K67-9s_Wk641C4/view" target="_blank" rel="noopener">Drive</a>
+        </div>
+        <div class="track-bar" id="tk-bar" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="track-bar-line"><div class="track-bar-fill" id="tk-fill"></div></div>
+        </div>
+        <p class="track-note"><b>Check the tempo.</b> The file is named 125 BPM. The rehearsal notes said 111 to 112. Confirm which is right before Sunday.</p>
+        <p class="track-fail" id="tk-fail" hidden>Track will not play in this browser. <a href="https://drive.google.com/file/d/1fBba-_hHJqp2tdpWl-K67-9s_Wk641C4/view" target="_blank" rel="noopener">Open it in Drive</a> instead.</p>
+        <audio id="tk-audio" preload="none" playsinline src="https://drive.google.com/uc?export=download&amp;id=1fBba-_hHJqp2tdpWl-K67-9s_Wk641C4"></audio>
+      </div>
+      <div class="card">
         <div class="row is-numbered"><div class="row-idx">1</div><div><div class="row-title">Intro</div><div class="row-cue">Backing track runs in. Everyone comes in together on the count. This entry has to be tight or the whole opener sits wrong.</div></div></div>
         <div class="row is-numbered"><div class="row-idx">2</div><div><div class="row-title">We Lift Our Hands</div><div class="row-cue">Straight through. The last line turns into the lead-in for the next section rather than closing out.</div></div></div>
         <div class="row is-numbered"><div class="row-idx">3</div><div><div class="row-title">Yes Lord</div><div class="row-cue">Comes straight off that lead-in. Lands on the amen.</div></div></div>
@@ -866,6 +961,60 @@
   });
 
   paint(0);
+
+  /* ── Backing track player ───────────────────────────── */
+  (function () {
+    var wrap = document.getElementById('track-afro');
+    if (!wrap) return;
+    var a = document.getElementById('tk-audio');
+    var btn = document.getElementById('tk-play');
+    var bar = document.getElementById('tk-bar');
+    var fill = document.getElementById('tk-fill');
+    var time = document.getElementById('tk-time');
+    var fail = document.getElementById('tk-fail');
+    var base = 'Afro Medley \u00b7 MP3';
+
+    function clock(t) {
+      if (!isFinite(t)) return '0:00';
+      var m = Math.floor(t / 60), s = Math.floor(t % 60);
+      return m + ':' + (s < 10 ? '0' : '') + s;
+    }
+    function paintTime() {
+      if (!isFinite(a.duration)) { time.textContent = base; return; }
+      time.textContent = clock(a.currentTime) + ' / ' + clock(a.duration);
+    }
+    btn.addEventListener('click', function () {
+      if (a.paused) { a.play().catch(function () { fail.hidden = false; }); }
+      else { a.pause(); }
+    });
+    a.addEventListener('play', function () {
+      wrap.classList.add('is-playing'); btn.setAttribute('aria-label', 'Pause backing track');
+    });
+    a.addEventListener('pause', function () {
+      wrap.classList.remove('is-playing'); btn.setAttribute('aria-label', 'Play backing track');
+    });
+    a.addEventListener('timeupdate', function () {
+      var pct = a.duration ? (a.currentTime / a.duration) * 100 : 0;
+      fill.style.width = pct + '%';
+      bar.setAttribute('aria-valuenow', Math.round(pct));
+      paintTime();
+    });
+    a.addEventListener('loadedmetadata', paintTime);
+    a.addEventListener('error', function () { fail.hidden = false; });
+
+    function seek(clientX) {
+      if (!a.duration) return;
+      var r = bar.getBoundingClientRect();
+      var pct = Math.min(1, Math.max(0, (clientX - r.left) / r.width));
+      a.currentTime = pct * a.duration;
+    }
+    bar.addEventListener('click', function (e) { seek(e.clientX); });
+    bar.addEventListener('keydown', function (e) {
+      if (!a.duration) return;
+      if (e.key === 'ArrowRight') { a.currentTime = Math.min(a.duration, a.currentTime + 5); e.preventDefault(); }
+      if (e.key === 'ArrowLeft') { a.currentTime = Math.max(0, a.currentTime - 5); e.preventDefault(); }
+    });
+  })();
 })();
 </script>
 
