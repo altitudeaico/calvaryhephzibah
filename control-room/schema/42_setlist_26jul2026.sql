@@ -13,7 +13,7 @@
 --
 -- SET (confirmed by Bolaji with Bolaji Adebanjo, 23 July 2026):
 --   Afro Praise Medley, new arrangement over a backing track
---   (111-112 BPM to confirm), seeded as six separate items so the
+--   (125 BPM), seeded as six separate items so the
 --   operator can advance segment by segment:
 --       We Lift Our Hands . Yes Lord . Blessing and Honour .
 --       Glory Be to the Lord . Higher, Every Day . My Hands, My Feet
@@ -41,7 +41,7 @@ delete from control_room_plans where service_date = '2026-07-26';
 with new_plan as (
   insert into control_room_plans (service_date, notes)
   values ('2026-07-26',
-    'Songs only. Afro Praise Medley (new arrangement, backing track 111-112 BPM TBC) seeded as six segments. Offering and end of service not yet chosen. Order of service, sermon and scripture to follow in a patch migration. Keys set at soundcheck.')
+    'Songs only. Afro Praise Medley (new arrangement, backing track 125 BPM) seeded as six segments. Offering and end of service not yet chosen. Order of service, sermon and scripture to follow in a patch migration. Keys set at soundcheck.')
   returning id
 )
 insert into control_room_plan_items (plan_id, position, kind, title, section, slides)
