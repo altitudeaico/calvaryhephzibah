@@ -91,6 +91,7 @@
     color:var(--red-bright);
   }
   .eyebrow.muted{color:var(--fg-3);}
+  h2.sec.sec-sm{font-size:clamp(24px,7vw,32px);}
   h2.sec{
     font-family:var(--font-display);
     font-size:clamp(30px,9vw,44px);
@@ -103,12 +104,33 @@
 
   section{padding:54px 0;}
 
+  /* ---------- top nav ---------- */
+  .topnav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:center;gap:4px;
+    padding:calc(env(safe-area-inset-top) + 9px) 10px 9px;
+    background:rgba(11,11,14,0.72);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .topnav a{
+    padding:8px 12px;border-radius:var(--r-pill);
+    font-size:13px;font-weight:600;letter-spacing:.01em;color:var(--fg-2);
+    white-space:nowrap;transition:color .18s var(--ease),background .18s var(--ease);
+  }
+  .topnav a:hover{color:var(--fg-1);background:rgba(244,239,230,0.07);}
+  .topnav a.nav-give{
+    color:#fff;background:var(--red);
+  }
+  .topnav a.nav-give:hover{background:var(--red-bright);}
+  section{scroll-margin-top:64px;}
+
   /* ---------- hero ---------- */
   .hero{
     position:relative;
     min-height:100vh;min-height:100dvh;
     display:flex;flex-direction:column;justify-content:center;
-    padding:calc(env(safe-area-inset-top) + 48px) 0 44px;
+    padding:calc(env(safe-area-inset-top) + 74px) 0 34px;
     overflow:hidden;
     text-align:center;
   }
@@ -128,7 +150,7 @@
   .hero-inner{position:relative;z-index:2;width:100%;}
 
   .hero-logo{
-    width:132px;height:132px;margin:0 auto 26px;
+    width:132px;height:132px;margin:0 auto 20px;
     filter:drop-shadow(0 10px 34px rgba(0,0,0,.55));
   }
 
@@ -137,14 +159,14 @@
     font-size:clamp(46px,15vw,76px);
     line-height:.88;letter-spacing:.004em;
     text-transform:uppercase;
-    margin:0 0 16px;
+    margin:0 0 13px;
     text-wrap:balance;
   }
   .hero-sub{
     font-family:var(--font-serif);
     font-size:clamp(19px,5.4vw,24px);
     line-height:1.25;color:var(--bone);opacity:.94;
-    margin-bottom:22px;
+    margin-bottom:18px;
   }
   .verse{
     font-family:var(--font-serif);font-style:italic;
@@ -156,7 +178,7 @@
     color:var(--red-bright);font-weight:700;
   }
   .hero-meta{
-    display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:26px 0 22px;
+    display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:22px 0 18px;
   }
   .chip{
     display:inline-flex;align-items:center;gap:7px;
@@ -269,11 +291,9 @@
 
   /* ---------- give ---------- */
   .give-plate{margin-top:22px;}
-  .give-plate h3{
-    font-family:var(--font-display);font-size:30px;line-height:1;text-transform:uppercase;
-  }
-  .give-plate p{font-size:14.5px;color:var(--bone);opacity:.9;margin-top:10px;}
-  .give-plate .btn{margin-top:20px;background:var(--bone);color:var(--obsidian);}
+  .give-plate{padding:26px 22px;}
+  .give-plate p{font-size:15px;color:var(--bone);opacity:.94;margin:0;}
+  .give-plate .btn{margin-top:18px;background:var(--bone);color:var(--obsidian);}
   .give-plate .btn:hover{background:#fff;}
   .bank{
     margin-top:16px;border:1px solid var(--line-soft);border-radius:12px;background:var(--slate);
@@ -315,6 +335,19 @@
     .gather > :first-child{grid-column:1 / -1;}
   }
 
+  @media (max-height:730px){
+    .hero{padding:calc(env(safe-area-inset-top) + 62px) 0 22px;}
+    .hero-logo{width:92px;height:92px;margin-bottom:14px;}
+    .hero h1{font-size:clamp(34px,11vw,46px);margin-bottom:9px;}
+    .hero-sub{font-size:17px;margin-bottom:12px;}
+    .verse{font-size:14px;}
+    .verse-ref{margin-top:6px;}
+    .hero-meta{margin:15px 0 13px;gap:6px;}
+    .chip{padding:6px 11px;font-size:12px;}
+    .cta-row{gap:8px;}
+    .hero .btn{padding:13px 16px;font-size:14px;}
+  }
+
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto;}
     *,*::before,*::after{animation:none !important;transition:none !important;}
@@ -331,6 +364,14 @@
      both work. Leave empty to show the poster card.
      ============================================================ -->
 <script>window.WELCOME_VIDEO_URL = "";</script>
+
+<!-- ==================== NAV ==================== -->
+<nav class="topnav" aria-label="Main">
+  <a href="#welcome">Welcome</a>
+  <a href="#gather">Sundays</a>
+  <a href="#sermons">Sermons</a>
+  <a href="#give" class="nav-give">Giving</a>
+</nav>
 
 <!-- ==================== HERO ==================== -->
 <header class="hero">
@@ -485,16 +526,14 @@
 <!-- ==================== GIVE ==================== -->
 <section id="give">
   <div class="wrap">
-    <div class="eyebrow muted">Giving</div>
-    <h2 class="sec">Give to the work</h2>
-    <p class="lede">Every gift keeps the doors open, the lights on, and the work going beyond these walls.</p>
+    <h2 class="sec sec-sm">Giving</h2>
+    <p class="lede">Give a one-off gift or set up something monthly. It takes under a minute.</p>
 
     <div class="plate give-plate">
       <div class="clouds" role="presentation">
         <span class="vc vc1"></span><span class="vc vc2"></span><span class="vc vc3"></span>
       </div>
-      <h3>Gift Aid adds 25%</h3>
-      <p>If you pay UK tax, we can claim an extra 25p for every £1 you give, at no cost to you. One-off or monthly, in under a minute.</p>
+      <p>If you pay UK tax, ticking Gift Aid lets us claim an extra 25p for every £1, at no cost to you.</p>
       <a class="btn" href="give/">Give now <span class="arw">&rsaquo;</span></a>
     </div>
 
