@@ -11,16 +11,16 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Calvary Hephzibah Full Gospel Church">
 <meta property="og:title" content="Calvary Hephzibah Full Gospel Church">
-<meta property="og:description" content="There is room for you here. Sundays 10:30am in Manchester and online.">
+<meta property="og:description" content="Welcome to church. Sundays 10:30am in Manchester and online.">
 <meta property="og:url" content="https://calvaryhfgc.github.io/calvaryhephzibah/">
-<meta property="og:image" content="https://calvaryhfgc.github.io/calvaryhephzibah/og-home-calvary.jpg?v=1">
+<meta property="og:image" content="https://calvaryhfgc.github.io/calvaryhephzibah/og-home-calvary.jpg?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Calvary Hephzibah Full Gospel Church, Manchester — there is room for you here">
+<meta property="og:image:alt" content="Welcome to church — Calvary Hephzibah Full Gospel Church, Manchester">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Calvary Hephzibah Full Gospel Church">
-<meta name="twitter:description" content="There is room for you here. Sundays 10:30am in Manchester and online.">
-<meta name="twitter:image" content="https://calvaryhfgc.github.io/calvaryhephzibah/og-home-calvary.jpg?v=1">
+<meta name="twitter:description" content="Welcome to church. Sundays 10:30am in Manchester and online.">
+<meta name="twitter:image" content="https://calvaryhfgc.github.io/calvaryhephzibah/og-home-calvary.jpg?v=2">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -106,48 +106,57 @@
   /* ---------- hero ---------- */
   .hero{
     position:relative;
-    min-height:92vh;min-height:92dvh;
-    display:flex;flex-direction:column;justify-content:flex-end;
-    padding:calc(env(safe-area-inset-top) + 28px) 0 34px;
+    min-height:100vh;min-height:100dvh;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:calc(env(safe-area-inset-top) + 48px) 0 44px;
     overflow:hidden;
+    text-align:center;
   }
   .hero-bg{
     position:absolute;inset:0;z-index:0;
     background-image:url('anniversary/assets/photos/card-praise.jpg');
     background-size:cover;background-position:52% 32%;
-    filter:grayscale(.35) contrast(1.05) brightness(.62);
+    filter:grayscale(.45) contrast(1.05) brightness(.42);
     transform:scale(1.06);
   }
   .hero-veil{
     position:absolute;inset:0;z-index:1;
     background:
-      radial-gradient(ellipse 130% 70% at 50% 0%, rgba(208,68,28,0.30), transparent 62%),
-      linear-gradient(180deg, rgba(11,11,14,0.55) 0%, rgba(11,11,14,0.30) 34%, rgba(11,11,14,0.94) 82%, var(--obsidian) 100%);
+      radial-gradient(ellipse 110% 60% at 50% 42%, rgba(208,68,28,0.26), transparent 66%),
+      linear-gradient(180deg, var(--obsidian) 0%, rgba(11,11,14,0.72) 26%, rgba(11,11,14,0.80) 62%, var(--obsidian) 100%);
   }
   .hero-inner{position:relative;z-index:2;width:100%;}
-  .hero-mark{width:52px;height:52px;margin-bottom:auto;}
-  .hero-top{position:absolute;top:0;left:var(--pad);z-index:2;}
+
+  .hero-logo{
+    width:132px;height:132px;margin:0 auto 26px;
+    filter:drop-shadow(0 10px 34px rgba(0,0,0,.55));
+  }
 
   .hero h1{
     font-family:var(--font-display);
-    font-size:clamp(42px,14.5vw,72px);
-    line-height:.9;letter-spacing:.004em;
+    font-size:clamp(46px,15vw,76px);
+    line-height:.88;letter-spacing:.004em;
     text-transform:uppercase;
-    margin:12px 0 16px;
+    margin:0 0 16px;
     text-wrap:balance;
   }
-  .hero h1 em{font-style:normal;color:var(--red-bright);}
+  .hero-sub{
+    font-family:var(--font-serif);
+    font-size:clamp(19px,5.4vw,24px);
+    line-height:1.25;color:var(--bone);opacity:.94;
+    margin-bottom:22px;
+  }
   .verse{
     font-family:var(--font-serif);font-style:italic;
-    font-size:19px;line-height:1.42;color:var(--bone);
-    opacity:.92;max-width:24em;
+    font-size:16.5px;line-height:1.45;color:var(--fg-2);
+    max-width:26em;margin:0 auto;
   }
   .verse-ref{
     margin-top:8px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-    color:var(--fg-3);font-weight:600;
+    color:var(--red-bright);font-weight:700;
   }
   .hero-meta{
-    display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 20px;
+    display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:26px 0 22px;
   }
   .chip{
     display:inline-flex;align-items:center;gap:7px;
@@ -328,13 +337,11 @@
   <div class="hero-bg" role="presentation"></div>
   <div class="hero-veil" role="presentation"></div>
 
-  <div class="hero-top">
-    <img class="hero-mark" src="anniversary-design-system/logo-eagle.png" alt="Calvary Hephzibah eagle mark" width="52" height="52">
-  </div>
-
   <div class="hero-inner wrap">
-    <div class="eyebrow">Calvary Hephzibah · Manchester</div>
-    <h1>There is room<br>for <em>you</em> here.</h1>
+    <img class="hero-logo" src="assets/calvary-logo-roundel.png" alt="Calvary Hephzibah Full Gospel Church" width="132" height="132">
+
+    <h1>Welcome<br>to church</h1>
+    <p class="hero-sub">Calvary Hephzibah Full Gospel Church</p>
 
     <p class="verse">“The Spirit of the Sovereign Lord is on me, because the Lord has anointed me to proclaim good news to the poor.”</p>
     <div class="verse-ref">Isaiah 61:1</div>
