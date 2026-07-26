@@ -1,0 +1,30 @@
+User-agent: *
+
+# Public pages
+Allow: /$
+Allow: /give/
+Allow: /privacy/
+
+# Internal tooling and working files — not for search results.
+# Note: this stops indexing, it does not stop access. Anything genuinely
+# private needs to live somewhere other than a public repo.
+Disallow: /calvary-os/
+Disallow: /the-bridge/
+Disallow: /control-room/
+Disallow: /media-control/
+Disallow: /media-team/
+Disallow: /sermon-library/
+Disallow: /preachers/
+Disallow: /supabase/
+Disallow: /scripts/
+Disallow: /rehearsal-
+Disallow: /set-runthrough-
+Disallow: /media-briefing-
+Disallow: /worship-pack-
+Disallow: /crew-rota
+Disallow: /crew-training
+Disallow: /band-sunday
+Disallow: /test-
+Disallow: /give/test-guide.html
+
+Sitemap: https://calvaryhephzibah.co.uk/sitemap.xml
