@@ -230,15 +230,40 @@
     border:1px solid var(--line-soft);background:#000;margin-top:22px;
     aspect-ratio:16/9;
   }
-  .welcome-video video,.welcome-video iframe{width:100%;height:100%;object-fit:cover;border:0;}
+  .welcome-video video{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    opacity:0;transition:opacity .9s var(--ease);
+  }
+  .welcome-video video.is-on{opacity:1;}
   .wv-fallback{
     position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;
-    padding:18px;gap:4px;
+    padding:18px;gap:4px;transition:opacity .6s var(--ease);
     background:linear-gradient(180deg,rgba(11,11,14,.15),rgba(11,11,14,.9)),
       url('anniversary/assets/photos/card-family.jpg') center/cover;
   }
+  .wv-fallback.is-hidden{opacity:0;pointer-events:none;}
   .wv-fallback b{font-size:15px;font-weight:600;}
   .wv-fallback span{font-size:12.5px;color:var(--fg-2);}
+
+  .wv-sound{
+    position:absolute;right:12px;bottom:12px;z-index:3;
+    width:38px;height:38px;border-radius:50%;border:1px solid rgba(244,239,230,0.22);
+    background:rgba(11,11,14,0.6);backdrop-filter:blur(8px);
+    display:grid;place-items:center;cursor:pointer;color:var(--fg-1);
+    transition:background .18s var(--ease);
+  }
+  .wv-sound:hover{background:rgba(11,11,14,0.85);}
+  .wv-sound svg{width:19px;height:19px;fill:currentColor;}
+  .wv-sound.is-on .wv-x{display:none;}
+
+  .wv-dots{
+    position:absolute;left:12px;bottom:16px;z-index:3;display:flex;gap:6px;
+  }
+  .wv-dots i{
+    width:5px;height:5px;border-radius:50%;background:rgba(244,239,230,0.35);
+    transition:background .3s var(--ease),width .3s var(--ease);
+  }
+  .wv-dots i.on{background:var(--red-bright);width:16px;border-radius:3px;}
 
   .welcome-copy{margin-top:20px;color:var(--fg-2);font-size:15px;}
   .welcome-copy p + p{margin-top:12px;}
@@ -363,7 +388,14 @@
      poster card automatically. MP4 or a YouTube watch/embed URL
      both work. Leave empty to show the poster card.
      ============================================================ -->
-<script>window.WELCOME_VIDEO_URL = "";</script>
+<script>
+/* Welcome videos. They crossfade one into the next, on loop.
+   Add or remove URLs here — duplicates are ignored automatically. */
+window.WELCOME_VIDEOS = [
+  "https://pfycvgbrsbecznkcikwt.supabase.co/storage/v1/object/public/control-room-media/videos/a252f625-5e32-4a8b-83fa-2fa79a19b6e9.mp4",
+  "https://pfycvgbrsbecznkcikwt.supabase.co/storage/v1/object/public/control-room-media/videos/91d5b693-47d9-4b35-8848-8cf0012ec1ab.mp4"
+];
+</script>
 
 <!-- ==================== NAV ==================== -->
 <nav class="topnav" aria-label="Main">
@@ -421,6 +453,9 @@
         <b>You are welcome here</b>
         <span>A word of welcome from our church family</span>
       </div>
+      <button class="wv-sound" id="wvSound" type="button" aria-label="Turn sound on" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 5V4L8 9H4zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/><path class="wv-x" d="M19.5 4.5l-15 15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+      </button>
     </div>
 
     <div class="welcome-copy">
@@ -589,30 +624,111 @@
 
 <script>
 (function(){
-  var url = (window.WELCOME_VIDEO_URL || '').trim();
-  if(!url) return;
+  var urls = (window.WELCOME_VIDEOS || []).map(function(u){ return (u||'').trim(); }).filter(Boolean);
+  // ignore duplicates so the same clip never plays twice in a row
+  urls = urls.filter(function(u,i){ return urls.indexOf(u) === i; });
+  if(!urls.length) return;
 
-  var host = document.getElementById('welcomeVideo');
-  var yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|live\/)|youtu\.be\/)([\w-]{6,})/);
+  var host     = document.getElementById('welcomeVideo');
+  var fallback = host.querySelector('.wv-fallback');
+  var soundBtn = document.getElementById('wvSound');
+  var reduced  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if(yt){
-    var f = document.createElement('iframe');
-    f.src = 'https://www.youtube.com/embed/' + yt[1] + '?rel=0&playsinline=1';
-    f.title = 'Welcome to Calvary Hephzibah';
-    f.allow = 'accelerometer; encrypted-media; picture-in-picture';
-    f.allowFullscreen = true;
-    host.innerHTML = '';
-    host.appendChild(f);
-  } else {
+  var vids = urls.map(function(u, i){
     var v = document.createElement('video');
-    v.src = url;
-    v.controls = true;
+    v.src = u;
+    v.muted = true;
+    v.defaultMuted = true;
     v.playsInline = true;
-    v.preload = 'metadata';
+    v.setAttribute('playsinline','');
+    v.setAttribute('webkit-playsinline','');
+    v.preload = i === 0 ? 'auto' : 'none';
     v.poster = 'anniversary/assets/photos/card-family.jpg';
-    host.innerHTML = '';
-    host.appendChild(v);
+    if(reduced) v.controls = true;
+    host.insertBefore(v, soundBtn);
+    return v;
+  });
+
+  // progress dots, only worth showing with more than one clip
+  var dots = null;
+  if(vids.length > 1){
+    dots = document.createElement('div');
+    dots.className = 'wv-dots';
+    vids.forEach(function(){ dots.appendChild(document.createElement('i')); });
+    host.appendChild(dots);
   }
+
+  var cur = 0, started = false, inView = true, failed = 0;
+
+  function paint(){
+    vids.forEach(function(v,i){ v.classList.toggle('is-on', i === cur); });
+    if(dots) Array.prototype.forEach.call(dots.children, function(d,i){ d.classList.toggle('on', i === cur); });
+  }
+
+  function play(i){
+    var v = vids[i];
+    v.currentTime = 0;
+    var pr = v.play();
+    if(pr && pr.catch) pr.catch(function(){ /* autoplay refused; the poster still shows */ });
+    // warm up the next one so the crossfade is not a black gap
+    var nxt = vids[(i + 1) % vids.length];
+    if(nxt !== v && nxt.preload === 'none'){ nxt.preload = 'auto'; nxt.load(); }
+  }
+
+  function advance(){
+    var prev = vids[cur];
+    cur = (cur + 1) % vids.length;
+    paint();
+    play(cur);
+    setTimeout(function(){ if(vids[cur] !== prev){ prev.pause(); } }, 950);
+  }
+
+  vids.forEach(function(v){
+    v.addEventListener('ended', function(){
+      if(vids.length === 1){ play(0); } else { advance(); }
+    });
+    // if a clip fails to load, skip past it rather than stalling
+    v.addEventListener('error', function(){
+      if(v.dataset.failed) return;
+      v.dataset.failed = '1';
+      failed++;
+      if(failed >= vids.length){
+        // nothing can play — put the poster back rather than showing a black box
+        fallback.classList.remove('is-hidden');
+        soundBtn.hidden = true;
+        if(dots) dots.remove();
+        return;
+      }
+      if(vids.length > 1) advance();
+    });
+    v.addEventListener('playing', function(){
+      if(!started){ started = true; fallback.classList.add('is-hidden'); soundBtn.hidden = false; }
+    });
+  });
+
+  // only run while the card is actually on screen
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        inView = e.isIntersecting;
+        if(inView){ if(!reduced) play(cur); }
+        else { vids.forEach(function(v){ v.pause(); }); }
+      });
+    }, { threshold: 0.25 }).observe(host);
+  } else if(!reduced){
+    play(cur);
+  }
+
+  paint();
+  if(reduced){ fallback.classList.add('is-hidden'); soundBtn.hidden = false; }
+
+  soundBtn.addEventListener('click', function(){
+    var on = vids[cur].muted;
+    vids.forEach(function(v){ v.muted = !on; });
+    soundBtn.classList.toggle('is-on', on);
+    soundBtn.setAttribute('aria-label', on ? 'Turn sound off' : 'Turn sound on');
+    if(on && vids[cur].paused) play(cur);
+  });
 })();
 </script>
 
