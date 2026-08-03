@@ -51,5 +51,19 @@ loudnorm=I=-23:TP=-3:LRA=2
 Use this one for clip beds. Use the original only where the music is the
 foreground and its dynamics are wanted.
 
+### `bed-beneath-the-same-sky-constant.wav`
+The one to use under the themed shorts. 70 seconds, starting at **13.70s**,
+which is the first kick (bar pulse ~69 BPM, found by kick-band onset analysis).
+
+Compression alone could not hold this track at one level, because the level
+does not move with peaks, it moves as the **arrangement thickens** - vocals at
+0:28, full groove at 0:34. So this version has its own RMS envelope measured
+and inverted, then a smoothed inverse gain curve applied. The smoothing window
+is deliberately longer than one beat (0.87s) so the curve cannot ride the kick
+and pump. Transients are then soft-clipped so the file can sit loud without a
+hard limiter squashing it later.
+
+Result: 1.4dB spread where the original was 23dB. Drop it in at a fixed gain.
+
 The track is bass-heavy (48% of its energy below 200Hz), so under speech it
 takes a dip around 400Hz to keep the low-mids clear of a female speaking voice.
