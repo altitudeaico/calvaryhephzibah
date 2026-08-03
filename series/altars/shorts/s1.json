@@ -1,8 +1,13 @@
-{"slug":"two-is-enough","beat_seconds":4.8,"scripture_seconds":6.6,"end_seconds":4.2,"bed_offset":0,
+{"slug":"two-is-enough","beat_seconds":5.6,"scripture_seconds":7.6,"end_seconds":5.2,
+ "bed_offset":13.79,"bed_fade_in":0.3,
  "beats":[
  {"kind":"punch","text":"Most people think God turns up when the room is full."},
+ {"kind":"punch","text":"The bigger the crowd, the more real it feels."},
  {"kind":"punch","text":"Jesus put the number at two.","red":"two"},
  {"kind":"scripture","text":"Where two or three gather together as my followers, I am there among them.","ref":"MATTHEW 18:20"},
- {"kind":"punch","text":"Your kitchen table already qualifies."},
+ {"kind":"punch","text":"Two. Not twenty. Not two hundred."},
+ {"kind":"punch","text":"The bar is lower than you think it is."},
+ {"kind":"punch","text":"A kitchen table counts. The school run counts."},
+ {"kind":"punch","text":"You don't need to know what you're doing. You need to show up."},
  {"kind":"sub","text":"Tonight. Two of you. Ten minutes.","sub":"That is a family altar."}
 ]}

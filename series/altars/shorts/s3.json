@@ -1,8 +1,1 @@
-{"slug":"telling-isnt-teaching","beat_seconds":4.8,"scripture_seconds":6.6,"end_seconds":4.2,"bed_offset":0,
- "beats":[
- {"kind":"punch","text":"You have told them a hundred times."},
- {"kind":"punch","text":"Telling is not teaching.","red":"not"},
- {"kind":"punch","seconds":7.6,"lines":["1  YOU DO IT, THEY WATCH","2  YOU DO IT TOGETHER","3  THEY DO IT, YOU WATCH","4  THEY DO IT ALONE"]},
- {"kind":"scripture","text":"Direct your children onto the right path, and when they are older they will not leave it.","ref":"PROVERBS 22:6"},
- {"kind":"sub","text":"Most of us stop at step one.","sub":"Then wonder why it did not stick."}
-]}
+{"slug": "telling-isnt-teaching", "beat_seconds": 5.6, "scripture_seconds": 7.4, "end_seconds": 5.2, "bed_offset": 13.7, "bed_fade_in": 0.12, "beats": [{"kind": "punch", "text": "You have told them a hundred times."}, {"kind": "punch", "text": "You have explained it. Twice."}, {"kind": "punch", "text": "So why has none of it stuck?"}, {"kind": "punch", "text": "Because telling is not teaching.", "red": "not"}, {"kind": "punch", "seconds": 9.0, "lines": ["1  YOU DO IT, THEY WATCH", "2  YOU DO IT TOGETHER", "3  THEY DO IT, YOU WATCH", "4  THEY DO IT ALONE"]}, {"kind": "punch", "text": "Step one is where most of us stop."}, {"kind": "punch", "text": "Watching is not learning. Doing is."}, {"kind": "scripture", "text": "Direct your children onto the right path, and when they are older they will not leave it.", "ref": "PROVERBS 22:6"}, {"kind": "sub", "text": "Try step two this week.", "sub": "Do it together. Once."}]}

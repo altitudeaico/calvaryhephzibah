@@ -1,8 +1,1 @@
-{"slug":"the-order","beat_seconds":4.8,"scripture_seconds":7.4,"end_seconds":4.2,"bed_offset":0,
- "beats":[
- {"kind":"punch","text":"We keep asking God for the promise."},
- {"kind":"punch","text":"Read what he actually said about Abraham."},
- {"kind":"scripture","text":"I have singled him out so that he will direct his children to keep the way of the Lord. Then I will do all that I have promised.","ref":"GENESIS 18:19"},
- {"kind":"punch","text":"The training came first. The promise came after.","red":"after"},
- {"kind":"sub","text":"So what are you building at home while you wait?","sub":"The order matters."}
-]}
+{"slug": "the-order", "beat_seconds": 5.6, "scripture_seconds": 8.4, "end_seconds": 5.2, "bed_offset": 13.7, "bed_fade_in": 0.12, "beats": [{"kind": "punch", "text": "We keep asking God for the promise."}, {"kind": "punch", "text": "The house. The healing. The breakthrough."}, {"kind": "punch", "text": "Read what he actually said about Abraham."}, {"kind": "scripture", "text": "I have singled him out so that he will direct his children to keep the way of the Lord. Then I will do all that I have promised.", "ref": "GENESIS 18:19"}, {"kind": "punch", "text": "Now notice the order."}, {"kind": "punch", "text": "He will teach his children. Then I will do it.", "red": "Then"}, {"kind": "punch", "text": "The training came first. The promise came after."}, {"kind": "punch", "text": "That is uncomfortable. It is also the point."}, {"kind": "sub", "text": "What are you building at home while you wait?", "sub": "The order matters."}]}

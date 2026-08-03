@@ -183,8 +183,9 @@ def render(a):
 
     total = sum(bdur(i) for i in range(len(paths))) + spec.get("end_seconds", 4.0) - XF * len(paths)
     bed = os.path.join(a.repo, "assets/audio/beds/bed-beneath-the-same-sky-flat.mp3")
+    fin = spec.get("bed_fade_in", 0.35)
     afilt = (f"[{len(labels)}:a]atrim=duration={round(total,2)},asetpts=PTS-STARTPTS,"
-             f"volume=2.2,afade=t=in:st=0:d=1.0,afade=t=out:st={round(total-1.2,2)}:d=1.2[a]")
+             f"volume=2.2,afade=t=in:st=0:d={fin},afade=t=out:st={round(total-1.6,2)}:d=1.6[a]")
 
     cmd = (["ffmpeg", "-v", "error"] + inputs +
            ["-ss", str(spec.get("bed_offset", 0)), "-i", bed,
