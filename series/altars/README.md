@@ -43,3 +43,16 @@ for anything. If more b-roll is needed, it has to be generated.
 - **The date.**
 
 Built with the `calvary-series-trailer` skill.
+
+## House rule: divine pronouns
+
+Every pronoun referring to God is **capitalised** — He, Him, His — in all
+original copy: slides, captions, on-screen text.
+
+The one exception is **direct scripture quotation**, which stays verbatim in
+whatever translation is cited. NLT sets those pronouns lower case, and altering
+a quotation to match house style would misrepresent the translation. Quote
+exactly, or paraphrase and capitalise. Never a hybrid.
+
+Watch for pronouns referring to someone other than God in the same sentence
+(Abraham, Job, Timothy, Paul). Those stay lower case.

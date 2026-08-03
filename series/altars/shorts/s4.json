@@ -1,13 +1,50 @@
-{"slug":"one-hour-a-week","beat_seconds":5.6,"scripture_seconds":7.6,"end_seconds":5.2,
- "bed_offset":13.70,"bed_fade_in":0.12,
- "beats":[
- {"kind":"punch","text":"One hour on a Sunday."},
- {"kind":"sub","seconds":6.4,"text":"That is 0.6% of their week.","sub":"The other 99.4% happens at home."},
- {"kind":"punch","text":"Nobody planned it that way."},
- {"kind":"punch","text":"But faith was never designed to live in a building."},
- {"kind":"scripture","text":"You share the faith that first filled your grandmother Lois and your mother Eunice.","ref":"2 TIMOTHY 1:5"},
- {"kind":"punch","text":"His grandmother had it first."},
- {"kind":"punch","text":"Then his mother. Then it was his own."},
- {"kind":"punch","text":"It reached him at home, before it reached him anywhere else."},
- {"kind":"sub","text":"Church helps.","sub":"It was never meant to do it alone."}
-]}
+{
+ "slug": "one-hour-a-week",
+ "beat_seconds": 5.6,
+ "scripture_seconds": 7.6,
+ "end_seconds": 5.2,
+ "bed_offset": 0,
+ "bed_fade_in": 0.12,
+ "beats": [
+  {
+   "kind": "punch",
+   "text": "One hour on a Sunday."
+  },
+  {
+   "kind": "sub",
+   "seconds": 6.4,
+   "text": "That is 0.6% of their week.",
+   "sub": "The other 99.4% happens at home."
+  },
+  {
+   "kind": "punch",
+   "text": "Nobody planned it that way."
+  },
+  {
+   "kind": "punch",
+   "text": "But faith was never designed to live in a building."
+  },
+  {
+   "kind": "scripture",
+   "text": "You share the faith that first filled your grandmother Lois and your mother Eunice.",
+   "ref": "2 TIMOTHY 1:5"
+  },
+  {
+   "kind": "punch",
+   "text": "His grandmother had it first."
+  },
+  {
+   "kind": "punch",
+   "text": "Then his mother. Then it was his own."
+  },
+  {
+   "kind": "punch",
+   "text": "It reached him at home, before it reached him anywhere else."
+  },
+  {
+   "kind": "sub",
+   "text": "Church helps.",
+   "sub": "It was never meant to do it alone."
+  }
+ ]
+}
