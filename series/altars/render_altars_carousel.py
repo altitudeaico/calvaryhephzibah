@@ -63,26 +63,40 @@ def wrap(d, text, font, maxw):
 
 
 def ground(repo, idx):
-    img = Image.new("RGB", (W, H), OBS)
+    """Full-bleed ALTARS plate, faded back far enough that type still reads.
+
+    The plate is landscape and the card is portrait, so it is cover-fitted and
+    the horizontal slice is shifted per slide. That stops 48 cards sharing one
+    identical background while keeping the same stone pile throughout.
+
+    Two scrims sit on top: a flat one to push the whole image back, and a
+    stronger vertical one through the middle band where the type lives. Without
+    the second, the brighter stones cut straight through the body copy.
+    """
+    plate = Image.open(os.path.join(repo, "series/altars/plates/scene2-master.png")).convert("RGB")
+    sc = max(W / plate.width, H / plate.height)
+    plate = plate.resize((int(plate.width * sc), int(plate.height * sc)), Image.LANCZOS)
+    maxx = max(0, plate.width - W)
+    pan = [0.50, 0.28, 0.72, 0.38, 0.62, 0.18, 0.82, 0.44, 0.56, 0.34][idx % 10]
+    x = int(maxx * pan)
+    y = max(0, (plate.height - H) // 2)
+    img = plate.crop((x, y, x + W, y + H))
+    img = ImageEnhance.Brightness(img).enhance(1.05)
+
+    a = np.array(img).astype(float)
+    ys = np.linspace(0, 1, H)[:, None, None]
+    flat = 0.24
+    band = np.exp(-((ys - 0.42) ** 2) / (2 * 0.26 ** 2)) * 0.40
+    scrim = np.clip(flat + band, 0, 0.95)
+    a = a * (1 - scrim) + np.array([10, 10, 13], float) * scrim
+
     glow = Image.new("L", (W, H), 0)
     gd = ImageDraw.Draw(glow)
-    cx, cy, R = int(W * (0.22 + 0.1 * (idx % 3))), int(H * 0.88), 1250
-    for r in range(R, 0, -6):
-        gd.ellipse([cx - r, cy - r, cx + r, cy + r], fill=int(52 * (1 - r / R) ** 1.7))
-    img = Image.composite(Image.new("RGB", (W, H), (128, 52, 16)), img, glow)
-
-    plate = Image.open(os.path.join(repo, "series/altars/plates/scene2-master.png")).convert("RGB")
-    s = W / plate.width
-    plate = plate.resize((W, int(plate.height * s)), Image.LANCZOS)
-    bh = plate.height
-    plate = ImageEnhance.Brightness(plate).enhance(0.34)
-    mask = np.ones((bh, W))
-    fade = int(bh * 0.55)
-    ramp = np.linspace(0, 1, fade) ** 1.6
-    mask[:fade] *= ramp[:, None]
-    mask[-fade:] *= ramp[::-1][:, None]
-    img.paste(plate, (0, H - bh + 60), Image.fromarray((mask * 255).astype(np.uint8), "L"))
-    return img
+    cx, cy, R = int(W * 0.24), int(H * 0.90), 1150
+    for r in range(R, 0, -8):
+        gd.ellipse([cx - r, cy - r, cx + r, cy + r], fill=int(34 * (1 - r / R) ** 1.8))
+    base = Image.fromarray(a.clip(0, 255).astype(np.uint8))
+    return Image.composite(Image.new("RGB", (W, H), (150, 62, 20)), base, glow)
 
 
 def render_slide(repo, spec, idx, total, out):
