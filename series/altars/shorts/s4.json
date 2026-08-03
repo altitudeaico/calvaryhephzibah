@@ -1,0 +1,8 @@
+{"slug":"one-hour-a-week","beat_seconds":3.8,"end_seconds":3.6,"bed_offset":11,
+ "beats":[
+ {"kind":"punch","text":"One hour on a Sunday."},
+ {"kind":"sub","text":"That is 0.6% of their week.","sub":"The other 99.4% happens at home."},
+ {"kind":"scripture","text":"I remember your genuine faith, for you share the faith that first filled your grandmother Lois and your mother Eunice.","ref":"2 TIMOTHY 1:5"},
+ {"kind":"punch","text":"Timothy's faith came through his family first."},
+ {"kind":"sub","text":"Church helps.","sub":"It was never meant to do it alone."}
+]}

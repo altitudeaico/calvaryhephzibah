@@ -1,0 +1,8 @@
+{"slug":"two-is-enough","beat_seconds":3.8,"end_seconds":3.6,"bed_offset":2,
+ "beats":[
+ {"kind":"punch","text":"Most people think God turns up when the room is full."},
+ {"kind":"punch","text":"Jesus put the number at two.","red":"two"},
+ {"kind":"scripture","text":"Where two or three gather together as my followers, I am there among them.","ref":"MATTHEW 18:20"},
+ {"kind":"punch","text":"Your kitchen table already qualifies."},
+ {"kind":"sub","text":"Tonight. Two of you. Ten minutes.","sub":"That is a family altar."}
+]}

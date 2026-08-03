@@ -1,0 +1,8 @@
+{"slug":"the-order","beat_seconds":3.8,"end_seconds":3.6,"bed_offset":5,
+ "beats":[
+ {"kind":"punch","text":"We keep asking God for the promise."},
+ {"kind":"punch","text":"Read what he actually said about Abraham."},
+ {"kind":"scripture","text":"I have singled him out so that he will direct his sons and their families to keep the way of the Lord. Then I will do for Abraham all that I have promised.","ref":"GENESIS 18:19"},
+ {"kind":"punch","text":"The training came first. The promise came after.","red":"after"},
+ {"kind":"sub","text":"So what are you building at home while you wait?","sub":"The order matters."}
+]}

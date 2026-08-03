@@ -17,6 +17,8 @@ Series line: *There are altars and there are altars.* — Pastor Shade Olatoye
 | `episodes/` | Per-week episode thumbnails built on the master plate |
 | `family-altar-endcard-9x16.mp4` / `-endcard-a-9x16.png` | 4.6s two-screen clip tail for the 2 Aug episode: episode screen then series screen |
 | `render_altars_endcard_9x16.py` | Builds both 9x16 end-card screens. The master plate is landscape, so it is laid in as a feathered full-width BAND rather than cropped to 9:16, which would bin the stone pile |
+| `render_altars_short.py` + `shorts/*.json` | Builds 9x16 themed teaching shorts: type over the clean plates with a slow push, cross-faded, music bed, series end screen. Content is spec'd in JSON so a new one is a small file, not new code |
+| `short-endcard-9x16.png` | End screen for the themed shorts. Credits the sermon as the SOURCE, because the words in those videos are the church's, not the preacher's |
 | `render_altars_episode.py` | Builds an episode thumbnail: master plate + scrim, red series badge, Anton episode title, series line with the second *altars.* in red, preacher block, portrait right |
 
 ## Episodes
@@ -25,6 +27,13 @@ Series line: *There are altars and there are altars.* — Pastor Shade Olatoye
 |---|---|---|
 | 26 Jul 2026 | Altars | Dr Titi Sodipo |
 | 2 Aug 2026 | Family Altar | Dr Titi Sodipo |
+
+## A note on usable footage
+
+Only three files in `plates/` are clean: `scene1-ember`, `scene2-master`,
+`scene3-fire`. Everything else in this folder, including both animated cards,
+has **SERMON SERIES burned into the frame** and cannot be used as background
+for anything. If more b-roll is needed, it has to be generated.
 
 ## Not here yet
 
