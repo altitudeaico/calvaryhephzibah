@@ -15,6 +15,8 @@ Series line: *There are altars and there are altars.* — Pastor Shade Olatoye
 | `altars-thumbnail-1280x720.jpg` | YouTube thumbnail |
 | `plates/` | Google Flow start frames for the trailer scenes |
 | `episodes/` | Per-week episode thumbnails built on the master plate |
+| `family-altar-endcard-9x16.mp4` / `-endcard-a-9x16.png` | 4.6s two-screen clip tail for the 2 Aug episode: episode screen then series screen |
+| `render_altars_endcard_9x16.py` | Builds both 9x16 end-card screens. The master plate is landscape, so it is laid in as a feathered full-width BAND rather than cropped to 9:16, which would bin the stone pile |
 | `render_altars_episode.py` | Builds an episode thumbnail: master plate + scrim, red series badge, Anton episode title, series line with the second *altars.* in red, preacher block, portrait right |
 
 ## Episodes
