@@ -1,4 +1,4 @@
-{"slug":"two-is-enough","beat_seconds":3.8,"end_seconds":3.6,"bed_offset":2,
+{"slug":"two-is-enough","beat_seconds":4.8,"scripture_seconds":6.6,"end_seconds":4.2,"bed_offset":0,
  "beats":[
  {"kind":"punch","text":"Most people think God turns up when the room is full."},
  {"kind":"punch","text":"Jesus put the number at two.","red":"two"},

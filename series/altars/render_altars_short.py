@@ -149,13 +149,20 @@ def render(a):
         img.save(p)
         paths.append(p)
 
-    BD = spec.get("beat_seconds", 3.7)
+    BD = spec.get("beat_seconds", 4.6)
+    SCR = spec.get("scripture_seconds", BD + 2.2)
+
+    def bdur(i):
+        b = beats[i]
+        if b.get("seconds"):
+            return float(b["seconds"])
+        return SCR if b.get("kind") in ("scripture", "list") or b.get("lines") else BD
     XF = 0.45
     end = os.path.join(a.repo, "series/altars/short-endcard-9x16.png")
 
     inputs, filt, labels = [], [], []
     for i, p in enumerate(paths + [end]):
-        dur = BD if i < len(paths) else spec.get("end_seconds", 3.6)
+        dur = bdur(i) if i < len(paths) else spec.get("end_seconds", 4.0)
         inputs += ["-loop", "1", "-t", str(dur), "-i", p]
         # slow push, alternating direction so consecutive beats don't feel identical
         z = "min(1.06,zoom+0.00035)" if i % 2 == 0 else "if(eq(on,1),1.06,max(1.0,zoom-0.00035))"
@@ -169,12 +176,12 @@ def render(a):
     chain, off = "", 0.0
     prev = "[v0]"
     for i in range(1, len(labels)):
-        off += (BD if i - 1 < len(paths) else spec.get("end_seconds", 3.6)) - XF
+        off += (bdur(i - 1) if i - 1 < len(paths) else spec.get("end_seconds", 4.0)) - XF
         out = f"[x{i}]" if i < len(labels) - 1 else "[vout]"
         chain += f"{prev}[v{i}]xfade=transition=fade:duration={XF}:offset={round(off,3)}{out};"
         prev = out
 
-    total = BD * len(paths) + spec.get("end_seconds", 3.6) - XF * len(paths)
+    total = sum(bdur(i) for i in range(len(paths))) + spec.get("end_seconds", 4.0) - XF * len(paths)
     bed = os.path.join(a.repo, "assets/audio/beds/bed-beneath-the-same-sky-flat.mp3")
     afilt = (f"[{len(labels)}:a]atrim=duration={round(total,2)},asetpts=PTS-STARTPTS,"
              f"volume=2.2,afade=t=in:st=0:d=1.0,afade=t=out:st={round(total-1.2,2)}:d=1.2[a]")

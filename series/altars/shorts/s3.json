@@ -1,8 +1,8 @@
-{"slug":"telling-isnt-teaching","beat_seconds":3.8,"end_seconds":3.6,"bed_offset":8,
+{"slug":"telling-isnt-teaching","beat_seconds":4.8,"scripture_seconds":6.6,"end_seconds":4.2,"bed_offset":0,
  "beats":[
  {"kind":"punch","text":"You have told them a hundred times."},
  {"kind":"punch","text":"Telling is not teaching.","red":"not"},
- {"kind":"punch","lines":["1  YOU DO IT, THEY WATCH","2  YOU DO IT TOGETHER","3  THEY DO IT, YOU WATCH","4  THEY DO IT ALONE"]},
+ {"kind":"punch","seconds":7.6,"lines":["1  YOU DO IT, THEY WATCH","2  YOU DO IT TOGETHER","3  THEY DO IT, YOU WATCH","4  THEY DO IT ALONE"]},
  {"kind":"scripture","text":"Direct your children onto the right path, and when they are older they will not leave it.","ref":"PROVERBS 22:6"},
  {"kind":"sub","text":"Most of us stop at step one.","sub":"Then wonder why it did not stick."}
 ]}
