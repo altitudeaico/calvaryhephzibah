@@ -19,6 +19,7 @@ Series line: *There are altars and there are altars.* — Pastor Shade Olatoye
 | `render_altars_endcard_9x16.py` | Builds both 9x16 end-card screens. The master plate is landscape, so it is laid in as a feathered full-width BAND rather than cropped to 9:16, which would bin the stone pile |
 | `render_altars_short.py` + `shorts/*.json` | Builds 9x16 themed teaching shorts: type over the clean plates with a slow push, cross-faded, music bed, series end screen. Content is spec'd in JSON so a new one is a small file, not new code |
 | `short-endcard-9x16.png` | End screen for the themed shorts. Credits the sermon as the SOURCE, because the words in those videos are the church's, not the preacher's |
+| `render_altars_carousel.py` + `carousels/*.json` | 1080x1350 carousel slides. Blocks are measured from their ink boxes and the stack is centred as a unit, so slides of four words and slides of a full paragraph both sit right without a fixed grid |
 | `render_altars_episode.py` | Builds an episode thumbnail: master plate + scrim, red series badge, Anton episode title, series line with the second *altars.* in red, preacher block, portrait right |
 
 ## Episodes
