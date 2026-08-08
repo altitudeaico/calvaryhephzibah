@@ -1,3 +1,24 @@
+# Link-preview crawlers are allowed everywhere. They are what generates the
+# WhatsApp / Facebook / Slack card when a run sheet or stage view is shared
+# with the team. They do not put anything into search results.
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: Slackbot-LinkExpanding
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
 User-agent: *
 
 # Public pages
