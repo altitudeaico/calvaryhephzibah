@@ -48,15 +48,28 @@ atrim=0:TOTAL,alimiter=limit=0.97[a]" \
  -c:a aac -b:a 192k -ar 48000 -movflags +faststart out.mp4
 ```
 
-`TOTAL` is clip duration plus 3, `FADEOUT` is `TOTAL - 1.6`, `OFFSET` varies per
-clip so they do not all use the same passage of the bed.
+`TOTAL` is clip duration plus the quote card plus 3, `FADEOUT` is `TOTAL - 1.8`,
+`OFFSET` varies per clip so they do not all use the same passage of the bed.
+
+The finished shape is **clip, then a 4.2 sec animated quote card, then the 3 sec
+end card**. The quote card is built by `series/kingdom/render_quotecard.py`:
+two or three short lines in Anton on the house obsidian ground, fading up one at
+a time with a small rise, the payoff line in red. It gives the eye somewhere to
+land after the preacher stops talking, rather than cutting straight to a static
+end frame. Keep the lines to five or six words; the renderer shrinks type to fit
+but long lines lose the punch.
+
+The bed **lifts by about 4.5 dB the moment the voice stops**, so the outro
+carries rather than dying away. That is the one deliberate level change in the
+whole mix, and it happens where there is no speech to fight with.
 
 Three things in there matter and should not be changed casually:
 
 - **`normalize=0` on amix.** Without it ffmpeg halves both inputs and the voice
   ends up quieter than it started.
-- **`volume=-15dB` on the bed.** The beds sit at -20.4 LUFS, so this puts them
-  about 20 dB under a -14 LUFS voice. Felt, not heard.
+- **`volume=-9dB` on the bed.** The beds sit at -20.4 LUFS, so this puts them
+  about 15 dB under a -14 LUFS voice. Present enough to feel, not enough to
+  fight the words. -15 dB was tried first and read as too quiet.
 - **No sidechain ducking.** The music holds one level throughout by design. A
   ducker makes it pump under the speech, which is exactly the wavering the beds
   were levelled to remove.
