@@ -1,0 +1,5 @@
+{"beats":[
+ {"lines":["First is not a ranking."]},
+ {"lines":["It is a foundation."],"red":0},
+ {"lines":["Everything else","is built on it."],"red":1}
+]}

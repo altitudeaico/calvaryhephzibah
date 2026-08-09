@@ -115,7 +115,7 @@ footer{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);font-si
 <header>
   <div class="eyebrow">Calvary Hephzibah &middot; Media</div>
   <h1>Enter Into<br><span class="ac">The Kingdom.</span></h1>
-  <p class="deck">Everything cut from Sunday, ready to post. Clips are the finished mixes: voice lifted, music bed underneath at a fixed level, then an animated quote card and the end card. Each card previews how the post will actually look, carries its caption per platform, and remembers whether you have posted it.</p>
+  <p class="deck">Everything cut from Sunday, ready to post. Clips are the finished mixes: voice lifted, music bed underneath at a fixed level, then a three-beat closing sequence and the end card. Each card previews how the post will actually look, carries its caption per platform, and remembers whether you have posted it.</p>
   <div class="meta">
     <div><span>Preacher</span><b>Rev Ifeayinchukwu Obi</b></div>
     <div><span>Posts ready</span><b id="mtot">&mdash;</b></div>
@@ -203,7 +203,7 @@ function card(p){
   const care=p.care?`<div class="care"><b>Care flag</b>${esc(p.care)}</div>`:'';
   const quote=p.quote?`<div class="quote">&ldquo;${esc(p.quote)}&rdquo;</div>`:'';
   const onscr=p.onscreen?`<div class="onscr"><b>On-screen text (for mute viewers)</b>${esc(p.onscreen)}</div>`:'';
-  const endl=p.endline?`<div class="onscr"><b>Closing card</b>${esc(p.endline)}</div>`:'';
+  const endl=p.endline?`<div class="onscr"><b>Closing sequence</b>${esc(p.endline)}</div>`:'';
   let caps='';
   if(p.captions){
     const dl = p.download

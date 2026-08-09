@@ -11,7 +11,7 @@
       "id": "reel-01",
       "format": "reel",
       "asset": "clips/clip3.mp4",
-      "duration": "29s",
+      "duration": "32s",
       "title": "Church is for people who have problems?",
       "rank": 1,
       "invite": false,
@@ -26,13 +26,13 @@
       },
       "music": "Bed A",
       "download": "download/clip3-final.mp4",
-      "endline": "If that is what you think, you would still be welcome."
+      "endline": "You think church is for people with problems.  \u2192  You are right.  \u2192  That is exactly who it is for."
     },
     {
       "id": "reel-02",
       "format": "reel",
       "asset": "clips/clip5.mp4",
-      "duration": "32s",
+      "duration": "35s",
       "title": "Every decision, never for yourself",
       "rank": 2,
       "invite": false,
@@ -47,13 +47,13 @@
       },
       "music": "Bed A",
       "download": "download/clip5-final.mp4",
-      "endline": "It was never yours to carry alone."
+      "endline": "You were not offered a better life.  \u2192  You were offered a different one.  \u2192  It is no longer yours to defend."
     },
     {
       "id": "reel-03",
       "format": "reel",
       "asset": "clips/clip2.mp4",
-      "duration": "27s",
+      "duration": "29s",
       "title": "Change your mind",
       "rank": 3,
       "invite": true,
@@ -68,13 +68,13 @@
       },
       "music": "Bed B",
       "download": "download/clip2-final.mp4",
-      "endline": "You are allowed to change your mind."
+      "endline": "Repent is not an apology.  \u2192  It is a change of mind.  \u2192  Which means it is available right now."
     },
     {
       "id": "reel-04",
       "format": "reel",
       "asset": "clips/clip1.mp4",
-      "duration": "32s",
+      "duration": "35s",
       "title": "Christians speak their faith",
       "rank": 4,
       "invite": false,
@@ -89,13 +89,13 @@
       },
       "music": "Bed A",
       "download": "download/clip1-final.mp4",
-      "endline": "Say it out loud once. Even if it shakes."
+      "endline": "You already know what you believe.  \u2192  The room does not.  \u2192  Silence is also an answer."
     },
     {
       "id": "reel-05",
       "format": "reel",
       "asset": "clips/clip4.mp4",
-      "duration": "36s",
+      "duration": "39s",
       "title": "Every decision, not some decisions",
       "rank": 5,
       "invite": false,
@@ -110,13 +110,13 @@
       },
       "music": "Bed B",
       "download": "download/clip4-final.mp4",
-      "endline": "Not every decision at once. Just the next one."
+      "endline": "We keep two piles.  \u2192  What God gets a say in. And what is ours.  \u2192  He will not accept the split."
     },
     {
       "id": "reel-06",
       "format": "reel",
       "asset": "clips/clip7.mp4",
-      "duration": "33s",
+      "duration": "36s",
       "title": "You are the one carrying the Spirit",
       "rank": 6,
       "invite": false,
@@ -131,7 +131,7 @@
       },
       "music": "Bed A",
       "download": "download/clip7-final.mp4",
-      "endline": "The room changed because you walked into it."
+      "endline": "You are waiting for someone qualified.  \u2192  So is everyone else in the room.  \u2192  Nothing moves until someone stops waiting."
     },
     {
       "id": "carousel-01",
@@ -191,7 +191,7 @@
       "id": "reel-x1",
       "format": "reel",
       "asset": "clips/clip6.mp4",
-      "duration": "32s",
+      "duration": "34s",
       "title": "Matthew 6:33 \u2014 NOT RECOMMENDED",
       "rank": 99,
       "invite": false,
@@ -201,7 +201,7 @@
       "captions": null,
       "music": "Bed B",
       "download": "download/clip6-final.mp4",
-      "endline": "First does not mean only. It means first."
+      "endline": "First is not a ranking.  \u2192  It is a foundation.  \u2192  Everything else is built on it."
     }
   ],
   "note": "Clips are the finished versions: voice lifted to broadcast level, music bed underneath at a fixed level, then an animated quote card and the end card.",

@@ -51,33 +51,44 @@ atrim=0:TOTAL,alimiter=limit=0.97[a]" \
 `TOTAL` is clip duration plus the quote card plus 3, `FADEOUT` is `TOTAL - 1.8`,
 `OFFSET` varies per clip so they do not all use the same passage of the bed.
 
-The finished shape is **clip, then a 5 sec animated closing card, then the 3 sec
-end card**. The quote card is built by `series/kingdom/render_quotecard.py`:
+The finished shape is **clip, then a 7.9 sec three-beat closing sequence, then
+the 3 sec end card**. The quote card is built by `series/kingdom/render_quotecard.py`:
 two or three short lines in Anton on the house obsidian ground, fading up one at
 a time with a small rise, the payoff line in red. It gives the eye somewhere to
 land after the preacher stops talking, rather than cutting straight to a static
 end frame. Keep the lines to five or six words; the renderer shrinks type to fit
 but long lines lose the punch.
 
-**Write the closing card for the person watching, not for the sermon.** The
-first attempt on 9 Aug simply restated the clip, and two of them read as a
-telling-off. That is the failure mode. The line has to turn toward whoever is
-holding the phone and leave them better than it found them, which is what makes
-someone send it to a friend.
+**The closing sequence is an argument in three beats, not a caption.** Specs
+live in `series/kingdom/closing/*.json`, one per clip. The structure that works:
 
-Three tests before a line goes in:
+1. **Premise.** Say the thing the viewer already thinks, in their words.
+2. **Turn.** Concede it, or complicate it. This is the beat that earns the share.
+3. **Landing.** The implication they now cannot unsee. Usually in red.
 
-- **Does it repeat the clip?** If it does, it is wasted. They just heard it.
-- **Does it scold?** "If you don't speak, you stay where you are" reads as an
-  accusation. "Say it out loud once, even if it shakes" reads as a hand on the
-  shoulder. Same idea, opposite effect.
-- **Would someone send it to a friend?** If not, it is decoration.
+Example, for the clip about church being for people with problems:
 
-What worked: making the hard thing smaller and doable ("Not every decision at
-once. Just the next one."), naming permission rather than obligation ("You are
-allowed to change your mind."), and answering the objection in the clip with
-welcome rather than argument ("If that is what you think, you would still be
-welcome.").
+> You think church is for people with problems. **/** You are right. **/**
+> That is exactly who it is for.
+
+Two failure modes were hit on the way to this, and both are worth naming.
+
+**Restating the clip.** The first pass just repeated what the viewer had heard
+ten seconds earlier. Wasted screen time.
+
+**Coddling.** The second pass overcorrected into reassurance — "You are allowed
+to change your mind", "It was never yours to carry alone". Warm, and completely
+toothless. It sanded the edge off the point the preacher had just made. Comfort
+is not the same as being taken seriously, and nobody shares something that only
+pats them on the head.
+
+The target is thought-provoking, not consoling and not scolding. Concede
+something real, then follow it somewhere they were not expecting. The pause
+between beats is doing as much work as the words: it is where the viewer
+supplies the conclusion themselves, which is what makes it theirs.
+
+Keep lines to five or six words. Three beats is the shape; two feels abrupt and
+four outstays its welcome.
 
 The bed **lifts by about 4.5 dB the moment the voice stops**, so the outro
 carries rather than dying away. That is the one deliberate level change in the

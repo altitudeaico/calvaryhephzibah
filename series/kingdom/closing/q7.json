@@ -1,0 +1,5 @@
+{"beats":[
+ {"lines":["You are waiting for","someone qualified."]},
+ {"lines":["So is everyone else","in the room."]},
+ {"lines":["Nothing moves until","someone stops waiting."],"red":1}
+]}
