@@ -1,5 +1,5 @@
 {"beats":[
- {"lines":["We keep two piles."]},
- {"lines":["What God gets a say in.","And what is ours."]},
- {"lines":["He will not accept","the split."],"red":1}
+ {"lines":["We keep two piles."],"dur":3.2},
+ {"lines":["What God gets a say in.","And what is ours."],"dur":3.2},
+ {"lines":["He will not accept","the split."],"red":1,"dur":3.8}
 ]}

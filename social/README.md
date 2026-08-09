@@ -51,16 +51,23 @@ atrim=0:TOTAL,alimiter=limit=0.97[a]" \
 `TOTAL` is clip duration plus the quote card plus 3, `FADEOUT` is `TOTAL - 1.8`,
 `OFFSET` varies per clip so they do not all use the same passage of the bed.
 
-The finished shape is **clip, then a 7.9 sec three-beat closing sequence, then
-the 3 sec end card**. The quote card is built by `series/kingdom/render_quotecard.py`:
-two or three short lines in Anton on the house obsidian ground, fading up one at
-a time with a small rise, the payoff line in red. It gives the eye somewhere to
-land after the preacher stops talking, rather than cutting straight to a static
-end frame. Keep the lines to five or six words; the renderer shrinks type to fit
-but long lines lose the punch.
+The finished shape is **clip, then a 10 sec three-beat closing sequence, then the
+3 sec end card**. Built by `series/kingdom/render_outro.py`, which reads a beat
+spec:
 
-**The closing sequence is an argument in three beats, not a caption.** Specs
-live in `series/kingdom/closing/*.json`, one per clip. The structure that works:
+```
+python3 series/kingdom/render_outro.py out.mp4 series/kingdom/closing/q3.json
+```
+
+Each beat is one or two short lines in Anton on the house obsidian ground,
+fading up with a small rise, the payoff line in red. A red progress rule runs
+along the bottom across the whole sequence, so it reads as going somewhere
+rather than looping. Beats run 3.2, 3.0 and 3.8 seconds; the last one holds
+longest because that is the one they are meant to sit with.
+
+**The closing sequence is an argument in three beats, not a caption.** Specs live in
+`series/kingdom/closing/*.json`, one per clip, and the page reads its copy from
+those same files so the two never drift. The structure that works:
 
 1. **Premise.** Say the thing the viewer already thinks, in their words.
 2. **Turn.** Concede it, or complicate it. This is the beat that earns the share.

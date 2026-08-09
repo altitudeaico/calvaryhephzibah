@@ -6,7 +6,7 @@ argument: name the thing the viewer already believes, turn it, then land
 somewhere they have to think about. That is the shape this renders.
 
 Usage:
-    python3 render_outro.py out.mp4 '[{"lines":["..."],"red":0,"dur":3.2}, ...]'
+    python3 render_outro.py out.mp4 series/kingdom/closing/q3.json
 """
 import json, os, subprocess, sys
 from PIL import Image, ImageDraw, ImageFont
@@ -108,4 +108,6 @@ def render(cards, out):
 
 
 if __name__ == "__main__":
-    render(json.loads(sys.argv[2]), sys.argv[1])
+    arg = sys.argv[2]
+    spec = json.load(open(arg)) if arg.endswith(".json") else json.loads(arg)
+    render(spec["beats"] if isinstance(spec, dict) else spec, sys.argv[1])

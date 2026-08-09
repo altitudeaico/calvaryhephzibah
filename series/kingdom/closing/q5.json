@@ -1,5 +1,5 @@
 {"beats":[
- {"lines":["You were not offered","a better life."]},
- {"lines":["You were offered","a different one."],"red":1},
- {"lines":["It is no longer","yours to defend."],"red":1}
+ {"lines":["You were not asked","to try harder."],"dur":3.2},
+ {"lines":["You were asked to die."],"red":0,"dur":3.0},
+ {"lines":["It is no longer","yours to defend."],"red":1,"dur":3.8}
 ]}
