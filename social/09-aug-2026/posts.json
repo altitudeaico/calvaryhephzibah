@@ -25,13 +25,14 @@
         "youtube": "Title: Say it out loud\nDescription: On what changes when you speak what you believe into the situation in front of you, rather than holding it quietly. Rev Ifeayinchukwu Obi, \"Enter Into The Kingdom\". Full sermon \u2014 search Calvary Hephzibah. #Shorts #faith #courage #hope"
       },
       "music": "Bed A",
-      "download": "download/clip3-final.mp4"
+      "download": "download/clip3-final.mp4",
+      "endline": "If that is what you think, you would still be welcome."
     },
     {
       "id": "reel-02",
       "format": "reel",
       "asset": "clips/clip5.mp4",
-      "duration": "31s",
+      "duration": "32s",
       "title": "Every decision, never for yourself",
       "rank": 2,
       "invite": false,
@@ -45,13 +46,14 @@
         "youtube": "Title: It is not too late to change your mind\nDescription: What the word repent actually means, and why it is gentler and more serious than most people expect. Rev Ifeayinchukwu Obi, \"Enter Into The Kingdom\". Full sermon \u2014 search Calvary Hephzibah. #Shorts #faith #hope"
       },
       "music": "Bed A",
-      "download": "download/clip5-final.mp4"
+      "download": "download/clip5-final.mp4",
+      "endline": "It was never yours to carry alone."
     },
     {
       "id": "reel-03",
       "format": "reel",
       "asset": "clips/clip2.mp4",
-      "duration": "26s",
+      "duration": "27s",
       "title": "Change your mind",
       "rank": 3,
       "invite": true,
@@ -65,7 +67,8 @@
         "youtube": "Title: If you have thought that, you are not the first\nDescription: A guest minister names the objection out loud rather than dodging it, and keeps talking to you anyway. Rev Ifeayinchukwu Obi, \"Enter Into The Kingdom\". Full sermon \u2014 search Calvary Hephzibah. #Shorts #faith #doubt"
       },
       "music": "Bed B",
-      "download": "download/clip2-final.mp4"
+      "download": "download/clip2-final.mp4",
+      "endline": "You are allowed to change your mind."
     },
     {
       "id": "reel-04",
@@ -85,13 +88,14 @@
         "youtube": "Title: Not only the big ones\nDescription: On refusing to split life into the decisions worth praying about and the ones that are just admin. Rev Ifeayinchukwu Obi, \"Enter Into The Kingdom\". Full sermon \u2014 search Calvary Hephzibah. #Shorts #faith #everyday"
       },
       "music": "Bed A",
-      "download": "download/clip1-final.mp4"
+      "download": "download/clip1-final.mp4",
+      "endline": "Say it out loud once. Even if it shakes."
     },
     {
       "id": "reel-05",
       "format": "reel",
       "asset": "clips/clip4.mp4",
-      "duration": "35s",
+      "duration": "36s",
       "title": "Every decision, not some decisions",
       "rank": 5,
       "invite": false,
@@ -105,13 +109,14 @@
         "youtube": "Title: The life you are living was never only yours\nDescription: On Romans 12 and Galatians 2, and why not deciding for yourself is lighter than it first sounds. Rev Ifeayinchukwu Obi, \"Enter Into The Kingdom\". Full sermon \u2014 search Calvary Hephzibah. #Shorts #faith #rest"
       },
       "music": "Bed B",
-      "download": "download/clip4-final.mp4"
+      "download": "download/clip4-final.mp4",
+      "endline": "Not every decision at once. Just the next one."
     },
     {
       "id": "reel-06",
       "format": "reel",
       "asset": "clips/clip7.mp4",
-      "duration": "32s",
+      "duration": "33s",
       "title": "You are the one carrying the Spirit",
       "rank": 6,
       "invite": false,
@@ -125,7 +130,8 @@
         "youtube": "Title: You bring more into a room than you know\nDescription: On not waiting for the person at the front to make the room good. Rev Ifeayinchukwu Obi, \"Enter Into The Kingdom\". Full sermon \u2014 search Calvary Hephzibah. #Shorts #faith #community"
       },
       "music": "Bed A",
-      "download": "download/clip7-final.mp4"
+      "download": "download/clip7-final.mp4",
+      "endline": "The room changed because you walked into it."
     },
     {
       "id": "carousel-01",
@@ -185,7 +191,7 @@
       "id": "reel-x1",
       "format": "reel",
       "asset": "clips/clip6.mp4",
-      "duration": "31s",
+      "duration": "32s",
       "title": "Matthew 6:33 \u2014 NOT RECOMMENDED",
       "rank": 99,
       "invite": false,
@@ -194,7 +200,8 @@
       "onscreen": null,
       "captions": null,
       "music": "Bed B",
-      "download": "download/clip6-final.mp4"
+      "download": "download/clip6-final.mp4",
+      "endline": "First does not mean only. It means first."
     }
   ],
   "note": "Clips are the finished versions: voice lifted to broadcast level, music bed underneath at a fixed level, then an animated quote card and the end card.",
