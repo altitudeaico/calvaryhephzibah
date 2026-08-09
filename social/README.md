@@ -65,37 +65,39 @@ along the bottom across the whole sequence, so it reads as going somewhere
 rather than looping. Beats run 3.2, 3.0 and 3.8 seconds; the last one holds
 longest because that is the one they are meant to sit with.
 
-**The closing sequence is an argument in three beats, not a caption.** Specs live in
+**The closing sequence names, then turns.** Specs live in
 `series/kingdom/closing/*.json`, one per clip, and the page reads its copy from
-those same files so the two never drift. The structure that works:
+those same files so the two never drift.
 
-1. **Premise.** Say the thing the viewer already thinks, in their words.
-2. **Turn.** Concede it, or complicate it. This is the beat that earns the share.
-3. **Landing.** The implication they now cannot unsee. Usually in red.
+The shape that works:
 
-Example, for the clip about church being for people with problems:
+1. **Name the habit, generously.** Something the viewer could admit to without
+   embarrassment. "You have been believing it quietly." Not an accusation, and
+   not a strawman.
+2. **Turn on the preacher's correction, not yours.** Attribute it to him. "He
+   says that is not enough." The church's own account arguing with a stranger is
+   the fastest way to lose them.
+3. **Land somewhere they can act on or sit with.** "Say it out loud."
 
-> You think church is for people with problems. **/** You are right. **/**
-> That is exactly who it is for.
+Two beats is fine when the turn does both jobs. "You think church is for the
+weak. It is where you go to get strong." needs nothing after it, and a third
+beat would only dilute it. Give a two-beat sequence 3.4 and 4.6 seconds.
 
-Two failure modes were hit on the way to this, and both are worth naming.
+**Read the whole sermon before writing any of these.** Four rounds were wasted on
+9 Aug writing off the clip's surface line instead of the argument, and one card
+ended up asserting the exact opposite of the preacher's point. Every clip is a
+slice of one message; the closing sequences should read as one message too.
 
-**Restating the clip.** The first pass just repeated what the viewer had heard
-ten seconds earlier. Wasted screen time.
+Three failure modes, all hit on the way to this:
 
-**Coddling.** The second pass overcorrected into reassurance — "You are allowed
-to change your mind", "It was never yours to carry alone". Warm, and completely
-toothless. It sanded the edge off the point the preacher had just made. Comfort
-is not the same as being taken seriously, and nobody shares something that only
-pats them on the head.
+- **Contradicting him.** He listed "church is for people who have problems" as an
+  attitude to change. The first card agreed with the attitude.
+- **Restating.** Repeating what they heard ten seconds ago is wasted screen time.
+- **Coddling.** "You are allowed to change your mind" is warm and toothless.
+  Warmth belongs in the naming. The teeth belong in the turn.
 
-The target is thought-provoking, not consoling and not scolding. Concede
-something real, then follow it somewhere they were not expecting. The pause
-between beats is doing as much work as the words: it is where the viewer
-supplies the conclusion themselves, which is what makes it theirs.
-
-Keep lines to five or six words. Three beats is the shape; two feels abrupt and
-four outstays its welcome.
+Keep lines to four or five words. Three beats is the usual shape; two when the
+turn is strong enough to carry it alone; four outstays its welcome.
 
 The bed **lifts by about 4.5 dB the moment the voice stops**, so the outro
 carries rather than dying away. That is the one deliberate level change in the

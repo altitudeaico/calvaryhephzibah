@@ -11,7 +11,7 @@
       "id": "reel-01",
       "format": "reel",
       "asset": "clips/clip3.mp4",
-      "duration": "34s",
+      "duration": "32s",
       "title": "Church is for people who have problems?",
       "rank": 1,
       "invite": false,
@@ -26,7 +26,7 @@
       },
       "music": "Bed A",
       "download": "download/clip3-final.mp4",
-      "endline": "You think church is for people with problems. \u2192 You are right. \u2192 That is exactly who it is for."
+      "endline": "You think church is for the weak. \u2192 It is where you go to get strong."
     },
     {
       "id": "reel-02",
@@ -47,7 +47,7 @@
       },
       "music": "Bed A",
       "download": "download/clip5-final.mp4",
-      "endline": "You were not asked to try harder. \u2192 You were asked to die. \u2192 It is no longer yours to defend."
+      "endline": "You have been carrying it well. \u2192 Nobody asked you to. \u2192 He asked you to hand it over."
     },
     {
       "id": "reel-03",
@@ -68,7 +68,7 @@
       },
       "music": "Bed B",
       "download": "download/clip2-final.mp4",
-      "endline": "Repent is not an apology. \u2192 It is a change of mind. \u2192 You have changed it for less."
+      "endline": "You have been waiting to feel different. \u2192 That is not what repentance is. \u2192 It starts as a decision."
     },
     {
       "id": "reel-04",
@@ -89,7 +89,7 @@
       },
       "music": "Bed A",
       "download": "download/clip1-final.mp4",
-      "endline": "You already know what you believe. \u2192 The room does not. \u2192 Silence is also an answer."
+      "endline": "You have been believing it quietly. \u2192 He says that is not enough. \u2192 Say it out loud."
     },
     {
       "id": "reel-05",
@@ -110,7 +110,7 @@
       },
       "music": "Bed B",
       "download": "download/clip4-final.mp4",
-      "endline": "We keep two piles. \u2192 What God gets a say in. And what is ours. \u2192 He will not accept the split."
+      "endline": "Some of it you bring to God. \u2192 The rest you handle yourself. \u2192 He is asking about the rest."
     },
     {
       "id": "reel-06",
@@ -131,7 +131,7 @@
       },
       "music": "Bed A",
       "download": "download/clip7-final.mp4",
-      "endline": "You are waiting for someone qualified. \u2192 So is everyone else in the room. \u2192 Nothing moves until someone stops waiting."
+      "endline": "You are waiting for someone to step up. \u2192 So is everyone else. \u2192 Do your part."
     },
     {
       "id": "carousel-01",
@@ -201,7 +201,7 @@
       "captions": null,
       "music": "Bed B",
       "download": "download/clip6-final.mp4",
-      "endline": "First is not a ranking. \u2192 It is a foundation. \u2192 Everything else is built on it."
+      "endline": "You put Him somewhere on the list. \u2192 He is not asking for a place on it. \u2192 He is asking to hold the pen."
     }
   ],
   "note": "Clips are the finished versions: voice lifted, music bed underneath, then a three-card animated outro and the end card.",

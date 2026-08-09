@@ -1,5 +1,5 @@
 {"beats":[
- {"lines":["First is not a ranking."],"dur":3.2},
- {"lines":["It is a foundation."],"red":0,"dur":3.0},
- {"lines":["Everything else","is built on it."],"red":1,"dur":3.8}
+ {"lines":["You put Him","somewhere on the list."],"dur":3.2},
+ {"lines":["He is not asking","for a place on it."],"red":1,"dur":3.0},
+ {"lines":["He is asking","to hold the pen."],"red":1,"dur":3.8}
 ]}
