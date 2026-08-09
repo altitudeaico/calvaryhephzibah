@@ -191,6 +191,12 @@
       background: var(--slate);
       border-top: 2px solid var(--red);
       margin: 32px 0;
+      /* the page runs a full-viewport mix-blend-mode: overlay grain layer.
+         isolate cuts this card out of that blending group so the video
+         renders at full brightness, and z-index keeps it above the glow. */
+      position: relative;
+      z-index: 3;
+      isolation: isolate;
     }
     .film-aspect {
       position: relative;
@@ -202,6 +208,13 @@
       position: absolute; inset: 0;
       width: 100%; height: 100%;
       border: 0;
+      background: #000;
+    }
+    .film-caption a {
+      color: var(--red);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(208, 68, 28, 0.4);
+      padding-bottom: 1px;
     }
     .film-caption {
       padding: 16px 20px;
@@ -552,7 +565,7 @@
         </div>
         <div class="film-caption">
           <span><span class="arrow">&#9656;</span>The full rehearsal &middot; Friday 7 August</span>
-          <span class="time">&asymp; 1 hr 45</span>
+          <span class="time">&asymp; 1 hr 45 &middot; <a href="https://drive.google.com/file/d/11DqTiTXcFrKHyZ3i5jcTbvvhTUdMLhWi/view" target="_blank" rel="noopener">open in Drive</a></span>
         </div>
       </div>
 
