@@ -27,7 +27,48 @@ Live at `calvaryhephzibah.co.uk/social/<week>/`
    Posted status is keyed on it, so forgetting this makes the new week
    inherit last week's ticks.
 
-Compress clips before committing. Raw OpusClip exports run 12 to 30 MB each
+## Finishing the clips
+
+OpusClip exports come out quiet. Measured on 9 Aug: **-29.3 LUFS**, where social
+platforms target about -14. They also have no music and no end card. The
+finishing pass does all three in one ffmpeg call per clip:
+
+```
+ffmpeg -i clip.mp4 -loop 1 -t 3 -i endcard.jpg -ss OFFSET -i bed.mp3 \
+ -filter_complex "\
+[0:v]scale=1080:1920,fps=25,setsar=1[v0];\
+[1:v]scale=1080:1920,fps=25,setsar=1,format=yuv420p,fade=t=in:st=0:d=0.4[v1];\
+[v0][v1]concat=n=2:v=1:a=0[v];\
+[0:a]highpass=f=90,acompressor=threshold=-22dB:ratio=3.5:attack=8:release=180,\
+loudnorm=I=-14:TP=-1.5:LRA=11,apad=pad_dur=3.2[a0];\
+[2:a]volume=-15dB,afade=t=in:st=0:d=1.2,afade=t=out:st=FADEOUT:d=1.6[a1];\
+[a0][a1]amix=inputs=2:duration=first:dropout_transition=0:normalize=0,\
+atrim=0:TOTAL,alimiter=limit=0.97[a]" \
+ -map "[v]" -map "[a]" -c:v libx264 -crf 21 -preset veryfast -pix_fmt yuv420p \
+ -c:a aac -b:a 192k -ar 48000 -movflags +faststart out.mp4
+```
+
+`TOTAL` is clip duration plus 3, `FADEOUT` is `TOTAL - 1.6`, `OFFSET` varies per
+clip so they do not all use the same passage of the bed.
+
+Three things in there matter and should not be changed casually:
+
+- **`normalize=0` on amix.** Without it ffmpeg halves both inputs and the voice
+  ends up quieter than it started.
+- **`volume=-15dB` on the bed.** The beds sit at -20.4 LUFS, so this puts them
+  about 20 dB under a -14 LUFS voice. Felt, not heard.
+- **No sidechain ducking.** The music holds one level throughout by design. A
+  ducker makes it pump under the speech, which is exactly the wavering the beds
+  were levelled to remove.
+
+Alternate Bed A and Bed B across the set so a run of posts does not sound
+identical. Both are levelled to the same median, so they can sit side by side.
+
+**Finished full-quality clips are not committed.** At 4 to 9 MB each they add up
+fast on a weekly repo. Only the 540px previews live here. Keep the finals in
+Drive.
+
+Compress previews before committing. Raw OpusClip exports run 12 to 30 MB each
 and this repo takes a new set weekly:
 
 ```

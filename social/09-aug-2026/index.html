@@ -114,7 +114,7 @@ footer{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);font-si
 <header>
   <div class="eyebrow">Calvary Hephzibah &middot; Media</div>
   <h1>Enter Into<br><span class="ac">The Kingdom.</span></h1>
-  <p class="deck">Everything cut from Sunday, ready to post. Each card previews how the post will actually look, carries its caption per platform, and remembers whether you have posted it.</p>
+  <p class="deck">Everything cut from Sunday, ready to post. Clips are the finished mixes: voice lifted, music bed underneath at a fixed level, end card appended. Each card previews how the post will actually look, carries its caption per platform, and remembers whether you have posted it.</p>
   <div class="meta">
     <div><span>Preacher</span><b>Rev Ifeayinchukwu Obi</b></div>
     <div><span>Posts ready</span><b id="mtot">&mdash;</b></div>
@@ -195,6 +195,7 @@ function card(p){
   const badge=p.format==='carousel'
     ? `<span class="badge b-car">Carousel &middot; ${p.slides}</span>`
     : `<span class="badge b-reel">Reel &middot; ${p.duration}</span>`;
+  const music=p.music?`<span class="badge b-rank">${p.music}</span>`:'';
   const rank=p.rank===99?'':`<span class="badge b-rank">#${p.rank}</span>`;
   const inv=p.invite?'<span class="badge b-inv">Invite</span>':'';
   const care=p.care?`<div class="care"><b>Care flag</b>${esc(p.care)}</div>`:'';
@@ -207,7 +208,7 @@ function card(p){
       <div class="cprow"><button class="cp" data-copy>Copy caption</button></div>`;
   }
   return `<div class="${cls}" data-id="${p.id}" data-fmt="${p.format}">
-    <div class="chead">${badge}${rank}${inv}<span class="ctitle">${esc(p.title)}</span></div>
+    <div class="chead">${badge}${music}${rank}${inv}<span class="ctitle">${esc(p.title)}</span></div>
     <div class="stage"><div style="text-align:center">${phone(p)}</div></div>
     ${quote}${onscr}${care}${caps}
     <div class="foot">
