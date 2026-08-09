@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Social Pack &middot; 9 Aug 2026 &middot; Calvary Hephzibah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>
+:root{--obs:#0B0B0E;--slate:#131318;--line:#26262e;--red:#D0441C;--redb:#E2603A;--bone:#F4EFE6;--fg2:#C9C3B6;--fg3:#8E8880}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--obs);color:var(--bone);font-family:'Inter Tight',system-ui,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:80px}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 70% 50% at 20% 0%,rgba(208,68,28,.16),transparent 60%),radial-gradient(ellipse 60% 40% at 85% 100%,rgba(110,26,15,.14),transparent 60%)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px;position:relative;z-index:2}
+
+.tick{position:sticky;top:0;z-index:60;background:rgba(11,11,14,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.tickin{max-width:1180px;margin:0 auto;padding:11px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:p 2.4s infinite}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.35}}
+.tlab{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);font-weight:600}
+.prog{margin-left:auto;font-size:12px;letter-spacing:.1em;color:var(--fg3);font-weight:700}
+.prog b{color:var(--redb)}
+
+header{padding:52px 0 30px}
+.eyebrow{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:14px}
+h1{font-family:Anton,sans-serif;font-size:clamp(38px,7vw,68px);line-height:.98;letter-spacing:.005em}
+h1 .ac{color:var(--red)}
+.deck{margin-top:16px;color:var(--fg2);font-size:16px;line-height:1.6;max-width:640px}
+.meta{display:flex;gap:26px;flex-wrap:wrap;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.meta div span{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--fg3);font-weight:700;margin-bottom:5px}
+.meta div b{font-weight:500;font-size:14px;color:var(--fg2)}
+
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:26px 0 8px}
+.fb{background:transparent;border:1px solid var(--line);color:var(--fg3);padding:8px 15px;border-radius:100px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;letter-spacing:.02em}
+.fb.on{background:var(--red);border-color:var(--red);color:#fff}
+.fb:hover{border-color:var(--redb);color:var(--bone)}
+
+.grid{display:grid;gap:22px;margin-top:22px}
+@media(min-width:900px){.grid{grid-template-columns:1fr 1fr}}
+
+.card{background:var(--slate);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.card.done{opacity:.5}
+.card.warn{border-color:rgba(208,68,28,.5)}
+.chead{padding:15px 17px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.badge{font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;padding:4px 9px;border-radius:4px}
+.b-reel{background:rgba(208,68,28,.16);color:var(--redb)}
+.b-car{background:rgba(90,120,200,.16);color:#8fa8e0}
+.b-rank{background:rgba(255,255,255,.06);color:var(--fg3)}
+.b-inv{background:rgba(80,170,110,.16);color:#6fc48f}
+.ctitle{font-weight:600;font-size:15px;flex:1;min-width:140px}
+
+.stage{padding:20px 17px;display:flex;justify-content:center;background:#08080b}
+.phone{width:264px;border:9px solid #1c1c22;border-radius:30px;overflow:hidden;background:#000;position:relative;box-shadow:0 12px 40px rgba(0,0,0,.6)}
+.phone video,.phone img{display:block;width:100%;background:#000}
+.reelbar{position:absolute;left:0;right:0;bottom:0;padding:34px 12px 12px;background:linear-gradient(transparent,rgba(0,0,0,.85));font-size:11px;line-height:1.35;color:#fff;pointer-events:none}
+.reelbar b{display:block;font-size:12px;margin-bottom:3px}
+.swipe{position:absolute;top:9px;right:9px;background:rgba(0,0,0,.62);color:#fff;font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px}
+.dots{display:flex;gap:5px;justify-content:center;padding:9px 0 0}
+.dots i{width:5px;height:5px;border-radius:50%;background:#3a3a44;cursor:pointer}
+.dots i.on{background:var(--redb)}
+.carnav{display:flex;gap:8px;justify-content:center;padding:9px 0 0}
+.carnav button{background:transparent;border:1px solid var(--line);color:var(--fg2);width:30px;height:26px;border-radius:6px;cursor:pointer;font-size:13px}
+
+.quote{padding:15px 17px;border-top:1px solid var(--line);font-family:'Instrument Serif',serif;font-style:italic;font-size:16.5px;line-height:1.45;color:var(--fg2)}
+.onscr{padding:0 17px 14px;font-size:12.5px;color:var(--fg3)}
+.onscr b{color:var(--redb);letter-spacing:.1em;font-size:10px;text-transform:uppercase;display:block;margin-bottom:4px}
+
+.care{margin:0 17px 15px;padding:11px 13px;background:rgba(208,68,28,.11);border-left:3px solid var(--red);border-radius:0 7px 7px 0;font-size:12.5px;line-height:1.5;color:var(--fg2)}
+.care b{color:var(--redb);display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
+
+.tabs{display:flex;gap:5px;padding:0 17px 11px;flex-wrap:wrap}
+.tb{background:transparent;border:1px solid var(--line);color:var(--fg3);padding:6px 11px;border-radius:6px;font-family:inherit;font-size:11.5px;font-weight:600;cursor:pointer}
+.tb.on{background:rgba(255,255,255,.07);color:var(--bone);border-color:#3a3a44}
+.cap{margin:0 17px 15px;background:#0e0e12;border:1px solid var(--line);border-radius:9px;padding:14px;font-size:13.5px;line-height:1.62;color:var(--fg2);white-space:pre-wrap}
+.cprow{display:flex;gap:8px;padding:0 17px 15px}
+.cp{flex:1;background:transparent;border:1px solid var(--line);color:var(--fg2);padding:9px;border-radius:7px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer}
+.cp:hover{border-color:var(--redb);color:var(--bone)}
+.cp.ok{background:rgba(80,170,110,.14);border-color:rgba(80,170,110,.5);color:#6fc48f}
+
+.foot{margin-top:auto;border-top:1px solid var(--line);padding:13px 17px;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.toggle{display:flex;align-items:center;gap:9px;cursor:pointer;font-size:13px;font-weight:600;color:var(--fg3)}
+.box{width:19px;height:19px;border:2px solid #3a3a44;border-radius:5px;display:grid;place-items:center;font-size:12px;color:transparent;transition:.15s}
+.toggle.on .box{background:#43a06a;border-color:#43a06a;color:#fff}
+.toggle.on{color:#6fc48f}
+.stamp{margin-left:auto;font-size:11px;color:var(--fg3)}
+
+.assets{margin:36px 0 0;background:var(--slate);border:1px solid var(--line);border-radius:16px;padding:22px}
+.assets h2{font-family:Anton,sans-serif;font-size:24px;margin-bottom:6px}
+.assets p{color:var(--fg3);font-size:13.5px;line-height:1.6;margin-bottom:16px}
+.arow{display:grid;gap:16px}
+@media(min-width:760px){.arow{grid-template-columns:200px 1fr}}
+.arow img{width:100%;border-radius:9px;border:1px solid var(--line)}
+.mus{margin-bottom:13px}
+.mus b{display:block;font-size:13px;margin-bottom:5px}
+.mus audio{width:100%;height:34px}
+.mus span{font-size:11.5px;color:var(--fg3)}
+.note{margin-top:15px;padding:12px 14px;background:#0e0e12;border-radius:8px;font-size:12.5px;line-height:1.6;color:var(--fg3)}
+.note b{color:var(--fg2)}
+footer{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);font-size:12px;color:var(--fg3);line-height:1.7}
+.sync{font-size:11px;color:var(--fg3);padding:6px 0}
+</style>
+</head>
+<body>
+
+<div class="tick"><div class="tickin">
+  <span class="dot"></span>
+  <span class="tlab">Social Pack &middot; Sunday 9 August 2026</span>
+  <span class="prog"><b id="pdone">0</b> / <span id="ptot">0</span> posted</span>
+</div></div>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Calvary Hephzibah &middot; Media</div>
+  <h1>Enter Into<br><span class="ac">The Kingdom.</span></h1>
+  <p class="deck">Everything cut from Sunday, ready to post. Each card previews how the post will actually look, carries its caption per platform, and remembers whether you have posted it.</p>
+  <div class="meta">
+    <div><span>Preacher</span><b>Rev Ifeayinchukwu Obi</b></div>
+    <div><span>Posts ready</span><b id="mtot">&mdash;</b></div>
+    <div><span>Full sermon</span><b><a href="https://www.youtube.com/watch?v=90OKuTX7a1M" target="_blank" style="color:var(--redb)">YouTube &rarr;</a></b></div>
+  </div>
+</header>
+
+<div class="filters" id="filters"></div>
+<div class="sync" id="sync">&nbsp;</div>
+<div class="grid" id="grid"></div>
+
+<div class="assets">
+  <h2>Shared assets</h2>
+  <p>Used across every post this week.</p>
+  <div class="arow">
+    <div><img src="endcard-09-aug-2026.jpg" alt="End card"><div style="font-size:11.5px;color:var(--fg3);margin-top:7px">End card &middot; 1080&times;1920<br>Append 2.5 to 3 sec to every clip.</div></div>
+    <div>
+      <div class="mus"><b>Bed A &middot; Felt and Faith</b><audio controls preload="none" src="felt-and-faith-a.mp3"></audio><span>2:08 &middot; levelled to 3.7 LU spread &middot; median &minus;20.4 LUFS</span></div>
+      <div class="mus"><b>Bed B &middot; Felt and Faith</b><audio controls preload="none" src="felt-and-faith-b.mp3"></audio><span>2:08 &middot; levelled to 2.9 LU spread &middot; median &minus;20.4 LUFS</span></div>
+      <div class="note"><b>Both beds sit at the same level on purpose.</b> The raw Suno takes wandered by 15.4 LU and 12.9 LU, which under speech means the music swells over the preacher in one sentence and vanishes in the next. They have been compressed and normalised, so you can swap between them across a set of posts without the volume jumping. Mix them 18 to 22 dB under the voice. If a viewer notices the music, it is too loud.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Posted status is stored in Supabase, so it is shared across your devices and with anyone else using this page.<br>
+  Name spelling unconfirmed: <b>Ifeayinchukwu</b> here and on the thumbnail, but <b>Ifeanyichukwu</b> on 21 June 2026. Settle it before these go out.
+</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SB_URL='https://pfycvgbrsbecznkcikwt.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmeWN2Z2Jyc2JlY3pua2Npa3d0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzNzY1NDgsImV4cCI6MjA5MDk1MjU0OH0.xw_DSmC0brKC7K9H-rxNG0HKKDi4I-dNSEoZKERvHcQ';
+const WEEK='09-aug-2026';
+let sb=null; try{sb=supabase.createClient(SB_URL,SB_KEY);}catch(e){}
+let DATA=null, STATUS={}, FILTER='all';
+
+const PLATS=[['instagram','Instagram'],['tiktok','TikTok'],['facebook','Facebook'],['youtube','YT Shorts']];
+const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+async function loadStatus(){
+  if(!sb) return;
+  try{
+    const {data,error}=await sb.from('social_posts').select('post_id,posted,posted_at').eq('week',WEEK);
+    if(error) throw error;
+    (data||[]).forEach(r=>STATUS[r.post_id]={posted:r.posted,at:r.posted_at});
+    document.getElementById('sync').innerHTML='&nbsp;';
+  }catch(e){
+    document.getElementById('sync').innerHTML='Status table not found yet &mdash; run <b>55_social_posts.sql</b> in Supabase. Ticking still works locally until then.';
+    try{STATUS=JSON.parse(localStorage.getItem('sp-'+WEEK)||'{}');}catch(_){ }
+  }
+}
+async function saveStatus(id,posted){
+  STATUS[id]={posted,at:posted?new Date().toISOString():null};
+  try{localStorage.setItem('sp-'+WEEK,JSON.stringify(STATUS));}catch(_){ }
+  if(!sb) return;
+  try{ await sb.from('social_posts').upsert({week:WEEK,post_id:id,posted,posted_at:posted?new Date().toISOString():null},{onConflict:'week,post_id'}); }catch(e){}
+}
+
+function phone(p){
+  if(p.format==='carousel'){
+    const n=p.slides, first=`carousel/${p.slug}-01.png`;
+    let d=''; for(let i=1;i<=n;i++) d+=`<i class="${i===1?'on':''}" data-s="${i}"></i>`;
+    return `<div class="phone"><span class="swipe">1 / ${n}</span>
+      <img src="${first}" data-slug="${p.slug}" data-n="${n}" data-i="1" alt=""></div>
+      <div class="dots">${d}</div>
+      <div class="carnav"><button data-nav="-1">&lsaquo;</button><button data-nav="1">&rsaquo;</button></div>`;
+  }
+  return `<div class="phone">
+    <video src="${p.asset}" controls preload="metadata" playsinline></video>
+    <div class="reelbar"><b>calvaryhephzibahfgc</b>${esc(p.title)}</div></div>`;
+}
+
+function card(p){
+  const st=STATUS[p.id]||{};
+  const cls='card'+(st.posted?' done':'')+(p.care?' warn':'');
+  const badge=p.format==='carousel'
+    ? `<span class="badge b-car">Carousel &middot; ${p.slides}</span>`
+    : `<span class="badge b-reel">Reel &middot; ${p.duration}</span>`;
+  const rank=p.rank===99?'':`<span class="badge b-rank">#${p.rank}</span>`;
+  const inv=p.invite?'<span class="badge b-inv">Invite</span>':'';
+  const care=p.care?`<div class="care"><b>Care flag</b>${esc(p.care)}</div>`:'';
+  const quote=p.quote?`<div class="quote">&ldquo;${esc(p.quote)}&rdquo;</div>`:'';
+  const onscr=p.onscreen?`<div class="onscr"><b>On-screen text (for mute viewers)</b>${esc(p.onscreen)}</div>`:'';
+  let caps='';
+  if(p.captions){
+    caps=`<div class="tabs">${PLATS.map(([k,l],i)=>`<button class="tb${i?'':' on'}" data-p="${k}">${l}</button>`).join('')}</div>
+      <div class="cap" data-cap>${esc(p.captions.instagram)}</div>
+      <div class="cprow"><button class="cp" data-copy>Copy caption</button></div>`;
+  }
+  return `<div class="${cls}" data-id="${p.id}" data-fmt="${p.format}">
+    <div class="chead">${badge}${rank}${inv}<span class="ctitle">${esc(p.title)}</span></div>
+    <div class="stage"><div style="text-align:center">${phone(p)}</div></div>
+    ${quote}${onscr}${care}${caps}
+    <div class="foot">
+      <label class="toggle${st.posted?' on':''}"><span class="box">&#10003;</span><span>Posted</span></label>
+      <span class="stamp">${st.at?new Date(st.at).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):''}</span>
+    </div></div>`;
+}
+
+function render(){
+  const posts=DATA.posts.filter(p=>FILTER==='all'||p.format===FILTER);
+  document.getElementById('grid').innerHTML=posts.map(card).join('');
+  const tot=DATA.posts.filter(p=>p.captions).length;
+  const done=DATA.posts.filter(p=>(STATUS[p.id]||{}).posted).length;
+  document.getElementById('pdone').textContent=done;
+  document.getElementById('ptot').textContent=tot;
+  document.getElementById('mtot').textContent=tot+' ready, 1 held back';
+}
+
+document.addEventListener('click',async e=>{
+  const nav=e.target.closest('[data-nav]');
+  if(nav){
+    const box=nav.closest('.stage'),img=box.querySelector('img[data-slug]');
+    let i=+img.dataset.i+ +nav.dataset.nav, n=+img.dataset.n;
+    if(i<1)i=n; if(i>n)i=1;
+    img.dataset.i=i; img.src=`carousel/${img.dataset.slug}-${String(i).padStart(2,'0')}.png`;
+    box.querySelector('.swipe').textContent=`${i} / ${n}`;
+    box.querySelectorAll('.dots i').forEach(d=>d.classList.toggle('on',+d.dataset.s===i));
+    return;
+  }
+  const dot=e.target.closest('.dots i');
+  if(dot){
+    const box=dot.closest('.stage'),img=box.querySelector('img[data-slug]'),i=+dot.dataset.s;
+    img.dataset.i=i; img.src=`carousel/${img.dataset.slug}-${String(i).padStart(2,'0')}.png`;
+    box.querySelector('.swipe').textContent=`${i} / ${img.dataset.n}`;
+    box.querySelectorAll('.dots i').forEach(d=>d.classList.toggle('on',d===dot));
+    return;
+  }
+  const tb=e.target.closest('.tb');
+  if(tb){
+    const c=tb.closest('.card'),p=DATA.posts.find(x=>x.id===c.dataset.id);
+    c.querySelectorAll('.tb').forEach(b=>b.classList.toggle('on',b===tb));
+    c.querySelector('[data-cap]').textContent=p.captions[tb.dataset.p];
+    return;
+  }
+  const cp=e.target.closest('[data-copy]');
+  if(cp){
+    const t=cp.closest('.card').querySelector('[data-cap]').textContent;
+    try{await navigator.clipboard.writeText(t);}catch(_){ }
+    cp.textContent='Copied';cp.classList.add('ok');
+    setTimeout(()=>{cp.textContent='Copy caption';cp.classList.remove('ok')},1600);
+    return;
+  }
+  const tg=e.target.closest('.toggle');
+  if(tg){
+    const c=tg.closest('.card'),id=c.dataset.id,now=!tg.classList.contains('on');
+    tg.classList.toggle('on',now);c.classList.toggle('done',now);
+    c.querySelector('.stamp').textContent=now?new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'';
+    await saveStatus(id,now);
+    const tot=DATA.posts.filter(p=>p.captions).length;
+    document.getElementById('pdone').textContent=DATA.posts.filter(p=>(STATUS[p.id]||{}).posted).length;
+    document.getElementById('ptot').textContent=tot;
+    return;
+  }
+  const fb=e.target.closest('.fb');
+  if(fb){FILTER=fb.dataset.f;document.querySelectorAll('.fb').forEach(b=>b.classList.toggle('on',b===fb));render();}
+});
+
+(async()=>{
+  DATA=await (await fetch('posts.json?v='+Date.now())).json();
+  document.getElementById('filters').innerHTML=[['all','Everything'],['reel','Reels &amp; Shorts'],['carousel','Carousels']]
+    .map(([k,l],i)=>`<button class="fb${i?'':' on'}" data-f="${k}">${l}</button>`).join('');
+  await loadStatus();
+  render();
+})();
+</script>
+</body>
+</html>
