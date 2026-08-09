@@ -33,7 +33,7 @@ def ease(t):
     return 1 - (1 - t) ** 3
 
 
-def render(lines, out, dur=4.2, red_line=None):
+def render(lines, out, dur=5.0, red_line=None):
     base = ground()
     fnt = ImageFont.truetype(FD + "/anton-400.ttf", 108)
     d0 = ImageDraw.Draw(base)
@@ -54,7 +54,7 @@ def render(lines, out, dur=4.2, red_line=None):
     tmp = "/tmp/qframes"
     os.system(f"rm -rf {tmp}; mkdir -p {tmp}")
 
-    STAGGER = 0.42
+    STAGGER = 0.52
     RISE = 34
 
     for f in range(n):

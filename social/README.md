@@ -51,13 +51,33 @@ atrim=0:TOTAL,alimiter=limit=0.97[a]" \
 `TOTAL` is clip duration plus the quote card plus 3, `FADEOUT` is `TOTAL - 1.8`,
 `OFFSET` varies per clip so they do not all use the same passage of the bed.
 
-The finished shape is **clip, then a 4.2 sec animated quote card, then the 3 sec
+The finished shape is **clip, then a 5 sec animated closing card, then the 3 sec
 end card**. The quote card is built by `series/kingdom/render_quotecard.py`:
 two or three short lines in Anton on the house obsidian ground, fading up one at
 a time with a small rise, the payoff line in red. It gives the eye somewhere to
 land after the preacher stops talking, rather than cutting straight to a static
 end frame. Keep the lines to five or six words; the renderer shrinks type to fit
 but long lines lose the punch.
+
+**Write the closing card for the person watching, not for the sermon.** The
+first attempt on 9 Aug simply restated the clip, and two of them read as a
+telling-off. That is the failure mode. The line has to turn toward whoever is
+holding the phone and leave them better than it found them, which is what makes
+someone send it to a friend.
+
+Three tests before a line goes in:
+
+- **Does it repeat the clip?** If it does, it is wasted. They just heard it.
+- **Does it scold?** "If you don't speak, you stay where you are" reads as an
+  accusation. "Say it out loud once, even if it shakes" reads as a hand on the
+  shoulder. Same idea, opposite effect.
+- **Would someone send it to a friend?** If not, it is decoration.
+
+What worked: making the hard thing smaller and doable ("Not every decision at
+once. Just the next one."), naming permission rather than obligation ("You are
+allowed to change your mind."), and answering the objection in the clip with
+welcome rather than argument ("If that is what you think, you would still be
+welcome.").
 
 The bed **lifts by about 4.5 dB the moment the voice stops**, so the outro
 carries rather than dying away. That is the one deliberate level change in the
