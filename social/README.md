@@ -121,6 +121,23 @@ identical. Both are levelled to the same median, so they can sit side by side.
 fast on a weekly repo. Only the 540px previews live here. Keep the finals in
 Drive.
 
+### Carousel downloads
+
+Zip each carousel so the page offers the whole set in one click, not slide one:
+
+```
+cd social/<week>/carousel
+for slug in <slug-1> <slug-2> <slug-3>; do
+  zip -q -j "../download/$slug.zip" $slug-*.png
+done
+```
+
+Then set `"download": "download/<slug>.zip"` on each carousel in `posts.json`.
+The button label reads "Download all N slides" off the `slides` count.
+
+Keep the numbered filenames inside the zip. They hold the running order when
+the slides are multi-selected in the Instagram composer.
+
 Compress previews before committing. Raw OpusClip exports run 12 to 30 MB each
 and this repo takes a new set weekly:
 
