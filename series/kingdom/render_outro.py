@@ -89,6 +89,27 @@ def render(cards, out):
                 layer = Image.fromarray(arr)
             img.paste(layer, (0, 0), layer)
 
+            ref = card.get("ref")
+            if ref:
+                rp = min(1.0, max(0.0, (t - (0.12 + len(lines) * 0.34)) / 0.6))
+                if rp > 0:
+                    rf = ImageFont.truetype(FD + "/inter-tight-700.ttf", 34)
+                    rl = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+                    rd = ImageDraw.Draw(rl)
+                    tr = 0.22
+                    tw = sum(rd.textlength(c, font=rf) + rf.size * tr for c in ref) - rf.size * tr
+                    x = (W - tw) / 2
+                    y = y0 + lh * len(lines) + 46
+                    a2 = int(210 * ease(rp))
+                    for c in ref:
+                        rd.text((x, y), c, font=rf, fill=(208, 68, 28, a2))
+                        x += rd.textlength(c, font=rf) + rf.size * tr
+                    if t > tail:
+                        arr2 = np.array(rl)
+                        arr2[:, :, 3] = (arr2[:, :, 3] * k).astype(np.uint8)
+                        rl = Image.fromarray(arr2)
+                    img.paste(rl, (0, 0), rl)
+
             prog = (elapsed + t) / total
             pd = ImageDraw.Draw(img)
             pd.line([(150, H - 190), (W - 150, H - 190)], fill=(38, 36, 40), width=3)
