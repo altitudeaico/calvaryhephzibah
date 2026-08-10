@@ -1,5 +1,5 @@
 {"beats":[
- {"lines":["You have been waiting","to feel different."],"dur":3.2},
- {"lines":["That is not what","repentance is."],"red":1,"dur":3.0},
- {"lines":["It starts as","a decision."],"red":1,"dur":3.8}
+ {"lines":["Repent:"],"dur":3.0},
+ {"lines":["for the kingdom","of heaven"],"dur":3.2},
+ {"lines":["is at hand."],"ref":"MATTHEW 4:17","dur":4.4}
 ]}
