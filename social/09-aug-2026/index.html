@@ -274,7 +274,8 @@ function card(p){
       return `<div class="pub-r"><span class="dotm ${live?'d-live':'d-fail'}"></span>
         <span class="pl">${esc(x.platform)}</span>
         ${live?`<a href="${x.url}" target="_blank" rel="noopener">View post &rarr;</a>`:`<span style="color:var(--redb);font-weight:600;font-size:12px">Failed</span>`}
-        ${x.error?`<span class="err">${esc(x.error)}</span>`:''}</div>`;
+        ${x.error?`<span class="err">${esc(x.error)}</span>`:''}
+        ${x.note?`<span class="err" style="color:var(--fg3)">${esc(x.note)}</span>`:''}</div>`;
     }).join('')+`</div>`;
   }
   const quote=p.quote?`<div class="quote">&ldquo;${esc(p.quote)}&rdquo;</div>`:'';

@@ -63,8 +63,10 @@
         },
         {
           "platform": "TikTok",
-          "state": "failed",
-          "error": "The media URL isn't from a verified domain. Verify calvaryhephzibah.co.uk in TikTok settings, or upload the video into GHL's media library and post from there."
+          "state": "live",
+          "url": "https://vm.tiktok.com/ZN8RXDTm1/",
+          "at": "2026-08-10T12:00:00Z",
+          "note": "Posted manually. The API route failed because TikTok will not accept media from an unverified domain."
         },
         {
           "platform": "Facebook \u00b7 Calvary Hephzibah",
