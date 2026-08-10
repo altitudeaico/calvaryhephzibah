@@ -182,3 +182,49 @@ First reading, 10 Aug 2026: TikTok did 4,123 impressions to Instagram's 776
 from fewer posts, and TikTok was the channel with comments disabled. Zero
 comments across both platforms all week. 72 per cent of the audience is under
 35, which is not the room on a Sunday morning.
+
+
+## Recording where a post went
+
+When a post is published, add a `published` array to it in `posts.json`. The
+card then shows a "Where it went" block with live links, and the index at the
+top of the page shows a status pill per post.
+
+```json
+"published": [
+  {"platform":"Instagram","state":"live",
+   "url":"https://www.instagram.com/reel/...","at":"2026-08-10T08:23:56Z"},
+  {"platform":"TikTok","state":"failed",
+   "error":"The media URL isn't from a verified domain."}
+]
+```
+
+**Get the links from GHL, not by hand.** Publishing creates a **child post per
+platform** under the parent, and each child carries `platform`, `postId`,
+`publishedAt`, `status` and **`previewLink`** — the live URL. The parent record
+does not; it sits at `in_progress` and its `previewLink` stays null, which is
+misleading.
+
+```
+get-posts  body: { fromDate, toDate, limit:"20", skip:"0", type:"published" }
+get-posts  body: { ..., type:"failed" }
+```
+
+Run both. A publish that half-works is normal, and the failures carry a useful
+`error` string.
+
+### Two failure modes seen on 10 Aug 2026
+
+**TikTok rejects external media URLs.** "The media URL isn't from a verified
+domain. Verify your domain in TikTok settings and reupload the video." Instagram
+and YouTube accepted the same `calvaryhephzibah.co.uk` URL without complaint, so
+this is TikTok's own domain-verification rule. Either verify the domain in
+TikTok's settings, or upload the clip into GHL's media library and post from
+there. Note every successfully published post in this account has its media on
+`storage.googleapis.com/msgsndr/...`.
+
+**Facebook page tokens expire quietly.** Both pages failed with "Social Account
+token has expired, been revoked, or is otherwise invalid." The same failure
+appears on 4 Aug, so it is recurring rather than a one-off. `get-account`
+reported `isExpired: false` for both pages at the time. **Do not trust
+`isExpired`.** Reconnect the pages when a post fails this way.

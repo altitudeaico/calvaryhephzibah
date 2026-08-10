@@ -47,7 +47,36 @@
       },
       "music": "Bed A",
       "download": "download/clip3-final.mp4",
-      "endline": "You think church is for the weak. \u2192 It is where you go to get strong."
+      "endline": "You think church is for the weak. \u2192 It is where you go to get strong.",
+      "published": [
+        {
+          "platform": "Instagram",
+          "state": "live",
+          "url": "https://www.instagram.com/reel/Db2kxvvjCWT/",
+          "at": "2026-08-10T08:23:56Z"
+        },
+        {
+          "platform": "YouTube Shorts",
+          "state": "live",
+          "url": "https://www.youtube.com/shorts/P6-IOupz5Gs",
+          "at": "2026-08-10T11:36:44Z"
+        },
+        {
+          "platform": "TikTok",
+          "state": "failed",
+          "error": "The media URL isn't from a verified domain. Verify calvaryhephzibah.co.uk in TikTok settings, or upload the video into GHL's media library and post from there."
+        },
+        {
+          "platform": "Facebook \u00b7 Calvary Hephzibah",
+          "state": "failed",
+          "error": "Page token expired or revoked. Reconnect the Facebook page in Social Planner."
+        },
+        {
+          "platform": "Facebook \u00b7 Full Gospel Church",
+          "state": "failed",
+          "error": "Page token expired or revoked. Reconnect the Facebook page in Social Planner."
+        }
+      ]
     },
     {
       "id": "reel-02",
