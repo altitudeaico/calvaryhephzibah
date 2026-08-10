@@ -284,8 +284,8 @@ function card(p){
   let caps='';
   if(p.captions){
     const dl = p.download
-      ? `<a class="cp dlbtn" href="${p.download}" download>Download clip</a>`
-      : `<a class="cp dlbtn" href="carousel/${p.slug}-01.png" download>Download slide 1</a>`;
+      ? `<a class="cp dlbtn" href="${p.download}" download>${p.format==='carousel'?`Download all ${p.slides} slides`:'Download clip'}</a>`
+      : '';
     caps=`<div class="tabs">${PLATS.map(([k,l],i)=>`<button class="tb${i?'':' on'}" data-p="${k}">${l}</button>`).join('')}</div>
       <div class="cap" data-cap>${esc(p.captions.instagram)}</div>
       <div class="cprow"><button class="cp" data-copy>Copy caption</button>${dl}</div>`;
