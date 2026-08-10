@@ -1,0 +1,79 @@
+{
+  "slug": "the-price",
+  "title": "The Price",
+  "sermon": "Enter Into The Kingdom",
+  "preacher": "Rev Ifeayinchukwu Obi",
+  "date": "2026-08-09",
+  "bed": "felt-and-faith-a",
+  "note": "Text only, no voiceover. Music holds one level throughout EXCEPT a hard cut to silence for the turn (section 4), back in at the application. Never show treasure or gold on screen: the moment you do, it becomes a story about money, which is exactly what the rich young ruler got wrong.",
+  "sections": [
+    {
+      "name": "Hook",
+      "visual": "Hands working soil. Close, unhurried, no face.",
+      "cards": [
+        {"lines": ["Two men."], "dur": 1.6},
+        {"lines": ["The same offer."], "dur": 1.6},
+        {"lines": ["Opposite answers."], "red": 0, "dur": 2.2}
+      ]
+    },
+    {
+      "name": "The first man",
+      "visual": "A field at low light. Wide, empty, ordinary. Never show what he finds.",
+      "cards": [
+        {"lines": ["A man is digging", "in a field", "that isn't his."], "dur": 2.6},
+        {"lines": ["His spade", "hits something."], "dur": 2.2},
+        {"lines": ["Buried so long", "the owner forgot", "it was there."], "dur": 2.8},
+        {"lines": ["He covers it", "back over."], "dur": 2.2},
+        {"lines": ["Goes home."], "dur": 1.8},
+        {"lines": ["Sells everything", "he owns."], "red": 1, "dur": 2.4},
+        {"lines": ["House.", "Tools.", "Savings."], "dur": 2.6},
+        {"lines": ["To buy one field", "that looks like", "every other field."], "dur": 3.0}
+      ]
+    },
+    {
+      "name": "The second man",
+      "visual": "A good room. A door. Footsteps leaving. Warmer light, colder feeling.",
+      "cards": [
+        {"lines": ["Another man."], "dur": 1.8},
+        {"lines": ["Wealthy.", "Religious.", "Searching."], "dur": 2.6},
+        {"lines": ["He asks Jesus", "what he still lacks."], "dur": 2.6},
+        {"lines": ["Sell what you have.", "Then come."], "dur": 2.6},
+        {"lines": ["He went away", "sorrowful."], "red": 1, "dur": 3.0}
+      ]
+    },
+    {
+      "name": "The turn",
+      "visual": "Hold on one still frame. No cuts. Music OUT.",
+      "silence": true,
+      "cards": [
+        {"lines": ["Same price."], "dur": 2.2},
+        {"lines": ["Neither man was told", "what it was worth."], "dur": 2.8},
+        {"lines": ["Both had to price it", "themselves."], "dur": 2.6},
+        {"lines": ["One saw what", "he was getting."], "dur": 2.4},
+        {"lines": ["One saw what", "he was losing."], "red": 1, "dur": 2.8}
+      ]
+    },
+    {
+      "name": "The application",
+      "visual": "Ordinary and modern. A commute. A kitchen at 6am. A phone face down.",
+      "cards": [
+        {"lines": ["You have", "already priced it."], "dur": 2.6},
+        {"lines": ["Not in what", "you say about it."], "dur": 2.4},
+        {"lines": ["In what your week", "is arranged around."], "dur": 2.8},
+        {"lines": ["What gets", "your first hour."], "dur": 2.4},
+        {"lines": ["What gets moved", "when something", "else comes up."], "dur": 2.8},
+        {"lines": ["Nobody has to tell you", "what you think", "it is worth."], "dur": 3.0},
+        {"lines": ["Your diary", "already has."], "red": 1, "dur": 3.2}
+      ]
+    },
+    {
+      "name": "Scripture",
+      "visual": "Black. Nothing else.",
+      "cards": [
+        {"lines": ["The kingdom of heaven", "is like unto treasure", "hid in a field"], "dur": 3.2},
+        {"lines": ["and for joy thereof"], "dur": 2.6},
+        {"lines": ["he selleth all", "that he hath."], "ref": "MATTHEW 13:44", "dur": 4.0}
+      ]
+    }
+  ]
+}
