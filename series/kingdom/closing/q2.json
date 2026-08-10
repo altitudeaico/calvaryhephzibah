@@ -1,5 +1,5 @@
 {"beats":[
- {"lines":["Repent:"],"dur":3.0},
- {"lines":["for the kingdom","of heaven"],"dur":3.2},
- {"lines":["is at hand."],"ref":"MATTHEW 4:17","dur":4.4}
+ {"lines":["Repent:"],"dur":2.8},
+ {"lines":["for the kingdom of heaven","is at hand."],"ref":"MATTHEW 4:17","dur":3.8},
+ {"lines":["Have you changed","your mind about","the things of the kingdom?"],"red":2,"dur":4.8}
 ]}

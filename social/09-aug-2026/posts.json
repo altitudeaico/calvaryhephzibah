@@ -53,7 +53,7 @@
       "id": "reel-03",
       "format": "reel",
       "asset": "clips/clip2.mp4",
-      "duration": "32s",
+      "duration": "33s",
       "title": "Change your mind",
       "rank": 3,
       "invite": true,
@@ -68,7 +68,7 @@
       },
       "music": "Bed B",
       "download": "download/clip2-final.mp4",
-      "endline": "Repent: for the kingdom of heaven is at hand.  (MATTHEW 4:17)"
+      "endline": "Repent: \u2192 for the kingdom of heaven is at hand. (MATTHEW 4:17) \u2192 Have you changed your mind about the things of the kingdom?"
     },
     {
       "id": "reel-04",
