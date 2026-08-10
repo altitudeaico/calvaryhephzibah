@@ -157,3 +157,28 @@ once. Until then the page falls back to browser storage and says so.
 These carry unpublished content and internal notes. Every page keeps
 `<meta name="robots" content="noindex,nofollow">`. Do not remove it to chase a
 WhatsApp preview.
+
+
+## Analytics
+
+Each week's folder can carry an `analytics.json`. If it is present the page
+renders a performance panel above the shared assets; if it is absent the panel
+stays hidden, so older weeks are unaffected.
+
+Pull the numbers with the GHL `get-statistics` operation. **It needs
+`profileId`, which is NOT the account `id` used for posting** — both come back
+from `get-account` and they are different values. Passing the composite `id`
+returns "Invalid connected account ID"; passing the `oauthId` returns "does not
+belong to location". That cost three attempts on 10 Aug.
+
+YouTube is not covered by the endpoint. Those figures come from YouTube Studio.
+
+The `readings` array at the bottom of the file is the point of the whole panel.
+Numbers on their own get glanced at; a sentence saying what the number means
+gets acted on. Write two to four, and make them decisions rather than
+observations.
+
+First reading, 10 Aug 2026: TikTok did 4,123 impressions to Instagram's 776
+from fewer posts, and TikTok was the channel with comments disabled. Zero
+comments across both platforms all week. 72 per cent of the audience is under
+35, which is not the room on a Sunday morning.
