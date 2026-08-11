@@ -58,7 +58,7 @@ tracked(d,((W-twidth(d,t,f,0.22))/2,1500),t,f,GREY,0.22)
 fa2=anton(72); t="CALVARY HEPHZIBAH"
 d.text(((W-d.textlength(t,font=fa2))/2,1560),t,font=fa2,fill=BONE)
 
-f=it6(28); t="Sundays 11am  ·  West Indian Centre, Manchester"
+f=it6(28); t="Sundays 10:30am  ·  Carmoor Road, Manchester"
 d.text(((W-d.textlength(t,font=f))/2,1700),t,font=f,fill=GREY)
 
 img.save(sys.argv[1] if len(sys.argv)>1 else "/home/claude/endcard.jpg",quality=94)
