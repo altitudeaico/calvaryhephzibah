@@ -1,23 +1,23 @@
 {
-  "generated": "2026-08-10",
-  "window": "Last 7 days vs previous 7",
+  "generated": "2026-08-13",
+  "window": "Thu 6 – Wed 12 Aug vs previous 7 days",
   "note": "From GHL get-statistics. YouTube is not covered by that endpoint; those figures come from YouTube Studio.",
-  "totals": {"posts": 16, "impressions": 4899, "likes": 108, "comments": 0, "followers": 2, "reach": 420},
-  "change": {"posts": "45.45", "impressions": "-12.83", "reach": "-64.65"},
+  "totals": {"posts": 9, "impressions": 1854, "likes": 44, "comments": 2, "followers": 3, "reach": 310},
+  "change": {"posts": "-40.00", "impressions": "-72.92", "reach": "-75.20"},
   "platforms": [
-    {"name": "TikTok", "posts": 7, "postsChange": "40.00", "impressions": 4123, "impressionsChange": "75.67", "likes": 80, "comments": 0, "shares": 5, "engagementChange": "93.18"},
-    {"name": "Instagram", "posts": 9, "postsChange": "50.00", "impressions": 776, "impressionsChange": "-76.29", "likes": 28, "comments": 0, "shares": 0, "engagementChange": "-77.42"}
+    {"name": "TikTok", "posts": 3, "postsChange": "-57.14", "impressions": 1277, "impressionsChange": "-66.07", "likes": 30, "comments": 0, "shares": 4, "engagementChange": "-55.84"},
+    {"name": "Instagram", "posts": 6, "postsChange": "-25.00", "impressions": 577, "impressionsChange": "-81.28", "likes": 14, "comments": 2, "shares": 0, "engagementChange": "-87.60"}
   ],
   "series": {
-    "days": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
-    "impressions": {"Instagram": [147,148,106,79,87,52,157], "TikTok": [1442,954,729,22,716,260,0]}
+    "days": ["Thu","Fri","Sat","Sun","Mon","Tue","Wed"],
+    "impressions": {"Instagram": [79,87,52,158,94,62,45], "TikTok": [22,716,260,12,255,12,0]}
   },
   "age": {"13-17": 1, "18-24": 87, "25-34": 132, "35-44": 49, "45-54": 25, "55-64": 5, "65+": 5},
   "gender": {"male": 57.6, "female": 21.1, "unknown": 21.4},
   "readings": [
-    "TikTok is doing five times Instagram's impressions from fewer posts, and it is the channel that had comments switched off.",
-    "Zero comments across both platforms all week. Reach without conversation is the thing the attract brief is meant to change.",
-    "72 per cent of the audience is under 35. That is not the room on a Sunday morning.",
-    "Two followers gained in a week. Reach is not converting yet."
+    "First comments of the whole period: two on Instagram, on the Monday. Small, but it is the number the attract brief exists to move, and it was zero for two straight weeks.",
+    "Everything is down against the previous week, but the previous week was inflated by one TikTok that did 716 impressions in a day. Judge the trend from a month, not from a spike.",
+    "TikTok still carries reach at 1,277 impressions to Instagram's 577, from half the posts. It remains the strongest channel and the one that needs the domain verified so posting can be automated.",
+    "Three followers gained. The sermon clips published this week are too recent to have landed in these figures, so this window mostly measures what came before them."
   ]
 }
