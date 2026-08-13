@@ -111,7 +111,7 @@ footer{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);font-si
 .idx .n{font-family:Anton,sans-serif;font-size:15px;color:var(--fg3);width:22px}
 .idx .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
 .idx .s{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
-.s-live{color:#6fc48f}.s-fail{color:var(--redb)}.s-none{color:var(--fg3)}
+.s-live{color:#6fc48f}.s-fail{color:var(--redb)}.s-none{color:var(--fg3)}.s-sch{color:#c8a24b}
 .pub{margin:0 17px 15px;border:1px solid var(--line);border-radius:9px;overflow:hidden}
 .pub-h{background:#0e0e12;padding:9px 13px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--fg3)}
 .pub-r{display:flex;align-items:center;gap:10px;padding:10px 13px;border-top:1px solid var(--line);font-size:13px}
@@ -120,7 +120,7 @@ footer{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);font-si
 .pub-r a:hover{text-decoration:underline}
 .pub-r .err{color:var(--redb);font-size:11.5px;line-height:1.45;flex-basis:100%;padding-top:2px}
 .dotm{width:7px;height:7px;border-radius:50%;flex:none}
-.d-live{background:#43a06a}.d-fail{background:var(--red)}
+.d-live{background:#43a06a}.d-fail{background:var(--red)}.d-sch{background:#c8a24b}
 .totop{display:block;text-align:center;color:var(--fg3);font-size:12px;text-decoration:none;padding:10px;margin-top:8px}
 
 .an{margin:36px 0 0;background:var(--slate);border:1px solid var(--line);border-radius:16px;padding:22px}
@@ -270,10 +270,10 @@ function card(p){
   let pub='';
   if(p.published&&p.published.length){
     pub=`<div class="pub"><div class="pub-h">Where it went</div>`+p.published.map(x=>{
-      const live=x.state==='live';
-      return `<div class="pub-r"><span class="dotm ${live?'d-live':'d-fail'}"></span>
-        <span class="pl">${esc(x.platform)}</span>
-        ${live?`<a href="${x.url}" target="_blank" rel="noopener">View post &rarr;</a>`:`<span style="color:var(--redb);font-weight:600;font-size:12px">Failed</span>`}
+      const live=x.state==='live', sch=x.state==='scheduled';
+      return `<div class="pub-r"><span class="dotm ${live?'d-live':(sch?'d-sch':'d-fail')}"></span>
+        <span class="pl">${esc(x.platform)}${sch&&x.when?` &middot; <span style="color:var(--fg3)">${esc(x.when)}</span>`:''}</span>
+        ${live?`<a href="${x.url}" target="_blank" rel="noopener">View post &rarr;</a>`:(sch?`<span style="color:#c8a24b;font-weight:600;font-size:12px">Scheduled</span>`:`<span style="color:var(--redb);font-weight:600;font-size:12px">Failed</span>`)}
         ${x.error?`<span class="err">${esc(x.error)}</span>`:''}
         ${x.note?`<span class="err" style="color:var(--fg3)">${esc(x.note)}</span>`:''}</div>`;
     }).join('')+`</div>`;
@@ -304,6 +304,8 @@ function pubState(p){
   if(!p.published||!p.published.length) return ['s-none','Not posted'];
   const live=p.published.filter(x=>x.state==='live').length;
   const fail=p.published.filter(x=>x.state==='failed').length;
+  const sch=p.published.filter(x=>x.state==='scheduled').length;
+  if(sch&&!live) return ['s-sch',`${sch} scheduled`];
   if(live&&fail) return ['s-live',`${live} live · ${fail} failed`];
   if(live) return ['s-live',`${live} live`];
   return ['s-fail',`${fail} failed`];

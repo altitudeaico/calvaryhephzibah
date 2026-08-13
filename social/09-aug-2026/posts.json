@@ -164,7 +164,21 @@
       },
       "music": "Bed A",
       "download": "download/clip1-final.mp4",
-      "endline": "You have been believing it quietly. \u2192 He says that is not enough. \u2192 Say it out loud."
+      "endline": "You have been believing it quietly. \u2192 He says that is not enough. \u2192 Say it out loud.",
+      "published": [
+        {
+          "platform": "Instagram",
+          "state": "scheduled",
+          "at": "2026-08-14T07:00:00Z",
+          "when": "Fri 14 Aug, 08:00 BST"
+        },
+        {
+          "platform": "YouTube Shorts",
+          "state": "scheduled",
+          "at": "2026-08-14T07:05:00Z",
+          "when": "Fri 14 Aug, 08:05 BST"
+        }
+      ]
     },
     {
       "id": "reel-05",
@@ -185,7 +199,21 @@
       },
       "music": "Bed B",
       "download": "download/clip4-final.mp4",
-      "endline": "Some of it you bring to God. \u2192 The rest you handle yourself. \u2192 He is asking about the rest."
+      "endline": "Some of it you bring to God. \u2192 The rest you handle yourself. \u2192 He is asking about the rest.",
+      "published": [
+        {
+          "platform": "Instagram",
+          "state": "scheduled",
+          "at": "2026-08-14T19:00:00Z",
+          "when": "Fri 14 Aug, 20:00 BST"
+        },
+        {
+          "platform": "YouTube Shorts",
+          "state": "scheduled",
+          "at": "2026-08-14T19:05:00Z",
+          "when": "Fri 14 Aug, 20:05 BST"
+        }
+      ]
     },
     {
       "id": "reel-06",
@@ -206,7 +234,21 @@
       },
       "music": "Bed A",
       "download": "download/clip7-final.mp4",
-      "endline": "You are waiting for someone to step up. \u2192 So is everyone else. \u2192 Do your part."
+      "endline": "You are waiting for someone to step up. \u2192 So is everyone else. \u2192 Do your part.",
+      "published": [
+        {
+          "platform": "Instagram",
+          "state": "scheduled",
+          "at": "2026-08-15T12:00:00Z",
+          "when": "Sat 15 Aug, 13:00 BST"
+        },
+        {
+          "platform": "YouTube Shorts",
+          "state": "scheduled",
+          "at": "2026-08-15T12:05:00Z",
+          "when": "Sat 15 Aug, 13:05 BST"
+        }
+      ]
     },
     {
       "id": "carousel-01",
@@ -262,7 +304,15 @@
         "facebook": "A man finds treasure in a field, covers it back over, sells everything he owns and buys the field.\n\nThe word Jesus uses about him is joy, not duty. Then there is the other man, same price, who walks away sorrowful. The difference was what each of them could see.\n\nFull message \u2014 \"Enter Into The Kingdom\" \u2014 on YouTube: search Calvary Hephzibah.",
         "youtube": "Title: The man who buried the treasure again\nDescription: Matthew 13:44 and the rich young ruler side by side. Same price, opposite response, and the difference was what each could see. Rev Ifeayinchukwu Obi, \"Enter Into The Kingdom\". Full sermon \u2014 search Calvary Hephzibah. #Shorts #faith #parables"
       },
-      "download": "download/treasure-in-a-field.zip"
+      "download": "download/treasure-in-a-field.zip",
+      "published": [
+        {
+          "platform": "Instagram",
+          "state": "scheduled",
+          "at": "2026-08-13T20:00:00Z",
+          "when": "Thu 13 Aug, 21:00 BST"
+        }
+      ]
     },
     {
       "id": "carousel-03",
@@ -281,7 +331,15 @@
         "facebook": "\"Repent\" is a word most people have only heard shouted, so it arrives sounding like a verdict.\n\nIt means change your mind. That is the whole word. He knows the day he did it, and his phrase for what he left has stayed with me: the wilderness of Christianity.\n\nFull message \u2014 \"Enter Into The Kingdom\" \u2014 on YouTube: search Calvary Hephzibah.",
         "youtube": "Title: Repent means change your mind\nDescription: What the word actually means, and one preacher's phrase for what he walked out of: the wilderness of Christianity. Rev Ifeayinchukwu Obi, \"Enter Into The Kingdom\". Full sermon \u2014 search Calvary Hephzibah. #Shorts #faith #hope"
       },
-      "download": "download/change-your-mind.zip"
+      "download": "download/change-your-mind.zip",
+      "published": [
+        {
+          "platform": "Instagram",
+          "state": "scheduled",
+          "at": "2026-08-15T08:00:00Z",
+          "when": "Sat 15 Aug, 09:00 BST"
+        }
+      ]
     },
     {
       "id": "reel-x1",
