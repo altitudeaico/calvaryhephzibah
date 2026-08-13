@@ -14,19 +14,14 @@
       "download": "reels/the-price.mp4",
       "duration": "82s",
       "music": "Bed A",
-      "title": "The Price \u2014 concept reel",
-      "rank": 1,
+      "title": "The Price \u2014 concept reel (held back)",
+      "rank": 99,
       "invite": false,
-      "care": null,
+      "care": "HELD BACK. Not for posting. Built and kept as a reference for the long-form concept format, and the renderer behind it (series/kingdom/render_reel.py) stands. If it is ever used, note it runs 82 seconds, which only just fits Facebook Reels' 90 second cap.",
       "quote": "Two men were offered the same thing. One sold everything for joy. One walked away sorrowful.",
       "onscreen": "Text only, no voiceover. Music cuts to silence for the turn at 0:38 and returns at 0:50.",
       "endline": "The kingdom of heaven is like unto treasure hid in a field, and for joy thereof he selleth all that he hath. (MATTHEW 13:44)",
-      "captions": {
-        "instagram": "Two men were offered the same thing.\n\nOne found treasure in a field that wasn't his, buried it again, went home and sold everything he owned to buy that field.\n\nThe other was told to sell what he had and follow. He went away sorrowful.\n\nNeither was told what it was worth. Both had to price it themselves.\n\nSo have you. Not in what you say about it. In what your week is arranged around.\n\n\ud83c\udfac From \"Enter Into The Kingdom\" \u2014 Rev Ifeayinchukwu Obi. Full sermon on YouTube (search Calvary Hephzibah).\n\n#faith #matthew13 #priorities #christianity #manchester",
-        "tiktok": "two men. same offer. opposite answers \ud83d\udc46\n\none sold everything and was glad. one walked away sad.\n\nneither was told what it was worth\n\nFull sermon \"Enter Into The Kingdom\" (Rev Ifeayinchukwu Obi) on YouTube \u2014 search Calvary Hephzibah.\n\nwhich one are you? \ud83d\udc47\n\n#faith #parable #christian",
-        "facebook": "Two men were offered the same thing on the same day. One sold everything he owned for it, gladly. The other walked away sorrowful.\n\nNeither of them was told what it was worth. Both had to price it themselves.\n\nFull message \u2014 \"Enter Into The Kingdom\" \u2014 on YouTube: search Calvary Hephzibah.",
-        "youtube": "Title: Two men, one price\nDescription: The treasure in the field and the rich young ruler, side by side. From Rev Ifeayinchukwu Obi, \"Enter Into The Kingdom\". Full sermon \u2014 search Calvary Hephzibah. #Shorts #faith #matthew13"
-      }
+      "captions": null
     },
     {
       "id": "reel-01",
