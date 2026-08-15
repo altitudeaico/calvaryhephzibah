@@ -21,6 +21,7 @@
   <meta name="twitter:title" content="Stage View &middot; Sunday 16 August 2026">
   <meta name="twitter:description" content="Lyrics and structure on your phone. For the band, in-service.">
   <meta name="twitter:image" content="https://calvaryhephzibah.co.uk/set-runthrough-16-aug-2026/stage/og-card.png?v=1">
+  <meta name="twitter:image:alt" content="Calvary Hephzibah &middot; Stage View, Sunday 16 August 2026 — the nine-song set list">
 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -133,7 +134,7 @@
 
     /* ── Song group ───────────────────────────────────────── */
 
-    .song { scroll-margin-top: 14px; padding-top: 34px; }
+    .song { scroll-margin-top: 56px; padding-top: 34px; }
 
     .song-head {
       display: flex;
@@ -313,6 +314,75 @@
       margin: 6px 0 10px;
     }
 
+
+
+    /* ── Sermon card ──────────────────────────────────────── */
+
+    .sermon {
+      margin-top: 16px;
+      background: var(--group);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+    }
+    .sermon-media {
+      display: block;
+      aspect-ratio: 16 / 9;
+      background: #0b0b0e;
+    }
+    .sermon-media img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .sermon-body { padding: 17px 18px 19px; }
+    .sermon-eyebrow {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--accent-hi);
+    }
+    .sermon-title {
+      font-size: 19px;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: -0.014em;
+      margin-top: 7px;
+    }
+    .sermon-meta {
+      margin-top: 10px;
+      font-size: 14.5px;
+      line-height: 1.42;
+      color: var(--label-2);
+    }
+    .sermon-meta b { color: var(--label); font-weight: 600; }
+
+    /* ── Grouped-list section headers ─────────────────────── */
+
+    .set-sec {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      margin-top: 36px;
+      padding: 13px 0 9px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--label-3);
+      background: rgba(0,0,0,0.93);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+    }
+    .set-sec span { color: var(--label-3); font-weight: 500; letter-spacing: 0.04em; }
+    .set-sec + .song { padding-top: 14px; }
+
+    /* Key chips read quieter when the whole set is TBC — nine shouting
+       chips is noise, not information. */
+    .song-key.is-tbc {
+      color: var(--label-3);
+      font-weight: 500;
+    }
 
     /* ── Practice track player ────────────────────────────── */
 
@@ -611,15 +681,29 @@
     </div>
   </header>
 
+    <section class="sermon" aria-label="Today's sermon">
+      <div class="sermon-media">
+        <img src="../../sermon-thumbnail-16-aug-2026.jpg?v=1"
+             alt="Altars and the Believer&rsquo;s Victory — Dr Titi Sodipo, Sunday 16 August 2026"
+             width="1280" height="720" loading="lazy" decoding="async">
+      </div>
+      <div class="sermon-body">
+        <div class="sermon-eyebrow">Part 3 of 3</div>
+        <h2 class="sermon-title">Altars and the Believer&rsquo;s Victory</h2>
+        <p class="sermon-meta"><b>Dr Titi Sodipo</b><br>
+          Ephesians 6:10&ndash;18 (KJV), read by Sister Lisa</p>
+      </div>
+    </section>
+
   <main>
 
+    <div class="set-sec">Praise <span>&middot; 4 songs</span></div>
     <section class="song" id="song-1" data-song="1" data-short="Trading My Sorrows" data-title="Trading My Sorrows">
       <div class="song-head">
         <div class="song-idx">1</div>
         <h2 class="song-title">Trading My Sorrows</h2>
-        <div class="song-key">TBC</div>
+        <div class="song-key is-tbc">TBC</div>
       </div>
-      <div class="song-tags"><span class="tag">Praise</span></div>
       <p class="song-credit">Darrell Evans</p>
       <div class="card">
         <div class="row"><div><div class="row-title">Structure</div><div class="row-cue">Top of the praise set. Chorus-driven, keep it moving.</div></div></div>
@@ -647,9 +731,8 @@
       <div class="song-head">
         <div class="song-idx">2</div>
         <h2 class="song-title">Lord You Are Good</h2>
-        <div class="song-key">TBC</div>
+        <div class="song-key is-tbc">TBC</div>
       </div>
-      <div class="song-tags"><span class="tag">Praise</span></div>
       <p class="song-credit">Israel Houghton</p>
       <div class="card">
         <div class="row"><div><div class="row-title">Structure</div><div class="row-cue">Straight on from Trading My Sorrows. No gap needed.</div></div></div>
@@ -675,9 +758,8 @@
       <div class="song-head">
         <div class="song-idx">3</div>
         <h2 class="song-title">Friend of God</h2>
-        <div class="song-key">TBC</div>
+        <div class="song-key is-tbc">TBC</div>
       </div>
-      <div class="song-tags"><span class="tag">Praise</span></div>
       <p class="song-credit">Israel Houghton</p>
       <div class="card">
         <div class="row"><div><div class="row-title">Structure</div><div class="row-cue">Call and response through the verse. Congregation carries the "I am a friend of God" line.</div></div></div>
@@ -700,9 +782,8 @@
       <div class="song-head">
         <div class="song-idx">4</div>
         <h2 class="song-title">Every Praise</h2>
-        <div class="song-key">TBC</div>
+        <div class="song-key is-tbc">TBC</div>
       </div>
-      <div class="song-tags"><span class="tag">Praise</span></div>
       <p class="song-credit">Hezekiah Walker</p>
       <div class="card">
         <div class="row"><div><div class="row-title">Structure</div><div class="row-cue">Closes the praise set. Build it, then bring the room down before worship.</div></div></div>
@@ -725,15 +806,15 @@
       </div></div></div>
     </section>
 
+    <div class="set-sec">Worship <span>&middot; 3 songs</span></div>
     <section class="song" id="song-5" data-song="5" data-short="Let Praises Rise" data-title="Let Praises Rise">
       <div class="song-head">
         <div class="song-idx">5</div>
         <h2 class="song-title">Let Praises Rise</h2>
-        <div class="song-key">TBC</div>
+        <div class="song-key is-tbc">TBC</div>
       </div>
-      <div class="song-tags"><span class="tag">Worship</span></div>
+      <div class="missing">No lyrics on file. This song is new to Calvary — it appears in no previous plan and in no library entry. Nothing will push to the screen for it until the words are supplied.</div>
       <div class="card">
-        <div class="row"><div><div class="row-title">New to Calvary</div><div class="row-cue">This song is not in the Control Room library and has not been sung here before. <b>No lyrics are loaded</b> — nothing will push to the screen until they are supplied.</div></div></div>
         <div class="row"><div><div class="row-cue">No arrangement notes yet. Structure and key both get called at the soundcheck.</div></div></div>
       </div>
     </section>
@@ -742,9 +823,8 @@
       <div class="song-head">
         <div class="song-idx">6</div>
         <h2 class="song-title">Spirit Break Out</h2>
-        <div class="song-key">TBC</div>
+        <div class="song-key is-tbc">TBC</div>
       </div>
-      <div class="song-tags"><span class="tag">Worship</span></div>
       <p class="song-credit">William McDowell</p>
       <div class="card">
         <div class="row"><div><div class="row-title">Structure</div><div class="row-cue">Verse, then the &ldquo;Spirit break out&rdquo; chorus. Last sung here 24 May 2026.</div></div></div>
@@ -771,9 +851,8 @@
       <div class="song-head">
         <div class="song-idx">7</div>
         <h2 class="song-title">How Great Is Our God</h2>
-        <div class="song-key">TBC</div>
+        <div class="song-key is-tbc">TBC</div>
       </div>
-      <div class="song-tags"><span class="tag">Worship</span></div>
       <p class="song-credit">Chris Tomlin</p>
       <div class="card">
         <div class="row"><div><div class="row-title">Structure</div><div class="row-cue">Verse, chorus, verse, chorus, then the &ldquo;Name above all names&rdquo; tag. Last sung here 21 June 2026.</div></div></div>
@@ -804,13 +883,13 @@
       </div></div></div>
     </section>
 
+    <div class="set-sec">Offering <span>&middot; 1 song</span></div>
     <section class="song" id="song-8" data-song="8" data-short="Higher, Every Day" data-title="Higher, Every Day">
       <div class="song-head">
         <div class="song-idx">8</div>
         <h2 class="song-title">Higher, Every Day</h2>
-        <div class="song-key">TBC</div>
+        <div class="song-key is-tbc">TBC</div>
       </div>
-      <div class="song-tags"><span class="tag">Offering</span></div>
       <div class="card">
         <div class="row"><div><div class="row-title">Structure</div><div class="row-cue">Once through. Singing the phrase twice counts as once. Nothing added on top.</div></div></div>
         <div class="row"><div><div class="row-cue">Key TBC — set at the soundcheck.</div></div></div>
@@ -823,13 +902,13 @@
       </div></div></div>
     </section>
 
+    <div class="set-sec">End of service <span>&middot; 1 song</span></div>
     <section class="song" id="song-9" data-song="9" data-short="You Are Worthy" data-title="You Are Worthy">
       <div class="song-head">
         <div class="song-idx">9</div>
         <h2 class="song-title">You Are Worthy</h2>
-        <div class="song-key">TBC</div>
+        <div class="song-key is-tbc">TBC</div>
       </div>
-      <div class="song-tags"><span class="tag">End of Service</span></div>
       <div class="card">
         <div class="row"><div><div class="row-title">Structure</div><div class="row-cue">&ldquo;King of kings, Lord of lords, You are worthy.&rdquo; An old one the house already knows. No arrangement needed, just a clean start.</div></div></div>
         <div class="row"><div><div class="row-title">Slides</div><div class="row-cue">Two slides only. The second couplet ends &ldquo;I worship You&rdquo; instead of &ldquo;You are worthy&rdquo;. Operator loops back to the first rather than running off the end.</div></div></div>
@@ -846,8 +925,8 @@
     </main>
 
   <footer class="foot">
-    <b>All nine songs have lyrics on file.</b><br>
-    No keys were agreed in advance this week — every section is TBC and gets set at the Sunday soundcheck. Nine discrete songs, no medley. Screen stays awake while this page is open.
+    <b>Eight of the nine songs have lyrics on file.</b><br>
+    Let Praises Rise is new to Calvary and has none yet — nothing will push to the screen for it until they are supplied. No keys were agreed in advance this week: every section is TBC and gets set at the Sunday soundcheck. Nine discrete songs, no medley. Screen stays awake while this page is open.
   </footer>
 
 </div>
