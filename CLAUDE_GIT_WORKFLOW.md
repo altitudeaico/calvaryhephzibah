@@ -2,6 +2,11 @@
 
 **This is for Claude (the chat/web/app assistant), not Claude Code.**
 
+> If you are Claude Code running on Bolaji's own machine, this doc is not your route — see
+> [`CLAUDE_CODE_SETUP.md`](CLAUDE_CODE_SETUP.md), which uses his local git credentials and needs
+> no PAT in the push URL. The fine-grained token described there is intended to replace the
+> classic `repo`-scope PAT referenced below.
+
 If you're a Claude session opening this repo for the first time and Bolaji asks you to push something to GitHub, here is exactly how it works. Don't ask Bolaji to open a terminal. Don't suggest he runs `git` commands locally. Don't push him toward Claude Code unless he specifically asks for it. You can push directly from your sandbox using bash_tool. He's been working this way for months.
 
 ---
