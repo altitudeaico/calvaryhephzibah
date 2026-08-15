@@ -5,7 +5,7 @@
 --   THE ALTARS SERIES -- part 3 of 3
 --   Sermon: "Altars and the Believer's Victory"
 --           (Dr Titi Sodipo)
---   Pre-sermon reading: Sister Lisa -- Ephesians 6:10-18 (KJV)
+--   Pre-sermon reading: Mummy Oso -- Ephesians 6:10-18 (KJV)
 --
 -- Seeds the full plan for the Control Room: plan + song set list +
 -- order of service + the scripture reading.
@@ -67,6 +67,26 @@
 --   position-4 row and re-run; positions do not need renumbering for
 --   the Control Room to work.
 --
+-- LATE REASSIGNMENT -- 15 AUGUST, from Pastor Shade:
+--   Sister Petty and Sister Lisa may not be in church, so four items
+--   moved. This file has been EDITED IN PLACE rather than corrected by
+--   a later migration, because section 2 below is delete-then-insert:
+--   a separate 59_ fix would be silently wiped the next time 56_ ran.
+--       Opening Prayer   Sister Petty          -> Dr Caster Martins
+--       Bible Reading    Sister Lisa           -> Mummy Oso
+--       Closing Prayer   Sister Petty          -> Pastor Shade Olatoye
+--       Benediction      Pastor Funke Adebanjo -> Sister Yinka Osipitan
+--
+--   >> NAME ASSUMPTIONS -- CONFIRM BOTH:
+--   >>   "Osipitan" was given without a first name. Seeded as SISTER
+--   >>   YINKA OSIPITAN, who has taken the benediction here before.
+--   >>   There is also a Deacon Femi Osipitan in the church, but his
+--   >>   roles are facilities, not platform. If it is him, correct it.
+--   >>
+--   >>   "Dr Caster Martin" was given; seeded as DR CASTER MARTINS,
+--   >>   the spelling used everywhere else in this repo. The same
+--   >>   correction was flagged on 2 August.
+--
 -- FLAG -- NO GUEST-MINISTER LABEL THIS WEEK:
 --   Dr Titi Sodipo was seeded as "guest minister" for 2 August
 --   (45_setlist_02aug2026.sql). She is deliberately NOT labelled a
@@ -86,7 +106,7 @@ delete from control_room_plans where service_date = '2026-08-16';
 with new_plan as (
   insert into control_room_plans (service_date, notes)
   values ('2026-08-16',
-    'Altars and the Believer''s Victory (Dr Titi Sodipo) -- The Altars Series, part 3 of 3. Nine discrete songs, no medley. ALL KEYS TBC: none agreed in advance, set at the Sunday soundcheck. Eight of nine resolve real lyrics from the library; Let Praises Rise is a PLACEHOLDER pending lyrics -- it is new to Calvary. Every Praise was given with a question mark and is seeded in pending confirmation. Reading: Ephesians 6:10-18 KJV, read by Sister Lisa.')
+    'Altars and the Believer''s Victory (Dr Titi Sodipo) -- The Altars Series, part 3 of 3. Nine discrete songs, no medley. ALL KEYS TBC: none agreed in advance, set at the Sunday soundcheck. Eight of nine resolve real lyrics from the library; Let Praises Rise is a PLACEHOLDER pending lyrics -- it is new to Calvary. Every Praise was given with a question mark and is seeded in pending confirmation. Reading: Ephesians 6:10-18 KJV, read by Mummy Oso (reassigned 15 Aug).')
   returning id
 )
 insert into control_room_plan_items (plan_id, position, kind, title, section, slides)
@@ -149,15 +169,15 @@ select p.id, v.position, v.role, v.name, v.notes
 from control_room_plans p,
 (values
   (1,  'Welcome & Bible Reading',   'Pastor Kayode Ogungbenro', null),
-  (2,  'Opening Prayer',            'Sister Petty',             null),
+  (2,  'Opening Prayer',            'Dr Caster Martins',        null),
   (3,  'Worship',                   null,                       'Worship Team · all keys TBC, set at soundcheck'),
   (4,  'Communion',                 'Pastor Kayode Ogungbenro', null),
   (5,  'Media Awareness',           'Pastor Kayode Ogungbenro', 'Slide / QR on screen'),
   (6,  'Announcements',             'Pastor Kayode Ogungbenro', null),
-  (7,  'Bible Reading',             'Sister Lisa',              'Ephesians 6:10-18 · KJV'),
+  (7,  'Bible Reading',             'Mummy Oso',                'Ephesians 6:10-18 · KJV'),
   (8,  'Sermon',                    'Dr Titi Sodipo',           'The Altars Series part 3 · Altars and the Believer''s Victory'),
-  (9,  'Closing Prayer',            'Sister Petty',             null),
-  (10, 'Benediction',               'Pastor Funke Adebanjo',    null)
+  (9,  'Closing Prayer',            'Pastor Shade Olatoye',     null),
+  (10, 'Benediction',               'Sister Yinka Osipitan',    null)
 ) as v(position, role, name, notes)
 where p.service_date = '2026-08-16';
 
