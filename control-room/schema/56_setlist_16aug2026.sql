@@ -45,6 +45,11 @@
 --    How Great Is Our God by 20_song_lyrics_31may2026.sql;
 --    You Are Worthy by 52_song_lyrics_09aug2026.sql.)
 --
+--   >> SUPERSEDED: the placeholder described below was closed by
+--   >> 58_song_lyrics_16aug2026.sql on 15 August. Run 56_ then 58_ and
+--   >> all nine songs carry real slides. The note is kept because this
+--   >> file must stay re-runnable on its own.
+--
 --   >> ONE SONG HAS NO LYRICS ANYWHERE:
 --   >>   "Let Praises Rise" (worship, position 5)
 --   >> This song is NEW to Calvary -- it appears in no prior plan and
