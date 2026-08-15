@@ -28,6 +28,7 @@ Series line: *There are altars and there are altars.* — Pastor Shade Olatoye
 |---|---|---|
 | 26 Jul 2026 | Altars | Dr Titi Sodipo |
 | 2 Aug 2026 | Family Altar | Dr Titi Sodipo |
+| 16 Aug 2026 | Altars and the Believer's Victory | Dr Titi Sodipo |
 
 ## A note on usable footage
 
