@@ -5,6 +5,13 @@
 -- (no upload, no base64) and attach it to the Sermon row in the
 -- order of service.
 --
+-- >> HOST: the URL uses the CUSTOM DOMAIN, not calvaryhfgc.github.io.
+-- >> The repo transferred to the altitudeaico account, so the old
+-- >> owner's Pages host no longer serves it and any image registered
+-- >> against it will fail to load in the overlay. Earlier weeks
+-- >> (44_, 49_, 53_) still carry github.io URLs and are stale for the
+-- >> same reason.
+--
 -- The thumbnail is already published to GitHub Pages, so
 -- control_room_images.data_url points straight at it. mediaSrc() in
 -- the operator returns data_url as-is when storage_path is null, so
@@ -33,7 +40,8 @@
 delete from control_room_images
 where category = 'sermon'
   and storage_path is null
-  and data_url like 'https://calvaryhfgc.github.io/%sermon-thumbnail-%';
+  and (data_url like 'https://calvaryhfgc.github.io/%sermon-thumbnail-%'
+    or data_url like 'https://calvaryhephzibah.co.uk/%sermon-thumbnail-%');
 
 -- 2. Register the thumbnail by URL, and link it to the Sermon OOS row
 with img as (
@@ -42,7 +50,7 @@ with img as (
     'Sermon — 16 Aug 2026 · Altars and the Believer''s Victory (ALTARS)',
     'sermon',
     'image',
-    'https://calvaryhfgc.github.io/calvaryhephzibah/sermon-thumbnail-16-aug-2026.jpg?v=1',
+    'https://calvaryhephzibah.co.uk/sermon-thumbnail-16-aug-2026.jpg?v=1',
     null,
     1280, 720
   )

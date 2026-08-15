@@ -184,7 +184,11 @@ notify pgrst, 'reload schema';
 select p.service_date, p.notes,
        count(distinct i.id) filter (where i.kind = 'song')      as songs,
        count(distinct i.id) filter (where i.kind = 'scripture') as scriptures,
-       coalesce(sum(jsonb_array_length(i.slides)), 0)           as total_slides,
+       -- sum() is NOT distinct-guarded, so the speakers join below fans it
+       -- out: with 10 speakers it reports 10x the real slide count. Kept
+       -- as a sub-select so the number is actually true.
+       (select coalesce(sum(jsonb_array_length(i2.slides)), 0)
+          from control_room_plan_items i2 where i2.plan_id = p.id) as total_slides,
        count(distinct s.id)                                     as speakers
 from control_room_plans p
 left join control_room_plan_items i    on i.plan_id = p.id
