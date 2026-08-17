@@ -20,7 +20,11 @@ import numpy as np
 
 W, H, FPS = 1080, 1920, 25
 OBS = (11, 11, 14); BONE = (244, 239, 230); RED = (208, 68, 28)
-R = "/home/claude/calvaryhephzibah"
+# Repo root, derived from this file's own location so the script runs on any
+# machine. Was hardcoded to /home/claude/calvaryhephzibah, the old sandbox
+# path, which meant it only ran there. Override with CALVARY_REPO if needed.
+R = os.environ.get("CALVARY_REPO") or os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FD = R + "/anniversary/overlays/fonts"
 
 

@@ -3,7 +3,11 @@ import numpy as np, os, sys
 
 W, H = 1080, 1920
 OBS=(11,11,14); BONE=(244,239,230); RED=(208,68,28); GREY=(176,169,158)
-R="/home/claude/calvaryhephzibah"
+# Repo root, derived from this file's own location so the script runs on any
+# machine. Was hardcoded to /home/claude/calvaryhephzibah, the old sandbox
+# path, which meant it only ran there. Override with CALVARY_REPO if needed.
+R = os.environ.get("CALVARY_REPO") or os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FD=R+"/anniversary/overlays/fonts"
 def anton(s): return ImageFont.truetype(FD+"/anton-400.ttf", s)
 def it7(s): return ImageFont.truetype(FD+"/inter-tight-700.ttf", s)
@@ -61,5 +65,5 @@ d.text(((W-d.textlength(t,font=fa2))/2,1560),t,font=fa2,fill=BONE)
 f=it6(28); t="Sundays 10:30am  ·  Carmoor Road, Manchester"
 d.text(((W-d.textlength(t,font=f))/2,1700),t,font=f,fill=GREY)
 
-img.save(sys.argv[1] if len(sys.argv)>1 else "/home/claude/endcard.jpg",quality=94)
+img.save(sys.argv[1] if len(sys.argv)>1 else "endcard.jpg",quality=94)
 print("saved")
