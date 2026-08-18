@@ -1,0 +1,5 @@
+{"beats":[
+ {"lines":["You are bracing for a fight","with an enemy who is armed."],"dur":3.4},
+ {"lines":["He was disarmed","at the cross."],"red":1,"dur":3.2},
+ {"lines":["The charge against you","was nailed there too."],"red":1,"ref":"COLOSSIANS 2:14-15","dur":4.4}
+]}
