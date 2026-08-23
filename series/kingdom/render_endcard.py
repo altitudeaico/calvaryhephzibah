@@ -1,5 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance
-import numpy as np, os, sys
+import numpy as np, os, sys, argparse
 
 W, H = 1080, 1920
 OBS=(11,11,14); BONE=(244,239,230); RED=(208,68,28); GREY=(176,169,158)
@@ -20,6 +20,16 @@ def tracked(d,xy,t,f,fill,tr=0.18):
     return x
 def twidth(d,t,f,tr=0.18):
     return sum(d.textlength(c,font=f)+f.size*tr for c in t)-f.size*tr
+
+ap=argparse.ArgumentParser(description="Kingdom-series 9x16 end card.")
+ap.add_argument("out", nargs="?", default="endcard.jpg")
+# Defaults reproduce the 9 Aug 2026 card exactly, so nothing that already
+# depended on this script changes. Pass the flags for any other week.
+ap.add_argument("--line1",    default="ENTER INTO")
+ap.add_argument("--line2",    default="THE KINGDOM")
+ap.add_argument("--preacher", default="Rev Ifeayinchukwu Obi")
+ap.add_argument("--date",     default="Sunday 9 August 2026")
+A=ap.parse_args()
 
 img=Image.new("RGB",(W,H),OBS)
 glow=Image.new("L",(W,H),0); gd=ImageDraw.Draw(glow)
@@ -45,14 +55,14 @@ f=it7(30); t="FULL SERMON"
 tracked(d,((W-twidth(d,t,f,0.34))/2,1010),t,f,RED,0.34)
 
 fa=anton(96)
-for i,line in enumerate(["ENTER INTO","THE KINGDOM"]):
+for i,line in enumerate([A.line1, A.line2]):
     w=d.textlength(line,font=fa)
     d.text(((W-w)/2,1075+i*104),line,font=fa,fill=BONE if i==0 else RED)
 
-f=it6(34); t="Rev Ifeayinchukwu Obi"
+f=it6(34); t=A.preacher
 d.text(((W-d.textlength(t,font=f))/2,1310),t,font=f,fill=BONE)
 
-f=it6(30); t="Sunday 9 August 2026"
+f=it6(30); t=A.date
 d.text(((W-d.textlength(t,font=f))/2,1362),t,font=f,fill=GREY)
 
 d.line([(340,1450),(740,1450)],fill=(60,56,54),width=2)
@@ -65,5 +75,5 @@ d.text(((W-d.textlength(t,font=fa2))/2,1560),t,font=fa2,fill=BONE)
 f=it6(28); t="Sundays 10:30am  ·  Carmoor Road, Manchester"
 d.text(((W-d.textlength(t,font=f))/2,1700),t,font=f,fill=GREY)
 
-img.save(sys.argv[1] if len(sys.argv)>1 else "endcard.jpg",quality=94)
+img.save(A.out,quality=94)
 print("saved")

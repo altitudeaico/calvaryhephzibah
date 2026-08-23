@@ -62,7 +62,7 @@ def wrap(d, text, font, maxw):
     return out
 
 
-def ground(repo, idx):
+def ground(repo, idx, plate_rel="series/altars/plates/scene2-master.png"):
     """Full-bleed ALTARS plate, faded back far enough that type still reads.
 
     The plate is landscape and the card is portrait, so it is cover-fitted and
@@ -73,7 +73,7 @@ def ground(repo, idx):
     stronger vertical one through the middle band where the type lives. Without
     the second, the brighter stones cut straight through the body copy.
     """
-    plate = Image.open(os.path.join(repo, "series/altars/plates/scene2-master.png")).convert("RGB")
+    plate = Image.open(os.path.join(repo, plate_rel)).convert("RGB")
     sc = max(W / plate.width, H / plate.height)
     plate = plate.resize((int(plate.width * sc), int(plate.height * sc)), Image.LANCZOS)
     maxx = max(0, plate.width - W)
@@ -99,8 +99,18 @@ def ground(repo, idx):
     return Image.composite(Image.new("RGB", (W, H), (150, 62, 20)), base, glow)
 
 
-def render_slide(repo, spec, idx, total, out):
-    img = ground(repo, idx)
+def render_slide(repo, spec, idx, total, out,
+                 series_mark="THE ALTARS SERIES",
+                 plate_rel="series/altars/plates/scene2-master.png"):
+    """Render one 1080x1350 carousel slide.
+
+    `series_mark` and `plate_rel` are set per-carousel from the spec, because
+    this renderer is now used for more than the ALTARS series. Leaving them
+    hardcoded shipped a Kingdom-series carousel branded ALTARS on 23 Aug 2026,
+    on a fieldstone plate that belongs to a different message. The defaults
+    reproduce ALTARS exactly, so existing specs are unaffected.
+    """
+    img = ground(repo, idx, plate_rel)
     d = ImageDraw.Draw(img)
     anton = os.path.join(repo, "anniversary/overlays/fonts/anton-400.ttf")
     inter6 = os.path.join(repo, "anniversary/overlays/fonts/inter-tight-600.ttf")
@@ -169,7 +179,7 @@ def render_slide(repo, spec, idx, total, out):
     fb = ImageFont.truetype(inter7, 24)
     d.rectangle([LM, 96, LM + 28, 100], fill=RED)
     d.rectangle([LM, 96, LM + 4, 124], fill=RED)
-    tracked(d, (LM + 44, 93), "THE ALTARS SERIES", fb, GREY, 0.3)
+    tracked(d, (LM + 44, 93), series_mark, fb, GREY, 0.3)
     fp = ImageFont.truetype(inter7, 24)
     tracked(d, (LM, H - 118), f"{idx:02d} / {total:02d}", fp, GREY, 0.22)
     if idx == total:
@@ -189,6 +199,9 @@ if __name__ == "__main__":
     c = json.load(open(a.spec))
     os.makedirs(a.outdir, exist_ok=True)
     n = len(c["slides"])
+    mark = c.get("series_mark", "THE ALTARS SERIES")
+    plate = c.get("plate", "series/altars/plates/scene2-master.png")
     for i, s in enumerate(c["slides"], 1):
-        render_slide(a.repo, s, i, n, f"{a.outdir}/{c['slug']}-{i:02d}.png")
+        render_slide(a.repo, s, i, n, f"{a.outdir}/{c['slug']}-{i:02d}.png",
+                     series_mark=mark, plate_rel=plate)
     print(f"{c['slug']}: {n} slides -> {a.outdir}")

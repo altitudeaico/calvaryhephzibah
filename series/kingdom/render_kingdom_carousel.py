@@ -106,7 +106,7 @@ def ground(repo, idx):
     return Image.fromarray(a.clip(0, 255).astype(np.uint8))
 
 
-def render_slide(repo, spec, idx, total, out):
+def render_slide(repo, spec, idx, total, out, series_mark="ENTER INTO THE KINGDOM"):
     img = ground(repo, idx)
     d = ImageDraw.Draw(img)
     anton = os.path.join(repo, "anniversary/overlays/fonts/anton-400.ttf")
@@ -176,7 +176,7 @@ def render_slide(repo, spec, idx, total, out):
     fb = ImageFont.truetype(inter7, 24)
     d.rectangle([LM, 96, LM + 28, 100], fill=RED)
     d.rectangle([LM, 96, LM + 4, 124], fill=RED)
-    tracked(d, (LM + 44, 93), "ENTER INTO THE KINGDOM", fb, GREY, 0.3)
+    tracked(d, (LM + 44, 93), series_mark, fb, GREY, 0.3)
     fp = ImageFont.truetype(inter7, 24)
     tracked(d, (LM, H - 118), f"{idx:02d} / {total:02d}", fp, GREY, 0.22)
     if idx == total:
@@ -196,6 +196,9 @@ if __name__ == "__main__":
     c = json.load(open(a.spec))
     os.makedirs(a.outdir, exist_ok=True)
     n = len(c["slides"])
+    # The mark was hardcoded to 9 Aug's sermon title. Every later week in
+    # the series carried the wrong one until 23 Aug 2026.
+    mark = c.get("series_mark", "ENTER INTO THE KINGDOM")
     for i, s in enumerate(c["slides"], 1):
-        render_slide(a.repo, s, i, n, f"{a.outdir}/{c['slug']}-{i:02d}.png")
+        render_slide(a.repo, s, i, n, f"{a.outdir}/{c['slug']}-{i:02d}.png", series_mark=mark)
     print(f"{c['slug']}: {n} slides -> {a.outdir}")
