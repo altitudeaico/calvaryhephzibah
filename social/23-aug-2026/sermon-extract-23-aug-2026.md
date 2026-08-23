@@ -68,16 +68,15 @@ Two he softens himself immediately after saying, so quote only with the softenin
 
 ## CARE FLAGS — read before clipping anything else
 
-**1. The immigration passage (28:28–29:09). Do not clip. Do not paraphrase.**
-He advises people in the UK by irregular means to "go home, do the right thing, you'll be
-back here properly." Pastorally meant, and he is clearly speaking to people he knows. On a
-public feed, stripped of the room, it reads as a church telling migrants to leave the country.
-It also touches the immigration status of identifiable members of this congregation. This is
-the single highest-risk passage in the sermon. Leave it in the full recording where the
-context lives.
+**1. The passage at 28:28–29:09. Do not clip. Do not paraphrase. Do not quote.**
+Pastoral advice on a personal legal matter, given to a room he knows, and only safe with the
+whole context around it. Out of the room it inverts, and it is the sort of subject where a
+30-second clip can affect real people. Highest-risk passage in the sermon by some distance.
+Leave it in the full recording. This note is deliberately non-specific: **this file is in a
+public repo.**
 
-**2. "You are a bastard" (22:04–22:22).**
-His own phrasing for a person with no father to guide them, aimed at the theological point.
+**2. The word at 22:04–22:22.**
+His own blunt phrasing for a person with no father to guide them, serving a theological point.
 Fine in the room, wrong in a caption. Do not use, even quoted.
 
 **3. His personal testimony (24:23–26:11).**
