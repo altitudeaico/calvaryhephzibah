@@ -12,38 +12,47 @@
 -- scripture for 2026-08-23 cleanly.
 -- Run in the Supabase SQL editor (project: pfycvgbrsbecznkcikwt).
 --
--- ------------------------------------------------------------
--- >> NO SONGS SEEDED THIS WEEK <<
--- ------------------------------------------------------------
--- The worship set was NOT supplied with the order of service.
--- Nothing has been invented: this file seeds ZERO song rows, so
--- the plan carries the running order and the scripture only.
+-- SET LIST -- NINE songs, supplied late by Bolaji Adebanjo on
+-- 23 August: "we're keeping to the same set from last week". It is
+-- the 16 August set unchanged, same order, same sections.
+--     Praise   : Trading My Sorrows .
+--                Lord You Are Good .
+--                Friend of God .
+--                Every Praise
+--     Worship  : Let Praises Rise .
+--                Spirit Break Out .
+--                How Great Is Our God
+--     Offering : Higher, Every Day
+--     End      : You Are Worthy
 --
--- When the set arrives, add a follow-up file
---   60_setlist_songs_23aug2026.sql
--- that inserts the song rows into control_room_plan_items against
--- this same plan, using the usual coalesce resolution chain:
+-- KEYS ARE ALL "TBC" again -- none were given, same as 16 August.
+-- Set at the Sunday soundcheck. Deliberate state, not missing data.
 --
---   coalesce(
---     (select s.slides from control_room_songs s
---       where lower(s.title) = lower(v.title) limit 1),
---     (select i.slides from control_room_plan_items i
---        join control_room_plans p on p.id = i.plan_id
---       where p.service_date = '2026-08-16'
---         and lower(i.title) = lower(v.title) limit 1),
---     v.fallback::jsonb
---   )
+-- TITLE CANONICALISATION (so lyrics resolve on lower(title)):
+--   "Higher higher everyday"              -> 'Higher, Every Day'
+--   "Worthy, king of kings lord of lords" -> 'You Are Worthy'
+--   These are the same two corrections made on 16 August. Do not
+--   seed the verbatim strings -- resolution matches on lower(title)
+--   and would miss.
 --
--- Titles must be canonical -- resolution matches on lower(title).
--- Grep prior setlist SQL for the exact string a song is stored
--- under before typing a new one.
+-- LYRICS: all nine should resolve real slides. Eight come from
+-- control_room_songs; "Let Praises Rise" was new to Calvary on
+-- 16 August and its lyrics were added by 58_song_lyrics_16aug2026.sql,
+-- so it resolves from the library too now. The 2026-08-16 plan is
+-- kept as a backstop in the coalesce chain regardless. If the verify
+-- query at the bottom returns ANY row, 58_ has not been run in this
+-- database -- run it, then re-run this file.
 --
 -- ------------------------------------------------------------
 -- FLAGS
 -- ------------------------------------------------------------
--- 1. WORSHIP SET -- missing entirely (see above). This also
---    blocks the stage runthrough page and its OG card, which are
---    pure song content. Neither was built for 23 Aug.
+-- 1. "EVERY PRAISE" WAS GIVEN WITH A QUESTION MARK -- again. It
+--    carried the same question mark on 16 August and was never
+--    resolved either way. Seeded IN at position 4: a song that gets
+--    dropped costs nothing, a song that is missing cannot be pushed
+--    to the screen. CONFIRM WITH THE WORSHIP TEAM. If it is out,
+--    delete the position-4 row and re-run; positions do not need
+--    renumbering for the Control Room to work.
 --
 -- 2. BIBLE READING -- John 3:3-7 given with NO reader named.
 --    Seeded with name = null. Fill in before Sunday.
@@ -70,9 +79,59 @@
 
 delete from control_room_plans where service_date = '2026-08-23';
 
-insert into control_room_plans (service_date, notes)
-values ('2026-08-23',
-  'Living Under The Rule Of The KING: Entering, Experiencing and Manifesting The Kingdom Of GOD (Rev Ifeayinchukwu Obi, guest minister). Reading John 3:3-7 KJV. NO WORSHIP SET SUPPLIED -- zero song items seeded; add them via 60_setlist_songs_23aug2026.sql once the set is confirmed. Bible reader and Media Awareness leader both unnamed on the order of service.');
+with new_plan as (
+  insert into control_room_plans (service_date, notes)
+  values ('2026-08-23',
+    'Living Under The Rule Of The KING: Entering, Experiencing and Manifesting The Kingdom Of GOD (Rev Ifeayinchukwu Obi, guest minister). Nine discrete songs, no medley -- the 16 August set repeated unchanged, confirmed late by Bolaji Adebanjo. ALL KEYS TBC, set at the Sunday soundcheck. Every Praise carries a question mark for the second week running and is seeded in pending confirmation. Reading: John 3:3-7 KJV. Bible reader and Media Awareness leader both unnamed on the order of service.')
+  returning id
+)
+insert into control_room_plan_items (plan_id, position, kind, title, section, slides)
+select
+  (select id from new_plan),
+  v.position, v.kind, v.title, v.section,
+  coalesce(
+    -- persistent library (should resolve all nine)
+    (select s.slides from control_room_songs s where lower(s.title) = lower(v.title) limit 1),
+    -- backstops: the two most recent plans, same set list
+    (select i1.slides from control_room_plan_items i1
+       join control_room_plans p1 on p1.id = i1.plan_id
+      where p1.service_date = '2026-08-16' and lower(i1.title) = lower(v.title) limit 1),
+    (select i2.slides from control_room_plan_items i2
+       join control_room_plans p2 on p2.id = i2.plan_id
+      where p2.service_date = '2026-08-09' and lower(i2.title) = lower(v.title) limit 1),
+    v.fallback::jsonb
+  )
+from (values
+
+  -- PRAISE -- key TBC
+  (1, 'song', 'Trading My Sorrows', 'praise',
+    '[{"line1":"[lyrics to be added]","line2":"Trading My Sorrows"}]'),
+  (2, 'song', 'Lord You Are Good', 'praise',
+    '[{"line1":"[lyrics to be added]","line2":"Lord You Are Good"}]'),
+  (3, 'song', 'Friend of God', 'praise',
+    '[{"line1":"[lyrics to be added]","line2":"Friend of God"}]'),
+  -- FLAG: given with a question mark for the SECOND week. Seeded in -- confirm.
+  (4, 'song', 'Every Praise', 'praise',
+    '[{"line1":"[lyrics to be added]","line2":"Every Praise"}]'),
+
+  -- WORSHIP -- key TBC, three discrete songs (no medley)
+  -- Lyrics added 15 Aug by 58_song_lyrics_16aug2026.sql; resolves from library.
+  (5, 'song', 'Let Praises Rise', 'worship',
+    '[{"line1":"[lyrics to be added]","line2":"Let Praises Rise"}]'),
+  (6, 'song', 'Spirit Break Out', 'worship',
+    '[{"line1":"[lyrics to be added]","line2":"Spirit Break Out"}]'),
+  (7, 'song', 'How Great Is Our God', 'worship',
+    '[{"line1":"[lyrics to be added]","line2":"How Great Is Our God"}]'),
+
+  -- OFFERING -- key TBC
+  (8, 'song', 'Higher, Every Day', 'offering',
+    '[{"line1":"[lyrics to be added]","line2":"Higher, Every Day"}]'),
+
+  -- END OF SERVICE -- key TBC
+  (9, 'song', 'You Are Worthy', 'end',
+    '[{"line1":"[lyrics to be added]","line2":"You Are Worthy"}]')
+
+) as v(position, kind, title, section, fallback);
 
 -- --------------------------------------------------------------------
 -- 2. ORDER OF SERVICE (control_room_plan_speakers)
@@ -87,7 +146,7 @@ from control_room_plans p,
 (values
   (1,  'Welcome & Bible Reading',  'Pastor Shade Olatoye',  null),
   (2,  'Opening Prayer',           'Sister Lisa',           null),
-  (3,  'Worship',                  null,                    'FLAG: Worship Team -- set list not supplied, all keys TBC'),
+  (3,  'Worship',                  null,                    'Worship Team · nine songs, 16 Aug set repeated · all keys TBC, set at soundcheck'),
   (4,  'Communion',                'Pastor Shade Olatoye',  null),
   (5,  'Media Awareness',          null,                    'FLAG: no leader named on the order of service'),
   (6,  'Announcements',            'Brother Ernest',        null),
@@ -122,7 +181,7 @@ notify pgrst, 'reload schema';
 -- 4. VERIFY
 -- --------------------------------------------------------------------
 
--- Plan summary. Expect: songs = 0, scriptures = 1, speakers = 10.
+-- Plan summary. Expect: songs = 9, scriptures = 1, speakers = 10.
 select p.service_date, p.notes,
        count(distinct i.id) filter (where i.kind = 'song')      as songs,
        count(distinct i.id) filter (where i.kind = 'scripture') as scriptures,
@@ -135,8 +194,9 @@ where p.service_date = '2026-08-23'
 group by p.service_date, p.notes;
 
 -- Which songs still need lyrics?
--- Expect ZERO rows -- because there are no songs at all yet, not
--- because everything resolved. Do not read an empty result as "done".
+-- Expect ZERO rows. Any row here means the library lookup missed --
+-- almost always because 58_song_lyrics_16aug2026.sql has not been run
+-- in this database, or because a title was typed non-canonically.
 select i.position, i.section, i.title, jsonb_array_length(i.slides) as slides
 from control_room_plan_items i
 join control_room_plans p on p.id = i.plan_id
