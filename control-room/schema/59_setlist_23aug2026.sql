@@ -46,20 +46,20 @@
 -- ------------------------------------------------------------
 -- FLAGS
 -- ------------------------------------------------------------
--- 1. "EVERY PRAISE" WAS GIVEN WITH A QUESTION MARK -- again. It
---    carried the same question mark on 16 August and was never
---    resolved either way. Seeded IN at position 4: a song that gets
---    dropped costs nothing, a song that is missing cannot be pushed
---    to the screen. CONFIRM WITH THE WORSHIP TEAM. If it is out,
---    delete the position-4 row and re-run; positions do not need
---    renumbering for the Control Room to work.
+-- 1. "EVERY PRAISE" -- RESOLVED 23 August. It was given with a
+--    question mark two weeks running (16 and 23 August); Bolaji has
+--    now confirmed it is IN. Seeded at position 4. The question mark
+--    is closed -- do not re-flag it on a later week without a fresh
+--    reason.
 --
 -- 2. BIBLE READING -- John 3:3-7 given with NO reader named.
 --    Seeded with name = null. Fill in before Sunday.
 --
--- 3. MEDIA AWARENESS -- listed on the order of service with no
---    leader named. Seeded with name = null. On 16 Aug this slot
---    was Pastor Kayode Ogungbenro; do not assume it is him again.
+-- 3. MEDIA AWARENESS -- RESOLVED 23 August: Pastor Shade Olatoye.
+--    It was listed on the order of service with no leader named and
+--    seeded null; Bolaji confirmed it is Pastor Shade. Note this is
+--    NOT Pastor Kayode, who took the slot on 16 Aug -- the slot moves
+--    week to week, so never carry the previous week's name forward.
 --
 -- 4. PREACHER NAME SPELLING -- spelled "Ifeayinchukwu" as given,
 --    which matches all 30 existing occurrences across the repo
@@ -82,7 +82,7 @@ delete from control_room_plans where service_date = '2026-08-23';
 with new_plan as (
   insert into control_room_plans (service_date, notes)
   values ('2026-08-23',
-    'Living Under The Rule Of The KING: Entering, Experiencing and Manifesting The Kingdom Of GOD (Rev Ifeayinchukwu Obi, guest minister). Nine discrete songs, no medley -- the 16 August set repeated unchanged, confirmed late by Bolaji Adebanjo. ALL KEYS TBC, set at the Sunday soundcheck. Every Praise carries a question mark for the second week running and is seeded in pending confirmation. Reading: John 3:3-7 KJV. Bible reader and Media Awareness leader both unnamed on the order of service.')
+    'Living Under The Rule Of The KING: Entering, Experiencing and Manifesting The Kingdom Of GOD (Rev Ifeayinchukwu Obi, guest minister). Nine discrete songs, no medley -- the 16 August set repeated unchanged, confirmed late by Bolaji Adebanjo. ALL KEYS TBC, set at the Sunday soundcheck. Every Praise confirmed in. Media Awareness confirmed as Pastor Shade Olatoye. Reading: John 3:3-7 KJV. Bible reader still unnamed on the order of service.')
   returning id
 )
 insert into control_room_plan_items (plan_id, position, kind, title, section, slides)
@@ -110,7 +110,7 @@ from (values
     '[{"line1":"[lyrics to be added]","line2":"Lord You Are Good"}]'),
   (3, 'song', 'Friend of God', 'praise',
     '[{"line1":"[lyrics to be added]","line2":"Friend of God"}]'),
-  -- FLAG: given with a question mark for the SECOND week. Seeded in -- confirm.
+  -- Confirmed IN by Bolaji on 23 Aug (was queried on 16 and 23 Aug).
   (4, 'song', 'Every Praise', 'praise',
     '[{"line1":"[lyrics to be added]","line2":"Every Praise"}]'),
 
@@ -148,7 +148,7 @@ from control_room_plans p,
   (2,  'Opening Prayer',           'Sister Lisa',           null),
   (3,  'Worship',                  null,                    'Worship Team · nine songs, 16 Aug set repeated · all keys TBC, set at soundcheck'),
   (4,  'Communion',                'Pastor Shade Olatoye',  null),
-  (5,  'Media Awareness',          null,                    'FLAG: no leader named on the order of service'),
+  (5,  'Media Awareness',          'Pastor Shade Olatoye',  'Confirmed 23 Aug -- not Pastor Kayode, who had this slot on 16 Aug'),
   (6,  'Announcements',            'Brother Ernest',        null),
   (7,  'Bible Reading',            null,                    'FLAG: no reader named -- John 3:3-7 · KJV'),
   (8,  'Sermon',                   'Rev Ifeayinchukwu Obi', 'Guest Minister · Living Under The Rule Of The KING: Entering, Experiencing and Manifesting The Kingdom Of GOD'),
