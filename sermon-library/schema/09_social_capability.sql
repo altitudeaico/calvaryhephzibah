@@ -1,0 +1,14 @@
+-- 09_social_capability.sql
+-- Register of what the social pipeline ships reliably and what still needs
+-- building. Applied live 25 Aug 2026 via MCP; this file is the record.
+--
+-- The distinction it is built around:
+--   MECHANICAL = correct against a checkable number. Ships first time.
+--   EDITORIAL  = a claim about what the sermon means. MUST be agreed as plain
+--                text in chat BEFORE rendering, or each wrong word costs a full
+--                rebuild instead of a one-line edit.
+--
+-- See the live table for current contents. Query:
+--   select status, kind, priority, label, fix from social_capability
+--    order by case status when 'not_working' then 1 when 'unreliable' then 2
+--                         when 'planned' then 3 else 4 end, priority;
