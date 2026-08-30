@@ -1649,6 +1649,33 @@
     user-select: none;
   }
 
+  #preview-tabs {
+    display: flex;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .preview-tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    padding: 9px 10px;
+    cursor: pointer;
+    font-family: inherit;
+    border-bottom: 2px solid transparent;
+    transition: color 0.12s, border-color 0.12s;
+  }
+  .preview-tab:hover {
+    color: var(--text);
+  }
+  .preview-tab.active {
+    color: var(--text);
+    border-bottom-color: var(--green);
+  }
+
   #preview-stage {
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -1656,7 +1683,7 @@
     position: relative;
     overflow: hidden;
   }
-  #preview-iframe {
+  #preview-iframe, #preview-iframe-camera {
     width: 100%;
     height: 100%;
     border: 0;
@@ -2380,12 +2407,17 @@
     <div style="display:flex;align-items:center;gap:8px;flex:1;cursor:move" id="preview-drag-handle">
       <span style="width:8px;height:8px;background:#22c55e;border-radius:50%;display:inline-block"></span>
       <strong style="font-size:12px;letter-spacing:0.5px">LIVE PREVIEW</strong>
-      <span style="font-size:11px;color:var(--text-muted)">— what's on the overlay right now</span>
+      <span id="preview-subtitle" style="font-size:11px;color:var(--text-muted)">— what's on the overlay right now</span>
     </div>
     <button onclick="togglePreview()" aria-label="Close preview" style="background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:18px;line-height:1;padding:4px 8px">×</button>
   </div>
+  <div id="preview-tabs">
+    <button class="preview-tab active" data-tab="overlay" onclick="switchPreviewTab('overlay')">Overlay</button>
+    <button class="preview-tab" data-tab="camera" onclick="switchPreviewTab('camera')">Camera (YouTube live)</button>
+  </div>
   <div id="preview-stage">
     <iframe id="preview-iframe" src="about:blank" loading="lazy" title="Overlay preview" style="background:#000"></iframe>
+    <iframe id="preview-iframe-camera" src="about:blank" loading="lazy" title="Camera preview" style="background:#000;display:none" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   </div>
 </div>
 
@@ -4502,25 +4534,50 @@ function escapeHtml(s) {
 // ============================================================
 // FLOATING PREVIEW PANEL
 // ============================================================
+const YOUTUBE_CHANNEL_ID = 'UCdBdlonjOzSd_kXfNgnAPUA'; // @calvaryhephzibah
+
 window.togglePreview = () => {
   const panel  = document.getElementById('preview-panel');
   const button = document.getElementById('preview-toggle');
-  const iframe = document.getElementById('preview-iframe');
+  const overlayFrame = document.getElementById('preview-iframe');
+  const cameraFrame  = document.getElementById('preview-iframe-camera');
   const isHidden = panel.classList.contains('hidden');
 
   if (isHidden) {
-    // Lazy-load the iframe the first time it's opened, and reload each time
-    // the user re-opens it so it always reflects current display settings
-    iframe.src = 'overlay.html?hud=off';
     panel.classList.remove('hidden');
     button.classList.add('active');
     button.querySelector('span:last-child').textContent = 'Hide preview';
+    // Always reopen on the Overlay tab, whichever tab was showing when it was last closed
+    switchPreviewTab('overlay');
   } else {
     panel.classList.add('hidden');
     button.classList.remove('active');
     button.querySelector('span:last-child').textContent = 'Preview';
-    // Stop the iframe to free its WebSocket and decoders when hidden
-    iframe.src = 'about:blank';
+    // Stop both iframes to free their WebSocket/video decoders when hidden
+    overlayFrame.src = 'about:blank';
+    cameraFrame.src  = 'about:blank';
+  }
+};
+
+window.switchPreviewTab = (tab) => {
+  const overlayFrame = document.getElementById('preview-iframe');
+  const cameraFrame  = document.getElementById('preview-iframe-camera');
+  const subtitle     = document.getElementById('preview-subtitle');
+  document.querySelectorAll('.preview-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+
+  if (tab === 'overlay') {
+    overlayFrame.style.display = 'block';
+    cameraFrame.style.display  = 'none';
+    cameraFrame.src = 'about:blank'; // stop the YouTube player while it's not visible
+    // Lazy-load / reload each time it's opened so it reflects current display settings
+    overlayFrame.src = 'overlay.html?hud=off';
+    subtitle.textContent = '— what\'s on the overlay right now';
+  } else {
+    overlayFrame.style.display = 'none';
+    cameraFrame.style.display  = 'block';
+    overlayFrame.src = 'about:blank';
+    cameraFrame.src = `https://www.youtube.com/embed/live_stream?channel=${YOUTUBE_CHANNEL_ID}&autoplay=1&mute=1`;
+    subtitle.textContent = '— live YouTube broadcast, ~10s behind real time';
   }
 };
 
