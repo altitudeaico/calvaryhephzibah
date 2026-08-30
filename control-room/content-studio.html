@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Content Studio — Calvary Control Room</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0A; --surface: #141414; --surface-2: #1c1c1c;
+    --border: rgba(255,255,255,0.08); --border-strong: rgba(255,255,255,0.16);
+    --text: #FFFFFF; --text-muted: rgba(255,255,255,0.6); --text-dim: rgba(255,255,255,0.4);
+    --red: #C41E2A; --red-glow: rgba(196,30,42,0.25); --green: #22c55e; --amber: #F59E0B;
+    --radius: 14px; --radius-lg: 20px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { background: var(--bg); color: var(--text); font-family: 'DM Sans', -apple-system, sans-serif; font-size: 16px; line-height: 1.5; min-height: 100vh; }
+  body { padding-bottom: env(safe-area-inset-bottom); }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  textarea, input { font-family: inherit; }
+
+  /* ---------- LOGIN ---------- */
+  #login { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 32px 24px; max-width: 420px; margin: 0 auto; }
+  .brand { text-align: center; margin-bottom: 48px; }
+  .brand-badge { display: inline-block; padding: 4px 10px; border-radius: 100px; background: var(--red); color: white; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  .brand h1 { font-family: 'Instrument Serif', serif; font-size: 42px; font-weight: 400; line-height: 1.05; }
+  .brand p { color: var(--text-muted); margin-top: 8px; font-size: 15px; }
+  .pin-entry h2 { font-family: 'Instrument Serif', serif; font-size: 28px; font-weight: 400; margin-bottom: 4px; }
+  .pin-entry .for { color: var(--text-muted); margin-bottom: 20px; font-size: 14px; }
+  .pin-input { width: 100%; padding: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); font-size: 24px; font-weight: 700; text-align: center; letter-spacing: 12px; margin-bottom: 12px; color: var(--text); }
+  .pin-input:focus { border-color: var(--red); outline: none; }
+  .pin-error { color: var(--red); font-size: 13px; min-height: 18px; }
+
+  /* ---------- APP ---------- */
+  #app { display: none; max-width: 1100px; margin: 0 auto; padding: 20px 16px 80px; }
+  #app.show { display: block; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; gap: 12px; flex-wrap: wrap; }
+  .topbar h1 { font-family: 'Instrument Serif', serif; font-size: 28px; font-weight: 400; }
+  .topbar a, .logout-btn { color: var(--text-muted); font-size: 13px; text-decoration: underline; text-underline-offset: 2px; }
+
+  .step { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; }
+  .step h2 { font-family: 'Instrument Serif', serif; font-size: 20px; font-weight: 400; margin-bottom: 4px; }
+  .step .hint { color: var(--text-muted); font-size: 13px; margin-bottom: 14px; }
+
+  .date-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .date-row input[type="date"] { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; color: var(--text); font-size: 14px; }
+  .pill-btn { background: var(--surface-2); border: 1px solid var(--border); border-radius: 100px; padding: 8px 14px; font-size: 13px; color: var(--text-muted); font-weight: 600; }
+  .pill-btn:hover { border-color: var(--border-strong); color: var(--text); }
+  .pill-btn.active { background: var(--red); border-color: var(--red); color: white; }
+
+  /* image picker */
+  .pick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-top: 14px; max-height: 360px; overflow-y: auto; }
+  .pick-item { position: relative; aspect-ratio: 4/5; border-radius: 8px; overflow: hidden; border: 2px solid transparent; cursor: pointer; background: var(--surface-2); }
+  .pick-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pick-item.chosen { border-color: var(--red); }
+  .pick-item .order-badge { position: absolute; top: 4px; left: 4px; background: var(--red); color: white; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: none; align-items: center; justify-content: center; }
+  .pick-item.chosen .order-badge { display: flex; }
+  .empty-hint { color: var(--text-dim); font-size: 13px; padding: 20px; text-align: center; }
+
+  /* slide editor */
+  .slide-editor { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 14px; }
+  .slide-list { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 260px; }
+  .slide-row { display: flex; align-items: center; gap: 10px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 8px; }
+  .slide-row img { width: 44px; height: 55px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+  .slide-row .fields { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .slide-row input { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; color: var(--text); font-size: 12px; width: 100%; }
+  .slide-row .reorder { display: flex; flex-direction: column; gap: 2px; }
+  .slide-row .reorder button { font-size: 11px; color: var(--text-muted); padding: 2px 4px; }
+  .slide-row .reorder button:hover { color: var(--text); }
+  .slide-row .remove-btn { color: var(--text-dim); font-size: 16px; padding: 4px; }
+  .slide-row .remove-btn:hover { color: var(--red); }
+
+  .preview-wrap { flex-shrink: 0; }
+  #slide-canvas { width: 180px; height: 225px; border-radius: 10px; border: 1px solid var(--border-strong); background: #000; }
+  .preview-label { text-align: center; font-size: 11px; color: var(--text-dim); margin-top: 6px; }
+
+  /* buttons */
+  .btn { background: var(--red); color: white; font-weight: 700; padding: 12px 22px; border-radius: 100px; font-size: 14px; display: inline-block; }
+  .btn:disabled { opacity: 0.5; cursor: default; }
+  .btn.secondary { background: var(--surface-2); border: 1px solid var(--border-strong); color: var(--text); }
+  .btn-row { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+
+  /* caption */
+  textarea#sermon-notes, textarea#caption-text { width: 100%; background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 12px; color: var(--text); font-size: 14px; line-height: 1.6; resize: vertical; }
+  textarea#sermon-notes { min-height: 100px; }
+  textarea#caption-text { min-height: 160px; margin-top: 10px; }
+  .field-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+  .field-row input[type="text"] { flex: 1; min-width: 160px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; color: var(--text); font-size: 13px; }
+  .flag-banner { background: rgba(245,158,11,0.15); border: 1px solid var(--amber); border-radius: 10px; padding: 10px 14px; font-size: 13px; color: var(--amber); margin-top: 10px; display: none; }
+  .flag-banner.show { display: block; }
+
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--surface-2); border: 1px solid var(--border-strong); border-radius: 100px; padding: 12px 20px; font-size: 13px; font-weight: 600; z-index: 1000; transition: transform 0.2s; opacity: 0; }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<div id="login">
+  <div class="brand">
+    <span class="brand-badge">Calvary</span>
+    <h1>Content Studio</h1>
+    <p>Build carousels &amp; draft captions from Sunday stills</p>
+  </div>
+  <div class="pin-entry">
+    <h2>Enter PIN</h2>
+    <p class="for">to access Content Studio</p>
+    <input id="pin-input" class="pin-input" type="tel" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="• • • •">
+    <div id="pin-error" class="pin-error"></div>
+  </div>
+</div>
+
+<div id="app">
+  <div class="topbar">
+    <div>
+      <h1>Content Studio</h1>
+      <a href="index.html">← Back to Control Room</a> · <a href="stills.html">Sunday Stills →</a>
+    </div>
+    <button class="logout-btn" onclick="logout()">Sign out</button>
+  </div>
+
+  <!-- STEP 1: pick a date -->
+  <div class="step">
+    <h2>1. Pick a Sunday</h2>
+    <p class="hint">Loads stills already selected for social on that date.</p>
+    <div class="date-row">
+      <input type="date" id="service-date">
+      <button class="pill-btn" id="last-sunday-btn" onclick="jumpLastSunday()">Last Sunday</button>
+      <button class="pill-btn" id="show-all-btn" onclick="toggleShowAll()">Show all stills (not just selected)</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: pick images -->
+  <div class="step">
+    <h2>2. Choose images for the carousel</h2>
+    <p class="hint">Click to add, click again to remove. Numbers show slide order — reorder in step 3.</p>
+    <div class="pick-grid" id="pick-grid"></div>
+    <div class="empty-hint" id="pick-empty" style="display:none;">No stills for this date yet — go select some in Sunday Stills first.</div>
+  </div>
+
+  <!-- STEP 3: arrange + text -->
+  <div class="step">
+    <h2>3. Arrange slides &amp; add text</h2>
+    <p class="hint">Headline is the big statement on the slide. Subtext is optional, smaller line underneath.</p>
+    <div class="slide-editor">
+      <div class="slide-list" id="slide-list"></div>
+      <div class="preview-wrap">
+        <canvas id="slide-canvas" width="1080" height="1350"></canvas>
+        <div class="preview-label" id="preview-label">Preview</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn" onclick="exportAllSlides()">Export all slides (PNG)</button>
+      <button class="btn secondary" onclick="saveProject()">Save project</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: caption -->
+  <div class="step">
+    <h2>4. Draft a caption</h2>
+    <p class="hint">Paste a transcript excerpt, key quote, or just describe what today's content is about.</p>
+    <div class="field-row">
+      <input type="text" id="sermon-title" placeholder="Sermon title (optional)">
+      <input type="text" id="preacher-name" placeholder="Preacher (optional)">
+    </div>
+    <textarea id="sermon-notes" placeholder="Paste a transcript excerpt, key quote, or describe what this content is about..."></textarea>
+    <div class="btn-row">
+      <button class="btn" id="draft-btn" onclick="draftCaption()">Draft caption</button>
+    </div>
+    <div class="flag-banner" id="flag-banner"></div>
+    <textarea id="caption-text" placeholder="Your caption will appear here — edit freely before using it."></textarea>
+    <div class="btn-row">
+      <button class="btn secondary" onclick="copyCaption()">Copy caption</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const SUPABASE_URL = 'https://pfycvgbrsbecznkcikwt.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmeWN2Z2Jyc2JlY3pua2Npa3d0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzNzY1NDgsImV4cCI6MjA5MDk1MjU0OH0.xw_DSmC0brKC7K9H-rxNG0HKKDi4I-dNSEoZKERvHcQ';
+const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const BUCKET = 'control-room-media';
+const SHARED_PIN = '1234';
+
+let currentDate = mostRecentSundayOrToday();
+let showAll = false;
+let availableStills = [];   // stills for the current date
+let chosenSlides = [];      // [{ still_id, url, headline, subtext }] in order
+let activePreviewIdx = 0;
+
+// ------------------------------------------------------------
+// Date helpers
+// ------------------------------------------------------------
+function toISODate(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function mostRecentSundayOrToday() {
+  const d = new Date();
+  if (d.getDay() === 0) return toISODate(d);
+  const back = new Date(d); back.setDate(d.getDate() - d.getDay());
+  return toISODate(back);
+}
+
+// ------------------------------------------------------------
+// LOGIN
+// ------------------------------------------------------------
+document.getElementById('pin-input').addEventListener('input', (e) => {
+  const pin = e.target.value;
+  if (pin.length !== 4) return;
+  if (pin === SHARED_PIN) {
+    sessionStorage.setItem('studio_user', '1');
+    enterApp();
+  } else {
+    document.getElementById('pin-error').textContent = 'Wrong PIN. Try again.';
+    e.target.value = '';
+  }
+});
+window.logout = () => { sessionStorage.removeItem('studio_user'); location.reload(); };
+
+async function enterApp() {
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('app').classList.add('show');
+  document.getElementById('service-date').value = currentDate;
+  await loadFonts();
+  loadPickGrid();
+}
+
+document.getElementById('service-date').addEventListener('change', (e) => {
+  currentDate = e.target.value;
+  loadPickGrid();
+});
+window.jumpLastSunday = () => {
+  currentDate = mostRecentSundayOrToday();
+  document.getElementById('service-date').value = currentDate;
+  loadPickGrid();
+};
+window.toggleShowAll = () => {
+  showAll = !showAll;
+  document.getElementById('show-all-btn').classList.toggle('active', showAll);
+  loadPickGrid();
+};
+
+// ------------------------------------------------------------
+// FONTS (for canvas rendering — same families as the rest of Calvary OS)
+// ------------------------------------------------------------
+async function loadFonts() {
+  try {
+    // Reuses the @font-face rules already declared by the <link> tag in <head> —
+    // safer than hardcoding a guessed Google Fonts file URL, which breaks
+    // silently (and confusingly) the moment Google rotates the file hash.
+    await Promise.all([
+      document.fonts.load("56px 'Anton'"),
+      document.fonts.load("italic 34px 'Instrument Serif'"),
+    ]);
+    await document.fonts.ready;
+  } catch (err) {
+    console.warn('Font load failed, canvas will fall back to system fonts:', err);
+  }
+}
+
+// ------------------------------------------------------------
+// STEP 2: image picker
+// ------------------------------------------------------------
+async function loadPickGrid() {
+  const grid = document.getElementById('pick-grid');
+  const empty = document.getElementById('pick-empty');
+  grid.innerHTML = '';
+
+  let query = client.from('control_room_stills').select('*').eq('service_date', currentDate);
+  if (!showAll) query = query.not('github_path', 'is', null);
+  const { data, error } = await query.order('created_at', { ascending: false });
+
+  if (error) { showToast('Could not load stills: ' + error.message); return; }
+  availableStills = data || [];
+  empty.style.display = availableStills.length ? 'none' : 'block';
+
+  for (const still of availableStills) {
+    const { data: urlData } = client.storage.from(BUCKET).getPublicUrl(still.storage_path);
+    const url = urlData.publicUrl;
+    const div = document.createElement('div');
+    div.className = 'pick-item';
+    div.innerHTML = `<img src="${url}" loading="lazy"><span class="order-badge"></span>`;
+    div.addEventListener('click', () => toggleChoose(still, url, div));
+    grid.appendChild(div);
+  }
+}
+
+function toggleChoose(still, url, el) {
+  const idx = chosenSlides.findIndex(s => s.still_id === still.id);
+  if (idx >= 0) {
+    chosenSlides.splice(idx, 1);
+    el.classList.remove('chosen');
+  } else {
+    chosenSlides.push({ still_id: still.id, url, headline: '', subtext: '' });
+    el.classList.add('chosen');
+  }
+  renumberBadges();
+  renderSlideList();
+}
+function renumberBadges() {
+  document.querySelectorAll('.pick-item.chosen').forEach((el) => {
+    const img = el.querySelector('img');
+    const match = chosenSlides.findIndex(s => s.url === img.src);
+    el.querySelector('.order-badge').textContent = match + 1;
+  });
+}
+
+// ------------------------------------------------------------
+// STEP 3: slide list + canvas preview
+// ------------------------------------------------------------
+function renderSlideList() {
+  const list = document.getElementById('slide-list');
+  list.innerHTML = '';
+  chosenSlides.forEach((slide, i) => {
+    const row = document.createElement('div');
+    row.className = 'slide-row';
+    row.innerHTML = `
+      <img src="${slide.url}">
+      <div class="fields">
+        <input type="text" placeholder="Headline" value="${escapeAttr(slide.headline)}" data-field="headline">
+        <input type="text" placeholder="Subtext (optional)" value="${escapeAttr(slide.subtext)}" data-field="subtext">
+      </div>
+      <div class="reorder">
+        <button data-up>▲</button>
+        <button data-down>▼</button>
+      </div>
+      <button class="remove-btn" data-remove>✕</button>
+    `;
+    row.querySelector('[data-field="headline"]').addEventListener('input', (e) => { slide.headline = e.target.value; redrawPreview(i); });
+    row.querySelector('[data-field="subtext"]').addEventListener('input', (e) => { slide.subtext = e.target.value; redrawPreview(i); });
+    row.querySelector('[data-up]').addEventListener('click', () => moveSlide(i, -1));
+    row.querySelector('[data-down]').addEventListener('click', () => moveSlide(i, 1));
+    row.querySelector('[data-remove]').addEventListener('click', () => removeSlide(i));
+    row.addEventListener('click', (e) => { if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON') redrawPreview(i); });
+    list.appendChild(row);
+  });
+  if (chosenSlides.length) redrawPreview(Math.min(activePreviewIdx, chosenSlides.length - 1));
+  else clearPreview();
+}
+function moveSlide(i, dir) {
+  const j = i + dir;
+  if (j < 0 || j >= chosenSlides.length) return;
+  [chosenSlides[i], chosenSlides[j]] = [chosenSlides[j], chosenSlides[i]];
+  renumberBadges();
+  renderSlideList();
+}
+function removeSlide(i) {
+  chosenSlides.splice(i, 1);
+  renumberBadges();
+  renderSlideList();
+}
+
+function clearPreview() {
+  const ctx = document.getElementById('slide-canvas').getContext('2d');
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, 1080, 1350);
+  document.getElementById('preview-label').textContent = 'Preview';
+}
+
+async function redrawPreview(i) {
+  activePreviewIdx = i;
+  const slide = chosenSlides[i];
+  if (!slide) return clearPreview();
+  document.getElementById('preview-label').textContent = `Slide ${i + 1} of ${chosenSlides.length}`;
+
+  const canvas = document.getElementById('slide-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = 1080, H = 1350;
+
+  const img = await loadImage(slide.url);
+  ctx.fillStyle = '#0A0A0A';
+  ctx.fillRect(0, 0, W, H);
+
+  // cover-fit the photo
+  const scale = Math.max(W / img.width, H / img.height);
+  const sw = img.width * scale, sh = img.height * scale;
+  ctx.drawImage(img, (W - sw) / 2, (H - sh) / 2, sw, sh);
+
+  // bottom scrim so text reads over any photo
+  const grad = ctx.createLinearGradient(0, H * 0.45, 0, H);
+  grad.addColorStop(0, 'rgba(10,10,10,0)');
+  grad.addColorStop(1, 'rgba(10,10,10,0.92)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, H * 0.45, W, H * 0.55);
+
+  // headline
+  const LM = 72, MAXW = W - LM * 2;
+  let y = H - 140;
+  if (slide.subtext) {
+    ctx.font = "italic 34px 'Instrument Serif', serif";
+    ctx.fillStyle = 'rgba(255,255,255,0.75)';
+    y = drawWrapped(ctx, slide.subtext, LM, y, MAXW, 42, true) ;
+    y -= 50;
+  } else {
+    y = H - 110;
+  }
+  ctx.font = "56px 'Anton', sans-serif";
+  ctx.fillStyle = '#FFFFFF';
+  drawWrappedFromBottom(ctx, slide.headline || 'Headline', LM, y, MAXW, 60);
+
+  // small red corner mark, top-left — matches the rest of Calvary's design system
+  ctx.fillStyle = '#C41E2A';
+  ctx.fillRect(LM, 64, 36, 6);
+  ctx.fillRect(LM, 64, 6, 36);
+}
+
+function drawWrapped(ctx, text, x, y, maxW, lineH, forward) {
+  const words = text.split(' ');
+  let line = '', lines = [];
+  for (const w of words) {
+    const test = (line + ' ' + w).trim();
+    if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
+    else line = test;
+  }
+  if (line) lines.push(line);
+  lines.forEach((l, i) => ctx.fillText(l, x, y + i * lineH));
+  return y + lines.length * lineH;
+}
+function drawWrappedFromBottom(ctx, text, x, yBottom, maxW, lineH) {
+  const words = text.split(' ');
+  let line = '', lines = [];
+  for (const w of words) {
+    const test = (line + ' ' + w).trim();
+    if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
+    else line = test;
+  }
+  if (line) lines.push(line);
+  const startY = yBottom - (lines.length - 1) * lineH;
+  lines.forEach((l, i) => ctx.fillText(l, x, startY + i * lineH));
+}
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+// ------------------------------------------------------------
+// EXPORT
+// ------------------------------------------------------------
+window.exportAllSlides = async () => {
+  if (!chosenSlides.length) { showToast('Choose at least one image first'); return; }
+  const canvas = document.getElementById('slide-canvas');
+  for (let i = 0; i < chosenSlides.length; i++) {
+    await redrawPreview(i);
+    await new Promise(r => setTimeout(r, 50)); // let the canvas settle before reading it
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `slide-${String(i + 1).padStart(2, '0')}.png`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    await new Promise(r => setTimeout(r, 200)); // avoid the browser blocking rapid-fire downloads
+  }
+  showToast(`Exported ${chosenSlides.length} slide${chosenSlides.length === 1 ? '' : 's'}`);
+};
+
+window.saveProject = async () => {
+  const { error } = await client.from('content_studio_projects').insert({
+    service_date: currentDate,
+    slides: chosenSlides,
+    sermon_notes: document.getElementById('sermon-notes').value,
+    caption_final: document.getElementById('caption-text').value,
+    status: 'draft',
+  });
+  if (error) { showToast('Save failed: ' + error.message); return; }
+  showToast('Project saved');
+};
+
+// ------------------------------------------------------------
+// STEP 4: caption drafting
+// ------------------------------------------------------------
+window.draftCaption = async () => {
+  const notes = document.getElementById('sermon-notes').value.trim();
+  if (!notes) { showToast('Paste some notes or a transcript excerpt first'); return; }
+
+  const btn = document.getElementById('draft-btn');
+  const flagBanner = document.getElementById('flag-banner');
+  btn.disabled = true;
+  btn.textContent = 'Drafting…';
+  flagBanner.classList.remove('show');
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/draft-caption`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'apikey': SUPABASE_ANON_KEY },
+      body: JSON.stringify({
+        sermon_title: document.getElementById('sermon-title').value.trim(),
+        preacher: document.getElementById('preacher-name').value.trim(),
+        notes,
+      }),
+    });
+    const result = await res.json();
+    if (!res.ok || result.error) throw new Error(result.error || `HTTP ${res.status}`);
+
+    let caption = result.caption;
+    const flagMatch = caption.match(/^\[FLAG:\s*(.+?)\]\s*\n?/);
+    if (flagMatch) {
+      flagBanner.textContent = '⚠ ' + flagMatch[1] + ' — review this draft carefully before using it.';
+      flagBanner.classList.add('show');
+      caption = caption.replace(flagMatch[0], '');
+    }
+    document.getElementById('caption-text').value = caption;
+    showToast('Draft ready — edit as needed');
+  } catch (err) {
+    console.error('Draft caption failed:', err);
+    showToast('Could not draft a caption: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Draft caption';
+  }
+};
+
+window.copyCaption = () => {
+  const text = document.getElementById('caption-text').value;
+  if (!text) { showToast('Nothing to copy yet'); return; }
+  navigator.clipboard.writeText(text);
+  showToast('Caption copied');
+};
+
+// ------------------------------------------------------------
+// UTILS
+// ------------------------------------------------------------
+function escapeAttr(s) { return String(s || '').replace(/"/g, '&quot;'); }
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+(function boot() {
+  if (sessionStorage.getItem('studio_user')) enterApp();
+  else document.getElementById('pin-input').focus();
+})();
+</script>
+</body>
+</html>
