@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>PTZ Camera — Calvary OS</title>
+<meta name="theme-color" content="#C41E2A">
+<meta name="description" content="Setup, operation and troubleshooting guide for Calvary's Tenveo PTZ camera.">
+<meta property="og:title" content="Calvary PTZ Camera — Full Guide">
+<meta property="og:description" content="Quick start + full reference for the Tenveo PTZ camera. Setup, colour grading, tracking, troubleshooting.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;}
+
+:root{
+  --red:#C41E2A;--red-d:#A8181F;--red-light:#FEF2F2;--red-mid:#FECACA;
+  --white:#FFFFFF;--bg:#F5F6FA;--bg-2:#ECEEF5;--bg-3:#FAFBFD;
+  --ink:#111827;--ink-2:#374151;--ink-3:#6B7280;--ink-4:#9CA3AF;--ink-5:#E5E7EB;--ink-6:#F9FAFB;
+  --green:#16A34A;--green-light:#F0FDF4;--green-mid:#BBF7D0;
+  --amber:#D97706;--amber-light:#FFFBEB;--amber-mid:#FDE68A;
+  --blue:#2563EB;--blue-light:#EFF6FF;
+  --border:#E5E7EB;
+  --r8:8px;--r10:10px;--r12:12px;--r14:14px;--r16:16px;--r20:20px;--r24:24px;
+  --shadow-xs:0 1px 2px rgba(17,24,39,0.05);
+  --shadow-sm:0 1px 3px rgba(17,24,39,0.08),0 1px 2px rgba(17,24,39,0.04);
+  --shadow:0 4px 6px rgba(17,24,39,0.05),0 10px 20px rgba(17,24,39,0.06);
+}
+
+html,body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.6;}
+
+/* ── TOP BAR ── */
+.topbar{position:sticky;top:0;background:var(--white);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:14px;z-index:50;box-shadow:var(--shadow-xs);}
+.topbar-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);}
+.topbar-logo-icon{width:32px;height:32px;background:var(--red);border-radius:var(--r10);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.topbar-logo-icon svg{width:16px;height:16px;}
+.topbar-logo-name{font-size:15px;font-weight:700;letter-spacing:-0.2px;}
+.topbar-divider{width:1px;height:20px;background:var(--border);}
+.topbar-section{font-size:14px;color:var(--ink-3);font-weight:500;}
+.topbar-right{margin-left:auto;display:flex;gap:8px;}
+.tb-btn{padding:7px 12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r8);font-size:12px;font-weight:600;color:var(--ink-2);cursor:pointer;text-decoration:none;font-family:'Poppins',sans-serif;transition:all 0.15s;}
+.tb-btn:hover{background:var(--white);border-color:var(--ink-4);}
+
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:240px 1fr;max-width:1280px;margin:0 auto;gap:32px;padding:24px 20px 80px;}
+@media (max-width:900px){.layout{grid-template-columns:1fr;gap:0;padding:16px 16px 80px;}}
+
+/* ── SIDEBAR TOC ── */
+.toc{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;padding-right:8px;}
+@media (max-width:900px){.toc{display:none;}}
+.toc-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--ink-4);margin-bottom:12px;padding-left:12px;}
+.toc a{display:block;padding:7px 12px;font-size:13px;color:var(--ink-3);text-decoration:none;border-radius:var(--r8);border-left:2px solid transparent;line-height:1.4;transition:all 0.15s;}
+.toc a:hover{color:var(--ink);background:var(--white);}
+.toc a.active{color:var(--red);background:var(--red-light);border-left-color:var(--red);font-weight:600;}
+.toc .toc-h2{font-weight:600;margin-top:16px;padding-left:12px;font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--ink-4);}
+
+/* ── MOBILE JUMP MENU ── */
+.mobile-jump{display:none;margin-bottom:20px;}
+@media (max-width:900px){.mobile-jump{display:block;}}
+.mobile-jump select{width:100%;padding:12px 14px;font-family:'Poppins',sans-serif;font-size:14px;background:var(--white);border:1px solid var(--border);border-radius:var(--r12);color:var(--ink);box-shadow:var(--shadow-xs);appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%236B7280' stroke-width='1.5'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px;}
+
+/* ── CONTENT ── */
+.content{min-width:0;}
+
+.hero{background:var(--white);border-radius:var(--r20);padding:28px 28px 32px;margin-bottom:24px;box-shadow:var(--shadow-sm);border:1px solid var(--border);}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;}
+.hero-eyebrow::before{content:"";width:6px;height:6px;background:var(--red);border-radius:50%;}
+.hero h1{font-size:32px;font-weight:800;letter-spacing:-0.6px;line-height:1.15;margin-bottom:10px;}
+.hero p{color:var(--ink-3);font-size:15px;line-height:1.6;max-width:640px;}
+@media (max-width:900px){.hero{padding:22px;}.hero h1{font-size:26px;}}
+
+.section{background:var(--white);border-radius:var(--r20);padding:28px;margin-bottom:20px;box-shadow:var(--shadow-sm);border:1px solid var(--border);scroll-margin-top:80px;}
+@media (max-width:900px){.section{padding:20px;border-radius:var(--r16);}}
+
+.section h2{font-size:22px;font-weight:700;letter-spacing:-0.3px;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+.section .h2-num{width:28px;height:28px;background:var(--red);color:white;border-radius:var(--r8);display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;}
+.section .lead{color:var(--ink-3);font-size:14px;margin-bottom:22px;padding-left:38px;line-height:1.6;}
+@media (max-width:900px){.section .lead{padding-left:0;margin-top:8px;}}
+
+.section h3{font-size:16px;font-weight:700;margin:24px 0 10px;letter-spacing:-0.2px;}
+.section h3:first-of-type{margin-top:0;}
+.section h4{font-size:14px;font-weight:700;margin:18px 0 8px;color:var(--ink-2);}
+
+.section p{color:var(--ink-2);margin-bottom:12px;line-height:1.7;}
+.section ul,.section ol{margin:8px 0 16px 22px;color:var(--ink-2);}
+.section li{margin-bottom:6px;line-height:1.7;}
+.section li strong{color:var(--ink);}
+.section a{color:var(--red);text-decoration:none;font-weight:500;}
+.section a:hover{text-decoration:underline;}
+.section code{background:var(--bg-2);padding:2px 7px;border-radius:5px;font-family:'SFMono-Regular',Consolas,monospace;font-size:12.5px;color:var(--red-d);font-weight:500;}
+.section pre{background:var(--ink);color:#e5e7eb;padding:14px 16px;border-radius:var(--r10);font-family:'SFMono-Regular',Consolas,monospace;font-size:12.5px;overflow-x:auto;margin:12px 0;line-height:1.6;}
+.section pre code{background:none;padding:0;color:inherit;font-weight:400;}
+
+/* ── STAT / KEY-VALUE ── */
+.kv{display:grid;grid-template-columns:auto 1fr;gap:8px 20px;margin:14px 0;padding:14px 16px;background:var(--bg-3);border-radius:var(--r10);border:1px solid var(--border);font-size:13.5px;}
+.kv dt{color:var(--ink-3);font-weight:600;}
+.kv dd{color:var(--ink);font-weight:500;}
+.kv dd code{font-size:12px;}
+
+/* ── CALLOUTS ── */
+.callout{border-left:4px solid;padding:14px 16px 14px 18px;margin:14px 0;border-radius:0 var(--r10) var(--r10) 0;background:var(--bg-3);}
+.callout.info{border-color:var(--blue);background:var(--blue-light);}
+.callout.warn{border-color:var(--amber);background:var(--amber-light);}
+.callout.danger{border-color:var(--red);background:var(--red-light);}
+.callout.success{border-color:var(--green);background:var(--green-light);}
+.callout-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink);display:flex;align-items:center;gap:8px;}
+.callout.info .callout-title{color:var(--blue);}
+.callout.warn .callout-title{color:var(--amber);}
+.callout.danger .callout-title{color:var(--red);}
+.callout.success .callout-title{color:var(--green);}
+.callout p:last-child{margin-bottom:0;}
+.callout p{font-size:13.5px;line-height:1.65;color:var(--ink-2);}
+
+/* ── STEPS ── */
+.steps{counter-reset:step;list-style:none;margin:16px 0 !important;padding:0 !important;}
+.steps li{counter-increment:step;position:relative;padding:14px 16px 14px 54px;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--r10);margin-bottom:8px;color:var(--ink-2);line-height:1.6;}
+.steps li::before{content:counter(step);position:absolute;left:14px;top:12px;width:28px;height:28px;background:var(--red);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;}
+.steps li strong{color:var(--ink);}
+
+/* ── TABLES ── */
+.tbl{width:100%;border-collapse:separate;border-spacing:0;margin:14px 0;font-size:13.5px;border:1px solid var(--border);border-radius:var(--r10);overflow:hidden;}
+.tbl th{text-align:left;padding:10px 14px;background:var(--bg-2);font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--ink-3);font-weight:700;border-bottom:1px solid var(--border);}
+.tbl td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--ink-2);line-height:1.55;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:nth-child(even) td{background:var(--bg-3);}
+.tbl code{font-size:12px;}
+
+/* ── PILLS ── */
+.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:100px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.pill-ok{background:var(--green-light);color:var(--green);}
+.pill-warn{background:var(--amber-light);color:var(--amber);}
+.pill-info{background:var(--blue-light);color:var(--blue);}
+.pill-red{background:var(--red-light);color:var(--red);}
+
+/* ── CARD GRIDS ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;}
+@media (max-width:700px){.grid-2{grid-template-columns:1fr;}}
+.mini-card{background:var(--bg-3);border:1px solid var(--border);border-radius:var(--r10);padding:14px 16px;}
+.mini-card-h{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink);}
+.mini-card-b{font-size:13px;color:var(--ink-3);line-height:1.6;}
+
+/* ── FOOTER ── */
+.footer{text-align:center;padding:32px 20px 40px;color:var(--ink-4);font-size:12px;}
+.footer a{color:var(--ink-3);text-decoration:none;}
+.footer a:hover{color:var(--red);}
+
+/* Section jump target highlight */
+.section:target{box-shadow:0 0 0 3px var(--red-mid),var(--shadow-sm);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="dashboard.html" class="topbar-logo">
+    <div class="topbar-logo-icon"><svg viewBox="0 0 16 16" fill="none"><rect x="6.5" y="1" width="3" height="14" rx="0.5" fill="white"/><rect x="1" y="5.5" width="14" height="3" rx="0.5" fill="white"/></svg></div>
+    <div class="topbar-logo-name">Calvary OS</div>
+  </a>
+  <div class="topbar-divider"></div>
+  <div class="topbar-section">📷 PTZ Camera</div>
+  <div class="topbar-right">
+    <a href="media.html" class="tb-btn">← Media</a>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR TOC ── -->
+  <aside class="toc" id="toc">
+    <div class="toc-title">On this page</div>
+    <a href="#quick-start" class="active">⚡ Quick start</a>
+
+    <div class="toc-h2">Reference</div>
+    <a href="#kit">Kit &amp; specs</a>
+    <a href="#network">Network setup</a>
+    <a href="#obs">OBS connection</a>
+    <a href="#control">Camera control</a>
+    <a href="#tracking">AI auto tracking</a>
+    <a href="#colour">Colour treatment (LUT)</a>
+
+    <div class="toc-h2">Operations</div>
+    <a href="#sunday">Sunday run-through</a>
+    <a href="#framing">Camera framing</a>
+
+    <div class="toc-h2">Help</div>
+    <a href="#troubleshooting">Troubleshooting</a>
+    <a href="#glossary">Glossary</a>
+  </aside>
+
+  <!-- ── CONTENT ── -->
+  <main class="content">
+
+    <!-- MOBILE JUMP -->
+    <div class="mobile-jump">
+      <select onchange="if(this.value)location.hash=this.value">
+        <option value="">Jump to section…</option>
+        <option value="#quick-start">⚡ Quick start</option>
+        <option value="#kit">Kit &amp; specs</option>
+        <option value="#network">Network setup</option>
+        <option value="#obs">OBS connection</option>
+        <option value="#control">Camera control</option>
+        <option value="#tracking">AI auto tracking</option>
+        <option value="#colour">Colour treatment (LUT)</option>
+        <option value="#sunday">Sunday run-through</option>
+        <option value="#framing">Camera framing</option>
+        <option value="#troubleshooting">Troubleshooting</option>
+        <option value="#glossary">Glossary</option>
+      </select>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-eyebrow">Calvary Media · Camera</div>
+      <h1>Tenveo PTZ Camera — Full Guide</h1>
+      <p>Everything you need to set up, operate, colour-grade and troubleshoot the front-of-house PTZ camera. Start with the Quick Start if you just need it running; use the reference sections below when things go sideways.</p>
+    </div>
+
+    <!-- ═══════════ QUICK START ═══════════ -->
+    <section class="section" id="quick-start">
+      <h2><span class="h2-num">⚡</span> Quick start</h2>
+      <p class="lead">If everything is where it was last week, this is all you need. Aim for 20 minutes end to end.</p>
+
+      <ol class="steps">
+        <li><strong>Set up the tripod</strong> at the front of house. Splay legs, lock centre spreader, extend column to just above seated eye-line.</li>
+        <li><strong>Clip the camera onto the tripod</strong> using the quick-release plate. Engage the safety lever — tug the camera gently to confirm it's locked.</li>
+        <li><strong>Power the camera</strong> — plug the 12V adapter into a wall socket and into the camera. Wait 30 seconds. The lens will motor-initialise (pans, tilts, focuses). Front LED comes on.</li>
+        <li><strong>Plug the camera into the Starlink router</strong> — Ethernet cable from the camera's LAN port into any free LAN port on the router.</li>
+        <li><strong>On the Mac Mini</strong> — open OBS. The NDI source for the camera should still be there from last week.</li>
+        <li><strong>Verify the feed appears in OBS preview.</strong> If yes → you're done. Frame the shot per <a href="#framing">Camera framing</a>.</li>
+      </ol>
+
+      <div class="callout success">
+        <div class="callout-title">✓ If it just works</div>
+        <p>Great. Set your Presenter preset (see <a href="#tracking">AI auto tracking</a>), confirm the LUT is applied for colour, and you're ready for service. Total time: about 15 min.</p>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-title">⚠ If NDI source is missing from OBS</div>
+        <p>The camera might be on a different IP than last time — routers sometimes reassign. Jump to <a href="#obs">OBS connection</a> to re-add the source. If OBS shows "no NDI sources found", check <a href="#network">Network setup</a>.</p>
+      </div>
+
+      <div class="callout danger">
+        <div class="callout-title">✗ If nothing works today</div>
+        <p>Fall back to phone camera immediately — that setup is proven and covers every Sunday. Fix the PTZ mid-week when there's no time pressure. Sunday service always wins.</p>
+      </div>
+    </section>
+
+
+    <!-- ═══════════ KIT ═══════════ -->
+    <section class="section" id="kit">
+      <h2><span class="h2-num">1</span> Kit &amp; specs</h2>
+      <p class="lead">What we own, what each piece does, and the key numbers you'll need when troubleshooting.</p>
+
+      <h3>The camera</h3>
+      <dl class="kv">
+        <dt>Model</dt><dd>Tenveo TEVO-VHD20HAN</dd>
+        <dt>Type</dt><dd>PTZ (pan / tilt / zoom) with AI auto-tracking</dd>
+        <dt>Zoom</dt><dd>20× optical, Sony sensor</dd>
+        <dt>Resolution</dt><dd>1080p @ 60fps</dd>
+        <dt>Outputs</dt><dd>NDI (network) · HDMI · USB 3.0 · LAN</dd>
+        <dt>Power</dt><dd>DC 12V, 2A — 5.5mm barrel connector</dd>
+        <dt>Login (default)</dt><dd><code>admin</code> / <code>admin</code></dd>
+        <dt>Factory IP</dt><dd><code>192.168.0.206</code></dd>
+      </dl>
+
+      <h3>Supporting kit</h3>
+      <table class="tbl">
+        <thead><tr><th>Item</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>Cayer BV30L 72" tripod</td><td>Holds the camera. Twin-tube aluminium, 8kg load, fluid head.</td></tr>
+          <tr><td>QR plate (RGBS Manfrotto 501PL-compatible)</td><td>Metal plate on the camera base that clips into the tripod head.</td></tr>
+          <tr><td>TP-Link POE160S PoE+ injector</td><td>Powers the camera over Ethernet if you don't want to run separate power. Currently we use the wall adapter instead — PoE is a backup path.</td></tr>
+          <tr><td>Cable Matters 15m Cat6</td><td>Long Ethernet cable from camera position to the media desk.</td></tr>
+          <tr><td>Cable Matters 5-pack 2.1m Cat6 patch</td><td>Short patch cables — camera to router, spare kit for team.</td></tr>
+          <tr><td>ZVOIYKM 10m active USB 3.0 extension</td><td>Fallback if NDI ever fails — direct USB from camera to Mac Mini over 10m.</td></tr>
+          <tr><td>Amazon Basics 3m HDMI</td><td>Diagnostic. Plug into any monitor to prove the camera is producing video.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout info">
+        <div class="callout-title">Why so many cables?</div>
+        <p>There are three ways to get video from the camera to the streaming computer: NDI (over Ethernet), USB, or HDMI to a capture card. We use NDI as primary because it needs one cable and gives us remote control from the same connection. USB and HDMI are proven fallbacks — this is why we keep the extension cable and HDMI cable to hand.</p>
+      </div>
+    </section>
+
+
+    <!-- ═══════════ NETWORK ═══════════ -->
+    <section class="section" id="network">
+      <h2><span class="h2-num">2</span> Network setup</h2>
+      <p class="lead">The trickiest part of the whole system. Read this section once, refer back to it whenever things break.</p>
+
+      <h3>How it's currently wired</h3>
+      <ul>
+        <li><strong>Camera</strong> → Ethernet cable → <strong>Starlink router</strong> (any LAN port)</li>
+        <li><strong>Mac Mini</strong> → Ethernet cable → <strong>Starlink router</strong> (the other LAN port)</li>
+        <li>Mac Mini also on Starlink Wi-Fi for internet</li>
+      </ul>
+
+      <h3>The important bit — IP addresses</h3>
+      <p>The camera ships with a factory IP of <code>192.168.0.206</code>. Starlink's network runs on the <code>192.168.1.x</code> range. These are different networks, so by default the camera and the Mac Mini can't see each other.</p>
+
+      <p><strong>The workaround we use:</strong> the Mac Mini's Ethernet is set to a manual IP on the camera's network, so it can reach the camera directly. Its Wi-Fi stays on Starlink for internet.</p>
+
+      <div class="callout info">
+        <div class="callout-title">Two networks at once, no conflict</div>
+        <p>The Mac Mini lives on both networks simultaneously — Wi-Fi for Starlink (internet), Ethernet for the camera. macOS handles this fine as long as Wi-Fi is the primary service (top of the list in Network settings).</p>
+      </div>
+
+      <h3>Mac Mini Ethernet settings (should already be set)</h3>
+      <dl class="kv">
+        <dt>Interface</dt><dd>Ethernet</dd>
+        <dt>Configure IPv4</dt><dd>Manually</dd>
+        <dt>IP Address</dt><dd><code>192.168.0.100</code></dd>
+        <dt>Subnet Mask</dt><dd><code>255.255.255.0</code></dd>
+        <dt>Router</dt><dd>(leave blank)</dd>
+      </dl>
+
+      <h3>How to check / restore these settings</h3>
+      <ol class="steps">
+        <li>Apple menu → <strong>System Settings</strong> → <strong>Network</strong></li>
+        <li>Click <strong>Ethernet</strong> → <strong>Details…</strong></li>
+        <li>Click <strong>TCP/IP</strong> in the sidebar</li>
+        <li>Confirm <strong>Configure IPv4: Manually</strong>, IP Address <code>192.168.0.100</code>, Subnet Mask <code>255.255.255.0</code></li>
+        <li>If not, change them, click <strong>OK</strong>, wait 5 seconds</li>
+        <li>Test by opening a browser and going to <code>http://192.168.0.206</code> — should get a login page</li>
+      </ol>
+
+      <h3>Confirming the camera is reachable</h3>
+      <p>Open a browser on the Mac Mini and visit <code>http://192.168.0.206</code>. You should see the Tenveo login page. Login with <code>admin</code> / <code>admin</code>.</p>
+
+      <div class="callout warn">
+        <div class="callout-title">If the login page won't load</div>
+        <p>The camera and Mac are on different networks. Either the manual IP was wiped (redo the steps above) or the camera has drifted to a different IP. Try <code>arp -a</code> in Terminal — you'll see every device the Mac has heard from.</p>
+      </div>
+    </section>
+
+
+    <!-- ═══════════ OBS ═══════════ -->
+    <section class="section" id="obs">
+      <h2><span class="h2-num">3</span> OBS connection</h2>
+      <p class="lead">How the camera feed gets from the network into OBS. Once set up, this is set-and-forget.</p>
+
+      <h3>What OBS needs (one-time setup)</h3>
+      <ul>
+        <li><strong>OBS Studio</strong> — the streaming software itself</li>
+        <li><strong>DistroAV plugin</strong> — makes OBS understand NDI sources</li>
+        <li><strong>NDI Runtime</strong> — background service that finds NDI sources on the network</li>
+      </ul>
+      <p>All three should already be installed on the Mac Mini. If the "NDI Source" option is missing when you click <strong>+</strong> in OBS Sources, one of them isn't loaded — usually the NDI Runtime. Download it from <a href="https://ndi.video/tools/" target="_blank" rel="noopener">ndi.video/tools</a> and reinstall.</p>
+
+      <h3>Enable NDI on the camera</h3>
+      <p>Log into the camera web interface (<code>http://192.168.0.206</code>). In the left sidebar, click <strong>NDI Settings</strong>. Make sure NDI output is <strong>ON</strong>. Save.</p>
+
+      <h3>Add camera as source in OBS</h3>
+      <ol class="steps">
+        <li>In OBS <strong>Sources</strong> panel → click <strong>+</strong> → choose <strong>NDI Source</strong></li>
+        <li>Name it "Tenveo PTZ" → OK</li>
+        <li>In properties: <strong>Source name</strong> dropdown → pick the Tenveo entry (looks something like <code>TENVEO (Channel 1)</code>)</li>
+        <li>Set <strong>Bandwidth</strong> to <strong>Highest</strong></li>
+        <li>Set <strong>Sync</strong> to <strong>Network</strong></li>
+        <li>Click OK — camera feed appears in preview</li>
+      </ol>
+
+      <div class="callout warn">
+        <div class="callout-title">Source name dropdown is empty</div>
+        <p>Either NDI isn't enabled on the camera (see above), or the Mac Mini can't reach the camera's network (see <a href="#network">Network setup</a>). NDI is auto-discovered — if it's not showing up, the network path is broken.</p>
+      </div>
+    </section>
+
+
+    <!-- ═══════════ CONTROL ═══════════ -->
+    <section class="section" id="control">
+      <h2><span class="h2-num">4</span> Camera control</h2>
+      <p class="lead">How to move the camera and save preset positions.</p>
+
+      <h3>From the Mac Mini web interface</h3>
+      <p>Open <code>http://192.168.0.206</code> and log in. On the right side you'll see a joystick — arrows for pan/tilt, buttons for zoom in/out. Move the camera live.</p>
+
+      <h3>Setting a preset (recommended before service)</h3>
+      <ol class="steps">
+        <li>Move the camera to the position you want (e.g. pulpit, framed head-to-waist)</li>
+        <li>Click the preset slot (usually numbered 1–9)</li>
+        <li>Click <strong>Save</strong> or long-press the slot</li>
+        <li>To recall later: click the slot number → <strong>Call</strong></li>
+      </ol>
+
+      <p>Useful presets for a standard service:</p>
+      <table class="tbl">
+        <thead><tr><th>Preset</th><th>Position</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Presenter — pulpit, head to waist</td></tr>
+          <tr><td>2</td><td>Worship team wide — full stage</td></tr>
+          <tr><td>3</td><td>Congregation wide — from stage looking back</td></tr>
+          <tr><td>4</td><td>Choir / musicians close</td></tr>
+        </tbody>
+      </table>
+
+      <h3>From the IR remote (backup)</h3>
+      <p>The remote in the camera box works if the network drops. Point it at the camera, use the D-pad. Works line-of-sight only — no obstructions.</p>
+
+      <div class="callout info">
+        <div class="callout-title">Phone control — not yet</div>
+        <p>Right now the camera can only be controlled from a device on the <code>192.168.0.x</code> network — that means the Mac Mini. To let phones on Starlink Wi-Fi control it, we'd change the camera's IP to <code>192.168.1.206</code>. Planned for later; leave it for now to avoid breaking what works.</p>
+      </div>
+    </section>
+
+
+    <!-- ═══════════ TRACKING ═══════════ -->
+    <section class="section" id="tracking">
+      <h2><span class="h2-num">5</span> AI auto tracking</h2>
+      <p class="lead">Follows the preacher automatically. Configured properly, this replaces having a dedicated camera operator.</p>
+
+      <h3>The three modes</h3>
+      <table class="tbl">
+        <thead><tr><th>Mode</th><th>Behaviour</th><th>Use for</th></tr></thead>
+        <tbody>
+          <tr><td><strong>AutoFraming</strong></td><td>Detects everyone in shot, zooms out to fit them all</td><td>Meetings, panels — NOT what we want for church</td></tr>
+          <tr><td><strong>Presenter</strong></td><td>Locks onto one person, follows them at fixed zoom</td><td>Preacher on stage ← this is what we want</td></tr>
+          <tr><td><strong>Off</strong></td><td>Manual control only</td><td>Testing, framing setup</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Setting up tracking properly</h3>
+      <ol class="steps">
+        <li>In the web interface, click <strong>Tracking</strong> in the sidebar</li>
+        <li>Set <strong>Mode</strong> to <strong>Presenter</strong> (not AutoFraming — AutoFraming zooms out constantly)</li>
+        <li><strong>Manually zoom in first</strong> to your desired framing (head to waist). Use the joystick + zoom controls.</li>
+        <li>Set that as the <strong>Presenter</strong> preset (click Preset 1, save)</li>
+        <li>Uncheck <strong>Auto Zoom</strong> — keeps the zoom level fixed once tracking starts</li>
+        <li>Uncheck <strong>Auto Tilt</strong> — keeps the vertical framing consistent</li>
+        <li>Set <strong>Target Retention Time</strong> to 6 seconds — how long the camera waits before releasing a lost subject</li>
+        <li>Toggle <strong>Track: ON</strong> — tracking is now live</li>
+      </ol>
+
+      <div class="callout warn">
+        <div class="callout-title">Why zoom in BEFORE enabling tracking</div>
+        <p>If you enable tracking first, it starts from wide and never comes in. Frame first, save the preset, then enable — the camera locks in at that framing and follows the preacher without changing zoom.</p>
+      </div>
+
+      <h3>When tracking goes wrong</h3>
+      <ul>
+        <li><strong>Camera keeps zooming out</strong> → Mode is set to AutoFraming instead of Presenter. Change it.</li>
+        <li><strong>Camera follows the wrong person</strong> → Untick tracking, reframe on the correct person, save preset, re-enable.</li>
+        <li><strong>Camera locks up mid-service</strong> → Toggle Track OFF then ON. If persists, fall back to preset recall.</li>
+      </ul>
+    </section>
+
+
+    <!-- ═══════════ COLOUR ═══════════ -->
+    <section class="section" id="colour">
+      <h2><span class="h2-num">6</span> Colour treatment (LUT)</h2>
+      <p class="lead">The cinematic look — applied in OBS on top of the camera feed. Same LUT used by Twelfth Collective.</p>
+
+      <h3>Why we use a LUT</h3>
+      <p>The camera produces a neutral image. A LUT (Look Up Table) applies a colour grade — like a filter on Instagram, but purpose-built for video. It gives every service a consistent, warm, cinematic feel that matches the sermon clips we post online.</p>
+
+      <h3>Where the LUT file lives</h3>
+      <p>The <code>.cube</code> file is in Google Drive. On the Mac Mini it should already be in <strong>Downloads</strong> from the first setup. If it's missing, download again from Drive.</p>
+
+      <h3>Applying the LUT in OBS</h3>
+      <ol class="steps">
+        <li>In OBS, right-click the <strong>Tenveo PTZ</strong> source → <strong>Filters</strong></li>
+        <li>Under Effect Filters, click <strong>+</strong> → <strong>Apply LUT</strong></li>
+        <li>Click <strong>Browse</strong>, navigate to Downloads, select the Twelfth <code>.cube</code> file</li>
+        <li>Set <strong>Amount</strong> to <strong>60-75%</strong> (100% is usually too strong)</li>
+        <li>Preview updates immediately — adjust to taste</li>
+      </ol>
+
+      <div class="callout info">
+        <div class="callout-title">Amount slider guide</div>
+        <p><strong>40-50%</strong> — subtle, natural. Good if room lighting is already warm.<br>
+        <strong>60-75%</strong> — our default. Cinematic without being obviously graded.<br>
+        <strong>90-100%</strong> — heavy, saturated. Only for artistic moments.</p>
+      </div>
+
+      <h3>Camera-side settings (bake in first)</h3>
+      <p>Before adding a LUT, get the camera producing a clean image. In the web interface → <strong>Image</strong> tab:</p>
+      <ul>
+        <li><strong>White Balance</strong> — set to <strong>Manual</strong>, tune for the room's lighting (usually 4500-5500K for church halls)</li>
+        <li><strong>Exposure</strong> — <strong>Auto</strong> is fine unless lighting changes dramatically</li>
+        <li><strong>Backlight Compensation</strong> — ON if the preacher stands in front of bright windows</li>
+        <li><strong>Wide Dynamic Range (WDR)</strong> — ON for mixed lighting</li>
+      </ul>
+
+      <p>Then let OBS handle the "look" via the LUT. This is how it's done professionally — camera gives a clean baseline, software adds the grade.</p>
+    </section>
+
+
+    <!-- ═══════════ SUNDAY RUN ═══════════ -->
+    <section class="section" id="sunday">
+      <h2><span class="h2-num">7</span> Sunday run-through</h2>
+      <p class="lead">Copy-paste this checklist for every Sunday. Aim to be done 20 minutes before service.</p>
+
+      <h3>90 minutes before service (9:00 arrive, 10:30 service)</h3>
+      <ol class="steps">
+        <li><strong>Tripod set up</strong> at front of house, camera clipped on, secured with QR safety lever</li>
+        <li><strong>Power the camera</strong> — 12V adapter into wall + camera. LED comes on. Lens motors initialise.</li>
+        <li><strong>Ethernet cable</strong> from camera to Starlink router (LAN port)</li>
+        <li><strong>Mac Mini</strong> awake, Ethernet plugged in, Wi-Fi on Starlink</li>
+        <li><strong>Open OBS</strong>, confirm NDI source shows the camera feed in preview</li>
+      </ol>
+
+      <h3>60 minutes before service</h3>
+      <ol class="steps">
+        <li><strong>Frame the shot</strong> — Presenter preset. Head-to-waist on the pulpit. Test with someone standing in position if possible.</li>
+        <li><strong>Set/verify tracking</strong> — Mode: Presenter, Auto Zoom OFF, Auto Tilt OFF</li>
+        <li><strong>Confirm LUT is applied</strong> in OBS (Filters on the source) — image should have the warm cinematic look</li>
+        <li><strong>White balance check</strong> — the room lights will be on now; adjust if colours look off</li>
+      </ol>
+
+      <h3>20 minutes before service</h3>
+      <ol class="steps">
+        <li><strong>Livestream connected</strong> and confirmed live on YouTube</li>
+        <li><strong>Test switch to camera scene</strong> in OBS — projector shows camera feed</li>
+        <li><strong>Nudge/reframe</strong> if needed</li>
+        <li><strong>Preset recall test</strong> — jump to preset 2, 3, back to 1 — confirms preset system works</li>
+        <li><strong>Do not touch anything else</strong> — you're ready</li>
+      </ol>
+
+      <div class="callout warn">
+        <div class="callout-title">If something breaks 20 min before</div>
+        <p>Switch to phone camera. It's proven, no configuration needed. Better to have a working phone stream than a fighting PTZ stream during service. Debug the PTZ mid-week.</p>
+      </div>
+    </section>
+
+
+    <!-- ═══════════ FRAMING ═══════════ -->
+    <section class="section" id="framing">
+      <h2><span class="h2-num">8</span> Camera framing</h2>
+      <p class="lead">The rules that make our stream look like a broadcast, not a security camera.</p>
+
+      <div class="grid-2">
+        <div class="mini-card">
+          <div class="mini-card-h">✓ Good framing</div>
+          <div class="mini-card-b">
+            • Tight headroom — 2 to 5cm gap at top of frame<br>
+            • Eyes in the upper third of the screen<br>
+            • Speaker fills most of the frame<br>
+            • Speaker centred or on rule-of-thirds line<br>
+            • Clean background — no clutter behind the head
+          </div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-h">✗ Common mistakes</div>
+          <div class="mini-card-b">
+            • Too much space above head (looks amateur)<br>
+            • Speaker too small in frame<br>
+            • Head cropped at the top<br>
+            • Speaker off to one side<br>
+            • Distracting elements behind (like doors opening)
+          </div>
+        </div>
+      </div>
+
+      <h3>Standard shot sizes</h3>
+      <table class="tbl">
+        <thead><tr><th>Shot</th><th>Framing</th><th>When to use</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Head &amp; shoulders</strong></td><td>Top of head to just below collar</td><td>Sermons — most intimate, best for online viewers</td></tr>
+          <tr><td><strong>Head to waist</strong></td><td>Our default — top of head to belt line</td><td>Sermons, announcements — allows some hand gesture</td></tr>
+          <tr><td><strong>Wide</strong></td><td>Full body plus context</td><td>Worship team, altar calls, group moments</td></tr>
+          <tr><td><strong>Very wide</strong></td><td>Whole stage</td><td>Opening shot, congregation moments</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+
+    <!-- ═══════════ TROUBLESHOOTING ═══════════ -->
+    <section class="section" id="troubleshooting">
+      <h2><span class="h2-num">?</span> Troubleshooting</h2>
+      <p class="lead">The full list of what's gone wrong in the past and how we fixed it.</p>
+
+      <h3>Camera won't power on</h3>
+      <ul>
+        <li>Check the 12V power adapter is plugged in at both ends and the socket is live</li>
+        <li>Check the barrel connector is fully seated in the camera</li>
+        <li>Try a different wall socket</li>
+        <li>If using PoE instead: check the PoE injector's power LED is on, and the camera is connected to the "POE OUT" port (not "LAN IN")</li>
+      </ul>
+
+      <h3>Camera powers on but no LED on Ethernet port</h3>
+      <ul>
+        <li>Check both ends of the Cat6 cable click into place</li>
+        <li>Try a different port on the Starlink router</li>
+        <li>Try a different Cat6 cable — we have spares in the 5-pack</li>
+        <li>Confirm the router LAN ports are actually active (some are labelled but disabled)</li>
+      </ul>
+
+      <h3>Can't reach the camera at 192.168.0.206</h3>
+      <ul>
+        <li>Confirm Mac Mini Ethernet is set to IP <code>192.168.0.100</code>, subnet <code>255.255.255.0</code>, Configure IPv4: <strong>Manually</strong></li>
+        <li>Confirm Wi-Fi and Ethernet are both showing "Connected" in Network settings</li>
+        <li>Run <code>arp -a</code> in Terminal — look for any device on <code>192.168.0.x</code>. If none, the camera isn't broadcasting on this network.</li>
+        <li>Try loading <code>http://192.168.0.206</code> — if browser says "Not private", click Advanced → Proceed. Self-signed cert is expected.</li>
+      </ul>
+
+      <h3>NDI source missing in OBS</h3>
+      <ul>
+        <li>Fully quit OBS (Cmd+Q) and reopen — plugins only load at startup</li>
+        <li>Confirm NDI Runtime is installed — download from <a href="https://ndi.video/tools/" target="_blank" rel="noopener">ndi.video/tools</a></li>
+        <li>In OBS: Sources → + → check "NDI Source" is in the list. If missing, DistroAV plugin isn't loaded</li>
+        <li>Log into camera web interface, confirm NDI is set to <strong>ON</strong></li>
+      </ul>
+
+      <h3>NDI source appears but preview is black</h3>
+      <ul>
+        <li>Double-click the NDI source → Bandwidth: <strong>Highest</strong>, Sync: <strong>Network</strong></li>
+        <li>Delete the source and re-add it — sometimes cached state gets stale</li>
+        <li>Test the camera outputs video via HDMI to a monitor — if HDMI works, it's an NDI/network issue, not the camera</li>
+      </ul>
+
+      <h3>Camera zooms out when tracking is on</h3>
+      <ul>
+        <li>Tracking Mode is set to <strong>AutoFraming</strong>. Change it to <strong>Presenter</strong>.</li>
+        <li>Uncheck <strong>Auto Zoom</strong> and <strong>Auto Tilt</strong></li>
+        <li>Zoom in first, save preset, THEN enable tracking</li>
+      </ul>
+
+      <h3>Colour looks wrong / washed out</h3>
+      <ul>
+        <li>Check white balance in the camera web interface (Image tab) — set to Manual and match room lighting</li>
+        <li>Check the LUT is applied in OBS and Amount is 60-75% (not 100%)</li>
+        <li>If LUT file is missing, re-download from Google Drive → OBS Filter → Browse to it</li>
+      </ul>
+
+      <div class="callout danger">
+        <div class="callout-title">Everything broken, service in 20 min</div>
+        <p>Switch to phone camera. Non-negotiable. The PTZ is an upgrade, not a requirement. Sunday service always runs — fix the PTZ mid-week when there's no time pressure.</p>
+      </div>
+    </section>
+
+
+    <!-- ═══════════ GLOSSARY ═══════════ -->
+    <section class="section" id="glossary">
+      <h2><span class="h2-num">📖</span> Glossary</h2>
+      <p class="lead">Every jargon term used in this doc, in plain English.</p>
+
+      <dl class="kv">
+        <dt>PTZ</dt><dd>Pan, Tilt, Zoom. A camera that can move and zoom remotely.</dd>
+        <dt>NDI</dt><dd>Network Device Interface. A protocol for sending video over a network. Auto-discovers on the local network.</dd>
+        <dt>NDI Runtime</dt><dd>Background software that makes NDI work. Required alongside the OBS plugin.</dd>
+        <dt>DistroAV</dt><dd>The OBS plugin that adds NDI support. Was previously called "obs-ndi".</dd>
+        <dt>OBS</dt><dd>Open Broadcaster Software. The streaming app the church uses.</dd>
+        <dt>PoE</dt><dd>Power over Ethernet. Delivers power and data through one cable.</dd>
+        <dt>IP address</dt><dd>The unique number that identifies a device on a network. Looks like <code>192.168.0.206</code>.</dd>
+        <dt>Subnet</dt><dd>A network segment. Two devices can only talk to each other if they're on the same subnet.</dd>
+        <dt>DHCP</dt><dd>Automatic IP address assignment. The router hands out addresses to devices that ask.</dd>
+        <dt>UVC</dt><dd>USB Video Class. Standard that makes a USB camera work as a webcam without drivers.</dd>
+        <dt>LUT</dt><dd>Look Up Table. A file (<code>.cube</code>) that applies a colour grade to video.</dd>
+        <dt>QR plate</dt><dd>Quick Release plate. The metal plate that clips the camera onto the tripod.</dd>
+        <dt>Auto-tracking</dt><dd>Camera uses AI to detect and follow a person automatically.</dd>
+        <dt>AutoFraming</dt><dd>A tracking mode that adjusts zoom to fit everyone in shot. NOT what we want.</dd>
+        <dt>Presenter mode</dt><dd>A tracking mode that locks onto one person at fixed zoom. What we DO want.</dd>
+      </dl>
+    </section>
+
+    <div class="footer">
+      <p><a href="media.html">← Back to Media</a> · <a href="dashboard.html">Calvary OS Dashboard</a></p>
+      <p style="margin-top:8px;">Calvary Hephzibah Full Gospel Church · Media Team Reference</p>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// Active TOC highlight on scroll
+(function(){
+  const sections = document.querySelectorAll('section.section');
+  const links = document.querySelectorAll('.toc a');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#'+id));
+      }
+    });
+  }, {rootMargin:'-30% 0px -60% 0px', threshold:0});
+  sections.forEach(s => io.observe(s));
+})();
+</script>
+
+</body>
+</html>
