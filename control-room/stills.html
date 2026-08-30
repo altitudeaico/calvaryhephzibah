@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Sunday Stills — Calvary Control Room</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0A;
+    --surface: #141414;
+    --surface-2: #1c1c1c;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.16);
+    --text: #FFFFFF;
+    --text-muted: rgba(255, 255, 255, 0.6);
+    --text-dim: rgba(255, 255, 255, 0.4);
+    --red: #C41E2A;
+    --red-glow: rgba(196, 30, 42, 0.25);
+    --green: #22c55e;
+    --amber: #F59E0B;
+    --radius: 14px;
+    --radius-lg: 20px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    min-height: 100vh;
+    overscroll-behavior: none;
+  }
+  body { padding-bottom: env(safe-area-inset-bottom); }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  input { font-family: inherit; }
+
+  /* ---------- LOGIN (matches Control Room) ---------- */
+  #login {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px 24px;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .brand { text-align: center; margin-bottom: 48px; }
+  .brand-badge {
+    display: inline-block; padding: 4px 10px; border-radius: 100px;
+    background: var(--red); color: white; font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px;
+  }
+  .brand h1 { font-family: 'Instrument Serif', serif; font-size: 42px; font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; }
+  .brand p { color: var(--text-muted); margin-top: 8px; font-size: 15px; }
+  .pin-entry h2 { font-family: 'Instrument Serif', serif; font-size: 28px; font-weight: 400; margin-bottom: 4px; }
+  .pin-entry .for { color: var(--text-muted); margin-bottom: 20px; font-size: 14px; }
+  .pin-input {
+    width: 100%; padding: 18px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); font-size: 24px; font-weight: 700; text-align: center;
+    letter-spacing: 12px; margin-bottom: 12px; color: var(--text);
+  }
+  .pin-input:focus { border-color: var(--red); outline: none; }
+  .pin-error { color: var(--red); font-size: 13px; min-height: 18px; }
+
+  /* ---------- APP ---------- */
+  #app { display: none; max-width: 960px; margin: 0 auto; padding: 20px 16px 60px; }
+  #app.show { display: block; }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; gap: 12px; flex-wrap: wrap;
+  }
+  .topbar h1 { font-family: 'Instrument Serif', serif; font-size: 28px; font-weight: 400; }
+  .topbar .back { color: var(--text-muted); font-size: 13px; text-decoration: underline; text-underline-offset: 2px; }
+  .logout-btn { color: var(--text-muted); font-size: 13px; text-decoration: underline; text-underline-offset: 2px; }
+
+  .date-row {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .date-row label { font-size: 13px; color: var(--text-muted); }
+  .date-row input[type="date"] {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 10px 12px; color: var(--text); font-size: 14px;
+  }
+  .date-row .pill-btn {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 100px;
+    padding: 8px 14px; font-size: 13px; color: var(--text-muted); font-weight: 600;
+  }
+  .date-row .pill-btn:hover { border-color: var(--border-strong); color: var(--text); }
+  .date-row .pill-btn.active { background: var(--red); border-color: var(--red); color: white; }
+
+  /* ---------- DROPZONE ---------- */
+  .dropzone {
+    border: 2px dashed var(--border-strong);
+    border-radius: var(--radius-lg);
+    padding: 36px 20px;
+    text-align: center;
+    margin-bottom: 28px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .dropzone.drag { border-color: var(--red); background: var(--red-glow); }
+  .dropzone p { color: var(--text-muted); font-size: 14px; margin-bottom: 14px; }
+  .dropzone .browse-btn {
+    background: var(--red); color: white; font-weight: 700; padding: 12px 22px;
+    border-radius: 100px; font-size: 14px; display: inline-block;
+  }
+  #file-input { display: none; }
+
+  /* ---------- UPLOAD QUEUE ---------- */
+  .queue { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
+  .queue-item {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 10px 12px; font-size: 13px;
+  }
+  .queue-item .name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .queue-item .status { color: var(--text-muted); font-size: 12px; flex-shrink: 0; }
+  .queue-item.done .status { color: var(--green); }
+  .queue-item.error .status { color: var(--red); }
+  .bar-track { width: 60px; height: 4px; background: var(--surface-2); border-radius: 4px; overflow: hidden; flex-shrink: 0; }
+  .bar-fill { height: 100%; background: var(--red); width: 0%; transition: width 0.15s; }
+
+  /* ---------- GALLERY ---------- */
+  .gallery-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .gallery-head h2 { font-family: 'Instrument Serif', serif; font-size: 20px; font-weight: 400; }
+  .gallery-head .count { color: var(--text-muted); font-size: 13px; }
+  .gallery {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px;
+  }
+  .still {
+    position: relative; aspect-ratio: 16/9; border-radius: 10px; overflow: hidden;
+    background: var(--surface); border: 1px solid var(--border); cursor: pointer;
+  }
+  .still img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .still .del {
+    position: absolute; top: 6px; right: 6px; width: 24px; height: 24px;
+    background: rgba(0,0,0,0.6); border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; font-size: 14px; color: white; opacity: 0; transition: opacity 0.15s;
+  }
+  .still:hover .del { opacity: 1; }
+  .empty-state {
+    text-align: center; padding: 40px 20px; color: var(--text-dim); font-size: 14px;
+  }
+
+  /* ---------- LIGHTBOX ---------- */
+  #lightbox {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+    z-index: 999; align-items: center; justify-content: center; padding: 24px;
+    flex-direction: column; gap: 16px;
+  }
+  #lightbox.show { display: flex; }
+  #lightbox img { max-width: 100%; max-height: 75vh; border-radius: 8px; }
+  #lightbox .lb-actions { display: flex; gap: 10px; }
+  #lightbox .lb-actions a, #lightbox .lb-actions button {
+    background: var(--surface); border: 1px solid var(--border-strong); border-radius: 100px;
+    padding: 10px 18px; font-size: 13px; font-weight: 600; color: var(--text); text-decoration: none;
+  }
+  #lightbox .lb-close {
+    position: absolute; top: 20px; right: 24px; font-size: 28px; color: rgba(255,255,255,0.6);
+  }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: var(--surface-2); border: 1px solid var(--border-strong); border-radius: 100px;
+    padding: 12px 20px; font-size: 13px; font-weight: 600; z-index: 1000;
+    transition: transform 0.2s; opacity: 0;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<div id="login">
+  <div class="brand">
+    <span class="brand-badge">Calvary</span>
+    <h1>Sunday Stills</h1>
+    <p>Upload &amp; browse screenshots for social content</p>
+  </div>
+  <div class="pin-entry">
+    <h2>Enter PIN</h2>
+    <p class="for">to access Sunday Stills</p>
+    <input id="pin-input" class="pin-input" type="tel" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="• • • •">
+    <div id="pin-error" class="pin-error"></div>
+  </div>
+</div>
+
+<div id="app">
+  <div class="topbar">
+    <div>
+      <h1>Sunday Stills</h1>
+      <a class="back" href="index.html">← Back to Control Room</a>
+    </div>
+    <button class="logout-btn" onclick="logout()">Sign out</button>
+  </div>
+
+  <div class="date-row">
+    <label for="service-date">Service date</label>
+    <input type="date" id="service-date">
+    <button class="pill-btn" id="today-btn" onclick="jumpToday()">Today</button>
+    <button class="pill-btn" id="last-sunday-btn" onclick="jumpLastSunday()">Last Sunday</button>
+  </div>
+
+  <div class="dropzone" id="dropzone">
+    <p>Drag screenshots here, or</p>
+    <label class="browse-btn" for="file-input">Choose files</label>
+    <input type="file" id="file-input" accept="image/*" multiple>
+  </div>
+
+  <div class="queue" id="queue"></div>
+
+  <div class="gallery-head">
+    <h2 id="gallery-title">Stills</h2>
+    <span class="count" id="gallery-count"></span>
+  </div>
+  <div class="gallery" id="gallery"></div>
+  <div class="empty-state" id="empty-state" style="display:none;">No stills uploaded for this date yet.</div>
+</div>
+
+<div id="lightbox">
+  <span class="lb-close" onclick="closeLightbox()">&times;</span>
+  <img id="lb-img" src="" alt="">
+  <div class="lb-actions">
+    <a id="lb-download" href="" download target="_blank">Download</a>
+    <button onclick="deleteFromLightbox()">Delete</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const SUPABASE_URL = 'https://pfycvgbrsbecznkcikwt.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmeWN2Z2Jyc2JlY3pua2Npa3d0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzNzY1NDgsImV4cCI6MjA5MDk1MjU0OH0.xw_DSmC0brKC7K9H-rxNG0HKKDi4I-dNSEoZKERvHcQ';
+const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const BUCKET = 'control-room-media';
+
+const SHARED_PIN = '1234'; // same shared PIN as the rest of Control Room
+
+let currentDate = mostRecentSundayOrToday();
+let currentStillIdInLightbox = null;
+
+// ------------------------------------------------------------
+// Date helpers
+// ------------------------------------------------------------
+function toISODate(d) {
+  const y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, '0'), day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+function mostRecentSundayOrToday() {
+  const d = new Date();
+  if (d.getDay() === 0) return toISODate(d); // today is Sunday
+  const back = new Date(d);
+  back.setDate(d.getDate() - d.getDay()); // getDay(): Sun=0, so this walks back to the most recent Sunday
+  return toISODate(back);
+}
+function formatDateHuman(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  const dt = new Date(y, m - 1, d);
+  return dt.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+// ------------------------------------------------------------
+// LOGIN
+// ------------------------------------------------------------
+document.getElementById('pin-input').addEventListener('input', (e) => {
+  const pin = e.target.value;
+  if (pin.length !== 4) return;
+  if (pin === SHARED_PIN) {
+    sessionStorage.setItem('stills_user', '1');
+    enterApp();
+  } else {
+    document.getElementById('pin-error').textContent = 'Wrong PIN. Try again.';
+    e.target.value = '';
+  }
+});
+window.logout = () => {
+  sessionStorage.removeItem('stills_user');
+  location.reload();
+};
+
+function enterApp() {
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('app').classList.add('show');
+  document.getElementById('service-date').value = currentDate;
+  updateJumpButtons();
+  loadGallery();
+}
+
+// ------------------------------------------------------------
+// DATE CONTROLS
+// ------------------------------------------------------------
+document.getElementById('service-date').addEventListener('change', (e) => {
+  currentDate = e.target.value;
+  updateJumpButtons();
+  loadGallery();
+});
+window.jumpToday = () => {
+  currentDate = toISODate(new Date());
+  document.getElementById('service-date').value = currentDate;
+  updateJumpButtons();
+  loadGallery();
+};
+window.jumpLastSunday = () => {
+  currentDate = mostRecentSundayOrToday();
+  document.getElementById('service-date').value = currentDate;
+  updateJumpButtons();
+  loadGallery();
+};
+function updateJumpButtons() {
+  document.getElementById('today-btn').classList.toggle('active', currentDate === toISODate(new Date()));
+  document.getElementById('last-sunday-btn').classList.toggle('active', currentDate === mostRecentSundayOrToday());
+}
+
+// ------------------------------------------------------------
+// UPLOAD
+// ------------------------------------------------------------
+const dropzone = document.getElementById('dropzone');
+const fileInput = document.getElementById('file-input');
+
+['dragenter', 'dragover'].forEach(evt =>
+  dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.add('drag'); })
+);
+['dragleave', 'drop'].forEach(evt =>
+  dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.remove('drag'); })
+);
+dropzone.addEventListener('drop', (e) => {
+  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+  if (files.length) handleFiles(files);
+});
+fileInput.addEventListener('change', (e) => {
+  const files = Array.from(e.target.files);
+  if (files.length) handleFiles(files);
+  fileInput.value = '';
+});
+
+async function handleFiles(files) {
+  for (const file of files) {
+    await uploadOne(file);
+  }
+  loadGallery();
+}
+
+function queueRow(name) {
+  const queue = document.getElementById('queue');
+  const row = document.createElement('div');
+  row.className = 'queue-item';
+  row.innerHTML = `
+    <span class="name">${escapeHtml(name)}</span>
+    <div class="bar-track"><div class="bar-fill"></div></div>
+    <span class="status">uploading…</span>
+  `;
+  queue.appendChild(row);
+  return row;
+}
+
+function getImageDimensions(file) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => { resolve({ width: img.naturalWidth, height: img.naturalHeight }); URL.revokeObjectURL(url); };
+    img.onerror = () => resolve({ width: null, height: null });
+    img.src = url;
+  });
+}
+
+async function uploadOne(file) {
+  const row = queueRow(file.name);
+  const bar = row.querySelector('.bar-fill');
+  const status = row.querySelector('.status');
+  try {
+    const dims = await getImageDimensions(file);
+    bar.style.width = '30%';
+
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const path = `stills/${currentDate}/${Date.now()}-${safeName}`;
+
+    const { error: upErr } = await client.storage.from(BUCKET).upload(path, file, {
+      cacheControl: '3600',
+      upsert: false,
+      contentType: file.type || 'image/jpeg',
+    });
+    if (upErr) throw upErr;
+    bar.style.width = '75%';
+
+    const { error: dbErr } = await client.from('control_room_stills').insert({
+      service_date: currentDate,
+      storage_path: path,
+      file_name: file.name,
+      width: dims.width,
+      height: dims.height,
+      size_bytes: file.size,
+    });
+    if (dbErr) throw dbErr;
+
+    bar.style.width = '100%';
+    row.classList.add('done');
+    status.textContent = 'done';
+    setTimeout(() => row.remove(), 2000);
+  } catch (err) {
+    console.error('Upload failed:', err);
+    row.classList.add('error');
+    status.textContent = 'failed';
+    showToast('Upload failed: ' + (err.message || err));
+  }
+}
+
+// ------------------------------------------------------------
+// GALLERY
+// ------------------------------------------------------------
+async function loadGallery() {
+  document.getElementById('gallery-title').textContent = 'Stills — ' + formatDateHuman(currentDate);
+  const { data, error } = await client
+    .from('control_room_stills')
+    .select('*')
+    .eq('service_date', currentDate)
+    .order('created_at', { ascending: false });
+
+  const gallery = document.getElementById('gallery');
+  const emptyState = document.getElementById('empty-state');
+  const count = document.getElementById('gallery-count');
+
+  if (error) {
+    console.error('Load gallery failed:', error);
+    showToast('Could not load stills: ' + error.message);
+    return;
+  }
+
+  count.textContent = data.length ? `${data.length} still${data.length === 1 ? '' : 's'}` : '';
+  gallery.innerHTML = '';
+  emptyState.style.display = data.length ? 'none' : 'block';
+
+  for (const still of data) {
+    const { data: urlData } = client.storage.from(BUCKET).getPublicUrl(still.storage_path);
+    const url = urlData.publicUrl;
+    const div = document.createElement('div');
+    div.className = 'still';
+    div.innerHTML = `<img src="${url}" loading="lazy" alt="${escapeHtml(still.file_name || '')}">`;
+    div.addEventListener('click', () => openLightbox(still, url));
+    gallery.appendChild(div);
+  }
+}
+
+// ------------------------------------------------------------
+// LIGHTBOX
+// ------------------------------------------------------------
+function openLightbox(still, url) {
+  currentStillIdInLightbox = still.id;
+  document.getElementById('lb-img').src = url;
+  const dl = document.getElementById('lb-download');
+  dl.href = url;
+  dl.setAttribute('download', still.file_name || 'still.jpg');
+  document.getElementById('lightbox').classList.add('show');
+}
+window.closeLightbox = () => {
+  document.getElementById('lightbox').classList.remove('show');
+  currentStillIdInLightbox = null;
+};
+window.deleteFromLightbox = async () => {
+  if (!currentStillIdInLightbox) return;
+  if (!confirm('Delete this still? This cannot be undone.')) return;
+
+  const { data: row } = await client
+    .from('control_room_stills')
+    .select('storage_path')
+    .eq('id', currentStillIdInLightbox)
+    .single();
+
+  if (row) {
+    await client.storage.from(BUCKET).remove([row.storage_path]);
+  }
+  await client.from('control_room_stills').delete().eq('id', currentStillIdInLightbox);
+
+  closeLightbox();
+  loadGallery();
+  showToast('Deleted');
+};
+
+// ------------------------------------------------------------
+// UTILS
+// ------------------------------------------------------------
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// ------------------------------------------------------------
+// BOOT
+// ------------------------------------------------------------
+(function boot() {
+  if (sessionStorage.getItem('stills_user')) {
+    enterApp();
+  } else {
+    document.getElementById('pin-input').focus();
+  }
+})();
+</script>
+</body>
+</html>
