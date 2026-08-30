@@ -148,6 +148,16 @@
     color: #05230f; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 100px;
     letter-spacing: 0.3px;
   }
+  .still .select-btn {
+    position: absolute; top: 6px; left: 6px; width: 26px; height: 26px;
+    background: rgba(0,0,0,0.55); border: 1.5px solid rgba(255,255,255,0.6); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 13px; color: white;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .still .select-btn:hover { border-color: white; }
+  .still .select-btn.sent { background: var(--green); border-color: var(--green); color: #05230f; }
+  .still .select-btn.sending { background: var(--amber); border-color: var(--amber); }
+  .still .select-btn.error { background: var(--red); border-color: var(--red); }
   #lb-github-btn.sent { background: var(--green); color: #05230f; border-color: var(--green); }
   #lb-github-btn:disabled { opacity: 0.6; cursor: default; }
   .empty-state {
@@ -450,8 +460,26 @@ async function loadGallery() {
     const url = urlData.publicUrl;
     const div = document.createElement('div');
     div.className = 'still';
-    div.innerHTML = `<img src="${url}" loading="lazy" alt="${escapeHtml(still.file_name || '')}">${still.github_path ? '<span class="sent-badge">On GitHub</span>' : ''}`;
-    div.addEventListener('click', () => openLightbox(still, url));
+    div.dataset.stillId = still.id;
+    div.innerHTML = `
+      <img src="${url}" loading="lazy" alt="${escapeHtml(still.file_name || '')}">
+      <button class="select-btn ${still.github_path ? 'sent' : ''}" title="${still.github_path ? 'On GitHub' : 'Select for social'}" data-select-btn>${still.github_path ? '✓' : ''}</button>
+      <span class="del" data-del-btn>✕</span>
+      ${still.github_path ? '<span class="sent-badge">On GitHub</span>' : ''}
+    `;
+    div.querySelector('img').addEventListener('click', () => openLightbox(still, url));
+    div.querySelector('[data-select-btn]').addEventListener('click', (e) => {
+      e.stopPropagation();
+      handleSelectForSocial(still.id, e.currentTarget);
+    });
+    div.querySelector('[data-del-btn]').addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (!confirm('Delete this still? This cannot be undone.')) return;
+      await client.storage.from(BUCKET).remove([still.storage_path]);
+      await client.from('control_room_stills').delete().eq('id', still.id);
+      loadGallery();
+      showToast('Deleted');
+    });
     gallery.appendChild(div);
   }
 }
@@ -495,6 +523,53 @@ window.sendToGithub = async () => {
   ghBtn.textContent = 'Sending…';
   ghStatus.textContent = '';
 
+  const result = await callSendStillToGithub(currentStillIdInLightbox);
+
+  if (result.error) {
+    ghBtn.textContent = 'Send to GitHub';
+    ghBtn.disabled = false;
+    ghStatus.textContent = 'Failed: ' + result.error;
+    showToast('Send to GitHub failed — see details below the button');
+    return;
+  }
+
+  ghBtn.textContent = 'Sent to GitHub ✓';
+  ghBtn.classList.add('sent');
+  ghBtn.disabled = false;
+  ghStatus.textContent = result.warning ? result.warning : result.github_path;
+  showToast(result.warning ? 'Sent, but see warning' : 'Pushed to GitHub');
+  loadGallery(); // refresh so the grid badge shows up too
+};
+
+// Grid checkbox — fast path for working through many stills without opening each one
+window.handleSelectForSocial = async (stillId, btnEl) => {
+  if (btnEl.classList.contains('sent') || btnEl.classList.contains('sending')) return; // already sent or in flight
+  btnEl.classList.add('sending');
+  btnEl.textContent = '…';
+
+  const result = await callSendStillToGithub(stillId);
+
+  if (result.error) {
+    btnEl.classList.remove('sending');
+    btnEl.classList.add('error');
+    btnEl.textContent = '!';
+    btnEl.title = 'Failed: ' + result.error;
+    showToast('Send to GitHub failed: ' + result.error);
+    // Let it be retried — clear the error state after a moment
+    setTimeout(() => { btnEl.classList.remove('error'); btnEl.textContent = ''; btnEl.title = 'Select for social'; }, 3000);
+    return;
+  }
+
+  btnEl.classList.remove('sending');
+  btnEl.classList.add('sent');
+  btnEl.textContent = '✓';
+  btnEl.title = 'On GitHub';
+  showToast('Sent to GitHub');
+  loadGallery(); // refresh so the "On GitHub" badge appears too
+};
+
+// Shared core — both the lightbox button and the grid checkbox call this
+async function callSendStillToGithub(stillId) {
   try {
     const res = await fetch(`${SUPABASE_URL}/functions/v1/send-still-to-github`, {
       method: 'POST',
@@ -503,28 +578,18 @@ window.sendToGithub = async () => {
         'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
         'apikey': SUPABASE_ANON_KEY,
       },
-      body: JSON.stringify({ still_id: currentStillIdInLightbox }),
+      body: JSON.stringify({ still_id: stillId }),
     });
     const result = await res.json();
-
     if (!res.ok || result.error) {
       throw new Error(result.error || `HTTP ${res.status}`);
     }
-
-    ghBtn.textContent = 'Sent to GitHub ✓';
-    ghBtn.classList.add('sent');
-    ghBtn.disabled = false;
-    ghStatus.textContent = result.warning ? result.warning : result.github_path;
-    showToast(result.warning ? 'Sent, but see warning' : 'Pushed to GitHub');
-    loadGallery(); // refresh so the badge shows up
+    return result;
   } catch (err) {
     console.error('Send to GitHub failed:', err);
-    ghBtn.textContent = 'Send to GitHub';
-    ghBtn.disabled = false;
-    ghStatus.textContent = 'Failed: ' + err.message;
-    showToast('Send to GitHub failed — see details below the button');
+    return { error: err.message };
   }
-};
+}
 window.deleteFromLightbox = async () => {
   if (!currentStillIdInLightbox) return;
   if (!confirm('Delete this still? This cannot be undone.')) return;
