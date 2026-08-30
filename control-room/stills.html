@@ -243,7 +243,7 @@
   <img id="lb-img" src="" alt="">
   <div class="lb-actions">
     <a id="lb-download" href="" download target="_blank">Download</a>
-    <button id="lb-github-btn" onclick="sendToGithub()">Send to GitHub</button>
+    <button id="lb-github-btn" onclick="sendToGithub()">Select for Social</button>
     <button onclick="deleteFromLightbox()">Delete</button>
   </div>
   <div id="lb-github-status" style="font-size:12px;color:var(--text-muted);text-align:center;"></div>
@@ -463,9 +463,9 @@ async function loadGallery() {
     div.dataset.stillId = still.id;
     div.innerHTML = `
       <img src="${url}" loading="lazy" alt="${escapeHtml(still.file_name || '')}">
-      <button class="select-btn ${still.github_path ? 'sent' : ''}" title="${still.github_path ? 'On GitHub' : 'Select for social'}" data-select-btn>${still.github_path ? '✓' : ''}</button>
+      <button class="select-btn ${still.github_path ? 'sent' : ''}" title="${still.github_path ? 'Selected for social' : 'Select for social'}" data-select-btn>${still.github_path ? '✓' : ''}</button>
       <span class="del" data-del-btn>✕</span>
-      ${still.github_path ? '<span class="sent-badge">On GitHub</span>' : ''}
+      ${still.github_path ? '<span class="sent-badge">Selected</span>' : ''}
     `;
     div.querySelector('img').addEventListener('click', () => openLightbox(still, url));
     div.querySelector('[data-select-btn]').addEventListener('click', (e) => {
@@ -499,11 +499,11 @@ function openLightbox(still, url) {
   const ghStatus = document.getElementById('lb-github-status');
   ghBtn.disabled = false;
   if (still.github_path) {
-    ghBtn.textContent = 'Sent to GitHub ✓';
+    ghBtn.textContent = 'Selected ✓';
     ghBtn.classList.add('sent');
-    ghStatus.textContent = still.github_path;
+    ghStatus.textContent = 'Saved to this week\'s social folder';
   } else {
-    ghBtn.textContent = 'Send to GitHub';
+    ghBtn.textContent = 'Select for Social';
     ghBtn.classList.remove('sent');
     ghStatus.textContent = '';
   }
@@ -520,24 +520,24 @@ window.sendToGithub = async () => {
   const ghBtn = document.getElementById('lb-github-btn');
   const ghStatus = document.getElementById('lb-github-status');
   ghBtn.disabled = true;
-  ghBtn.textContent = 'Sending…';
+  ghBtn.textContent = 'Selecting…';
   ghStatus.textContent = '';
 
   const result = await callSendStillToGithub(currentStillIdInLightbox);
 
   if (result.error) {
-    ghBtn.textContent = 'Send to GitHub';
+    ghBtn.textContent = 'Select for Social';
     ghBtn.disabled = false;
     ghStatus.textContent = 'Failed: ' + result.error;
-    showToast('Send to GitHub failed — see details below the button');
+    showToast('Could not select this still — see details below the button');
     return;
   }
 
-  ghBtn.textContent = 'Sent to GitHub ✓';
+  ghBtn.textContent = 'Selected ✓';
   ghBtn.classList.add('sent');
   ghBtn.disabled = false;
-  ghStatus.textContent = result.warning ? result.warning : result.github_path;
-  showToast(result.warning ? 'Sent, but see warning' : 'Pushed to GitHub');
+  ghStatus.textContent = result.warning ? result.warning : 'Saved to this week\'s social folder';
+  showToast(result.warning ? 'Selected, but see warning' : 'Selected for social');
   loadGallery(); // refresh so the grid badge shows up too
 };
 
@@ -554,7 +554,7 @@ window.handleSelectForSocial = async (stillId, btnEl) => {
     btnEl.classList.add('error');
     btnEl.textContent = '!';
     btnEl.title = 'Failed: ' + result.error;
-    showToast('Send to GitHub failed: ' + result.error);
+    showToast('Could not select this still: ' + result.error);
     // Let it be retried — clear the error state after a moment
     setTimeout(() => { btnEl.classList.remove('error'); btnEl.textContent = ''; btnEl.title = 'Select for social'; }, 3000);
     return;
@@ -563,9 +563,9 @@ window.handleSelectForSocial = async (stillId, btnEl) => {
   btnEl.classList.remove('sending');
   btnEl.classList.add('sent');
   btnEl.textContent = '✓';
-  btnEl.title = 'On GitHub';
-  showToast('Sent to GitHub');
-  loadGallery(); // refresh so the "On GitHub" badge appears too
+  btnEl.title = 'Selected for social';
+  showToast('Selected for social');
+  loadGallery(); // refresh so the "Selected" badge appears too
 };
 
 // Shared core — both the lightbox button and the grid checkbox call this
