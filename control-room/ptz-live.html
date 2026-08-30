@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PTZ Camera — Live Preview</title>
+<meta name="robots" content="noindex">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    height: 100%;
+    background: #0A0A0A;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .banner {
+    background: #141414;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.85);
+    padding: 10px 16px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .banner .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #22c55e;
+    flex-shrink: 0;
+  }
+  .banner strong { color: #fff; }
+  .banner a { color: #f87171; }
+  .banner .muted { color: rgba(255,255,255,0.5); margin-left: auto; font-size: 12px; }
+  .frame-wrap {
+    height: calc(100% - 41px);
+    background: #000;
+  }
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    background: #000;
+  }
+</style>
+</head>
+<body>
+  <div class="banner">
+    <span class="dot"></span>
+    <strong>PTZ Camera — Live Preview</strong>
+    <span>embedding 192.168.0.206 — only works on the camera's local network</span>
+    <span class="muted">Blank? Visit <a href="https://192.168.0.206" target="_blank">192.168.0.206</a> directly first and accept the certificate, then reload. Still blank → check the browser console (right-click → Inspect) for the exact error.</span>
+  </div>
+  <div class="frame-wrap">
+    <iframe src="https://192.168.0.206" title="PTZ Camera live view and controls"></iframe>
+  </div>
+</body>
+</html>
