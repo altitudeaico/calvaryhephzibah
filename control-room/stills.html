@@ -180,6 +180,21 @@
   #lightbox .lb-close {
     position: absolute; top: 20px; right: 24px; font-size: 28px; color: rgba(255,255,255,0.6);
   }
+  .lb-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.08);
+    color: white; font-size: 28px; display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .lb-nav:hover { background: rgba(255,255,255,0.18); }
+  .lb-nav:disabled { opacity: 0.25; cursor: default; }
+  .lb-nav:disabled:hover { background: rgba(255,255,255,0.08); }
+  .lb-prev { left: 16px; }
+  .lb-next { right: 16px; }
+  @media (max-width: 640px) {
+    .lb-nav { width: 40px; height: 40px; font-size: 22px; }
+    .lb-prev { left: 6px; } .lb-next { right: 6px; }
+  }
 
   .toast {
     position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px);
@@ -240,13 +255,16 @@
 
 <div id="lightbox">
   <span class="lb-close" onclick="closeLightbox()">&times;</span>
+  <button class="lb-nav lb-prev" onclick="lightboxNav(-1)" aria-label="Previous">‹</button>
   <img id="lb-img" src="" alt="">
+  <button class="lb-nav lb-next" onclick="lightboxNav(1)" aria-label="Next">›</button>
   <div class="lb-actions">
     <a id="lb-download" href="" download target="_blank">Download</a>
     <button id="lb-github-btn" onclick="sendToGithub()">Select for Social</button>
     <button onclick="deleteFromLightbox()">Delete</button>
   </div>
   <div id="lb-github-status" style="font-size:12px;color:var(--text-muted);text-align:center;"></div>
+  <div id="lb-position" style="font-size:12px;color:var(--text-dim);text-align:center;"></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -264,6 +282,8 @@ const SHARED_PIN = '1234'; // same shared PIN as the rest of Control Room
 let currentDate = mostRecentSundayOrToday();
 let currentStillIdInLightbox = null;
 let currentStillInLightbox = null;
+let currentGalleryData = [];   // the stills currently loaded in the grid, in display order
+let currentGalleryUrls = {};   // still.id -> public url, so nav doesn't refetch
 
 // ------------------------------------------------------------
 // Date helpers
@@ -455,9 +475,13 @@ async function loadGallery() {
   gallery.innerHTML = '';
   emptyState.style.display = data.length ? 'none' : 'block';
 
+  currentGalleryData = data;
+  currentGalleryUrls = {};
+
   for (const still of data) {
     const { data: urlData } = client.storage.from(BUCKET).getPublicUrl(still.storage_path);
     const url = urlData.publicUrl;
+    currentGalleryUrls[still.id] = url;
     const div = document.createElement('div');
     div.className = 'still';
     div.dataset.stillId = still.id;
@@ -507,8 +531,36 @@ function openLightbox(still, url) {
     ghBtn.classList.remove('sent');
     ghStatus.textContent = '';
   }
+
+  updateLightboxNavState();
   document.getElementById('lightbox').classList.add('show');
 }
+
+function updateLightboxNavState() {
+  const idx = currentGalleryData.findIndex(s => s.id === currentStillIdInLightbox);
+  const total = currentGalleryData.length;
+  const posEl = document.getElementById('lb-position');
+  posEl.textContent = idx >= 0 && total ? `${idx + 1} of ${total}` : '';
+  document.querySelector('.lb-prev').disabled = idx <= 0;
+  document.querySelector('.lb-next').disabled = idx < 0 || idx >= total - 1;
+}
+
+window.lightboxNav = (dir) => {
+  const idx = currentGalleryData.findIndex(s => s.id === currentStillIdInLightbox);
+  if (idx < 0) return;
+  const nextIdx = idx + dir;
+  if (nextIdx < 0 || nextIdx >= currentGalleryData.length) return;
+  const nextStill = currentGalleryData[nextIdx];
+  const nextUrl = currentGalleryUrls[nextStill.id];
+  openLightbox(nextStill, nextUrl);
+};
+
+document.addEventListener('keydown', (e) => {
+  if (!document.getElementById('lightbox').classList.contains('show')) return;
+  if (e.key === 'ArrowLeft') lightboxNav(-1);
+  else if (e.key === 'ArrowRight') lightboxNav(1);
+  else if (e.key === 'Escape') closeLightbox();
+});
 window.closeLightbox = () => {
   document.getElementById('lightbox').classList.remove('show');
   currentStillIdInLightbox = null;
