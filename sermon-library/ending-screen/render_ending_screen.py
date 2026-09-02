@@ -160,34 +160,50 @@ def build_background(seed=11):
 def build_feathered_portrait(source_path, crop_box):
     """
     Soft photographic blend -- NOT a hard cutout. See module docstring rule 1.
+
+    Uses TWO separate masks, not one shared mask. This was a real bug: tying
+    brightness and transparency to the same mask meant that brightening his
+    face also brightened the background equipment still inside the "opaque"
+    zone, exposing it and making the photo's rectangular boundary MORE
+    visible, not less. The fix:
+      - `bright_mask`: tight around just his face/torso, wide soft falloff.
+        Everything outside that core gets genuinely darkened, even while
+        still fully opaque -- this is what keeps stage equipment subdued.
+      - `alpha_mask`: separate, wider and softer, controls the fade into the
+        page background at the photo's outer edge.
     Core must be large relative to blur radius so his face plateaus at true
     255 alpha; verify before trusting the render.
     """
     photo = Image.open(source_path).convert("RGB").crop(crop_box)
     w, h = photo.size
 
-    mask = Image.new("L", (w, h), 0)
-    ImageDraw.Draw(mask).ellipse([-w * 0.15, -h * 0.15, w * 1.15, h * 1.05], fill=255)
-    mask = mask.filter(ImageFilter.GaussianBlur(65))
-    mask_arr = np.array(mask).astype(np.float32)
-    mask_arr[:8, :] = 0; mask_arr[-8:, :] = 0
-    mask_arr[:, :8] = 0; mask_arr[:, -8:] = 0
-    mask = Image.fromarray(mask_arr.astype("uint8")).filter(ImageFilter.GaussianBlur(6))
+    # Brightness mask -- tight core (face/torso only), wide falloff
+    bright_core = Image.new("L", (w, h), 0)
+    ImageDraw.Draw(bright_core).ellipse([w*0.15, h*0.02, w*0.85, h*0.62], fill=255)
+    bright_mask = bright_core.filter(ImageFilter.GaussianBlur(85))
+    bright_norm = np.array(bright_mask).astype(np.float32) / 255.0
 
-    mask_norm = np.array(mask).astype(np.float32) / 255.0
     photo_arr = np.array(photo).astype(np.float32)
-    darkened = photo_arr * (0.25 + 0.75 * mask_norm[..., None])
-    photo_blended = Image.fromarray(np.clip(darkened, 0, 255).astype("uint8"))
+    darkened = photo_arr * (0.10 + 0.90 * bright_norm[..., None])
+    photo_dark = np.clip(darkened, 0, 255).astype("uint8")
 
-    rgba = photo_blended.convert("RGBA")
-    rgba.putalpha(mask)
+    # Alpha mask -- separate, wider, controls the blend into the page bg
+    alpha_core = Image.new("L", (w, h), 0)
+    ImageDraw.Draw(alpha_core).ellipse([-w*0.05, -h*0.05, w*1.05, h*0.95], fill=255)
+    alpha_mask = alpha_core.filter(ImageFilter.GaussianBlur(95))
+    alpha_arr = np.array(alpha_mask).astype(np.float32)
+    alpha_arr[:6, :] = 0; alpha_arr[-6:, :] = 0
+    alpha_arr[:, :6] = 0; alpha_arr[:, -6:] = 0
+    alpha_mask = Image.fromarray(alpha_arr.astype("uint8")).filter(ImageFilter.GaussianBlur(8))
 
-    # sanity check -- fail loudly rather than silently ship a dark face
-    face_alpha = np.array(mask)[int(h * 0.35), int(w * 0.5)]
-    if face_alpha < 250:
-        print(f"WARNING: face-region alpha is {face_alpha}, not ~255 -- "
-              f"his face/torso will look darkened. Increase core size or "
-              f"reduce blur radius before rendering the final composite.")
+    rgba = Image.fromarray(photo_dark).convert("RGBA")
+    rgba.putalpha(alpha_mask)
+
+    face_bright = 0.10 + 0.90 * bright_norm[int(h * 0.30), int(w * 0.5)]
+    if face_bright < 0.70:
+        print(f"WARNING: face-region brightness multiplier is {face_bright:.2f}, "
+              f"not close to 1.0 -- his face/torso will look darkened. Shrink "
+              f"the bright_core ellipse or reduce its blur radius.")
     return rgba
 
 
@@ -205,9 +221,9 @@ def render(config=CONFIG):
 
     # Logo -- inside the main shot, just above the title (rule 3)
     logo = Image.open(config["logo_path"]).convert("RGBA")
-    logo_size = 92
+    logo_size = 118
     logo_small = logo.resize((logo_size, logo_size), Image.LANCZOS)
-    logo_y = 800
+    logo_y = 775
     canvas_rgba = canvas_rgb.convert("RGBA")
     canvas_rgba.alpha_composite(logo_small, (W // 2 - logo_size // 2, logo_y))
     canvas_rgb = canvas_rgba.convert("RGB")
@@ -218,7 +234,7 @@ def render(config=CONFIG):
     line1_font = ImageFont.truetype(font_anton, 96)
     line1 = config["title_lines"][0]
     l1w = draw.textlength(line1, font=line1_font)
-    l1_y = 915
+    l1_y = 928
     sh1 = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     ImageDraw.Draw(sh1).text(((W - l1w) / 2 + 5, l1_y + 7), line1, font=line1_font, fill=(0, 0, 0, 180))
     sh1 = sh1.filter(ImageFilter.GaussianBlur(3))
