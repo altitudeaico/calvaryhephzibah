@@ -58,9 +58,17 @@ const CalvaryAuth = (function () {
   }
 
   async function signInWithMagicLink(email) {
+    // FIXED after a real failed attempt: window.location.origin only
+    // returns scheme+host (e.g. https://calvaryhfgc.github.io), dropping
+    // the /calvaryhephzibah/portal/ path entirely -- the link sent pointed
+    // at a URL that doesn't exist, so Supabase fell back to whatever
+    // default Site URL is configured in the dashboard (landed on The
+    // Bridge). Using the current page's actual directory instead, so this
+    // adapts correctly to wherever the portal is actually being served.
+    const currentDir = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
     return getClient().auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: window.location.origin + "/index.html" },
+      options: { emailRedirectTo: currentDir + "index.html" },
     });
   }
 
