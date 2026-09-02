@@ -187,14 +187,21 @@ def build_feathered_portrait(source_path, crop_box):
     darkened = photo_arr * (0.10 + 0.90 * bright_norm[..., None])
     photo_dark = np.clip(darkened, 0, 255).astype("uint8")
 
-    # Alpha mask -- separate, wider, controls the blend into the page bg
-    alpha_core = Image.new("L", (w, h), 0)
-    ImageDraw.Draw(alpha_core).ellipse([-w*0.05, -h*0.05, w*1.05, h*0.95], fill=255)
-    alpha_mask = alpha_core.filter(ImageFilter.GaussianBlur(95))
-    alpha_arr = np.array(alpha_mask).astype(np.float32)
-    alpha_arr[:6, :] = 0; alpha_arr[-6:, :] = 0
-    alpha_arr[:, :6] = 0; alpha_arr[:, -6:] = 0
-    alpha_mask = Image.fromarray(alpha_arr.astype("uint8")).filter(ImageFilter.GaussianBlur(8))
+    # Alpha mask -- distance-based falloff, NOT a blurred shape. A blurred
+    # ellipse ran out of room right at the crop's top edge (no image data
+    # above y=0 for the blur to fade into), leaving a harder edge there than
+    # on the sides -- visible as a straight top boundary and square corners.
+    # A per-pixel elliptical-distance falloff fades smoothly in every
+    # direction by construction, independent of blur radius vs. margin.
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    cx, cy = w * 0.5, h * 0.42
+    nx = (xx - cx) / (w * 0.50)
+    ny = (yy - cy) / (h * 0.46)
+    dist = np.sqrt(nx**2 + ny**2)
+    inner, outer = 0.55, 1.15   # opaque out to `inner`, transparent by `outer`
+    t = np.clip((dist - inner) / (outer - inner), 0, 1)
+    alpha_norm = 1.0 - (t*t*(3 - 2*t))   # smoothstep
+    alpha_mask = Image.fromarray((alpha_norm * 255).astype("uint8")).filter(ImageFilter.GaussianBlur(10))
 
     rgba = Image.fromarray(photo_dark).convert("RGBA")
     rgba.putalpha(alpha_mask)
