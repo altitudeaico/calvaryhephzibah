@@ -24,19 +24,33 @@
   <p class="lede">Sermons, study guides, and everything that keeps our church community
   connected through the week.</p>
 
-  <a href="explore.html" class="action-btn primary">
+  <div class="card" style="padding:0; overflow:hidden; margin-bottom:24px;">
+    <img src="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/sermon-library/ending-screen/ig/example-output-ig-cover-he-never-fails.jpg" alt="He Never Fails" style="width:100%; display:block;">
+    <div style="padding:20px;">
+      <div style="font-size:13px; font-weight:700; color:var(--red); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">This week at Calvary</div>
+      <div style="font-family:'Instrument Serif',serif; font-size:24px; margin-bottom:14px;">He Never Fails</div>
+      <a href="explore.html#study" class="action-btn primary" style="margin-bottom:10px;">
+        <span class="label">Start the study</span>
+      </a>
+      <a href="explore.html#clip" class="action-btn" style="margin-bottom:0;">
+        <span class="label">Watch a short clip</span>
+      </a>
+    </div>
+  </div>
+
+  <a href="explore.html" class="action-btn">
     <span class="label"><span class="icon">&#128214;</span> Explore</span>
-    <span class="desc">Sermons, study guides, and church info. No sign-in needed.</span>
+    <span class="desc">Everything above, plus church info. No sign-in needed.</span>
   </a>
 
   <a href="my-church.html" class="action-btn" id="my-church-btn">
     <span class="label"><span class="icon">&#128100;</span> My Church</span>
-    <span class="desc">Your saved studies and giving history.</span>
+    <span class="desc">Your saved study answers, and community &mdash; more on the way.</span>
   </a>
 
   <a href="team.html" class="action-btn" id="team-btn">
     <span class="label"><span class="icon">&#128101;</span> Team</span>
-    <span class="desc">For volunteers, staff, and leadership.</span>
+    <span class="desc">For volunteers, staff and leaders.</span>
   </a>
 
   <div id="denied-msg" class="status-msg error hidden" style="margin-top:20px;">
@@ -66,13 +80,10 @@
     authLink.onclick = (e) => { e.preventDefault(); CalvaryAuth.signOut(); };
   }
 
-  // Team button reflects role state honestly rather than hiding and
-  // confusing someone about whether the area exists at all.
-  const canSeeTeam = CalvaryAuth.hasAnyRole(profile, ["staff", "admin", "volunteer", "media"]);
-  if (!canSeeTeam) {
-    teamBtn.classList.add("locked");
-    teamBtn.querySelector(".desc").textContent = "Sign in with a Team account to unlock this.";
-  }
+  // Team stays a normal, clickable link regardless of sign-in state.
+  // team.html itself handles the sign-in requirement and, once signed in,
+  // sends the person straight back here via the ?next= parameter -- so
+  // clicking it while signed out is a real path to Team, not a dead end.
 
   if (new URLSearchParams(window.location.search).get("denied")) {
     document.getElementById("denied-msg").classList.remove("hidden");

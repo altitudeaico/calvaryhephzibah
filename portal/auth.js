@@ -2,6 +2,13 @@
 // CalvaryAuth.init() to know who's signed in and what they can see.
 // One source of truth for session + profile + roles, so no page has to
 // re-implement auth checking on its own.
+//
+// Uses the self-hosted Supabase JS client at vendor/supabase.js
+// (bundled version: @supabase/supabase-js 2.114.0, taken from npm on
+// 2 Sep 2026). Self-hosting avoids the cdn.jsdelivr.net dependency that
+// blocked testing in this session -- it does not, by itself, guarantee
+// production reliability. To update: `npm install @supabase/supabase-js@latest`
+// and copy dist/umd/supabase.js over vendor/supabase.js, then re-test.
 
 const CalvaryAuth = (function () {
   const SUPABASE_URL = "https://pfycvgbrsbecznkcikwt.supabase.co";

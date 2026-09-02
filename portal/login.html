@@ -19,8 +19,8 @@
   </div>
 
   <div class="eyebrow">Sign in</div>
-  <h1>Welcome back</h1>
-  <p class="lede">Use whichever is easiest. No wrong answer.</p>
+  <h1 id="page-heading">Sign in to your church account</h1>
+  <p class="lede" id="page-sub">One account works everywhere on this site.</p>
 
   <div class="tab-row">
     <button id="tab-magic" class="active" onclick="setMethod('magic')">Email link</button>
@@ -29,13 +29,28 @@
 
   <!-- Magic link: just an email, one tap, done -->
   <div class="card" id="panel-magic">
-    <label for="magic-email">Email address</label>
-    <input type="email" id="magic-email" placeholder="you@example.com" autocomplete="email">
-    <button class="primary-btn" onclick="doMagicLink()">Send me a link</button>
-    <p style="font-size:13.5px; color:var(--ink-3); margin-top:14px;">
-      We'll email you a link. Tap it on this device and you're in, no password to
-      remember.
-    </p>
+    <div id="magic-form">
+      <label for="magic-email">Email address</label>
+      <input type="email" id="magic-email" placeholder="you@example.com" autocomplete="email">
+      <button class="primary-btn" onclick="doMagicLink()">Send me a link</button>
+      <p style="font-size:13.5px; color:var(--ink-3); margin-top:14px;">
+        We'll email you a link. Open it on this device and you're in &mdash; no password to
+        remember.
+      </p>
+    </div>
+    <div id="magic-sent" class="hidden">
+      <p style="font-size:15px; margin-bottom:6px;"><strong>Link sent to:</strong></p>
+      <p style="font-size:16px; color:var(--red); font-weight:700; margin-bottom:18px;" id="magic-sent-email"></p>
+      <p style="font-size:14.5px; color:var(--ink-2); margin-bottom:14px;">
+        Open your email and tap the link. It will bring you straight back here, signed in.
+      </p>
+      <button class="text-btn" style="text-align:left; padding-left:0;" onclick="resetMagicForm()">
+        Wrong email address? Change it and resend
+      </button>
+      <button class="text-btn" style="text-align:left; padding-left:0;" onclick="doMagicLink(true)">
+        Didn't get it? Send again
+      </button>
+    </div>
   </div>
 
   <!-- Password: sign in or create account, toggled -->
@@ -77,6 +92,10 @@ function setMethod(m) {
   document.getElementById("tab-password").classList.toggle("active", m === "password");
   document.getElementById("panel-magic").classList.toggle("hidden", m !== "magic");
   document.getElementById("panel-password").classList.toggle("hidden", m !== "password");
+  if (m === "magic") {
+    document.getElementById("page-heading").textContent = "Sign in to your church account";
+    document.getElementById("page-sub").textContent = "One account works everywhere on this site.";
+  }
   hideStatus();
 }
 
@@ -86,6 +105,8 @@ function setPasswordMode(m) {
   document.getElementById("mode-signup").classList.toggle("active", m === "signup");
   document.getElementById("signup-name-field").classList.toggle("hidden", m !== "signup");
   document.getElementById("pw-submit").textContent = m === "signup" ? "Create account" : "Sign in";
+  document.getElementById("page-heading").textContent = m === "signup" ? "Create your account" : "Sign in to your church account";
+  document.getElementById("page-sub").textContent = m === "signup" ? "Takes a minute. One account works everywhere on this site." : "One account works everywhere on this site.";
   hideStatus();
 }
 
@@ -98,16 +119,24 @@ function hideStatus() {
   document.getElementById("status").className = "status-msg hidden";
 }
 
-async function doMagicLink() {
+async function doMagicLink(isResend) {
   const email = document.getElementById("magic-email").value.trim();
   if (!email) { showStatus("Enter your email address first.", "error"); return; }
-  showStatus("Sending...", "success");
+  showStatus(isResend ? "Sending again..." : "Sending...", "success");
   const { error } = await CalvaryAuth.signInWithMagicLink(email);
   if (error) {
     showStatus("Something went wrong: " + error.message, "error");
   } else {
-    showStatus("Check your email for the link. It'll open right back up here.", "success");
+    hideStatus();
+    document.getElementById("magic-sent-email").textContent = email;
+    document.getElementById("magic-form").classList.add("hidden");
+    document.getElementById("magic-sent").classList.remove("hidden");
   }
+}
+function resetMagicForm() {
+  document.getElementById("magic-form").classList.remove("hidden");
+  document.getElementById("magic-sent").classList.add("hidden");
+  hideStatus();
 }
 
 async function doPassword() {
