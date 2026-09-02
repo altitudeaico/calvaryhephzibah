@@ -7,51 +7,35 @@
 <meta name="description" content="Calvary Hephzibah Full Gospel Church.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shell.css">
 <script src="vendor/supabase.js"></script>
 <style>
-  /* Deliberately not using .app-nav here -- the Welcome screen is a single
-     focused decision (sign in / create account / explore), not a page
-     "inside the app" with tabs. Per the review: it shouldn't contain
-     every destination. */
-  .welcome-wrap { max-width: 420px; margin: 0 auto; padding: 60px 24px 40px; text-align: center; }
-  .welcome-logo { width: 84px; height: 84px; margin: 0 auto 24px; }
-  .welcome-wrap h1 { font-family: 'Instrument Serif', serif; font-size: 32px; font-weight: 400; margin-bottom: 14px; }
-  .welcome-wrap p { color: var(--ink-2); font-size: 16px; margin-bottom: 36px; line-height: 1.6; }
-  .welcome-actions .primary-btn { margin-top: 0; }
-  .welcome-secondary {
-    display: block; width: 100%; margin-top: 12px; background: none;
-    border: 2px solid var(--border); border-radius: 10px; padding: 13px;
-    font-size: 16px; font-weight: 700; color: var(--ink); cursor: pointer;
-    font-family: inherit; text-decoration: none;
-  }
-  .welcome-explore {
-    display: block; margin-top: 26px; color: var(--ink-3); font-size: 15px;
-    font-weight: 600; text-decoration: underline;
-  }
+  body { display: flex; min-height: 100vh; align-items: center; }
+  .welcome-wrap { max-width: 380px; margin: 0 auto; padding: 24px; text-align: center; width: 100%; }
+  .welcome-logo { width: 72px; height: 72px; margin: 0 auto 32px; }
+  .welcome-wrap h1 { font-size: 30px; margin-bottom: 12px; }
+  .welcome-wrap p { color: var(--ink-secondary); font-size: 16px; margin-bottom: 40px; line-height: 1.5; }
+  .welcome-actions { display: flex; flex-direction: column; gap: 10px; }
 </style>
 </head>
 <body>
 
 <div class="welcome-wrap">
-  <img src="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/sermon-library/ending-screen/logo/calvary-logo-roundel-transparent.png" alt="Calvary Hephzibah" class="welcome-logo">
+  <img src="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/sermon-library/ending-screen/logo/calvary-logo-roundel-transparent.png" alt="" class="welcome-logo">
   <h1>Welcome to Calvary Hephzibah</h1>
-  <p>Sermons, weekly studies, and everything that keeps our church community
-  connected &mdash; on your own, or with your group.</p>
+  <p>Sermons, weekly studies, and everything that keeps our church community connected.</p>
 
   <div class="welcome-actions">
-    <a href="login.html" class="primary-btn" style="display:block; text-decoration:none; text-align:center;">Sign in</a>
-    <a href="login.html?mode=signup" class="welcome-secondary">Create an account</a>
+    <a href="login.html" class="primary-btn">Sign in</a>
+    <a href="login.html?mode=signup" class="secondary-btn">Create an account</a>
   </div>
 
-  <a href="watch.html" class="welcome-explore">Explore without signing in &rarr;</a>
+  <a href="watch.html" class="text-link" style="margin-top:28px; display:inline-block;">Explore without signing in</a>
 </div>
 
 <script src="auth.js"></script>
 <script>
-// If already signed in, this screen isn't the right one to show -- go
-// straight to Home instead of making a signed-in person sign in again.
 (async function () {
   const { session } = await CalvaryAuth.init();
   if (session) window.location.replace("home.html");

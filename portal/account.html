@@ -6,7 +6,7 @@
 <title>My Account | Calvary Hephzibah</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shell.css">
 <link rel="stylesheet" href="nav.css">
 <script src="vendor/supabase.js"></script>
@@ -14,33 +14,25 @@
 <body>
 
 <div class="wrap hidden" id="content">
-  <div id="app-nav-slot"></div>
-  <h1 style="font-size:28px; margin-top:8px;">My Account</h1>
+  <h2 style="margin-top:8px;">My Account</h2>
 
-  <div class="card">
-    <h2 style="font-size:18px; margin-bottom:14px;">Your details</h2>
-    <p style="font-size:14.5px; color:var(--ink-2); margin-bottom:4px;"><strong>Name:</strong> <span id="detail-name"></span></p>
-    <p style="font-size:14.5px; color:var(--ink-2); margin-bottom:4px;"><strong>Email:</strong> <span id="detail-email"></span></p>
-    <p style="font-size:14.5px; color:var(--ink-2);"><strong>Member since:</strong> <span id="detail-joined"></span></p>
+  <div class="row-list" style="margin-top:20px;">
+    <div class="row"><span class="row-body"><span class="row-desc">Name</span><span class="row-title" id="detail-name"></span></span></div>
+    <div class="row"><span class="row-body"><span class="row-desc">Email</span><span class="row-title" id="detail-email"></span></span></div>
+    <div class="row"><span class="row-body"><span class="row-desc">Member since</span><span class="row-title" id="detail-joined"></span></span></div>
   </div>
 
-  <div class="action-btn">
-    <span class="label"><span class="icon">&#128172;</span> Prayer &amp; community</span>
-    <span class="desc">Coming soon</span>
+  <div class="row-list">
+    <div class="row muted"><span class="row-body"><span class="row-title">Prayer &amp; community</span><span class="row-desc">Coming soon</span></span></div>
+    <div class="row muted"><span class="row-body"><span class="row-title">Giving history</span><span class="row-desc">Not connected here yet</span></span></div>
   </div>
 
-  <div class="action-btn">
-    <span class="label"><span class="icon">&#10084;&#65039;</span> Giving history</span>
-    <span class="desc">Coming soon &mdash; not connected here yet</span>
-  </div>
+  <button class="secondary-btn" id="signout-btn" style="margin-top:8px;">Sign out</button>
 
-  <button class="welcome-secondary" id="signout-btn" style="margin-top:20px;">Sign out</button>
-
-  <footer>
-    Calvary Hephzibah Full Gospel Church &middot; <a href="mailto:hello@altitudeai.co">Questions? Ask here</a>
-  </footer>
+  <footer>Calvary Hephzibah Full Gospel Church &middot; <a href="mailto:hello@altitudeai.co">Questions? Ask here</a></footer>
 </div>
 
+<script src="icons.js"></script>
 <script src="auth.js"></script>
 <script src="nav.js"></script>
 <script>
@@ -48,16 +40,13 @@
   const result = await CalvaryAuth.requireAuth();
   if (!result) return;
   const { profile } = result;
-
   document.getElementById("content").classList.remove("hidden");
   CalvaryNav.render("account", profile);
-
   document.getElementById("detail-name").textContent = profile.full_name || "Not set";
   document.getElementById("detail-email").textContent = profile.email || "Not set";
   document.getElementById("detail-joined").textContent = profile.joined_at
     ? new Date(profile.joined_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
     : "Unknown";
-
   document.getElementById("signout-btn").onclick = () => CalvaryAuth.signOut();
 })();
 </script>

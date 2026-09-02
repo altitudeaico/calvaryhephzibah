@@ -11,64 +11,60 @@
 <link rel="stylesheet" href="nav.css">
 <script src="vendor/supabase.js"></script>
 <style>
-  .progress-row { display: flex; gap: 6px; margin-bottom: 18px; }
-  .progress-row .seg { flex: 1; height: 4px; border-radius: 2px; background: var(--border); }
+  .progress-row { display: flex; gap: 4px; margin-bottom: 16px; }
+  .progress-row .seg { flex: 1; height: 3px; border-radius: 2px; background: var(--hairline); }
   .progress-row .seg.done { background: var(--red); }
   .progress-row .seg.current { background: var(--gold); }
-
-  .step-pills { display: flex; gap: 6px; margin-bottom: 24px; overflow-x: auto; }
-  .step-pills button {
-    flex: none; padding: 8px 14px; border-radius: 20px; border: 1px solid var(--border);
-    background: var(--card); font-family: inherit; font-size: 13px; font-weight: 700;
-    color: var(--ink-3); cursor: pointer; white-space: nowrap;
-  }
-  .step-pills button.active { background: var(--ink); color: white; border-color: var(--ink); }
-  .step-pills button.step-done::after { content: " \2713"; }
+  .step-count { color: var(--ink-tertiary); font-size: 13px; margin-bottom: 4px; }
 
   .nav-buttons { display: flex; gap: 10px; margin-top: 24px; }
-  .nav-buttons .primary-btn { margin-top: 0; }
-  .nav-buttons .secondary-nav {
-    flex: none; background: none; border: 2px solid var(--border); border-radius: 10px;
-    padding: 0 18px; font-weight: 700; color: var(--ink-2); cursor: pointer; font-family: inherit;
+  .nav-buttons .primary-btn { margin: 0; }
+  .nav-buttons .back-btn {
+    flex: none; background: var(--surface); border: none; border-radius: 12px;
+    padding: 0 18px; font-weight: 500; color: var(--ink); cursor: pointer; font-family: inherit; font-size: 15px;
   }
 
-  .leader-block { display: none; }
-  .leader-block.show { display: block; }
-  .leader-toggle-box {
-    background: #FBF6EC; border: 1px dashed var(--gold); border-radius: 10px;
-    padding: 16px 18px; margin-top: 16px; font-size: 14.5px; color: var(--ink-2);
-  }
-  .leader-block summary { cursor: pointer; font-weight: 700; color: var(--gold); font-size: 13px; text-transform: uppercase; }
+  .u-point { padding: 12px 0; border-bottom: 1px solid var(--hairline); }
+  .u-point:last-child { border-bottom: none; }
+  .u-label { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+  .u-text { font-size: 15px; color: var(--ink-secondary); line-height: 1.5; }
+
+  .verse-block-local { background: var(--surface); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+  .verse-ref { color: var(--ink-tertiary); font-size: 12.5px; font-weight: 500; margin-bottom: 8px; }
+  .verse-text { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 19px; line-height: 1.5; color: var(--ink); }
+  .word-note-local { font-size: 14px; color: var(--ink-secondary); margin-bottom: 16px; padding-left: 14px; border-left: 2px solid var(--gold); }
+
+  details.leader-block summary { cursor: pointer; font-weight: 500; color: var(--gold); font-size: 14px; list-style: none; }
+  details.leader-block summary::-webkit-details-marker { display: none; }
+  details.leader-block summary::before { content: "\25B8  "; }
+  details.leader-block[open] summary::before { content: "\25BE  "; }
+  .leader-banner { background: var(--surface); border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; font-size: 14px; color: var(--ink-secondary); }
 </style>
 </head>
 <body>
 
 <div class="wrap hidden" id="content">
-  <div id="app-nav-slot"></div>
-
   <div id="mode-banner"></div>
 
   <div class="progress-row" id="progress-row"></div>
-  <div class="eyebrow" id="reflection-count"></div>
-  <h1 id="reflection-title" style="font-size:28px;"></h1>
-  <div class="session-focus" id="reflection-focus" style="margin-bottom:20px;"></div>
+  <div class="step-count" id="reflection-count"></div>
+  <h2 id="reflection-title" style="font-size:24px;"></h2>
+  <p class="lede" id="reflection-focus" style="margin-bottom:20px; font-size:15px;"></p>
 
-  <div class="step-pills" id="step-pills"></div>
+  <div class="segmented" id="step-pills"></div>
 
   <div id="step-content"></div>
 
   <div class="nav-buttons">
-    <button class="secondary-nav" id="prev-btn" onclick="prevStep()">&larr; Back</button>
+    <button class="back-btn" id="prev-btn" onclick="prevStep()">Back</button>
     <button class="primary-btn" id="next-btn" onclick="nextStep()" style="flex:1;">Continue</button>
   </div>
 
   <p style="text-align:center; margin-top:20px;">
-    <a href="watch.html" id="back-home-link" style="font-size:14px; color:var(--ink-3); font-weight:600;">&larr; Back to Home</a>
+    <a href="watch.html" id="back-home-link" class="text-link">Back to Home</a>
   </p>
 </div>
 
-<script src="auth.js"></script>
-<script src="nav.js"></script>
 <script>
 const REFLECTIONS = [
   {
@@ -139,12 +135,8 @@ const REFLECTIONS = [
 const STEPS = ["watch", "read", "reflect", "pray"];
 const STEP_LABELS = { watch: "Watch", read: "Read", reflect: "Reflect", pray: "Pray" };
 
-let currentRef = 0;
-let currentStep = 0;
-let isLeader = false;
-let isSignedIn = false;
+let currentRef = 0, currentStep = 0, isLeader = false, isSignedIn = false;
 function finishDestination() { return isSignedIn ? "home.html" : "watch.html"; }
-
 function paramInt(name, def) {
   const v = new URLSearchParams(window.location.search).get(name);
   return v ? parseInt(v, 10) : def;
@@ -155,15 +147,11 @@ function render() {
   document.getElementById("reflection-count").textContent = `Reflection ${currentRef + 1} of ${REFLECTIONS.length}`;
   document.getElementById("reflection-title").textContent = r.title;
   document.getElementById("reflection-focus").textContent = r.focus;
-
   document.getElementById("progress-row").innerHTML = REFLECTIONS.map((_, i) =>
     `<div class="seg ${i < currentRef ? 'done' : i === currentRef ? 'current' : ''}"></div>`
   ).join("");
 
-  if (isLeader) {
-    renderLeaderView(r);
-    return;
-  }
+  if (isLeader) { renderLeaderView(r); return; }
 
   document.getElementById("step-pills").innerHTML = STEPS.map((s, i) =>
     `<button class="${i === currentStep ? 'active' : ''}" onclick="goStep(${i})">${STEP_LABELS[s]}</button>`
@@ -172,49 +160,29 @@ function render() {
   const step = STEPS[currentStep];
   let html = "";
   if (step === "watch") {
-    if (r.media.type === "video") {
-      html = `<div class="card" style="padding:0; overflow:hidden;">
-        <video controls preload="metadata" style="width:100%; max-height:70vh; display:block; margin:0 auto;" poster="${r.media.poster}">
-          <source src="${r.media.src}" type="video/mp4">
-        </video>
-        <p style="padding:16px; font-size:14.5px; color:var(--ink-2); margin:0;">${r.media.caption}</p>
-      </div>`;
-    } else {
-      html = `<div class="card" style="padding:0; overflow:hidden;">
-        <img src="${r.media.src}" style="width:100%; display:block;">
-      </div>`;
-    }
+    html = r.media.type === "video"
+      ? `<div class="media-frame"><video controls preload="metadata" style="max-height:60vh; margin:0 auto;" poster="${r.media.poster}"><source src="${r.media.src}" type="video/mp4"></video></div>`
+      : `<div class="media-frame"><img src="${r.media.src}"></div>`;
   } else if (step === "read") {
-    html = `<div class="verse-block-local">
-      <div style="color:var(--red); font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">${r.verseRef}</div>
-      <div style="font-family:'Instrument Serif',serif; font-style:italic; font-size:18px; line-height:1.55;">${r.verseText}</div>
-    </div>`;
-    if (r.bridgeNote) {
-      html += `<div class="word-note-local">${r.bridgeNote}</div>`;
-    }
-    if (r.wordNote) {
-      html += `<div class="word-note-local">${r.wordNote}</div>`;
-    }
+    html = `<div class="verse-block-local"><div class="verse-ref">${r.verseRef}</div><div class="verse-text">${r.verseText}</div></div>`;
+    if (r.bridgeNote) html += `<div class="word-note-local">${r.bridgeNote}</div>`;
+    if (r.wordNote) html += `<div class="word-note-local">${r.wordNote}</div>`;
   } else if (step === "reflect") {
-    html = `<div class="card">
-      <p style="font-weight:700; color:var(--ink); margin-bottom:10px;">${r.observeQ}</p>
-      <textarea class="answer-box" style="width:100%; margin-left:0;" data-key="${r.observeKey}" placeholder="Write your answer here"></textarea>
-      <p style="font-size:12px; color:var(--ink-3); margin-top:6px;">Saved on this device. If you share this device with others, anyone using it can see what's written here.</p>
+    html = `<div class="surface">
+      <p style="font-weight:600; margin-bottom:10px;">${r.observeQ}</p>
+      <textarea class="answer-box" data-key="${r.observeKey}" placeholder="Write your answer here"></textarea>
+      <p class="save-note">Saved on this device. If you share this device with others, anyone using it can see what's written here.</p>
     </div>
-    <h3 style="margin-top:22px;">Understanding the passage</h3>
-    <div class="understanding">${r.understanding.map(([label, text]) => `<div class="u-point"><div class="u-label">${label}</div><div class="u-text">${text}</div></div>`).join("")}</div>
+    <h3>Understanding the passage</h3>
+    <div class="surface" style="padding:4px 20px;">${r.understanding.map(([label, text]) => `<div class="u-point"><div class="u-label">${label}</div><div class="u-text">${text}</div></div>`).join("")}</div>
     <h3>Talk it through</h3>
-    ${r.talkQ.map(t => `<p style="font-weight:600; margin-bottom:6px;">${t.q}</p>
-      <textarea class="answer-box" style="width:100%; margin-left:0; margin-bottom:16px;" data-key="${t.key}" placeholder="Write your answer here, or leave blank"></textarea>`).join("")}
-    <p style="font-size:13.5px; color:var(--ink-3); font-style:italic;">Any question here can be passed on. Leaving it blank is a fine answer too.</p>`;
+    ${r.talkQ.map(t => `<p style="font-weight:500; margin-bottom:8px; font-size:15px;">${t.q}</p>
+      <textarea class="answer-box" style="width:100%; margin-bottom:16px;" data-key="${t.key}" placeholder="Write your answer here, or leave blank"></textarea>`).join("")}
+    <p class="pass-note">Any question here can be passed on. Leaving it blank is a fine answer too.</p>`;
   } else if (step === "pray") {
-    html = `<div class="verse-block-local">
-      <div style="font-family:'Instrument Serif',serif; font-style:italic; font-size:17px; line-height:1.6;">${r.prayer}</div>
-    </div>
-    <div class="application-box">
-      <h3>Try this</h3>
-      <p>${r.application}</p>
-    </div>`;
+    html = `<div class="verse-block-local"><div class="verse-text" style="font-size:17px;">${r.prayer}</div></div>
+    <h3>Try this</h3>
+    <p style="color:var(--ink-secondary);">${r.application}</p>`;
   }
   document.getElementById("step-content").innerHTML = html;
   bindAnswerBoxes();
@@ -223,40 +191,34 @@ function render() {
   const isLastStepOfRef = currentStep === STEPS.length - 1;
   const isLastRef = currentRef === REFLECTIONS.length - 1;
   document.getElementById("next-btn").textContent =
-    isLastStepOfRef && isLastRef ? (isSignedIn ? "Finish \u2014 Back to Home" : "Finish")
-    : isLastStepOfRef ? "Next reflection"
-    : "Continue";
+    isLastStepOfRef && isLastRef ? (isSignedIn ? "Finish, back to Home" : "Finish")
+    : isLastStepOfRef ? "Next reflection" : "Continue";
 }
 
 function renderLeaderView(r) {
   document.getElementById("step-pills").innerHTML = "";
-  document.getElementById("mode-banner").innerHTML = `<div class="leader-toggle-box" style="margin-bottom:20px;">Leading a group \u2014 full content for this reflection, with suggested answers. <a href="study.html" style="color:var(--red); font-weight:700;">Switch to personal view</a></div>`;
-
+  document.getElementById("mode-banner").innerHTML = `<div class="leader-banner">Leading a group \u2014 full content with suggested answers. <a href="study.html" class="text-link">Switch to personal view</a></div>`;
   const mediaHtml = r.media.type === "video"
-    ? `<video controls preload="metadata" style="width:100%; max-height:70vh; display:block; margin:0 auto;" poster="${r.media.poster}"><source src="${r.media.src}" type="video/mp4"></video>`
-    : `<img src="${r.media.src}" style="width:100%; display:block;">`;
-
+    ? `<video controls preload="metadata" style="max-height:60vh; margin:0 auto; display:block;" poster="${r.media.poster}"><source src="${r.media.src}" type="video/mp4"></video>`
+    : `<img src="${r.media.src}">`;
   document.getElementById("step-content").innerHTML = `
-    <div class="card" style="padding:0; overflow:hidden;">${mediaHtml}</div>
-    <div class="verse-block-local">
-      <div style="color:var(--red); font-weight:700; font-size:12px; text-transform:uppercase; margin-bottom:8px;">${r.verseRef}</div>
-      <div style="font-family:'Instrument Serif',serif; font-style:italic; font-size:18px; line-height:1.55;">${r.verseText}</div>
-    </div>
+    <div class="media-frame">${mediaHtml}</div>
+    <div class="verse-block-local"><div class="verse-ref">${r.verseRef}</div><div class="verse-text">${r.verseText}</div></div>
     ${r.bridgeNote ? `<div class="word-note-local">${r.bridgeNote}</div>` : ""}
     ${r.wordNote ? `<div class="word-note-local">${r.wordNote}</div>` : ""}
     <h3>Observe</h3>
-    <p style="font-weight:700; margin-bottom:8px;">${r.observeQ}</p>
-    <details class="leader-block show" style="margin-bottom:18px;"><summary>Suggested answer</summary><p style="margin-top:8px;">${r.leaderSample}</p></details>
+    <p style="font-weight:600; margin-bottom:8px;">${r.observeQ}</p>
+    <details class="leader-block" open style="margin-bottom:18px;"><summary>Suggested answer</summary><p style="margin-top:8px; color:var(--ink-secondary);">${r.leaderSample}</p></details>
     <h3>Understanding the passage</h3>
-    <div class="understanding">${r.understanding.map(([label, text]) => `<div class="u-point"><div class="u-label">${label}</div><div class="u-text">${text}</div></div>`).join("")}</div>
+    <div class="surface" style="padding:4px 20px;">${r.understanding.map(([label, text]) => `<div class="u-point"><div class="u-label">${label}</div><div class="u-text">${text}</div></div>`).join("")}</div>
     <h3>Talk it through</h3>
-    ${r.talkQ.map(t => `<p style="font-weight:600; margin-bottom:14px;">${t.q}</p>`).join("")}
-    <div class="application-box"><h3>Try this</h3><p>${r.application}</p></div>
-    <details class="leader-block show" style="margin-top:18px;"><summary>Leading this reflection</summary><p style="margin-top:8px;">${r.leaderNotes}</p></details>
+    ${r.talkQ.map(t => `<p style="font-weight:500; margin-bottom:12px; font-size:15px;">${t.q}</p>`).join("")}
+    <h3>Try this</h3>
+    <p style="color:var(--ink-secondary); margin-bottom:16px;">${r.application}</p>
+    <details class="leader-block" open><summary>Leading this reflection</summary><p style="margin-top:8px; color:var(--ink-secondary);">${r.leaderNotes}</p></details>
   `;
-
   document.getElementById("prev-btn").style.visibility = currentRef === 0 ? "hidden" : "visible";
-  document.getElementById("next-btn").textContent = currentRef === REFLECTIONS.length - 1 ? (isSignedIn ? "Finish \u2014 Back to Home" : "Finish") : "Next reflection";
+  document.getElementById("next-btn").textContent = currentRef === REFLECTIONS.length - 1 ? (isSignedIn ? "Finish, back to Home" : "Finish") : "Next reflection";
 }
 
 function bindAnswerBoxes() {
@@ -267,7 +229,6 @@ function bindAnswerBoxes() {
     box.addEventListener("input", () => localStorage.setItem(key, box.value));
   });
 }
-
 function goStep(i) { currentStep = i; syncUrl(); render(); }
 function nextStep() {
   if (isLeader) {
@@ -275,21 +236,16 @@ function nextStep() {
     else window.location.href = finishDestination();
     return;
   }
-  if (currentStep < STEPS.length - 1) { currentStep++; }
+  if (currentStep < STEPS.length - 1) currentStep++;
   else if (currentRef < REFLECTIONS.length - 1) { currentRef++; currentStep = 0; }
   else { window.location.href = finishDestination(); return; }
-  syncUrl(); render();
-  window.scrollTo(0, 0);
+  syncUrl(); render(); window.scrollTo(0, 0);
 }
 function prevStep() {
-  if (isLeader) {
-    if (currentRef > 0) { currentRef--; syncUrl(); render(); }
-    return;
-  }
-  if (currentStep > 0) { currentStep--; }
+  if (isLeader) { if (currentRef > 0) { currentRef--; syncUrl(); render(); } return; }
+  if (currentStep > 0) currentStep--;
   else if (currentRef > 0) { currentRef--; currentStep = STEPS.length - 1; }
-  syncUrl(); render();
-  window.scrollTo(0, 0);
+  syncUrl(); render(); window.scrollTo(0, 0);
 }
 function syncUrl() {
   const params = new URLSearchParams(window.location.search);
@@ -297,17 +253,17 @@ function syncUrl() {
   if (!isLeader) params.set("step", currentStep + 1);
   history.replaceState(null, "", "?" + params.toString());
 }
-
+</script>
+<script src="auth.js"></script>
+<script src="icons.js"></script>
+<script src="nav.js"></script>
+<script>
 (async function () {
   const { session, profile } = await CalvaryAuth.init();
-  // Study content itself is open to signed-out visitors too, per "Explore
-  // without signing in" on the Welcome screen -- answers still save locally
-  // via localStorage either way. Only the persistent app nav (and, later,
-  // cross-device answer sync) actually requires being signed in.
   document.getElementById("content").classList.remove("hidden");
   isSignedIn = !!session;
   document.getElementById("back-home-link").href = finishDestination();
-  document.getElementById("back-home-link").textContent = isSignedIn ? "\u2190 Back to Home" : "\u2190 Back to Watch & Study";
+  document.getElementById("back-home-link").textContent = isSignedIn ? "Back to Home" : "Back to Watch & Study";
   CalvaryNav.render("watch", profile);
 
   isLeader = new URLSearchParams(window.location.search).get("mode") === "leader";
@@ -316,14 +272,6 @@ function syncUrl() {
   render();
 })();
 </script>
-<style>
-  .video-constrain { max-height: 70vh; width: auto; max-width: 100%; display: block; margin: 0 auto; }
-  .understanding { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-  .u-point { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
-  .u-label { font-size: 11px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-  .u-text { font-size: 15px; color: var(--ink-2); line-height: 1.5; }
-  .verse-block-local { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
-  .word-note-local { background: var(--bg); border-left: 3px solid var(--gold); padding: 10px 14px; font-size: 14px; color: var(--ink-2); margin-bottom: 16px; border-radius: 0 6px 6px 0; }
-</style>
+
 </body>
 </html>

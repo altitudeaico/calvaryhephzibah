@@ -6,58 +6,47 @@
 <title>Sign in | Calvary Hephzibah</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shell.css">
 <script src="vendor/supabase.js"></script>
 </head>
 <body>
 
 <div class="wrap">
-  <div class="topbar">
-    <a href="index.html">&larr; Back</a>
-    <span></span>
-  </div>
+  <a href="index.html" class="text-link" style="margin-bottom:20px; display:inline-block;">&larr; Back</a>
 
-  <div class="eyebrow">Sign in</div>
-  <h1 id="page-heading">Sign in to your church account</h1>
-  <p class="lede" id="page-sub">One account for the study and your church community. If you volunteer or serve, it covers most team tools too, though a few older ones still have their own separate sign-in for now.</p>
+  <h1 id="page-heading" style="font-size:28px;">Sign in to your church account</h1>
+  <p class="lede" id="page-sub" style="margin-bottom:24px;">One account for the study and your church community.</p>
 
-  <div class="tab-row">
+  <div class="segmented">
     <button id="tab-magic" class="active" onclick="setMethod('magic')">Email link</button>
     <button id="tab-password" onclick="setMethod('password')">Password</button>
   </div>
 
-  <!-- Magic link: just an email, one tap, done -->
-  <div class="card" id="panel-magic">
+  <div id="panel-magic">
     <div id="magic-form">
       <label for="magic-email">Email address</label>
       <input type="email" id="magic-email" placeholder="you@example.com" autocomplete="email">
-      <button class="primary-btn" onclick="doMagicLink()">Send me a link</button>
-      <p style="font-size:13.5px; color:var(--ink-3); margin-top:14px;">
-        We'll email you a link. Open it on this device and you're in &mdash; no password to
-        remember.
+      <button class="primary-btn" style="margin-top:20px;" onclick="doMagicLink()">Send me a link</button>
+      <p style="font-size:13px; color:var(--ink-tertiary); margin-top:14px;">
+        We'll email you a link. Open it on this device and you're in.
       </p>
     </div>
     <div id="magic-sent" class="hidden">
-      <p style="font-size:15px; margin-bottom:6px;"><strong>Link sent to:</strong></p>
-      <p style="font-size:16px; color:var(--red); font-weight:700; margin-bottom:18px;" id="magic-sent-email"></p>
-      <p style="font-size:14.5px; color:var(--ink-2); margin-bottom:14px;">
+      <p style="font-size:14px; margin-bottom:4px; color:var(--ink-secondary);">Link sent to</p>
+      <p style="font-size:17px; color:var(--ink); font-weight:600; margin-bottom:18px;" id="magic-sent-email"></p>
+      <p style="font-size:14px; color:var(--ink-secondary); margin-bottom:16px;">
         Open your email and tap the link. It will bring you straight back here, signed in.
       </p>
-      <button class="text-btn" style="text-align:left; padding-left:0;" onclick="resetMagicForm()">
-        Wrong email address? Change it and resend
-      </button>
-      <button class="text-btn" style="text-align:left; padding-left:0;" onclick="doMagicLink(true)">
-        Didn't get it? Send again
-      </button>
+      <a href="#" class="text-link" onclick="resetMagicForm(); return false;" style="display:block; margin-bottom:8px;">Wrong email? Change it and resend</a>
+      <a href="#" class="text-link" onclick="doMagicLink(true); return false;" style="display:block;">Didn't get it? Send again</a>
     </div>
   </div>
 
-  <!-- Password: sign in or create account, toggled -->
-  <div class="card hidden" id="panel-password">
-    <div class="tab-row" style="margin-bottom:18px;">
-      <button id="mode-signin" class="active" onclick="setPasswordMode('signin')">Sign in</button>
-      <button id="mode-signup" onclick="setPasswordMode('signup')">Create account</button>
+  <div class="hidden" id="panel-password">
+    <div class="segmented" style="background:transparent; padding:0; gap:8px;">
+      <button id="mode-signin" class="active" onclick="setPasswordMode('signin')" style="border:1px solid var(--hairline);">Sign in</button>
+      <button id="mode-signup" onclick="setPasswordMode('signup')" style="border:1px solid var(--hairline);">Create account</button>
     </div>
 
     <div id="signup-name-field" class="hidden">
@@ -71,14 +60,12 @@
     <label for="pw-password">Password</label>
     <input type="password" id="pw-password" placeholder="At least 8 characters" autocomplete="current-password">
 
-    <button class="primary-btn" id="pw-submit" onclick="doPassword()">Sign in</button>
+    <button class="primary-btn" id="pw-submit" style="margin-top:20px;" onclick="doPassword()">Sign in</button>
   </div>
 
   <div id="status" class="status-msg hidden"></div>
 
-  <footer>
-    Trouble signing in? <a href="mailto:hello@altitudeai.co">Ask for help here</a>
-  </footer>
+  <footer>Trouble signing in? <a href="mailto:hello@altitudeai.co">Ask for help here</a></footer>
 </div>
 
 <script src="auth.js"></script>
@@ -94,11 +81,10 @@ function setMethod(m) {
   document.getElementById("panel-password").classList.toggle("hidden", m !== "password");
   if (m === "magic") {
     document.getElementById("page-heading").textContent = "Sign in to your church account";
-    document.getElementById("page-sub").textContent = "One account for the study and your church community. If you volunteer or serve, it covers most team tools too, though a few older ones still have their own separate sign-in for now.";
+    document.getElementById("page-sub").textContent = "One account for the study and your church community.";
   }
   hideStatus();
 }
-
 function setPasswordMode(m) {
   passwordMode = m;
   document.getElementById("mode-signin").classList.toggle("active", m === "signin");
@@ -106,23 +92,21 @@ function setPasswordMode(m) {
   document.getElementById("signup-name-field").classList.toggle("hidden", m !== "signup");
   document.getElementById("pw-submit").textContent = m === "signup" ? "Create account" : "Sign in";
   document.getElementById("page-heading").textContent = m === "signup" ? "Create your account" : "Sign in to your church account";
-  document.getElementById("page-sub").textContent = m === "signup" ? "Takes a minute. One account for the study and your church community. If you volunteer or serve, it covers most team tools too, though a few older ones still have their own separate sign-in for now." : "One account for the study and your church community. If you volunteer or serve, it covers most team tools too, though a few older ones still have their own separate sign-in for now.";
+  document.getElementById("page-sub").textContent = m === "signup" ? "Takes a minute. One account for the study and your church community." : "One account for the study and your church community.";
   hideStatus();
 }
-
 function showStatus(msg, kind) {
   const el = document.getElementById("status");
   el.textContent = msg;
   el.className = "status-msg " + kind;
 }
-function hideStatus() {
-  document.getElementById("status").className = "status-msg hidden";
-}
+function hideStatus() { document.getElementById("status").className = "status-msg hidden"; }
 
 async function doMagicLink(isResend) {
   const email = document.getElementById("magic-email").value.trim();
   if (!email) { showStatus("Enter your email address first.", "error"); return; }
   showStatus(isResend ? "Sending again..." : "Sending...", "success");
+  const currentDir = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
   const { error } = await CalvaryAuth.signInWithMagicLink(email);
   if (error) {
     showStatus("Something went wrong: " + error.message, "error");
@@ -138,32 +122,26 @@ function resetMagicForm() {
   document.getElementById("magic-sent").classList.add("hidden");
   hideStatus();
 }
-
 async function doPassword() {
   const email = document.getElementById("pw-email").value.trim();
   const password = document.getElementById("pw-password").value;
   if (!email || !password) { showStatus("Fill in both fields.", "error"); return; }
-
   if (passwordMode === "signup") {
     const name = document.getElementById("pw-name").value.trim();
     if (!name) { showStatus("Enter your name too.", "error"); return; }
     showStatus("Creating your account...", "success");
     const { error } = await CalvaryAuth.signUpWithPassword(email, password, name);
-    if (error) {
-      showStatus("Couldn't create that account: " + error.message, "error");
-    } else {
-      showStatus("Account created. Check your email to confirm, then sign in.", "success");
-    }
+    if (error) showStatus("Couldn't create that account: " + error.message, "error");
+    else showStatus("Account created. Check your email to confirm, then sign in.", "success");
   } else {
     showStatus("Signing in...", "success");
     const { error } = await CalvaryAuth.signInWithPassword(email, password);
-    if (error) {
-      showStatus("That didn't work: " + error.message, "error");
-    } else {
-      const next = new URLSearchParams(window.location.search).get("next") || "home.html";
-      window.location.href = next;
-    }
+    if (error) showStatus("That didn't work: " + error.message, "error");
+    else window.location.href = new URLSearchParams(window.location.search).get("next") || "home.html";
   }
+}
+if (new URLSearchParams(window.location.search).get("mode") === "signup") {
+  setMethod("password"); setPasswordMode("signup");
 }
 </script>
 
