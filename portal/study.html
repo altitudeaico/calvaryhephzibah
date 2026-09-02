@@ -202,7 +202,7 @@ function render() {
       <p style="font-size:12px; color:var(--ink-3); margin-top:6px;">Saved on this device. If you share this device with others, anyone using it can see what's written here.</p>
     </div>
     <h3 style="margin-top:22px;">Understanding the passage</h3>
-    <div class="understanding">${r.understanding.map(([label, text]) => `<p><span class="point-label">${label}:</span> ${text}</p>`).join("")}</div>
+    <div class="understanding">${r.understanding.map(([label, text]) => `<div class="u-point"><div class="u-label">${label}</div><div class="u-text">${text}</div></div>`).join("")}</div>
     <h3>Talk it through</h3>
     ${r.talkQ.map(t => `<p style="font-weight:600; margin-bottom:6px;">${t.q}</p>
       <textarea class="answer-box" style="width:100%; margin-left:0; margin-bottom:16px;" data-key="${t.key}" placeholder="Write your answer here, or leave blank"></textarea>`).join("")}
@@ -248,7 +248,7 @@ function renderLeaderView(r) {
     <p style="font-weight:700; margin-bottom:8px;">${r.observeQ}</p>
     <details class="leader-block show" style="margin-bottom:18px;"><summary>Suggested answer</summary><p style="margin-top:8px;">${r.leaderSample}</p></details>
     <h3>Understanding the passage</h3>
-    <div class="understanding">${r.understanding.map(([label, text]) => `<p><span class="point-label">${label}:</span> ${text}</p>`).join("")}</div>
+    <div class="understanding">${r.understanding.map(([label, text]) => `<div class="u-point"><div class="u-label">${label}</div><div class="u-text">${text}</div></div>`).join("")}</div>
     <h3>Talk it through</h3>
     ${r.talkQ.map(t => `<p style="font-weight:600; margin-bottom:14px;">${t.q}</p>`).join("")}
     <div class="application-box"><h3>Try this</h3><p>${r.application}</p></div>
@@ -318,6 +318,10 @@ function syncUrl() {
 </script>
 <style>
   .video-constrain { max-height: 70vh; width: auto; max-width: 100%; display: block; margin: 0 auto; }
+  .understanding { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+  .u-point { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+  .u-label { font-size: 11px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .u-text { font-size: 15px; color: var(--ink-2); line-height: 1.5; }
   .verse-block-local { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
   .word-note-local { background: var(--bg); border-left: 3px solid var(--gold); padding: 10px 14px; font-size: 14px; color: var(--ink-2); margin-bottom: 16px; border-radius: 0 6px 6px 0; }
 </style>
