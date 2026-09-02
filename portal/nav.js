@@ -1,17 +1,23 @@
 // Calvary Portal: injects the persistent app navigation. Call
 // CalvaryNav.render(activePage, profile) once auth state is known.
 // activePage is one of: 'home', 'watch', 'account', 'team'.
+//
+// FIXED after live testing: this used to only be called when a session
+// existed, so signed-out visitors saw no navigation at all on Watch &
+// Study or the guided study -- exactly the pages meant to work without
+// signing in. Nav must render unconditionally; `profile` may be null.
 const CalvaryNav = (function () {
   function render(activePage, profile) {
     document.body.classList.add("has-app-nav");
+    const isSignedIn = !!profile;
     const canSeeTeam = profile && profile.roles && profile.roles.some(r =>
       ["staff", "admin", "volunteer", "media"].includes(r)
     );
 
     const items = [
-      { key: "home", href: "home.html", icon: "&#127968;", label: "Home" },
+      { key: "home", href: isSignedIn ? "home.html" : "index.html", icon: "&#127968;", label: "Home" },
       { key: "watch", href: "watch.html", icon: "&#128214;", label: "Watch & Study" },
-      { key: "account", href: "account.html", icon: "&#128100;", label: "My Account" },
+      { key: "account", href: isSignedIn ? "account.html" : "login.html?next=account.html", icon: "&#128100;", label: "My Account" },
     ];
     if (canSeeTeam) {
       items.push({ key: "team", href: "team.html", icon: "&#128101;", label: "Team" });
@@ -26,8 +32,6 @@ const CalvaryNav = (function () {
     ).join("");
     document.body.insertBefore(nav, document.body.firstChild);
 
-    // On desktop the nav renders as a top bar, so it needs to sit inside
-    // .wrap to align with page content rather than spanning full width.
     const wrap = document.querySelector(".wrap");
     if (wrap && window.innerWidth >= 760) {
       wrap.insertBefore(nav, wrap.firstChild);

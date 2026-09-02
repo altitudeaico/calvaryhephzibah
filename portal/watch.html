@@ -24,7 +24,7 @@
   </a>
 
   <div class="card" style="padding:0; overflow:hidden;">
-    <video controls preload="metadata" style="width:100%; display:block;" poster="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/sermon-library/ending-screen/ig/example-output-ig-cover-he-never-fails.jpg">
+    <video controls preload="metadata" style="width:100%; max-height:70vh; display:block; margin:0 auto;" poster="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/sermon-library/ending-screen/ig/example-output-ig-cover-he-never-fails.jpg">
       <source src="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/social/30-aug-2026/final-package/he-never-fails-final-package.mp4" type="video/mp4">
     </video>
     <div style="padding:18px;">
@@ -54,16 +54,15 @@
 <script>
 (async function () {
   const { session, profile } = await CalvaryAuth.init();
-  // Watch & Study is deliberately open to signed-out visitors too (this is
-  // the "Explore without signing in" destination) -- only render the app
-  // nav (with Home/Account/Team) if actually signed in.
-  if (session) {
-    CalvaryNav.render("watch", profile);
-  } else {
+  // Nav renders unconditionally now -- see nav.js fix note. Watch & Study
+  // stays fully usable signed out; the prompt below is an invitation, not
+  // a gate.
+  CalvaryNav.render("watch", profile);
+  if (!session) {
     document.querySelector(".lede").insertAdjacentHTML("afterend",
       `<a href="login.html" class="action-btn" style="border-color:var(--gold);">
-         <span class="label">&#128100; Sign in for more</span>
-         <span class="desc">Save your progress, join the community, and more</span>
+         <span class="label">&#128100; Sign in</span>
+         <span class="desc">For your account and, in future, saved progress and community</span>
        </a>`);
   }
 })();
