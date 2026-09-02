@@ -1,7 +1,20 @@
-# Calvary Membership Platform — Architecture & Phasing Plan
+# Calvary Portal — Architecture & Phasing Plan
+**Address:** `portal.calvaryhephzibah.co.uk`
+**Public-facing name:** "Calvary Hephzibah" or "Calvary Connect" (not "portal" or "membership" in any button or heading a visitor sees)
 **Prepared by:** Claude, for Bolaji Olatoye (Chief of Staff)
 **Date:** 2 September 2026
 **Status:** Proposal for review — nothing here has been built yet
+
+---
+
+## A naming correction from the first draft
+
+This was originally scoped as a "membership platform." That framing is dropped. "Membership"
+implies someone has to formally join the church before they can access anything, which
+works directly against the online-campus goal — someone should be able to explore a sermon
+or a study guide with zero friction, no account, no sense of being kept outside a locked
+door. The main church website stays the public front door; this portal is the deeper layer
+behind it that existing tools gradually move into, not a gate in front of the church.
 
 ---
 
@@ -53,15 +66,17 @@ profiles
   email           text
   phone           text
   ghl_contact_id  text          -- link to the matching GHL contact
-  roles           text[]        -- e.g. {member}, {member, volunteer, media}, {admin}
+  roles           text[]        -- e.g. {}, {volunteer, media}, {staff, admin}
   joined_at       timestamptz
   last_synced_at  timestamptz   -- last successful GHL sync
 ```
 
-**Roles, not separate apps.** A person can be `{member}` only, or `{member, volunteer,
-media}`, or `{admin}`. What they see in the shell is driven by roles, not by which
-"system" they logged into — the same login that gets a congregant into their giving
-history gets a media volunteer into Control Room, if their roles include it.
+**Roles, not separate apps.** Anyone with an account can see "My Church" — that's the
+default, not a role. Team-area access is additive on top: `{volunteer, media}` unlocks
+Control Room and the media tools; `{staff}` or `{admin}` unlocks The Bridge and governance
+material. The same login that gets a congregant into their giving history gets a media
+volunteer into Control Room, if their roles include it — one identity, not one identity
+per system.
 
 ### GHL as the contact record, Supabase as the login
 GHL already holds (or should hold) the canonical contact record — it's already your CRM,
@@ -87,19 +102,37 @@ current HTML/CSS and just switch their auth check from a local PIN table to the 
 
 ---
 
-## 3. Module map — what's member-facing, what's staff-facing, what's shared
+## 3. Three areas, one portal, access by role
 
-| Module | Audience | Current state | What changes |
+| Area | Who it's for | What lives there | Sign-in required? |
 |---|---|---|---|
-| **Sermon library / study notes** | Member | Built, static, no auth | Add optional sign-in for saved answers across devices (currently `localStorage` only, per-device) |
-| **Giving** | Member | Built, Stripe live | Add giving history view behind login (currently anonymous per-transaction) |
-| **Prayer requests / groups** | Member | Not built | New — natural Phase 2/3 candidate |
-| **Events / calendar** | Member | Not built | New |
-| **The Bridge** (ops dashboard) | Staff | Built, `bridge_users_v2` PIN | Migrate auth to shared `profiles`, gate by `admin`/`leadership` role |
-| **Control Room** (live overlay + operator console) | Staff | Built, `control_room_users`, RLS gaps noted above | Migrate auth, fix RLS as part of the same pass |
-| **Rehearsal Studio** | Staff/volunteer | Spec'd, largely built (`rs_*` tables) | Migrate auth, gate by `volunteer`/`worship` role |
-| **Social pack / sermon clip tools** | Staff | Built (this project's own skills) | Stays Claude-operated, not a login surface — no change needed |
-| **Governance docs** | Staff/leadership | Built, private repo | Stays as-is, restricted repo access is already the right control |
+| **Explore** | Everyone | Sermons, study guides, shareable posts, events, church info | No — zero friction, this is the online-campus front door |
+| **My Church** | Anyone who creates an account | Saved study answers synced across devices, community participation, personal updates, giving history | Yes — real account |
+| **Team** | Authorised volunteers, staff, leaders | Worship notes, rotas, media tools, Control Room, Rehearsal Studio, internal/governance resources | Yes — real account, `volunteer`/`staff`/`admin` role required |
+
+This replaces the earlier two-tier (member/staff) framing below with three, and it changes
+one real design decision: **Explore has to work with no login at all.** The sermon
+library/study-notes pages already do (per-device `localStorage` for saved answers only).
+Explore content stays that way; "My Church" is what unlocks cross-device sync and personal
+history, layered on top rather than gating the base experience.
+
+**Team-level access needs to be a real permission, not a hidden button.** Rotas, media
+tools and governance material are exactly the kind of thing that must be enforced by RLS
+policy on the actual data, not just by which nav items render for a given role — someone
+without the `staff` role should get an access error from Supabase itself if they try to
+query Control Room data directly, not just fail to see a link to it.
+
+| Module | Area | Current state | What changes |
+|---|---|---|---|
+| Sermon library / study notes | Explore (+ My Church for sync) | Built, static, no auth | Stays open; add optional sign-in for saved answers across devices |
+| Shareable posts / clips | Explore | Built (this project's own skills) | Surface inside the portal's Explore area, not just social platforms |
+| Events / church info | Explore | Not built | New |
+| Giving | My Church | Built, Stripe live | Add giving history view behind login (currently anonymous per-transaction) |
+| Prayer requests / community | My Church | Not built | New — natural Phase 2/3 candidate |
+| The Bridge (ops dashboard) | Team | Built, `bridge_users_v2` PIN | Migrate auth to shared `profiles`, gate by `admin`/`leadership` role |
+| Control Room (live overlay + operator console) | Team | Built, `control_room_users`, RLS gaps noted above | Migrate auth, fix RLS as part of the same pass |
+| Rehearsal Studio | Team | Spec'd, largely built (`rs_*` tables) | Migrate auth, gate by `volunteer`/`worship` role |
+| Governance docs | Team (leadership only) | Built, private repo | Stays as-is, restricted repo access is already the right control |
 
 ---
 
@@ -132,6 +165,9 @@ current HTML/CSS and just switch their auth check from a local PIN table to the 
 
 ## 5. Open decisions that need you, not me
 
+- **The public-facing name** — "Calvary Hephzibah" or "Calvary Connect" are the two
+  options on the table for what buttons and headings actually say (never "portal" or
+  "membership" in front of a visitor). This needs a real decision, not my default.
 - **Magic link, password, or both** — and does that differ between staff (who need
   reliable fast access on a Sunday) and congregation members?
 - **What roles actually exist** — the table above is my first guess at a role list; the
