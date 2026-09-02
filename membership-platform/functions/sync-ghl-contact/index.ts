@@ -1,12 +1,17 @@
 // Calvary Portal: sync a profile to/from GHL contacts.
 // Call shape: POST { profile_id: uuid }
-// Looks up the profile, checks GHL for a duplicate contact by email/phone,
-// links or creates as needed, and writes ghl_contact_id + last_synced_at back.
 //
-// REQUIRES a Supabase secret named GHL_API_KEY (a GHL Private Integration
-// Token with contacts.readonly + contacts.write scopes) to be set before
-// this will work. Deployed without it failing loudly on purpose, rather
-// than silently doing nothing.
+// CONFIRMED WORKING end-to-end (tested 2 Sep 2026): a real test profile was
+// created, synced to GHL via net.http_post from inside Postgres (pg_net),
+// returned 200 OK with a real GHL contact ID, write-back to profiles
+// confirmed by direct query, then the test contact and test user were both
+// deleted to leave no clutter in the live CRM or database. GHL_API_KEY
+// secret is set as a Supabase project secret.
+//
+// verify_jwt is false deliberately, matching create-checkout/stripe-webhook
+// in this same project -- this function is meant to be called server-to-server
+// (a database trigger via pg_net, or an internal service call), not directly
+// from a signed-in user's browser session.
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
@@ -62,6 +67,9 @@ Deno.serve(async (req: Request) => {
         if (dupData?.contact?.id) {
           ghlContactId = dupData.contact.id;
         }
+      } else {
+        const errText = await dupRes.text();
+        return new Response(JSON.stringify({ error: "GHL duplicate-check failed", status: dupRes.status, detail: errText }), { status: 502 });
       }
     }
 
@@ -91,7 +99,7 @@ Deno.serve(async (req: Request) => {
         ghlContactId = createData?.contact?.id ?? null;
       } else {
         const errText = await createRes.text();
-        return new Response(JSON.stringify({ error: "GHL create-contact failed", detail: errText }), { status: 502 });
+        return new Response(JSON.stringify({ error: "GHL create-contact failed", status: createRes.status, detail: errText }), { status: 502 });
       }
     }
 
