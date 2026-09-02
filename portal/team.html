@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team | Calvary Hephzibah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shell.css">
+<script src="vendor/supabase.js"></script>
+</head>
+<body>
+
+<div class="wrap hidden" id="content">
+  <div class="topbar">
+    <a href="index.html">&larr; Back</a>
+    <a href="#" id="signout-link">Sign out</a>
+  </div>
+
+  <div class="eyebrow">Team</div>
+  <h1>Team</h1>
+  <p class="lede" id="role-sub"></p>
+
+  <div id="staff-section" class="hidden">
+    <a href="https://calvaryhfgc.github.io/calvaryhephzibah/the-bridge/" class="action-btn primary">
+      <span class="label"><span class="icon">&#128203;</span> The Bridge</span>
+      <span class="desc">Operations, finance, and priorities dashboard</span>
+    </a>
+  </div>
+
+  <div id="media-section" class="hidden">
+    <a href="https://calvaryhfgc.github.io/calvaryhephzibah/control-room/" class="action-btn">
+      <span class="label"><span class="icon">&#127909;</span> Control Room</span>
+      <span class="desc">Live service overlay and operator console</span>
+    </a>
+  </div>
+
+  <div id="volunteer-section" class="hidden">
+    <a href="https://calvaryhfgc.github.io/calvaryhephzibah/calvary-os/rehearsal/" class="action-btn">
+      <span class="label"><span class="icon">&#127925;</span> Rehearsal Studio</span>
+      <span class="desc">Song arrangements, stems, and practice tools</span>
+    </a>
+  </div>
+
+  <div id="admin-section" class="hidden">
+    <div class="action-btn locked">
+      <span class="label"><span class="icon">&#128220;</span> Governance</span>
+      <span class="desc">Private repository, ask Bolaji for access</span>
+    </div>
+  </div>
+
+  <p style="font-size:13.5px; color:var(--ink-3); margin-top:10px;">
+    These currently open in their existing tools, on their own logins for now.
+    Bringing them fully into this one sign-in is the next phase of this project,
+    not done yet.
+  </p>
+
+  <footer>
+    Calvary Hephzibah Full Gospel Church &middot; <a href="mailto:hello@altitudeai.co">Questions? Ask here</a>
+  </footer>
+</div>
+
+<script src="auth.js"></script>
+<script>
+(async function () {
+  const result = await CalvaryAuth.requireAuth(["staff", "admin", "volunteer", "media"]);
+  if (!result) return; // requireAuth already redirected (no session, or no matching role)
+
+  const { profile } = result;
+  document.getElementById("content").classList.remove("hidden");
+  document.getElementById("role-sub").textContent =
+    "Signed in as " + (profile.full_name || profile.email) + ". Showing what your roles unlock.";
+
+  if (CalvaryAuth.hasAnyRole(profile, ["staff", "admin"])) {
+    document.getElementById("staff-section").classList.remove("hidden");
+  }
+  if (CalvaryAuth.hasAnyRole(profile, ["media", "staff", "admin"])) {
+    document.getElementById("media-section").classList.remove("hidden");
+  }
+  if (CalvaryAuth.hasAnyRole(profile, ["volunteer", "staff", "admin"])) {
+    document.getElementById("volunteer-section").classList.remove("hidden");
+  }
+  if (CalvaryAuth.hasRole(profile, "admin")) {
+    document.getElementById("admin-section").classList.remove("hidden");
+  }
+
+  document.getElementById("signout-link").onclick = (e) => { e.preventDefault(); CalvaryAuth.signOut(); };
+})();
+</script>
+
+</body>
+</html>

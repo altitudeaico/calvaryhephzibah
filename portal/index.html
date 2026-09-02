@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calvary Hephzibah</title>
+<meta name="description" content="Sermons, study guides, and community for Calvary Hephzibah Full Gospel Church.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shell.css">
+<script src="vendor/supabase.js"></script>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="topbar">
+    <span id="greeting">Calvary Hephzibah</span>
+    <a href="login.html" id="auth-link">Sign in</a>
+  </div>
+
+  <div class="eyebrow">Welcome</div>
+  <h1>Calvary Hephzibah</h1>
+  <p class="lede">Sermons, study guides, and everything that keeps our church community
+  connected through the week.</p>
+
+  <a href="explore.html" class="action-btn primary">
+    <span class="label"><span class="icon">&#128214;</span> Explore</span>
+    <span class="desc">Sermons, study guides, and church info. No sign-in needed.</span>
+  </a>
+
+  <a href="my-church.html" class="action-btn" id="my-church-btn">
+    <span class="label"><span class="icon">&#128100;</span> My Church</span>
+    <span class="desc">Your saved studies and giving history.</span>
+  </a>
+
+  <a href="team.html" class="action-btn" id="team-btn">
+    <span class="label"><span class="icon">&#128101;</span> Team</span>
+    <span class="desc">For volunteers, staff, and leadership.</span>
+  </a>
+
+  <div id="denied-msg" class="status-msg error hidden" style="margin-top:20px;">
+    You'll need to sign in with an account that has Team access to see that area.
+  </div>
+
+  <footer>
+    Calvary Hephzibah Full Gospel Church &middot; <a href="mailto:hello@altitudeai.co">Questions? Ask here</a>
+  </footer>
+</div>
+
+<script src="auth.js"></script>
+<script>
+(async function () {
+  const { session, profile } = await CalvaryAuth.init();
+  const greeting = document.getElementById("greeting");
+  const authLink = document.getElementById("auth-link");
+  const myChurchBtn = document.getElementById("my-church-btn");
+  const teamBtn = document.getElementById("team-btn");
+
+  if (session) {
+    const name = (profile && profile.full_name) ? profile.full_name.split(" ")[0] : "there";
+    greeting.textContent = "Hi, " + name;
+    authLink.textContent = "Sign out";
+    authLink.classList.add("signed-in");
+    authLink.href = "#";
+    authLink.onclick = (e) => { e.preventDefault(); CalvaryAuth.signOut(); };
+  }
+
+  // Team button reflects role state honestly rather than hiding and
+  // confusing someone about whether the area exists at all.
+  const canSeeTeam = CalvaryAuth.hasAnyRole(profile, ["staff", "admin", "volunteer", "media"]);
+  if (!canSeeTeam) {
+    teamBtn.classList.add("locked");
+    teamBtn.querySelector(".desc").textContent = "Sign in with a Team account to unlock this.";
+  }
+
+  if (new URLSearchParams(window.location.search).get("denied")) {
+    document.getElementById("denied-msg").classList.remove("hidden");
+  }
+})();
+</script>
+
+</body>
+</html>
