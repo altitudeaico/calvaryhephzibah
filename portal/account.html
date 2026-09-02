@@ -3,29 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Church | Calvary Hephzibah</title>
+<title>My Account | Calvary Hephzibah</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shell.css">
+<link rel="stylesheet" href="nav.css">
 <script src="vendor/supabase.js"></script>
 </head>
 <body>
 
 <div class="wrap hidden" id="content">
-  <div class="topbar">
-    <a href="index.html">&larr; Back</a>
-    <a href="#" id="signout-link">Sign out</a>
+  <div id="app-nav-slot"></div>
+  <h1 style="font-size:28px; margin-top:8px;">My Account</h1>
+
+  <div class="card">
+    <h2 style="font-size:18px; margin-bottom:14px;">Your details</h2>
+    <p style="font-size:14.5px; color:var(--ink-2); margin-bottom:4px;"><strong>Name:</strong> <span id="detail-name"></span></p>
+    <p style="font-size:14.5px; color:var(--ink-2); margin-bottom:4px;"><strong>Email:</strong> <span id="detail-email"></span></p>
+    <p style="font-size:14.5px; color:var(--ink-2);"><strong>Member since:</strong> <span id="detail-joined"></span></p>
   </div>
-
-  <div class="eyebrow">My Church</div>
-  <h1 id="welcome-heading">Welcome</h1>
-  <p class="lede" id="welcome-sub"></p>
-
-  <a href="https://calvaryhephzibah.co.uk/sermon-library/study-notes/30-aug-2026/reflections.html" class="action-btn primary">
-    <span class="label"><span class="icon">&#128214;</span> This week's study</span>
-    <span class="desc">Pick up where you left off</span>
-  </a>
 
   <div class="action-btn">
     <span class="label"><span class="icon">&#128172;</span> Prayer &amp; community</span>
@@ -37,12 +34,7 @@
     <span class="desc">Coming soon &mdash; not connected here yet</span>
   </div>
 
-  <div class="card" style="margin-top:28px;">
-    <h2 style="font-size:18px; margin-bottom:14px;">Your details</h2>
-    <p style="font-size:14.5px; color:var(--ink-2); margin-bottom:4px;"><strong>Name:</strong> <span id="detail-name"></span></p>
-    <p style="font-size:14.5px; color:var(--ink-2); margin-bottom:4px;"><strong>Email:</strong> <span id="detail-email"></span></p>
-    <p style="font-size:14.5px; color:var(--ink-2);"><strong>Member since:</strong> <span id="detail-joined"></span></p>
-  </div>
+  <button class="welcome-secondary" id="signout-btn" style="margin-top:20px;">Sign out</button>
 
   <footer>
     Calvary Hephzibah Full Gospel Church &middot; <a href="mailto:hello@altitudeai.co">Questions? Ask here</a>
@@ -50,24 +42,23 @@
 </div>
 
 <script src="auth.js"></script>
+<script src="nav.js"></script>
 <script>
 (async function () {
   const result = await CalvaryAuth.requireAuth();
-  if (!result) return; // requireAuth already redirected
-
+  if (!result) return;
   const { profile } = result;
-  document.getElementById("content").classList.remove("hidden");
 
-  const firstName = profile.full_name ? profile.full_name.split(" ")[0] : "there";
-  document.getElementById("welcome-heading").textContent = "Welcome, " + firstName;
-  document.getElementById("welcome-sub").textContent = "Your saved studies and church updates live here.";
+  document.getElementById("content").classList.remove("hidden");
+  CalvaryNav.render("account", profile);
+
   document.getElementById("detail-name").textContent = profile.full_name || "Not set";
   document.getElementById("detail-email").textContent = profile.email || "Not set";
   document.getElementById("detail-joined").textContent = profile.joined_at
     ? new Date(profile.joined_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
     : "Unknown";
 
-  document.getElementById("signout-link").onclick = (e) => { e.preventDefault(); CalvaryAuth.signOut(); };
+  document.getElementById("signout-btn").onclick = () => CalvaryAuth.signOut();
 })();
 </script>
 

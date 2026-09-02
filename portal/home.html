@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home | Calvary Hephzibah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shell.css">
+<link rel="stylesheet" href="nav.css">
+<script src="vendor/supabase.js"></script>
+</head>
+<body>
+
+<div class="wrap hidden" id="content">
+  <div class="topbar" style="margin-top:8px;">
+    <span id="greeting">Home</span>
+    <a href="#" id="signout-link">Sign out</a>
+  </div>
+
+  <div class="card" style="padding:0; overflow:hidden; margin-bottom:20px;">
+    <img src="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/sermon-library/ending-screen/ig/example-output-ig-cover-he-never-fails.jpg" alt="He Never Fails" style="width:100%; height:220px; object-fit:cover; object-position:top; display:block;">
+    <div style="padding:18px;">
+      <div style="font-size:12px; font-weight:700; color:var(--red); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">This week</div>
+      <div style="font-family:'Instrument Serif',serif; font-size:22px; margin-bottom:14px;">He Never Fails</div>
+      <a href="study.html" class="action-btn primary" style="margin-bottom:0;" id="continue-study-btn">
+        <span class="label">Start this week's study</span>
+      </a>
+    </div>
+  </div>
+
+  <div id="team-shortcuts"></div>
+
+  <a href="watch.html" class="action-btn">
+    <span class="label"><span class="icon">&#127909;</span> Watch &amp; explore</span>
+    <span class="desc">Clips, past sermons, and more</span>
+  </a>
+</div>
+
+<script src="auth.js"></script>
+<script src="nav.js"></script>
+<script>
+(async function () {
+  const result = await CalvaryAuth.requireAuth();
+  if (!result) return;
+  const { profile } = result;
+
+  document.getElementById("content").classList.remove("hidden");
+  CalvaryNav.render("home", profile);
+
+  const firstName = profile.full_name ? profile.full_name.split(" ")[0] : "there";
+  document.getElementById("greeting").textContent = "Hi, " + firstName;
+  document.getElementById("signout-link").onclick = (e) => { e.preventDefault(); CalvaryAuth.signOut(); };
+
+  // Continue vs Start wording, based on whether they have any saved progress
+  const hasProgress = ["s1-observe","s2-observe","s3-observe"].some(k => localStorage.getItem("hnf-" + k));
+  if (hasProgress) {
+    document.querySelector("#continue-study-btn .label").textContent = "Continue this week's study";
+  }
+
+  // Role-relevant shortcuts on Home itself, so people with Team access
+  // don't have to go through Team every time for what they use daily.
+  const roles = profile.roles || [];
+  const shortcuts = [];
+  if (roles.some(r => ["staff","admin","volunteer","media"].includes(r))) {
+    shortcuts.push({ href: "study.html?mode=leader", icon: "&#128101;", label: "Lead this week's Bible study", desc: "Group version with suggested answers" });
+  }
+  if (roles.some(r => ["volunteer","staff","admin"].includes(r))) {
+    shortcuts.push({ href: "https://calvaryhfgc.github.io/calvaryhephzibah/calvary-os/rehearsal/", icon: "&#127925;", label: "Worship notes", desc: "Rehearsal Studio (opens separately)" });
+  }
+  if (shortcuts.length) {
+    document.getElementById("team-shortcuts").innerHTML = shortcuts.map(s =>
+      `<a href="${s.href}" class="action-btn">
+         <span class="label"><span class="icon">${s.icon}</span> ${s.label}</span>
+         <span class="desc">${s.desc}</span>
+       </a>`
+    ).join("");
+  }
+})();
+</script>
+
+</body>
+</html>

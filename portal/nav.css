@@ -1,0 +1,34 @@
+/* Calvary Portal: persistent navigation. Injected by nav.js into every page
+   that is "inside the app" (not the Welcome screen, which is deliberately
+   nav-free per the review -- a welcome screen isn't the place for tabs). */
+
+.app-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  background: var(--card); border-top: 1px solid var(--border);
+  display: flex; padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+}
+.app-nav a {
+  flex: 1; text-decoration: none; color: var(--ink-3);
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 8px 4px; font-size: 11px; font-weight: 700;
+}
+.app-nav a .nav-icon { font-size: 21px; }
+.app-nav a.active { color: var(--red); }
+
+/* Leave room at the bottom of the page so content doesn't hide behind the
+   fixed nav bar. */
+body.has-app-nav { padding-bottom: 76px; }
+
+/* Desktop: same destinations, as a top bar instead of a bottom bar. */
+@media (min-width: 760px) {
+  .app-nav {
+    position: static; border-top: none; border-bottom: 1px solid var(--border);
+    justify-content: flex-start; gap: 4px; padding: 14px 0; margin-bottom: 28px;
+  }
+  .app-nav a {
+    flex: none; flex-direction: row; font-size: 14px; padding: 8px 16px;
+    border-radius: 8px;
+  }
+  .app-nav a.active { background: #FDF6F5; }
+  body.has-app-nav { padding-bottom: 0; }
+}

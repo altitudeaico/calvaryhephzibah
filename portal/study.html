@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>This week's study | Calvary Hephzibah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shell.css">
+<link rel="stylesheet" href="nav.css">
+<script src="vendor/supabase.js"></script>
+<style>
+  .progress-row { display: flex; gap: 6px; margin-bottom: 18px; }
+  .progress-row .seg { flex: 1; height: 4px; border-radius: 2px; background: var(--border); }
+  .progress-row .seg.done { background: var(--red); }
+  .progress-row .seg.current { background: var(--gold); }
+
+  .step-pills { display: flex; gap: 6px; margin-bottom: 24px; overflow-x: auto; }
+  .step-pills button {
+    flex: none; padding: 8px 14px; border-radius: 20px; border: 1px solid var(--border);
+    background: var(--card); font-family: inherit; font-size: 13px; font-weight: 700;
+    color: var(--ink-3); cursor: pointer; white-space: nowrap;
+  }
+  .step-pills button.active { background: var(--ink); color: white; border-color: var(--ink); }
+  .step-pills button.step-done::after { content: " \2713"; }
+
+  .nav-buttons { display: flex; gap: 10px; margin-top: 24px; }
+  .nav-buttons .primary-btn { margin-top: 0; }
+  .nav-buttons .secondary-nav {
+    flex: none; background: none; border: 2px solid var(--border); border-radius: 10px;
+    padding: 0 18px; font-weight: 700; color: var(--ink-2); cursor: pointer; font-family: inherit;
+  }
+
+  .leader-block { display: none; }
+  .leader-block.show { display: block; }
+  .leader-toggle-box {
+    background: #FBF6EC; border: 1px dashed var(--gold); border-radius: 10px;
+    padding: 16px 18px; margin-top: 16px; font-size: 14.5px; color: var(--ink-2);
+  }
+  .leader-block summary { cursor: pointer; font-weight: 700; color: var(--gold); font-size: 13px; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<div class="wrap hidden" id="content">
+  <div id="app-nav-slot"></div>
+
+  <div id="mode-banner"></div>
+
+  <div class="progress-row" id="progress-row"></div>
+  <div class="eyebrow" id="reflection-count"></div>
+  <h1 id="reflection-title" style="font-size:28px;"></h1>
+  <div class="session-focus" id="reflection-focus" style="margin-bottom:20px;"></div>
+
+  <div class="step-pills" id="step-pills"></div>
+
+  <div id="step-content"></div>
+
+  <div class="nav-buttons">
+    <button class="secondary-nav" id="prev-btn" onclick="prevStep()">&larr; Back</button>
+    <button class="primary-btn" id="next-btn" onclick="nextStep()" style="flex:1;">Continue</button>
+  </div>
+
+  <p style="text-align:center; margin-top:20px;">
+    <a href="watch.html" id="back-home-link" style="font-size:14px; color:var(--ink-3); font-weight:600;">&larr; Back to Home</a>
+  </p>
+</div>
+
+<script src="auth.js"></script>
+<script src="nav.js"></script>
+<script>
+const REFLECTIONS = [
+  {
+    title: "When You Feel Afraid",
+    focus: "Exodus 14:10 to 15",
+    media: { type: "video", src: "https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/social/30-aug-2026/final-package/he-never-fails-final-package.mp4", poster: "https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/sermon-library/ending-screen/ig/example-output-ig-cover-he-never-fails.jpg", caption: "Stand Still \u2014 a short clip on trusting God when you can't see a way through." },
+    verseRef: "Exodus 14:10\u201314 (ESV)",
+    verseText: "As Pharaoh drew near, the people of Israel lifted up their eyes, and behold, the Egyptians were marching after them, and they feared greatly... They said to Moses, 'Is it because there were no graves in Egypt that you have taken us away to die in the wilderness?'... Moses said to the people, 'Fear not, stand firm, and see the salvation of the LORD... The LORD will fight for you, and you have only to be silent.' The LORD said to Moses, 'Why do you cry to me? Tell the people of Israel to go forward.'",
+    wordNote: null,
+    observeQ: "What happens in this passage? What do the people do, and what does Moses say back to them?",
+    observeKey: "s1-observe",
+    understanding: [
+      ["What's happening", "Israel is trapped, sea ahead, Egypt's army closing in behind, no visible way out. They panic and turn on Moses."],
+      ["What we learn about God", "He doesn't panic when His people do. He gives a concrete instruction, not only comfort \u2014 \u201cstand firm\u201d is something to do, not only a feeling to have."],
+      ["How this connects with the sermon", "This is the passage the message builds on \u2014 the instruction to trust comes before any evidence that things will work out."],
+      ["One practical implication", "Fear doesn't have to be resolved before you can act in trust. Standing firm and being afraid can happen at the same time."]
+    ],
+    talkQ: [ { q: "What's one thing you're facing right now where you can't yet see a way through?", key: "s1-talk1" }, { q: "What would you like to understand better?", key: "s1-talk2" } ],
+    application: "Name one concern honestly, out loud or written down, and bring it to God once this week.",
+    leaderSample: "The people despair and blame Moses for bringing them out to die. Moses tells them not to be afraid, to stand firm, and that the Lord will fight for them.",
+    leaderNotes: "Welcoming someone new to the Bible: the observe question is answerable just by reading \u2014 lean on it first. If one person is dominating: \u201clet's hear a couple of other people on that one\u201d works better than cutting them off."
+  },
+  {
+    title: "Remembering God's Faithfulness",
+    focus: "Exodus 14:30 to 15:2",
+    media: { type: "image", src: "https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/social/30-aug-2026/study-cards/card2_remember_faithfulness_with_logo.jpg", caption: "Remember His Faithfulness" },
+    verseRef: "Exodus 14:30\u201315:1 (ESV)",
+    verseText: "Thus the LORD saved Israel that day from the hand of the Egyptians, and Israel saw the Egyptians dead on the seashore. Israel saw the great power that the LORD used against the Egyptians, so the people feared the LORD, and they believed in the LORD... Then Moses and the people of Israel sang this song to the LORD, saying, 'I will sing to the LORD, for he has triumphed gloriously; the horse and his rider he has thrown into the sea. The LORD is my strength and my song, and he has become my salvation.'",
+    wordNote: "\u201cFeared the LORD\u201d here doesn't mean being afraid of Him the way Israel was afraid of Pharaoh's army. It means taking God seriously \u2014 which is why the very next thing they do is trust and sing, not run.",
+    bridgeNote: "Between Moses' words in reflection 1 (14:13\u201314) and the song here, the sea itself is the story: God tells Moses to stretch out his hand, the sea splits, Israel crosses on dry ground, and the pursuing army is stopped entirely. The full account is Exodus 14:15\u201331, worth reading in full this week.",
+    observeQ: "What does the song say about who God is, not only what He did?",
+    observeKey: "s2-observe",
+    understanding: [
+      ["What's happening", "Israel sees the outcome fully \u2014 the threat is not only past, it's ended \u2014 and their fear turns into open worship."],
+      ["What we learn about God", "He follows through completely. He's sung about as a rescuer, not only described as one."],
+      ["How this connects with the sermon", "The shift from fear (reflection 1) to singing, in one chapter, is the pattern the message centres on."],
+      ["One practical implication", "Remembering what God has already done is itself a form of worship, not only a coping technique."]
+    ],
+    talkQ: [ { q: "Is there something in your own life you could genuinely sing about, even briefly, from something God has already brought you through?", key: "s2-talk1" }, { q: "What would you like to understand better?", key: "s2-talk2" } ],
+    application: "Write down one thing you still thank God for. Sharing it with a group is optional.",
+    leaderSample: "The song calls God their strength and salvation, someone worth praising by name, and describes Him triumphing completely \u2014 the emphasis is on who He is, not only what happened.",
+    leaderNotes: "Watch for the gap between \u201cGod was faithful then\u201d and \u201cso God owes me the same outcome now\u201d \u2014 the passage doesn't say the second thing. Worth naming gently if it comes up."
+  },
+  {
+    title: "Praying While You Wait",
+    focus: "Philippians 4:4 to 7",
+    media: { type: "image", src: "https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/social/30-aug-2026/study-cards/card3_prayer_with_logo.jpg", caption: "Lord, Help Me Trust You" },
+    verseRef: "Philippians 4:4\u20137 (ESV)",
+    verseText: "Rejoice in the Lord always; again I will say, rejoice. Let your reasonableness be known to everyone. The Lord is at hand; do not be anxious about anything, but in everything by prayer and supplication with thanksgiving let your requests be made known to God. And the peace of God, which surpasses all understanding, will guard your hearts and your minds in Christ Jesus.",
+    wordNote: "\u201cSupplication\u201d simply means asking God earnestly for help \u2014 not a formal word, just an honest, specific request.",
+    observeQ: "What does Paul actually tell the Philippians to do with their anxiety, and what does he say the result is?",
+    observeKey: "s3-observe",
+    understanding: [
+      ["What's happening", "Paul, writing from prison, tells a church he loves to rejoice, stop being anxious, and bring their requests to God alongside genuine thanks."],
+      ["What we learn about God", "He welcomes ongoing, honest requests, not silence. He offers peace that guards the heart during the waiting, not only after the answer arrives."],
+      ["How this connects with the sermon", "This is the \u201crejoice always\u201d passage the message referenced directly."],
+      ["One practical implication", "Request and thanksgiving can sit in the same prayer, at the same time."]
+    ],
+    talkQ: [ { q: "What might it look like to bring an honest request to God this week, along with genuine thanks, in the same prayer?", key: "s3-talk1" }, { q: "What would you like to understand better?", key: "s3-talk2" } ],
+    application: "Bring one honest request and one genuine thanks to God, in the same prayer, once this week.",
+    leaderSample: "Pray about everything with thanksgiving rather than being anxious; the result is God's peace guarding heart and mind, not a guarantee of a specific outcome.",
+    leaderNotes: "This session is the most likely to surface real, ongoing pain. Don't ask people to name their specific request aloud unless they offer to."
+  }
+];
+const STEPS = ["watch", "read", "reflect", "pray"];
+const STEP_LABELS = { watch: "Watch", read: "Read", reflect: "Reflect", pray: "Pray" };
+
+let currentRef = 0;
+let currentStep = 0;
+let isLeader = false;
+let isSignedIn = false;
+function finishDestination() { return isSignedIn ? "home.html" : "watch.html"; }
+
+function paramInt(name, def) {
+  const v = new URLSearchParams(window.location.search).get(name);
+  return v ? parseInt(v, 10) : def;
+}
+
+function render() {
+  const r = REFLECTIONS[currentRef];
+  document.getElementById("reflection-count").textContent = `Reflection ${currentRef + 1} of ${REFLECTIONS.length}`;
+  document.getElementById("reflection-title").textContent = r.title;
+  document.getElementById("reflection-focus").textContent = r.focus;
+
+  document.getElementById("progress-row").innerHTML = REFLECTIONS.map((_, i) =>
+    `<div class="seg ${i < currentRef ? 'done' : i === currentRef ? 'current' : ''}"></div>`
+  ).join("");
+
+  if (isLeader) {
+    renderLeaderView(r);
+    return;
+  }
+
+  document.getElementById("step-pills").innerHTML = STEPS.map((s, i) =>
+    `<button class="${i === currentStep ? 'active' : ''}" onclick="goStep(${i})">${STEP_LABELS[s]}</button>`
+  ).join("");
+
+  const step = STEPS[currentStep];
+  let html = "";
+  if (step === "watch") {
+    if (r.media.type === "video") {
+      html = `<div class="card" style="padding:0; overflow:hidden;">
+        <video controls preload="metadata" style="width:100%; display:block;" poster="${r.media.poster}">
+          <source src="${r.media.src}" type="video/mp4">
+        </video>
+        <p style="padding:16px; font-size:14.5px; color:var(--ink-2); margin:0;">${r.media.caption}</p>
+      </div>`;
+    } else {
+      html = `<div class="card" style="padding:0; overflow:hidden;">
+        <img src="${r.media.src}" style="width:100%; display:block;">
+      </div>`;
+    }
+  } else if (step === "read") {
+    html = `<div class="verse-block-local">
+      <div style="color:var(--red); font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">${r.verseRef}</div>
+      <div style="font-family:'Instrument Serif',serif; font-style:italic; font-size:18px; line-height:1.55;">${r.verseText}</div>
+    </div>`;
+    if (r.bridgeNote) {
+      html += `<div class="word-note-local">${r.bridgeNote}</div>`;
+    }
+    if (r.wordNote) {
+      html += `<div class="word-note-local">${r.wordNote}</div>`;
+    }
+  } else if (step === "reflect") {
+    html = `<div class="card">
+      <p style="font-weight:700; color:var(--ink); margin-bottom:10px;">${r.observeQ}</p>
+      <textarea class="answer-box" style="width:100%; margin-left:0;" data-key="${r.observeKey}" placeholder="Write your answer here"></textarea>
+      <p style="font-size:12px; color:var(--ink-3); margin-top:6px;">Saved on this device. If you share this device with others, anyone using it can see what's written here.</p>
+    </div>
+    <h3 style="margin-top:22px;">Understanding the passage</h3>
+    <div class="understanding">${r.understanding.map(([label, text]) => `<p><span class="point-label">${label}:</span> ${text}</p>`).join("")}</div>
+    <h3>Talk it through</h3>
+    ${r.talkQ.map(t => `<p style="font-weight:600; margin-bottom:6px;">${t.q}</p>
+      <textarea class="answer-box" style="width:100%; margin-left:0; margin-bottom:16px;" data-key="${t.key}" placeholder="Write your answer here, or leave blank"></textarea>`).join("")}
+    <p style="font-size:13.5px; color:var(--ink-3); font-style:italic;">Any question here can be passed on. Leaving it blank is a fine answer too.</p>`;
+  } else if (step === "pray") {
+    html = `<div class="application-box">
+      <h3>Try this</h3>
+      <p>${r.application}</p>
+    </div>`;
+  }
+  document.getElementById("step-content").innerHTML = html;
+  bindAnswerBoxes();
+
+  document.getElementById("prev-btn").style.visibility = (currentRef === 0 && currentStep === 0) ? "hidden" : "visible";
+  const isLastStepOfLastRef = currentStep === STEPS.length - 1 && currentRef === REFLECTIONS.length - 1;
+  document.getElementById("next-btn").textContent = isLastStepOfLastRef ? (isSignedIn ? "Finish \u2014 Back to Home" : "Finish") : "Continue";
+}
+
+function renderLeaderView(r) {
+  document.getElementById("step-pills").innerHTML = "";
+  document.getElementById("mode-banner").innerHTML = `<div class="leader-toggle-box" style="margin-bottom:20px;">Leading a group \u2014 full content for this reflection, with suggested answers. <a href="study.html" style="color:var(--red); font-weight:700;">Switch to personal view</a></div>`;
+
+  const mediaHtml = r.media.type === "video"
+    ? `<video controls preload="metadata" style="width:100%; display:block;" poster="${r.media.poster}"><source src="${r.media.src}" type="video/mp4"></video>`
+    : `<img src="${r.media.src}" style="width:100%; display:block;">`;
+
+  document.getElementById("step-content").innerHTML = `
+    <div class="card" style="padding:0; overflow:hidden;">${mediaHtml}</div>
+    <div class="verse-block-local">
+      <div style="color:var(--red); font-weight:700; font-size:12px; text-transform:uppercase; margin-bottom:8px;">${r.verseRef}</div>
+      <div style="font-family:'Instrument Serif',serif; font-style:italic; font-size:18px; line-height:1.55;">${r.verseText}</div>
+    </div>
+    ${r.bridgeNote ? `<div class="word-note-local">${r.bridgeNote}</div>` : ""}
+    ${r.wordNote ? `<div class="word-note-local">${r.wordNote}</div>` : ""}
+    <h3>Observe</h3>
+    <p style="font-weight:700; margin-bottom:8px;">${r.observeQ}</p>
+    <details class="leader-block show" style="margin-bottom:18px;"><summary>Suggested answer</summary><p style="margin-top:8px;">${r.leaderSample}</p></details>
+    <h3>Understanding the passage</h3>
+    <div class="understanding">${r.understanding.map(([label, text]) => `<p><span class="point-label">${label}:</span> ${text}</p>`).join("")}</div>
+    <h3>Talk it through</h3>
+    ${r.talkQ.map(t => `<p style="font-weight:600; margin-bottom:14px;">${t.q}</p>`).join("")}
+    <div class="application-box"><h3>Try this</h3><p>${r.application}</p></div>
+    <details class="leader-block show" style="margin-top:18px;"><summary>Leading this reflection</summary><p style="margin-top:8px;">${r.leaderNotes}</p></details>
+  `;
+
+  document.getElementById("prev-btn").style.visibility = currentRef === 0 ? "hidden" : "visible";
+  document.getElementById("next-btn").textContent = currentRef === REFLECTIONS.length - 1 ? (isSignedIn ? "Finish \u2014 Back to Home" : "Finish") : "Next reflection";
+}
+
+function bindAnswerBoxes() {
+  document.querySelectorAll(".answer-box").forEach(box => {
+    const key = "hnf-" + box.dataset.key;
+    const saved = localStorage.getItem(key);
+    if (saved) box.value = saved;
+    box.addEventListener("input", () => localStorage.setItem(key, box.value));
+  });
+}
+
+function goStep(i) { currentStep = i; syncUrl(); render(); }
+function nextStep() {
+  if (isLeader) {
+    if (currentRef < REFLECTIONS.length - 1) { currentRef++; syncUrl(); render(); }
+    else window.location.href = finishDestination();
+    return;
+  }
+  if (currentStep < STEPS.length - 1) { currentStep++; }
+  else if (currentRef < REFLECTIONS.length - 1) { currentRef++; currentStep = 0; }
+  else { window.location.href = finishDestination(); return; }
+  syncUrl(); render();
+  window.scrollTo(0, 0);
+}
+function prevStep() {
+  if (isLeader) {
+    if (currentRef > 0) { currentRef--; syncUrl(); render(); }
+    return;
+  }
+  if (currentStep > 0) { currentStep--; }
+  else if (currentRef > 0) { currentRef--; currentStep = STEPS.length - 1; }
+  syncUrl(); render();
+  window.scrollTo(0, 0);
+}
+function syncUrl() {
+  const params = new URLSearchParams(window.location.search);
+  params.set("r", currentRef + 1);
+  if (!isLeader) params.set("step", currentStep + 1);
+  history.replaceState(null, "", "?" + params.toString());
+}
+
+(async function () {
+  const { session, profile } = await CalvaryAuth.init();
+  // Study content itself is open to signed-out visitors too, per "Explore
+  // without signing in" on the Welcome screen -- answers still save locally
+  // via localStorage either way. Only the persistent app nav (and, later,
+  // cross-device answer sync) actually requires being signed in.
+  document.getElementById("content").classList.remove("hidden");
+  isSignedIn = !!session;
+  document.getElementById("back-home-link").href = finishDestination();
+  if (session) CalvaryNav.render("watch", profile);
+
+  isLeader = new URLSearchParams(window.location.search).get("mode") === "leader";
+  currentRef = Math.max(0, Math.min(REFLECTIONS.length - 1, paramInt("r", 1) - 1));
+  currentStep = Math.max(0, Math.min(STEPS.length - 1, paramInt("step", 1) - 1));
+  render();
+})();
+</script>
+<style>
+  .verse-block-local { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+  .word-note-local { background: var(--bg); border-left: 3px solid var(--gold); padding: 10px 14px; font-size: 14px; color: var(--ink-2); margin-bottom: 16px; border-radius: 0 6px 6px 0; }
+</style>
+</body>
+</html>

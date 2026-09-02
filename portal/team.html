@@ -8,15 +8,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shell.css">
+<link rel="stylesheet" href="nav.css">
 <script src="vendor/supabase.js"></script>
 </head>
 <body>
 
 <div class="wrap hidden" id="content">
-  <div class="topbar">
-    <a href="index.html">&larr; Back</a>
-    <a href="#" id="signout-link">Sign out</a>
-  </div>
+  <div id="app-nav-slot"></div>
 
   <div class="eyebrow">Team</div>
   <h1>Team</h1>
@@ -62,6 +60,7 @@
 </div>
 
 <script src="auth.js"></script>
+<script src="nav.js"></script>
 <script>
 (async function () {
   const result = await CalvaryAuth.requireAuth(["staff", "admin", "volunteer", "media"]);
@@ -69,6 +68,7 @@
 
   const { profile } = result;
   document.getElementById("content").classList.remove("hidden");
+  CalvaryNav.render("team", profile);
   document.getElementById("role-sub").textContent =
     "Signed in as " + (profile.full_name || profile.email) + ". Showing what your roles unlock.";
 
@@ -85,7 +85,6 @@
     document.getElementById("admin-section").classList.remove("hidden");
   }
 
-  document.getElementById("signout-link").onclick = (e) => { e.preventDefault(); CalvaryAuth.signOut(); };
 })();
 </script>
 

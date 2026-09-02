@@ -20,7 +20,7 @@
 
   <div class="eyebrow">Sign in</div>
   <h1 id="page-heading">Sign in to your church account</h1>
-  <p class="lede" id="page-sub">One account works everywhere on this site.</p>
+  <p class="lede" id="page-sub">One account for the study and your church community. If you volunteer or serve, it covers most team tools too, though a few older ones still have their own separate sign-in for now.</p>
 
   <div class="tab-row">
     <button id="tab-magic" class="active" onclick="setMethod('magic')">Email link</button>
@@ -94,7 +94,7 @@ function setMethod(m) {
   document.getElementById("panel-password").classList.toggle("hidden", m !== "password");
   if (m === "magic") {
     document.getElementById("page-heading").textContent = "Sign in to your church account";
-    document.getElementById("page-sub").textContent = "One account works everywhere on this site.";
+    document.getElementById("page-sub").textContent = "One account for the study and your church community. If you volunteer or serve, it covers most team tools too, though a few older ones still have their own separate sign-in for now.";
   }
   hideStatus();
 }
@@ -106,7 +106,7 @@ function setPasswordMode(m) {
   document.getElementById("signup-name-field").classList.toggle("hidden", m !== "signup");
   document.getElementById("pw-submit").textContent = m === "signup" ? "Create account" : "Sign in";
   document.getElementById("page-heading").textContent = m === "signup" ? "Create your account" : "Sign in to your church account";
-  document.getElementById("page-sub").textContent = m === "signup" ? "Takes a minute. One account works everywhere on this site." : "One account works everywhere on this site.";
+  document.getElementById("page-sub").textContent = m === "signup" ? "Takes a minute. One account for the study and your church community. If you volunteer or serve, it covers most team tools too, though a few older ones still have their own separate sign-in for now." : "One account for the study and your church community. If you volunteer or serve, it covers most team tools too, though a few older ones still have their own separate sign-in for now.";
   hideStatus();
 }
 
@@ -160,7 +160,7 @@ async function doPassword() {
     if (error) {
       showStatus("That didn't work: " + error.message, "error");
     } else {
-      const next = new URLSearchParams(window.location.search).get("next") || "index.html";
+      const next = new URLSearchParams(window.location.search).get("next") || "home.html";
       window.location.href = next;
     }
   }

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Watch &amp; Study | Calvary Hephzibah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shell.css">
+<link rel="stylesheet" href="nav.css">
+<script src="vendor/supabase.js"></script>
+</head>
+<body>
+
+<div class="wrap">
+  <div id="app-nav-slot"></div>
+  <h1 style="font-size:28px; margin-top:8px;">Watch &amp; Study</h1>
+  <p class="lede">Sermons, clips, and this week's study &mdash; open to everyone, no account needed.</p>
+
+  <a href="study.html" class="action-btn primary">
+    <span class="label"><span class="icon">&#128214;</span> This week's study</span>
+    <span class="desc">He Never Fails &mdash; three guided reflections</span>
+  </a>
+
+  <div class="card" style="padding:0; overflow:hidden;">
+    <video controls preload="metadata" style="width:100%; display:block;" poster="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/sermon-library/ending-screen/ig/example-output-ig-cover-he-never-fails.jpg">
+      <source src="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/social/30-aug-2026/final-package/he-never-fails-final-package.mp4" type="video/mp4">
+    </video>
+    <div style="padding:18px;">
+      <div style="font-family:'Instrument Serif',serif; font-size:18px; margin-bottom:4px;">Stand Still</div>
+      <p style="font-size:14px; color:var(--ink-2); margin:0;">A short clip on trusting God when you can't see a way through.</p>
+    </div>
+  </div>
+
+  <a href="share.html" class="action-btn">
+    <span class="label"><span class="icon">&#128172;</span> Share this week</span>
+    <span class="desc">Clips and images, ready to send</span>
+  </a>
+
+  <a href="https://youtube.com/playlist?list=PLg_uGQ7815pKca6IjgTnu8kfEdpCzMNCX" class="action-btn">
+    <span class="label"><span class="icon">&#9654;&#65039;</span> Past sermons</span>
+    <span class="desc">Full messages on YouTube</span>
+  </a>
+
+  <a href="https://calvaryhfgc.github.io/calvaryhephzibah/give/" class="action-btn">
+    <span class="label"><span class="icon">&#10084;&#65039;</span> Give</span>
+    <span class="desc">Support the church, one-off or monthly</span>
+  </a>
+</div>
+
+<script src="auth.js"></script>
+<script src="nav.js"></script>
+<script>
+(async function () {
+  const { session, profile } = await CalvaryAuth.init();
+  // Watch & Study is deliberately open to signed-out visitors too (this is
+  // the "Explore without signing in" destination) -- only render the app
+  // nav (with Home/Account/Team) if actually signed in.
+  if (session) {
+    CalvaryNav.render("watch", profile);
+  } else {
+    document.querySelector(".lede").insertAdjacentHTML("afterend",
+      `<a href="login.html" class="action-btn" style="border-color:var(--gold);">
+         <span class="label">&#128100; Sign in for more</span>
+         <span class="desc">Save your progress, join the community, and more</span>
+       </a>`);
+  }
+})();
+</script>
+
+</body>
+</html>

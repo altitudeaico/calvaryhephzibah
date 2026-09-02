@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Share He Never Fails | Calvary Hephzibah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C41E2A; --ink: #1A1A1A; --ink-2: #4A4A4A; --ink-3: #8A8A8A;
+    --bg: #FDFCFB; --card: #FFFFFF; --border: #EAE6E1; --gold: #B08D4F;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; line-height: 1.6; font-size: 17px; }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 24px 20px 60px; }
+
+  .back-link { display: inline-block; margin-bottom: 20px; color: var(--ink-3); text-decoration: none; font-size: 14px; font-weight: 600; }
+  h1 { font-family: 'Instrument Serif', serif; font-size: 34px; font-weight: 400; margin-bottom: 8px; }
+  .intro { color: var(--ink-2); font-size: 15.5px; margin-bottom: 30px; }
+
+  .item {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    overflow: hidden; margin-bottom: 20px;
+  }
+  .item img, .item video { width: 100%; display: block; }
+  .item-body { padding: 16px 18px; }
+  .item-title { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+  .item-desc { color: var(--ink-3); font-size: 14px; margin-bottom: 14px; }
+
+  .share-btn {
+    background: var(--red); color: white; border: none; border-radius: 8px;
+    padding: 12px 18px; font-size: 15px; font-weight: 700; cursor: pointer; width: 100%;
+  }
+  .share-preview {
+    display: none; margin-top: 12px; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px 14px; font-size: 13.5px; color: var(--ink-2);
+  }
+  .share-preview.show { display: block; }
+  .share-preview .msg-text { margin-bottom: 10px; white-space: pre-wrap; }
+  .share-preview button {
+    background: none; border: 1px solid var(--border); border-radius: 5px; padding: 6px 12px;
+    font-size: 12.5px; font-weight: 600; color: var(--ink-2); cursor: pointer; margin-right: 8px;
+  }
+
+  footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--ink-3); text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="home.html" class="back-link">&larr; Back to Home</a>
+  <h1>Share This Week's Message</h1>
+  <p class="intro">Tap Share on anything below. You will see the message before it sends, and
+  can always cancel.</p>
+
+  <div class="item">
+    <video controls preload="metadata" poster="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/sermon-library/ending-screen/ig/example-output-ig-cover-he-never-fails.jpg">
+      <source src="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/social/30-aug-2026/final-package/he-never-fails-final-package.mp4" type="video/mp4">
+    </video>
+    <div class="item-body">
+      <div class="item-title">Stand Still</div>
+      <div class="item-desc">On trusting God at the moment things feel impossible</div>
+      <button class="share-btn" onclick="doShare('v1', 'Stand Still', 'A short clip on standing still and trusting God, from this week\'s message He Never Fails. There is a short study to go with it too. ')">Share this clip</button>
+      <div class="share-preview" id="preview-v1"></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <video controls preload="metadata">
+      <source src="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/social/30-aug-2026/cyrus-clip/he-never-fails-cyrus-final.mp4" type="video/mp4">
+    </video>
+    <div class="item-body">
+      <div class="item-title">Named Before He Was Born</div>
+      <div class="item-desc">On God's faithfulness, from the Cyrus prophecy</div>
+      <button class="share-btn" onclick="doShare('v2', 'Named Before He Was Born', 'A short clip on God\'s faithfulness, from this week\'s message He Never Fails. There is a short study to go with it too. ')">Share this clip</button>
+      <div class="share-preview" id="preview-v2"></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <img src="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/social/30-aug-2026/study-cards/card1_give_thanks_with_logo.jpg" alt="Give Thanks While You Wait">
+    <div class="item-body">
+      <div class="item-title">Give Thanks While You Wait</div>
+      <div class="item-desc">On Philippians 4, thanksgiving and requests together</div>
+      <button class="share-btn" onclick="doShare('i1', 'Give Thanks While You Wait', 'A short reflection on giving thanks while you wait, from this week\'s message He Never Fails. There is a short study to go with it too. ')">Share this image</button>
+      <div class="share-preview" id="preview-i1"></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <img src="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/social/30-aug-2026/study-cards/card2_remember_faithfulness_with_logo.jpg" alt="Remember His Faithfulness">
+    <div class="item-body">
+      <div class="item-title">Remember His Faithfulness</div>
+      <div class="item-desc">On Exodus 14 to 15, from fear to singing</div>
+      <button class="share-btn" onclick="doShare('i2', 'Remember His Faithfulness', 'A short reflection on remembering what God has brought you through, from this week\'s message He Never Fails. There is a short study to go with it too. ')">Share this image</button>
+      <div class="share-preview" id="preview-i2"></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <img src="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/social/30-aug-2026/study-cards/card3_prayer_with_logo.jpg" alt="Lord, Help Me Trust You">
+    <div class="item-body">
+      <div class="item-title">Lord, Help Me Trust You</div>
+      <div class="item-desc">A short prayer for this week</div>
+      <button class="share-btn" onclick="doShare('i3', 'Lord, Help Me Trust You', 'A short prayer on trusting God while you wait, from this week\'s message He Never Fails. There is a short study to go with it too. ')">Share this prayer</button>
+      <div class="share-preview" id="preview-i3"></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-body" style="text-align:center; padding:22px 18px;">
+      <div class="item-title">Just the study link</div>
+      <div class="item-desc">If you just want to send the study itself</div>
+      <button class="share-btn" onclick="doShare('study', 'He Never Fails: Study Guide', 'This week\'s study from Calvary Hephzibah, He Never Fails. Take a look here: ')">Share the study</button>
+      <div class="share-preview" id="preview-study"></div>
+    </div>
+  </div>
+
+  <footer>Calvary Hephzibah Full Gospel Church</footer>
+</div>
+
+<script>
+// Recipients land on Watch & Study (real content, open without signing
+// in) rather than the bare Welcome screen, per the review: someone
+// receiving a share shouldn't hit a generic menu first.
+var PAGE_URL = window.location.href.replace('share.html', 'watch.html');
+
+function doShare(id, title, message) {
+  var fullText = message + PAGE_URL;
+  if (navigator.share) {
+    navigator.share({ title: title, text: fullText, url: PAGE_URL }).catch(function() {});
+  } else {
+    var box = document.getElementById('preview-' + id);
+    box.innerHTML = '<div class="msg-text">' + fullText + '</div>' +
+      '<button onclick="copyText(this, \'' + fullText.replace(/'/g, "\\'") + '\')">Copy message</button>' +
+      '<button onclick="this.parentElement.classList.remove(\'show\')">Close</button>';
+    box.classList.add('show');
+  }
+}
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(function() {
+    var original = btn.textContent;
+    btn.textContent = 'Copied';
+    setTimeout(function() { btn.textContent = original; }, 1500);
+  });
+}
+</script>
+
+</body>
+</html>

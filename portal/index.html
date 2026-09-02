@@ -4,90 +4,57 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calvary Hephzibah</title>
-<meta name="description" content="Sermons, study guides, and community for Calvary Hephzibah Full Gospel Church.">
+<meta name="description" content="Calvary Hephzibah Full Gospel Church.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shell.css">
 <script src="vendor/supabase.js"></script>
+<style>
+  /* Deliberately not using .app-nav here -- the Welcome screen is a single
+     focused decision (sign in / create account / explore), not a page
+     "inside the app" with tabs. Per the review: it shouldn't contain
+     every destination. */
+  .welcome-wrap { max-width: 420px; margin: 0 auto; padding: 60px 24px 40px; text-align: center; }
+  .welcome-logo { width: 84px; height: 84px; margin: 0 auto 24px; }
+  .welcome-wrap h1 { font-family: 'Instrument Serif', serif; font-size: 32px; font-weight: 400; margin-bottom: 14px; }
+  .welcome-wrap p { color: var(--ink-2); font-size: 16px; margin-bottom: 36px; line-height: 1.6; }
+  .welcome-actions .primary-btn { margin-top: 0; }
+  .welcome-secondary {
+    display: block; width: 100%; margin-top: 12px; background: none;
+    border: 2px solid var(--border); border-radius: 10px; padding: 13px;
+    font-size: 16px; font-weight: 700; color: var(--ink); cursor: pointer;
+    font-family: inherit; text-decoration: none;
+  }
+  .welcome-explore {
+    display: block; margin-top: 26px; color: var(--ink-3); font-size: 15px;
+    font-weight: 600; text-decoration: underline;
+  }
+</style>
 </head>
 <body>
 
-<div class="wrap">
-  <div class="topbar">
-    <span id="greeting">Calvary Hephzibah</span>
-    <a href="login.html" id="auth-link">Sign in</a>
+<div class="welcome-wrap">
+  <img src="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/sermon-library/ending-screen/logo/calvary-logo-roundel-transparent.png" alt="Calvary Hephzibah" class="welcome-logo">
+  <h1>Welcome to Calvary Hephzibah</h1>
+  <p>Sermons, weekly studies, and everything that keeps our church community
+  connected &mdash; on your own, or with your group.</p>
+
+  <div class="welcome-actions">
+    <a href="login.html" class="primary-btn" style="display:block; text-decoration:none; text-align:center;">Sign in</a>
+    <a href="login.html?mode=signup" class="welcome-secondary">Create an account</a>
   </div>
 
-  <div class="eyebrow">Welcome</div>
-  <h1>Calvary Hephzibah</h1>
-  <p class="lede">Sermons, study guides, and everything that keeps our church community
-  connected through the week.</p>
-
-  <div class="card" style="padding:0; overflow:hidden; margin-bottom:24px;">
-    <img src="https://raw.githubusercontent.com/altitudeaico/calvaryhephzibah/main/sermon-library/ending-screen/ig/example-output-ig-cover-he-never-fails.jpg" alt="He Never Fails" style="width:100%; height:340px; object-fit:cover; object-position:top; display:block;">
-    <div style="padding:20px;">
-      <div style="font-size:13px; font-weight:700; color:var(--red); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">This week at Calvary</div>
-      <div style="font-family:'Instrument Serif',serif; font-size:24px; margin-bottom:14px;">He Never Fails</div>
-      <a href="explore.html#study" class="action-btn primary" style="margin-bottom:10px;">
-        <span class="label">Start the study</span>
-      </a>
-      <a href="explore.html#clip" class="action-btn" style="margin-bottom:0;">
-        <span class="label">Watch a short clip</span>
-      </a>
-    </div>
-  </div>
-
-  <a href="explore.html" class="action-btn">
-    <span class="label"><span class="icon">&#128214;</span> Explore</span>
-    <span class="desc">Everything above, plus church info. No sign-in needed.</span>
-  </a>
-
-  <a href="my-church.html" class="action-btn" id="my-church-btn">
-    <span class="label"><span class="icon">&#128100;</span> My Church</span>
-    <span class="desc">Your saved study answers, and community &mdash; more on the way.</span>
-  </a>
-
-  <a href="team.html" class="action-btn" id="team-btn">
-    <span class="label"><span class="icon">&#128101;</span> Team</span>
-    <span class="desc">For volunteers, staff and leaders.</span>
-  </a>
-
-  <div id="denied-msg" class="status-msg error hidden" style="margin-top:20px;">
-    You'll need to sign in with an account that has Team access to see that area.
-  </div>
-
-  <footer>
-    Calvary Hephzibah Full Gospel Church &middot; <a href="mailto:hello@altitudeai.co">Questions? Ask here</a>
-  </footer>
+  <a href="watch.html" class="welcome-explore">Explore without signing in &rarr;</a>
 </div>
 
 <script src="auth.js"></script>
 <script>
+// If already signed in, this screen isn't the right one to show -- go
+// straight to Home instead of making a signed-in person sign in again.
 (async function () {
-  const { session, profile } = await CalvaryAuth.init();
-  const greeting = document.getElementById("greeting");
-  const authLink = document.getElementById("auth-link");
-  const myChurchBtn = document.getElementById("my-church-btn");
-  const teamBtn = document.getElementById("team-btn");
-
-  if (session) {
-    const name = (profile && profile.full_name) ? profile.full_name.split(" ")[0] : "there";
-    greeting.textContent = "Hi, " + name;
-    authLink.textContent = "Sign out";
-    authLink.classList.add("signed-in");
-    authLink.href = "#";
-    authLink.onclick = (e) => { e.preventDefault(); CalvaryAuth.signOut(); };
-  }
-
-  // Team stays a normal, clickable link regardless of sign-in state.
-  // team.html itself handles the sign-in requirement and, once signed in,
-  // sends the person straight back here via the ?next= parameter -- so
-  // clicking it while signed out is a real path to Team, not a dead end.
-
-  if (new URLSearchParams(window.location.search).get("denied")) {
-    document.getElementById("denied-msg").classList.remove("hidden");
-  }
+  const { session } = await CalvaryAuth.init();
+  if (session) window.location.replace("home.html");
 })();
 </script>
 
