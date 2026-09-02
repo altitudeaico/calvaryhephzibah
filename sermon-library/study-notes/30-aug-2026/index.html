@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>He Never Fails — Sermon Study Notes | Calvary Hephzibah</title>
-<meta name="description" content="Study notes on Proverbs 23:17-18, from Bishop Henry Emmanuel's message 'He Never Fails' — for midweek group discussion or personal study.">
+<title>He Never Fails — Study Guide | Calvary Hephzibah</title>
+<meta name="description" content="A three-part study on Exodus 14-15 and Philippians 4, from Bishop Henry Emmanuel's message 'He Never Fails' — for one week of personal reflection or a midweek group session.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,143 +16,404 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; line-height: 1.7; font-size: 17px; }
   .wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 100px; }
+  @media print { .mode-toggle, .no-print { display: none !important; } body { background: white; } }
 
   .eyebrow { color: var(--red); font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px; }
-  h1 { font-family: 'Instrument Serif', serif; font-size: 48px; font-weight: 400; line-height: 1.1; margin-bottom: 10px; }
-  .byline { color: var(--ink-3); font-size: 15px; margin-bottom: 36px; }
+  h1 { font-family: 'Instrument Serif', serif; font-size: 44px; font-weight: 400; line-height: 1.1; margin-bottom: 10px; }
+  .byline { color: var(--ink-3); font-size: 15px; margin-bottom: 30px; }
   .byline b { color: var(--ink-2); }
 
-  .thesis {
-    background: linear-gradient(135deg, rgba(196,30,42,0.05), rgba(176,141,79,0.06));
-    border-left: 4px solid var(--red); border-radius: 8px;
-    padding: 22px 26px; margin-bottom: 40px; font-size: 18px; color: var(--ink-2);
-    font-family: 'Instrument Serif', serif; font-style: italic; line-height: 1.6;
+  .mode-toggle {
+    display: flex; gap: 8px; margin-bottom: 20px; border: 1px solid var(--border);
+    border-radius: 10px; padding: 5px; background: var(--card);
+  }
+  .mode-toggle button {
+    flex: 1; padding: 10px 14px; border: none; background: none; border-radius: 7px;
+    font-family: inherit; font-size: 14px; font-weight: 600; color: var(--ink-3); cursor: pointer;
+  }
+  .mode-toggle button.active { background: var(--ink); color: white; }
+
+  .print-link { font-size: 13px; color: var(--ink-3); margin-bottom: 30px; }
+  .print-link a { color: var(--red); cursor: pointer; }
+
+  .leader-route {
+    display: none;
+    background: #FBF6EC; border: 1px solid var(--gold); border-radius: 10px;
+    padding: 18px 22px; margin-bottom: 30px; font-size: 14.5px; color: var(--ink-2);
+  }
+  .leader-route.show { display: block; }
+  .leader-route h4 { color: var(--gold); font-size: 13px; text-transform: uppercase; margin-bottom: 8px; }
+
+  .intro-note {
+    font-size: 15px; color: var(--ink-2); margin-bottom: 36px; padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
   }
 
-  h2 { font-family: 'Instrument Serif', serif; font-size: 28px; font-weight: 400; margin: 44px 0 16px; color: var(--ink); }
-  h3 { font-size: 16px; font-weight: 700; margin: 24px 0 8px; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; }
-  p { margin-bottom: 16px; color: var(--ink-2); }
+  h2 { font-family: 'Instrument Serif', serif; font-size: 26px; font-weight: 400; margin: 8px 0 6px; color: var(--ink); }
+  .session-focus { color: var(--gold); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 18px; }
+  h3 { font-size: 15px; font-weight: 700; margin: 22px 0 8px; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; }
+  p { margin-bottom: 14px; color: var(--ink-2); }
   strong { color: var(--ink); }
 
+  .session {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 28px 26px; margin-bottom: 28px;
+  }
+
   .verse-block {
-    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-    padding: 28px; margin: 24px 0; text-align: center;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px 22px; margin: 16px 0; text-align: left;
   }
-  .verse-block .ref { color: var(--red); font-weight: 700; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
-  .verse-block .text { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 22px; color: var(--ink); line-height: 1.5; }
+  .verse-block .ref { color: var(--red); font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; }
+  .verse-block .text { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 18px; color: var(--ink); line-height: 1.55; }
 
-  .movement {
-    border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 24px;
+  .bridge-note {
+    background: #F3F0EA; border-radius: 10px; padding: 16px 20px; margin: 16px 0;
+    font-size: 14.5px; color: var(--ink-2);
   }
-  .movement:last-child { border-bottom: none; }
-  .movement h3.movement-title { color: var(--ink); font-size: 19px; text-transform: none; letter-spacing: 0; font-family: 'Instrument Serif', serif; font-weight: 400; margin-bottom: 8px; }
-  .movement .refs { font-size: 13px; color: var(--gold); font-weight: 600; margin-bottom: 10px; }
+  .bridge-note strong { display: block; margin-bottom: 4px; color: var(--gold); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-  .question-list { list-style: none; counter-reset: q; }
+  .understanding p { margin-bottom: 10px; font-size: 15.5px; }
+  .understanding .point-label { color: var(--ink); font-weight: 600; }
+
+  .question-list { list-style: none; counter-reset: q; margin: 14px 0; }
   .question-list li {
-    counter-increment: q; position: relative; padding-left: 40px; margin-bottom: 18px;
-    color: var(--ink-2);
+    counter-increment: q; position: relative; padding-left: 36px; margin-bottom: 14px;
+    color: var(--ink-2); font-size: 15.5px;
   }
   .question-list li::before {
-    content: counter(q); position: absolute; left: 0; top: -2px;
-    width: 26px; height: 26px; background: var(--red); color: white; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;
+    content: counter(q); position: absolute; left: 0; top: -1px;
+    width: 24px; height: 24px; background: var(--red); color: white; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+  }
+  .question-list.observe li::before { background: var(--gold); }
+
+  .notes-space {
+    border: 1px dashed var(--border); border-radius: 8px; height: 70px; margin: 6px 0 16px;
   }
 
   .application-box {
-    background: #1A1A1A; color: white; border-radius: 14px; padding: 28px; margin: 32px 0;
+    background: #1A1A1A; color: white; border-radius: 12px; padding: 22px 24px; margin: 18px 0 4px;
   }
   .application-box h3 { color: var(--gold); margin-top: 0; }
-  .application-box p { color: rgba(255,255,255,0.85); }
+  .application-box p { color: rgba(255,255,255,0.85); margin-bottom: 0; font-size: 15px; }
 
-  .prayer-box {
-    background: var(--card); border: 1px dashed var(--border); border-radius: 12px;
-    padding: 24px; margin: 24px 0; font-style: italic; color: var(--ink-2);
+  .leader-notes {
+    display: none;
+    background: #FBF6EC; border: 1px dashed var(--gold); border-radius: 10px;
+    padding: 20px 22px; margin-top: 18px;
+  }
+  .leader-notes.show { display: block; }
+  .leader-notes h4 { color: var(--gold); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+  .leader-notes p, .leader-notes li { color: var(--ink-2); font-size: 14.5px; margin-bottom: 8px; }
+  .leader-notes ul { padding-left: 20px; }
+  .leader-notes .sample { background: white; border-radius: 6px; padding: 10px 12px; margin: 6px 0; font-size: 13.5px; }
+
+  .word-note {
+    background: var(--bg); border-left: 3px solid var(--gold); padding: 10px 14px;
+    font-size: 14px; color: var(--ink-2); margin: 14px 0; border-radius: 0 6px 6px 0;
   }
 
-  footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--ink-3); }
+  .ask-box {
+    background: linear-gradient(135deg, rgba(196,30,42,0.06), rgba(176,141,79,0.08));
+    border-radius: 12px; padding: 22px 24px; margin: 30px 0; text-align: center;
+  }
+  .ask-box a {
+    display: inline-block; margin-top: 10px; background: var(--red); color: white;
+    text-decoration: none; padding: 11px 22px; border-radius: 8px; font-weight: 600; font-size: 14.5px;
+  }
+  .ask-box .fine-print { font-size: 12.5px; color: var(--ink-3); margin-top: 10px; }
+
+  footer { margin-top: 50px; padding-top: 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--ink-3); }
   footer a { color: var(--red); }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="eyebrow">Sermon Study Notes</div>
+  <div class="eyebrow">Sermon Study Guide</div>
   <h1>He Never Fails</h1>
-  <p class="byline"><b>Bishop Henry Emmanuel</b> · Proverbs 23:17-18 · Calvary Hephzibah, Sunday 30 August 2026</p>
+  <p class="byline"><b>Bishop Henry Emmanuel</b> · Calvary Hephzibah, Sunday 30 August 2026</p>
 
-  <div class="thesis">
-    Rejoicing isn't the reaction you have once you can see the answer. It's the declaration you make because God has already settled it — so the real question isn't whether He will act, but whether your faith or your obedience is what's holding up what He's already released.
+  <div class="mode-toggle no-print">
+    <button class="active" onclick="setMode(this,false)">Personal study</button>
+    <button onclick="setMode(this,true)">Leading a group</button>
+  </div>
+  <p class="print-link no-print">Reading on paper? <a onclick="window.print()">Print this page</a> — there's space to write under each question.</p>
+
+  <div class="leader-route">
+    <h4>Suggested route for a 45–60 minute group session</h4>
+    <p>All three sessions can be covered in one meeting. Open together (5 min) → work
+    through all three "Look at the passage" and "Talk it through" sections (roughly 12
+    minutes each, ~36 min total — you don't need every question, pick what fits your group
+    and time) → close with one shared application and prayer (10 min). If you're short on
+    time, sessions 1 and 2 sit together naturally since they're one continuous story.</p>
   </div>
 
-  <p>Use this either on your own or with your midweek group. It follows the shape of Sunday's message but isn't a transcript — it's built to help you actually sit with what was said and work out what it asks of you this week.</p>
-
-  <h2>Start here</h2>
-  <p>Think of a piece of good news you received before you could actually see it play through — a job offer before the start date, a scan result before the treatment finished, a "yes" before the wedding. There's a real gap between hearing the news and living inside it. What did you do with that gap? Did you spend it anxious, or did the news itself already change how you felt?</p>
-  <p>That gap is where this whole message lives.</p>
-
-  <h2>The verse to know</h2>
-  <div class="verse-block">
-    <div class="ref">Proverbs 23:17–18 (KJV)</div>
-    <div class="text">"Let not thine heart envy sinners: but be thou in the fear of the LORD all the day long. For surely there is an end; and thine expectation shall not be cut off."</div>
-  </div>
-  <p>Two things are being held together here. First, a warning: don't let watching people who ignore God get away with things unsettle your own trust in Him. Second, a promise: your hope has a destination, and it will get there — "surely" is doing real work in that sentence. It's not a maybe.</p>
-
-  <h2>Walking through the message</h2>
-
-  <div class="movement">
-    <h3 class="movement-title">1. God's "rejoice" is never a guess</h3>
-    <div class="refs">Exodus 14:13–14 · Exodus 15:1–2</div>
-    <p>Israel is trapped at the Red Sea — sea in front, army behind, no way out that they can see. Moses tells them to stand still and watch God act. One chapter later, they're singing about a victory that's already happened. The instruction to trust came before the evidence did. That's the pattern worth noticing: God doesn't tell you to rejoice as a coping strategy. He tells you to rejoice because He already knows how it ends.</p>
+  <div class="intro-note">
+    Three short reflections for this week — one for today, and one for each of the next two
+    days you set aside, or all three together if you're meeting as a group. Each one opens
+    by reading a passage yourself, before any explanation. Based on Sunday's message, but
+    not a transcript of it.
   </div>
 
-  <div class="movement">
-    <h3 class="movement-title">2. What actually delays an answer</h3>
-    <div class="refs">Proverbs 23:18 · John 14:12–14</div>
-    <p>If prayer feels slow, the honest question worth asking isn't "is God willing?" — it's "what's actually in the way?" The message leans hard on the idea that unbelief and disobedience are the more common blockers, not God's reluctance. That's not meant to load guilt onto genuine, hard waiting — but it is an invitation to check your own heart before assuming God's has changed.</p>
+  <!-- SESSION 1 -->
+  <div class="session">
+    <h2>1. When You Feel Afraid</h2>
+    <div class="session-focus">Exodus 14:10–15</div>
+
+    <div class="verse-block">
+      <div class="ref">Exodus 14:10–14 (ESV)</div>
+      <div class="text">"As Pharaoh drew near, the people of Israel lifted up their eyes,
+      and behold, the Egyptians were marching after them, and they feared greatly... They
+      said to Moses, 'Is it because there were no graves in Egypt that you have taken us
+      away to die in the wilderness?'... Moses said to the people, 'Fear not, stand firm,
+      and see the salvation of the LORD... The LORD will fight for you, and you have only
+      to be silent.'"</div>
+    </div>
+
+    <h3>Look at the passage</h3>
+    <ul class="question-list observe">
+      <li>What happens in this passage? What do the people do, and what does Moses say back
+      to them?
+      <div class="notes-space no-print"></div></li>
+    </ul>
+
+    <h3>Understanding the passage</h3>
+    <div class="understanding">
+      <p><span class="point-label">What's happening:</span> Israel is trapped — sea ahead,
+      Egypt's army closing in behind, no visible way out. They panic and turn on Moses.</p>
+      <p><span class="point-label">What we learn about God:</span> He doesn't panic when His
+      people do. He gives a concrete instruction, not just comfort — "stand firm" is
+      something to do, not just a feeling to have.</p>
+      <p><span class="point-label">How this connects with the sermon:</span> this is the
+      passage the message builds on — the instruction to trust comes before any evidence
+      that things will work out.</p>
+      <p><span class="point-label">One practical implication:</span> fear doesn't have to be
+      resolved before you can act in trust. Standing firm and being afraid can happen at the
+      same time.</p>
+    </div>
+
+    <h3>Talk it through</h3>
+    <ul class="question-list">
+      <li>What's one thing you're facing right now where you can't yet see a way through?
+      <div class="notes-space no-print"></div></li>
+      <li>What would you like to understand better?
+      <div class="notes-space no-print"></div></li>
+    </ul>
+
+    <div class="application-box">
+      <h3>Try this</h3>
+      <p>Name one concern honestly — out loud or written down — and bring it to God once
+      this week.</p>
+    </div>
+
+    <div class="leader-notes">
+      <h4>Leading this session</h4>
+      <ul>
+        <li><strong>Timing:</strong> ~12 minutes if run alone; less if combined with session 2.</li>
+        <li><strong>Possible answers to the observe question:</strong> the people despair and
+        blame Moses for bringing them out to die; Moses tells them not to be afraid, to stand
+        firm, and that the Lord will fight for them.</li>
+        <li><strong>Welcoming someone new to the Bible:</strong> the observe question is
+        designed to be answerable just by reading — lean on it first if the group includes
+        newcomers.</li>
+        <li><strong>If one person is dominating:</strong> "let's hear a couple of other
+        people on that one" works better than cutting someone off directly.</li>
+      </ul>
+    </div>
   </div>
 
-  <div class="movement">
-    <h3 class="movement-title">3. God's word doesn't depend on your feelings about it</h3>
-    <div class="refs">Isaiah 46:9–10 · Isaiah 44:28, 45:1</div>
-    <p>Cyrus was named by God as the one who'd free Israel from exile roughly a century and a half before Cyrus existed — and he fulfilled it as a pagan king who didn't know the God who'd named him. The point isn't that faith doesn't matter. It's that God's promises don't run on the strength of the person carrying them out. That's actually good news on the days your own faith feels thin.</p>
+  <!-- SESSION 2 -->
+  <div class="session">
+    <h2>2. Remembering God's Faithfulness</h2>
+    <div class="session-focus">Exodus 14:30–15:2</div>
+
+    <div class="bridge-note">
+      <strong>What happened in between</strong>
+      Between Moses' words in session one (14:13–14) and the song below, the sea itself is
+      the story: God tells Moses to stretch out his hand, the sea splits and Israel crosses
+      on dry ground, and when the pursuing Egyptian army follows them in, the waters return
+      and the threat is gone entirely — not just avoided. The full account is Exodus
+      14:15–31; worth reading in full if you have time this week.
+    </div>
+
+    <div class="verse-block">
+      <div class="ref">Exodus 14:30–15:1 (ESV)</div>
+      <div class="text">"Thus the LORD saved Israel that day from the hand of the Egyptians,
+      and Israel saw the Egyptians dead on the seashore. Israel saw the great power that the
+      LORD used against the Egyptians, so the people feared the LORD, and they believed in
+      the LORD... Then Moses and the people of Israel sang this song to the LORD..."</div>
+    </div>
+
+    <div class="word-note"><strong>Worth knowing:</strong> "feared the LORD" here doesn't
+    mean being afraid of Him the way Israel was afraid of Pharaoh's army. It means taking
+    God seriously — recognising Him as real and worth honouring, which is why the very next
+    thing they do is trust and sing, not run.</div>
+
+    <h3>Look at the passage</h3>
+    <ul class="question-list observe">
+      <li>What does the song in 15:1–2 say about who God is, not just what He did?
+      <div class="notes-space no-print"></div></li>
+    </ul>
+
+    <h3>Understanding the passage</h3>
+    <div class="understanding">
+      <p><span class="point-label">What's happening:</span> Israel sees the outcome fully —
+      the threat isn't just past, it's ended — and their fear turns into open worship.</p>
+      <p><span class="point-label">What we learn about God:</span> He follows through
+      completely. He's not just described as a rescuer here; He's sung about as one.</p>
+      <p><span class="point-label">How this connects with the sermon:</span> the shift from
+      fear (session 1) to singing, in one chapter, is the pattern the message centres on.</p>
+      <p><span class="point-label">One practical implication:</span> remembering what God has
+      already done is itself a form of worship, not just a coping technique.</p>
+    </div>
+
+    <h3>Talk it through</h3>
+    <ul class="question-list">
+      <li>Is there something in your own life you could genuinely sing about, even
+      briefly, from something God has already brought you through?
+      <div class="notes-space no-print"></div></li>
+      <li>What would you like to understand better?
+      <div class="notes-space no-print"></div></li>
+    </ul>
+
+    <div class="application-box">
+      <h3>Try this</h3>
+      <p>Write down one thing you still thank God for. Sharing it with a group is optional.</p>
+    </div>
+
+    <div class="leader-notes">
+      <h4>Leading this session</h4>
+      <ul>
+        <li><strong>Timing:</strong> ~12 minutes, or shorter combined with session 1.</li>
+        <li><strong>Possible answer to the observe question:</strong> the song calls God
+        strength, salvation, and describes His right hand as glorious in power — the
+        emphasis is on who He is, not only what happened.</li>
+        <li>Watch for the gap between "God was faithful then" and "so God owes me the same
+        outcome now" — the passage doesn't say the second thing. If it comes up, it's worth
+        naming gently.</li>
+      </ul>
+    </div>
   </div>
 
-  <div class="movement">
-    <h3 class="movement-title">4. Rejoicing from the middle of it, not just the end</h3>
-    <div class="refs">Philippians 4:4 · Isaiah 55:10–11</div>
-    <p>Paul told the Philippian church to rejoice always while he was in prison — put there by the same kind of people he was writing to. His joy wasn't about his circumstances improving. It was fixed on where the story was actually headed. God's word, once spoken, doesn't return empty — it does what it was sent to do, on its own timeline, not necessarily on yours.</p>
+  <!-- SESSION 3 -->
+  <div class="session">
+    <h2>3. Praying While You Wait</h2>
+    <div class="session-focus">Philippians 4:4–7</div>
+
+    <div class="verse-block">
+      <div class="ref">Philippians 4:4–7 (ESV)</div>
+      <div class="text">"Rejoice in the Lord always; again I will say, rejoice. Let your
+      reasonableness be known to everyone. The Lord is at hand; do not be anxious about
+      anything, but in everything by prayer and supplication with thanksgiving let your
+      requests be made known to God. And the peace of God, which surpasses all
+      understanding, will guard your hearts and your minds in Christ Jesus."</div>
+    </div>
+
+    <div class="word-note"><strong>Worth knowing:</strong> "supplication" simply means
+    asking God earnestly for help — it's not a formal or old-fashioned category, just an
+    honest, specific request.</div>
+
+    <p>Sunday's message referenced verse 4 — "rejoice always" — written by Paul from
+    prison. This session reads the fuller passage around it.</p>
+
+    <h3>Look at the passage</h3>
+    <ul class="question-list observe">
+      <li>What does Paul actually tell the Philippians to do with their anxiety, and what
+      does he say the result is?
+      <div class="notes-space no-print"></div></li>
+    </ul>
+
+    <h3>Understanding the passage</h3>
+    <div class="understanding">
+      <p><span class="point-label">What's happening:</span> Paul, writing from prison,
+      tells a church he loves to rejoice, to stop being anxious, and to bring their
+      requests to God alongside genuine thanks.</p>
+      <p><span class="point-label">What we learn about God:</span> He welcomes ongoing,
+      honest requests — not silence, and not pretending everything's fine. And He offers
+      peace that guards the heart during the waiting, not only after the answer arrives.</p>
+      <p><span class="point-label">How this connects with the sermon:</span> this is the
+      "rejoice always" passage the message referenced directly.</p>
+      <p><span class="point-label">One practical implication:</span> request and
+      thanksgiving can sit in the same prayer, at the same time.</p>
+    </div>
+
+    <h3>Talk it through</h3>
+    <ul class="question-list">
+      <li>What might it look like to bring an honest request to God this week, along with
+      genuine thanks, in the same prayer?
+      <div class="notes-space no-print"></div></li>
+      <li>What would you like to understand better?
+      <div class="notes-space no-print"></div></li>
+    </ul>
+
+    <div class="application-box">
+      <h3>Try this</h3>
+      <p>Bring one honest request and one genuine thanks to God, in the same prayer, once
+      this week.</p>
+    </div>
+
+    <div class="leader-notes">
+      <h4>Leading this session</h4>
+      <ul>
+        <li><strong>Timing:</strong> ~12 minutes, or shorter combined with the others.</li>
+        <li><strong>Possible answer to the observe question:</strong> pray about everything
+        with thanksgiving rather than being anxious; the result is God's peace guarding
+        heart and mind, not a guarantee of a specific outcome.</li>
+        <li>This session is the most likely to surface real, ongoing pain. Don't ask people
+        to name their specific request aloud unless they offer to — the application is meant
+        to stay private by default.</li>
+      </ul>
+    </div>
   </div>
 
-  <div class="movement">
-    <h3 class="movement-title">5. Delay isn't denial</h3>
-    <div class="refs">Psalm 126:1</div>
-    <p>Even after you've heard good news, there can be real, ordinary logistics still to run their course — nothing dramatic, just time. Psalm 126 describes long-awaited restoration as feeling like a dream once it finally lands. The waiting doesn't cancel the promise. It's just the shape the promise is currently taking.</p>
+  <h3 style="margin-top:8px;">Pray this, or pray your own version</h3>
+  <div class="verse-block" style="text-align:left;">
+    <div class="text" style="font-size:16px; font-style:normal; font-family:'Inter',sans-serif; color:var(--ink-2);">
+    Lord, thank You for what You've already brought me through. Teach me to bring what I'm
+    carrying now honestly, with thanks alongside it, even before I can see how it resolves.
+    Guard my heart while I wait. Amen.
+    </div>
   </div>
 
-  <h2>Talk it through</h2>
-  <ul class="question-list">
-    <li>Think of something you're currently waiting on. Are you waiting anxiously, or waiting like the outcome is already settled? What would change if you rejoiced now instead of after?</li>
-    <li>The message suggests unbelief or disobedience are common (not universal) reasons prayer feels delayed. Is there anything you're currently withholding from God — time, money, a decision — that might be worth revisiting honestly?</li>
-    <li>Cyrus fulfilled God's word without knowing God. Does that change how you think about promises that seem to depend on unreliable people or circumstances?</li>
-    <li>Paul rejoiced from prison because his joy was fixed on "the end of the journey." What are you currently fixing your own joy on — the present moment, or where you actually believe this is headed?</li>
-    <li>What's one specific situation where you could genuinely say "thank you" before you see the outcome, this week?</li>
-  </ul>
-
-  <div class="application-box">
-    <h3>This week</h3>
-    <p>Pick one situation you're currently waiting on. Once a day this week, thank God for it as though it's already settled — not as a formula, but as an honest act of trust. Notice what that does to how you carry the waiting.</p>
+  <div class="ask-box no-print">
+    <p><strong>Have a question about this study, or want to talk it through with someone?</strong></p>
+    <a href="mailto:hello@calvaryhephzibah.co.uk?subject=Question about the He Never Fails study">Ask a question</a>
+    <p class="fine-print">Goes to the church office — someone will get back to you personally.</p>
   </div>
 
-  <h2>Pray this, or pray your own version</h2>
-  <div class="prayer-box">
-    Lord, I believe. Help my unbelief. Where I've been waiting anxiously, teach me to wait like the outcome is already Yours to give. Show me if there's anything I'm holding back from You. Let my trust hold steady in the morning, in the evening, and at night — not because I can see the end, but because You've never failed to keep Your word. Amen.
+  <div class="leader-notes" style="display:none;" id="respond-notes">
+    <h4>Responding when someone shares real pain</h4>
+    <p>If someone raises unanswered prayer or a hard situation during discussion:</p>
+    <ul>
+      <li>Acknowledge what they shared specifically — repeat back the shape of it, don't
+      rush past it.</li>
+      <li>Ask if they'd welcome prayer right there, or would rather talk privately after.</li>
+      <li>You don't need to solve it or explain why it's happened. Being heard is the goal
+      of the moment, not resolution.</li>
+      <li>Follow up with them personally afterwards if they seemed to want more space than
+      the group setting allowed.</li>
+    </ul>
   </div>
 
   <footer>
-    Based on "He Never Fails," preached by Bishop Henry Emmanuel at Calvary Hephzibah Full Gospel Church, Sunday 30 August 2026. Scripture quotations are KJV (public domain). Prepared as study material for midweek groups and personal use — not a transcript of the message.
+    Based on "He Never Fails," preached by Bishop Henry Emmanuel at Calvary Hephzibah Full
+    Gospel Church, Sunday 30 August 2026. Scripture quotations are ESV unless noted.
+    Prepared as study material for midweek groups and personal use — not a transcript of
+    the message.
     <br><br>
     <a href="https://calvaryhephzibah.co.uk">calvaryhephzibah.co.uk</a> · <a href="https://youtube.com/playlist?list=PLg_uGQ7815pKca6IjgTnu8kfEdpCzMNCX">Watch past sermons</a>
   </footer>
 </div>
+
+<script>
+function setMode(btn, showLeader) {
+  document.querySelectorAll('.mode-toggle button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.leader-notes, .leader-route').forEach(n => n.classList.toggle('show', showLeader));
+  document.getElementById('respond-notes').style.display = showLeader ? 'block' : 'none';
+}
+</script>
+
 </body>
 </html>
