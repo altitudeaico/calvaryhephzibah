@@ -502,7 +502,6 @@
 
   /* Scripture items in the set list — distinct from songs */
   .song-card.kind-scripture { border-left: 3px solid #BF9B30; }
-  .song-card.kind-scripture .title::before { content: "📖  "; }
   .readings-block {
     background: color-mix(in srgb, #BF9B30 12%, var(--surface));
     border: 1px solid color-mix(in srgb, #BF9B30 40%, var(--border));
@@ -524,7 +523,6 @@
     color: var(--text); font-size: 15px; font-weight: 700;
     font-family: inherit; cursor: pointer; transition: all 0.12s;
   }
-  .reading-chip::before { content: "📖"; font-size: 14px; }
   .reading-chip:hover { border-color: #BF9B30; background: color-mix(in srgb, #BF9B30 18%, var(--surface-2)); }
   .reading-chip:active { transform: scale(0.97); }
   .readings-hint { font-size: 12px; color: var(--text-muted); margin-top: 10px; }
