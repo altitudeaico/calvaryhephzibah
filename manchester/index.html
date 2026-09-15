@@ -269,19 +269,23 @@ document.getElementById('pray-submit').addEventListener('click', async () => {
   const text = document.getElementById('pray-text').value.trim();
   if(!text) return;
   const contactRequested = document.getElementById('pray-contact-toggle').checked;
+  const moodActive = document.querySelector('.mood-btn.active');
   const payload = {
+    mood: moodActive ? moodActive.textContent : null,
     request_text: text,
     contact_requested: contactRequested,
     contact_name: contactRequested ? document.getElementById('pray-name').value.trim() : null,
     contact_email: contactRequested ? document.getElementById('pray-email').value.trim() : null,
     contact_phone: contactRequested ? document.getElementById('pray-phone').value.trim() : null,
+    source_tag: sourceTag,
   };
   try{
-    await fetch(`${SUPA_URL}/rest/v1/manchester_prayer_requests`, {
+    const res = await fetch('https://pfycvgbrsbecznkcikwt.supabase.co/functions/v1/manchester-prayer-submit', {
       method: 'POST',
-      headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}`, 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
+    if(!res.ok) throw new Error('submit failed');
     logSignal('prayer_requested', contactRequested ? 'with_contact' : 'anonymous');
     if(contactRequested) logSignal('contact_requested', 'prayer');
     document.getElementById('pray-box').style.display = 'none';
