@@ -217,6 +217,18 @@ try{
     document.getElementById('app').classList.add('visible');
   }
 }catch(e){}
+
+// Keyboard support for the PIN gate — number keys 0-9, Backspace/Delete
+// to clear a digit. Only active while the gate is still showing.
+document.addEventListener('keydown', (e) => {
+  const gate = document.getElementById('gate');
+  if(!gate || gate.classList.contains('gone')) return;
+  if(e.key >= '0' && e.key <= '9'){
+    Gate.pk(e.key);
+  } else if(e.key === 'Backspace' || e.key === 'Delete'){
+    Gate.del();
+  }
+});
 </script>
 </body>
 </html>
