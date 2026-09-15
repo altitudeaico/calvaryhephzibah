@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>New to Manchester? — Calvary Hephzibah</title>
+<meta name="description" content="A useful guide for anyone new to Manchester — food, getting around, things to do, and a little encouragement along the way. From Calvary Hephzibah Full Gospel Church.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --obsidian:#0B0B0E;--slate:#141419;--graphite:#1F1F26;
+  --bone:#F4EFE6;--red:#D0441C;--red-bright:#E55A30;--red-deep:#9A2F11;--gold:#C8A24B;
+  --fg-1:#F4EFE6;--fg-2:#C9C3B6;--fg-3:#9A968C;
+  --line-soft:rgba(244,239,230,0.10);--line-mid:rgba(244,239,230,0.20);
+  --font-display:'Anton','Impact',sans-serif;
+  --font-serif:'Instrument Serif',Georgia,serif;
+  --font-body:'Inter Tight','Inter',system-ui,sans-serif;
+  --r:14px;--r-pill:999px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--obsidian);color:var(--fg-1);line-height:1.6;}
+.wrap{max-width:640px;margin:0 auto;padding:0 20px;}
+
+.hero{padding:48px 20px 36px;text-align:center;background:radial-gradient(ellipse at top, rgba(208,68,28,0.14), transparent 60%);}
+.hero-eyebrow{font-family:var(--font-body);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-3);margin-bottom:14px;}
+.hero-h1{font-family:var(--font-display);font-size:clamp(32px,8vw,44px);line-height:1.05;text-transform:uppercase;margin-bottom:14px;}
+.hero-h1 .accent{color:var(--red-bright);}
+.hero-sub{font-family:var(--font-serif);font-style:italic;font-size:19px;color:var(--fg-2);max-width:440px;margin:0 auto;}
+
+.section{padding:32px 0;}
+.section-label{font-family:var(--font-display);font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--red-bright);margin-bottom:6px;}
+.section-title{font-family:var(--font-serif);font-style:italic;font-size:22px;color:var(--bone);margin-bottom:18px;}
+
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.g-card{background:var(--slate);border:1px solid var(--line-soft);border-radius:var(--r);padding:16px;cursor:pointer;transition:border-color .15s;}
+.g-card:active,.g-card.open{border-color:var(--red);}
+.g-icon{font-size:22px;margin-bottom:6px;}
+.g-name{font-family:var(--font-body);font-weight:700;font-size:14px;}
+.g-body{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--line-soft);font-size:13.5px;color:var(--fg-2);}
+.g-body.show{display:block;}
+.g-body p{margin-bottom:8px;}
+.g-body .note{color:var(--fg-3);font-size:12px;font-style:italic;margin-top:8px;}
+
+.mood-grid{display:flex;flex-wrap:wrap;gap:8px;}
+.mood-btn{background:var(--slate);border:1px solid var(--line-soft);border-radius:var(--r-pill);padding:10px 16px;font-family:var(--font-body);font-size:13.5px;color:var(--fg-1);cursor:pointer;}
+.mood-btn.active{background:var(--red);border-color:var(--red);}
+.mood-result{display:none;margin-top:18px;background:var(--slate);border-left:3px solid var(--red);border-radius:var(--r);padding:18px;}
+.mood-result.show{display:block;}
+.mood-verse{font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--bone);margin-bottom:10px;}
+.mood-text{font-size:14px;color:var(--fg-2);margin-bottom:10px;}
+.mood-action{font-size:13px;color:var(--fg-3);}
+
+.pray-box{background:var(--slate);border-radius:var(--r);padding:18px;margin-top:14px;}
+.pray-box textarea{width:100%;background:var(--graphite);border:1px solid var(--line-soft);border-radius:10px;color:var(--fg-1);font-family:var(--font-body);font-size:14px;padding:12px;min-height:90px;resize:vertical;}
+.pray-box textarea:focus{outline:none;border-color:var(--red);}
+.pray-check{display:flex;align-items:flex-start;gap:8px;margin-top:12px;font-size:13px;color:var(--fg-2);}
+.pray-fields{display:none;margin-top:10px;gap:8px;flex-direction:column;}
+.pray-fields.show{display:flex;}
+.pray-fields input{background:var(--graphite);border:1px solid var(--line-soft);border-radius:8px;color:var(--fg-1);font-family:var(--font-body);font-size:13.5px;padding:10px;}
+.pray-btn{margin-top:14px;width:100%;background:var(--red);color:var(--bone);border:none;border-radius:var(--r-pill);padding:13px;font-family:var(--font-body);font-weight:700;font-size:14px;cursor:pointer;}
+.pray-btn:active{background:var(--red-deep);}
+.pray-done{display:none;text-align:center;padding:20px;color:var(--fg-2);font-size:14px;}
+.pray-done.show{display:block;}
+
+.week-card{background:var(--slate);border-radius:var(--r);padding:20px;}
+.week-hook{font-family:var(--font-serif);font-style:italic;font-size:19px;color:var(--bone);margin-bottom:10px;}
+.week-msg{font-size:14px;color:var(--fg-2);margin-bottom:10px;}
+.week-verse{font-size:12.5px;color:var(--red-bright);text-transform:uppercase;letter-spacing:.04em;}
+.week-q{margin-top:12px;padding-top:12px;border-top:1px solid var(--line-soft);font-size:13.5px;color:var(--fg-3);font-style:italic;}
+
+.invite-card{background:linear-gradient(135deg,var(--red-deep),var(--red));border-radius:var(--r);padding:26px 22px;}
+.invite-title{font-family:var(--font-display);font-size:24px;text-transform:uppercase;margin-bottom:10px;}
+.invite-sub{font-size:14px;color:rgba(244,239,230,0.9);margin-bottom:16px;line-height:1.6;}
+.invite-facts{background:rgba(0,0,0,0.15);border-radius:10px;padding:14px 16px;font-size:13.5px;margin-bottom:16px;}
+.invite-facts div{padding:4px 0;}
+.invite-facts b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;opacity:.8;margin-top:6px;}
+.invite-btn{display:block;text-align:center;background:var(--bone);color:var(--obsidian);text-decoration:none;border-radius:var(--r-pill);padding:13px;font-weight:700;font-size:14px;}
+
+.foot{padding:36px 20px 40px;text-align:center;color:var(--fg-3);font-size:12px;}
+.foot a{color:var(--fg-2);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">Calvary Hephzibah Full Gospel Church</div>
+  <div class="hero-h1">New to<br><span class="accent">Manchester?</span></div>
+  <div class="hero-sub">A few useful things, made by people who live here.</div>
+</div>
+
+<div class="wrap">
+
+  <div class="section">
+    <div class="section-label">The Basics</div>
+    <div class="section-title">Getting settled</div>
+    <div class="card-grid" id="guide-grid"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">A Little Encouragement</div>
+    <div class="section-title">How are you doing today?</div>
+    <div class="mood-grid" id="mood-grid"></div>
+    <div class="mood-result" id="mood-result">
+      <div class="mood-verse" id="mood-verse"></div>
+      <div class="mood-text" id="mood-text"></div>
+      <div class="mood-action" id="mood-action"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">For Your Week</div>
+    <div class="week-card" id="week-card"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Need Prayer?</div>
+    <div class="section-title">Whatever's on your mind</div>
+    <div class="pray-box" id="pray-box">
+      <textarea id="pray-text" placeholder="You can share as much or as little as you want..."></textarea>
+      <label class="pray-check">
+        <input type="checkbox" id="pray-contact-toggle">
+        I'd like someone from Calvary to get back to me
+      </label>
+      <div class="pray-fields" id="pray-fields">
+        <input type="text" id="pray-name" placeholder="Your name">
+        <input type="email" id="pray-email" placeholder="Email (optional)">
+        <input type="tel" id="pray-phone" placeholder="Phone (optional)">
+      </div>
+      <button class="pray-btn" id="pray-submit">Send</button>
+    </div>
+    <div class="pray-done" id="pray-done">Thank you — this has been received and will be read with care. 🙏</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Find Your People</div>
+    <div class="invite-card">
+      <div class="invite-title">You're Welcome Here</div>
+      <div class="invite-sub">A friendly church in Manchester, whatever your background — no pressure, just an open door.</div>
+      <div class="invite-facts">
+        <div><b>When</b>Sundays, 10:30am (doors ~10:00am)</div>
+        <div><b>Where</b>West Indian Community Centre, 74 Carmoor Road, Manchester M13 0FB</div>
+      </div>
+      <a class="invite-btn" href="https://calvaryhephzibah.co.uk" id="sunday-cta">See what Sundays are like →</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="foot">
+  Calvary Hephzibah Full Gospel Church · <a href="https://calvaryhephzibah.co.uk">calvaryhephzibah.co.uk</a><br>
+  <a href="mailto:calvaryhfgc@gmail.com">calvaryhfgc@gmail.com</a>
+</div>
+
+<script>
+const SUPA_URL = 'https://pfycvgbrsbecznkcikwt.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmeWN2Z2Jyc2JlY3pua2Npa3d0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzNzY1NDgsImV4cCI6MjA5MDk1MjU0OH0.xw_DSmC0brKC7K9H-rxNG0HKKDi4I-dNSEoZKERvHcQ';
+
+// anonymous session id, no PII, just so repeat signals within a visit can be grouped
+let sessionId = null;
+try{
+  sessionId = sessionStorage.getItem('mcr_session');
+  if(!sessionId){ sessionId = 'anon_' + Math.random().toString(36).slice(2) + Date.now().toString(36); sessionStorage.setItem('mcr_session', sessionId); }
+}catch(e){ sessionId = 'anon_' + Math.random().toString(36).slice(2); }
+
+const urlParams = new URLSearchParams(window.location.search);
+const sourceTag = urlParams.get('src') || 'direct';
+
+async function logSignal(signal_type, detail){
+  try{
+    await fetch(`${SUPA_URL}/rest/v1/manchester_engagement_signals`, {
+      method: 'POST',
+      headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: sessionId, signal_type, detail, source_tag: sourceTag })
+    });
+  }catch(e){ console.warn('signal log failed', e); }
+}
+logSignal('guide_used', 'page_load');
+
+// ---- Practical guide cards (from the original Manchester guide, updated) ----
+const GUIDE = [
+  { icon:'🚌', name:'Get Around', body:`
+    <p><b>Bikes/scooters:</b> Beryl (bike hire) and Lime (e-scooter) apps — both on Android and iOS.</p>
+    <p><b>Buses:</b> Stagecoach and First Bus both do discounted student tickets.</p>
+    <p><b>Uber:</b> student discounts available with a valid Uni email.</p>` },
+  { icon:'🍽️', name:'Eat', body:`
+    <p>Some places worth trying when you want more than another meal deal: The Sparrows, Osma, The Refuge, Mana, Tattu, The Creameries, Habesha, Chaphati Cafe, The Dropbar Cafe, Chakalaka.</p>
+    <p class="note">Mix of budget and treat-yourself — good for date nights, group hangs, or just a change of scene.</p>` },
+  { icon:'🎭', name:'Things To Do', body:`
+    <p>Warehouse Project for a big night out, Arts and Crafts design centre, The Lowry, Manchester Museum, National Football Museum.</p>
+    <p>For something more low-key: The Dancehouse Theatre, Museum of Science and Industry, Victoria Baths, Royal Exchange Theatre, Band On The Wall, Manchester Craft & Design Centre.</p>` },
+  { icon:'💪', name:'Stay Active', body:`
+    <p>Manchester Armitage Centre, Sugden Sports Centre, Manchester Aquatics Centre (Olympic-size pool, open now, student pricing available), JD Gym.</p>
+    <p>Also around: women-only Krav Maga, MMA, and Chinese martial arts classes if you're after something different.</p>` },
+];
+const grid = document.getElementById('guide-grid');
+GUIDE.forEach((g, i) => {
+  const card = document.createElement('div');
+  card.className = 'g-card';
+  card.innerHTML = `<div class="g-icon">${g.icon}</div><div class="g-name">${g.name}</div><div class="g-body" id="gbody-${i}">${g.body}<div class="note">Know somewhere better? Let us know — this list grows over time.</div></div>`;
+  card.onclick = () => {
+    const body = document.getElementById(`gbody-${i}`);
+    const wasOpen = body.classList.contains('show');
+    document.querySelectorAll('.g-body').forEach(b => b.classList.remove('show'));
+    document.querySelectorAll('.g-card').forEach(c => c.classList.remove('open'));
+    if(!wasOpen){ body.classList.add('show'); card.classList.add('open'); logSignal('guide_used', g.name); }
+  };
+  grid.appendChild(card);
+});
+
+// ---- Mood check-in ----
+const MOODS = [
+  { key:'good', label:"😌 I'm good", verse:'"This is the day the Lord has made; let us rejoice and be glad in it." — Psalm 118:24', text:'Good to hear. Carry that into the week.', action:'Maybe check out the "For Your Week" section below.' },
+  { key:'overwhelmed', label:'😵‍💫 A bit overwhelmed', verse:'"Cast all your anxiety on him because he cares for you." — 1 Peter 5:7', text:"New city, new routine, a hundred small decisions at once — it adds up. You don't have to carry it alone.", action:'Try this: pick ONE thing off your list today, not all of them.' },
+  { key:'hardday', label:'😔 Having a hard day', verse:'"The Lord is close to the brokenhearted." — Psalm 34:18', text:"Some days are just hard, and that's allowed to be true without needing to be fixed right away.", action:'If it would help to talk to someone, scroll down — we mean that genuinely.' },
+  { key:'homesick', label:'🏠 Missing home', verse:'"Before I formed you in the womb I knew you." — Jeremiah 1:5', text:"Missing home doesn't mean you made the wrong choice coming here. It just means home mattered.", action:'A phone call to someone familiar can help more than scrolling.' },
+  { key:'worried', label:'😟 Worried', verse:'"Do not be anxious about anything, but in every situation... present your requests to God." — Philippians 4:6', text:'Worry tends to grow in the quiet. Naming it, even just to yourself, takes away some of its weight.', action:'You can write it out in the prayer box below — no pressure to explain it perfectly.' },
+  { key:'prayer', label:"🙏 I'd like prayer", verse:null, text:null, action:null },
+];
+const moodGrid = document.getElementById('mood-grid');
+MOODS.forEach(m => {
+  const btn = document.createElement('button');
+  btn.className = 'mood-btn';
+  btn.textContent = m.label;
+  btn.onclick = () => {
+    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    logSignal('encouragement_viewed', m.key);
+    if(m.key === 'prayer'){
+      document.getElementById('pray-box').scrollIntoView({behavior:'smooth', block:'center'});
+      document.getElementById('pray-text').focus();
+      return;
+    }
+    document.getElementById('mood-verse').textContent = m.verse;
+    document.getElementById('mood-text').textContent = m.text;
+    document.getElementById('mood-action').textContent = m.action;
+    document.getElementById('mood-result').classList.add('show');
+  };
+  moodGrid.appendChild(btn);
+});
+
+// ---- For Your Week (pulled live from the real sermon content pipeline) ----
+async function loadWeekContent(){
+  const card = document.getElementById('week-card');
+  try{
+    const res = await fetch(`${SUPA_URL}/rest/v1/content_items?select=hook,core_message,scripture,application_question&editorial_status=eq.approved&core_message=not.is.null&order=created_at.desc&limit=1`, {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` }
+    });
+    const rows = await res.json();
+    if(rows && rows.length){
+      const r = rows[0];
+      card.innerHTML = `<div class="week-hook">${r.hook}</div><div class="week-msg">${r.core_message}</div><div class="week-verse">${r.scripture || ''}</div>${r.application_question ? `<div class="week-q">${r.application_question}</div>` : ''}`;
+    } else {
+      card.innerHTML = `<div class="week-msg">New content lands here each week from Sunday's teaching. Check back soon.</div>`;
+    }
+  }catch(e){
+    card.innerHTML = `<div class="week-msg">New content lands here each week. Check back soon.</div>`;
+  }
+}
+loadWeekContent();
+
+// ---- Prayer request ----
+document.getElementById('pray-contact-toggle').addEventListener('change', (e) => {
+  document.getElementById('pray-fields').classList.toggle('show', e.target.checked);
+});
+document.getElementById('pray-submit').addEventListener('click', async () => {
+  const text = document.getElementById('pray-text').value.trim();
+  if(!text) return;
+  const contactRequested = document.getElementById('pray-contact-toggle').checked;
+  const payload = {
+    request_text: text,
+    contact_requested: contactRequested,
+    contact_name: contactRequested ? document.getElementById('pray-name').value.trim() : null,
+    contact_email: contactRequested ? document.getElementById('pray-email').value.trim() : null,
+    contact_phone: contactRequested ? document.getElementById('pray-phone').value.trim() : null,
+  };
+  try{
+    await fetch(`${SUPA_URL}/rest/v1/manchester_prayer_requests`, {
+      method: 'POST',
+      headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    logSignal('prayer_requested', contactRequested ? 'with_contact' : 'anonymous');
+    if(contactRequested) logSignal('contact_requested', 'prayer');
+    document.getElementById('pray-box').style.display = 'none';
+    document.getElementById('pray-done').classList.add('show');
+  }catch(e){
+    alert('Something went wrong sending this — please try again.');
+  }
+});
+
+// ---- Sunday CTA click ----
+document.getElementById('sunday-cta').addEventListener('click', () => logSignal('sunday_interest', 'cta_click'));
+</script>
+</body>
+</html>
