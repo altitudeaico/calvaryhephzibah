@@ -30,8 +30,18 @@ h1 em{font-style:normal;color:var(--orange)}
 .cta:hover{transform:translateY(-2px);box-shadow:0 10px 0 var(--orange)}
 .micro{font-size:12px;color:var(--muted);margin-top:16px}
 .hero-art{min-height:590px;position:relative}
-.photo-gap{height:100%;min-height:590px;border-radius:34px;background:#e6e0d6;border:1px dashed #aaa;display:grid;place-items:center;text-align:center;padding:40px;color:#777;overflow:hidden}
-.photo-gap strong{font-family:var(--display);font-size:24px;color:#555;display:block;margin-bottom:8px}
+.carousel{height:100%;min-height:590px;border-radius:34px;overflow:hidden;position:relative;background:#e6e0d6;outline:none;}
+.carousel-track{position:relative;width:100%;height:100%;}
+.carousel-slide{position:absolute;inset:0;opacity:0;transition:opacity 850ms ease, transform 850ms ease;transform:scale(1.02);}
+.carousel-slide.active{opacity:1;transform:scale(1);z-index:1;}
+.carousel-slide img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
+.carousel-controls{position:absolute;right:16px;bottom:16px;display:flex;align-items:center;gap:10px;z-index:5;}
+.carousel-btn{width:34px;height:34px;border-radius:50%;border:none;background:rgba(17,19,23,0.45);backdrop-filter:blur(4px);color:#fff;font-size:18px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .15s;}
+.carousel-btn:hover{background:rgba(17,19,23,0.65);}
+.carousel-progress{display:flex;gap:4px;background:rgba(17,19,23,0.35);backdrop-filter:blur(4px);padding:6px 9px;border-radius:999px;}
+.carousel-progress-bar{width:14px;height:3px;border-radius:2px;background:rgba(255,255,255,0.35);overflow:hidden;}
+.carousel-progress-bar b{display:block;height:100%;width:0;background:#fff;transition:width .15s linear;}
+.carousel-progress-bar.done b{width:100%;transition:none;}
 .sticker{position:absolute;background:var(--lime);padding:14px 18px;border-radius:999px;font-weight:700;transform:rotate(-6deg);left:-25px;bottom:65px}
 .floating{position:absolute;right:-18px;top:48px;background:var(--orange);color:white;border-radius:18px;padding:17px 20px;font-family:var(--display);font-weight:700;transform:rotate(5deg)}
 .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:17px 0;overflow:hidden;white-space:nowrap;font-family:var(--display);font-weight:600}
@@ -63,7 +73,7 @@ h2{font-family:var(--display);font-size:clamp(42px,5vw,70px);line-height:.98;let
 .reveal{padding:100px 0;background:var(--ink);color:white;text-align:center}.reveal h2{max-width:800px;margin:8px auto 20px}.reveal p{color:#c9c9c9;font-size:19px;max-width:620px;margin:0 auto 28px}.reveal .cta{background:var(--lime);color:var(--ink);box-shadow:0 8px 0 var(--orange)}
 .byline{padding:32px 0;background:var(--cream)}.byline-inner{display:flex;align-items:center;justify-content:space-between;gap:30px}.byline p{max-width:660px;color:var(--muted);font-size:13px}.church{display:flex;align-items:center;gap:12px;font-weight:700}
 @media(max-width:800px){
- .shell{padding:0 20px}.hero{grid-template-columns:1fr;gap:30px;padding-top:35px}.hero-art{min-height:390px}.photo-gap{min-height:390px}.floating{right:5px}.sticker{left:5px}
+ .shell{padding:0 20px}.hero{grid-template-columns:1fr;gap:30px;padding-top:35px}.hero-art{min-height:390px}.carousel{min-height:390px}.floating{right:5px}.sticker{left:5px}
  .wizard-head,.preview-grid{grid-template-columns:1fr}.wizard-head{gap:12px}.options{grid-template-columns:1fr}.wizard{padding:24px 18px}.features{grid-template-columns:1fr}.byline-inner{align-items:flex-start;flex-direction:column}
  h1{font-size:clamp(55px,17vw,82px)}
 }
@@ -85,7 +95,14 @@ h2{font-family:var(--display);font-size:clamp(42px,5vw,70px);line-height:.98;let
   <div class="micro">Free · Takes about 60 seconds · Made for Manchester students</div>
  </div>
  <div class="hero-art">
-  <div class="photo-gap"><div><strong>HERO IMAGE SPACE</strong>Manchester student / creator lifestyle photography.<br>Real, editorial, candid. No generic stock-photo energy.</div></div>
+  <div class="carousel" id="carousel" role="region" aria-label="Manchester student life photos" tabindex="0">
+    <div class="carousel-track" id="carouselTrack"></div>
+    <div class="carousel-controls">
+      <button class="carousel-btn" id="carouselPrev" aria-label="Previous image">‹</button>
+      <div class="carousel-progress" id="carouselProgress"></div>
+      <button class="carousel-btn" id="carouselNext" aria-label="Next image">›</button>
+    </div>
+  </div>
   <div class="floating">NOT THE<br>TOURIST VERSION.</div>
   <div class="sticker">Made around your vibe ✦</div>
  </div>
@@ -207,6 +224,127 @@ async function logSignal(signal_type, detail){
   }catch(e){ console.warn('signal log failed', e); }
 }
 logSignal('guide_used', 'manchester_v2_page_load');
+
+// ---- Hero image carousel ----
+// Each slide carries a `category` tag so a future visitor arriving from a
+// specific campaign source (e.g. a football-themed Reel) can eventually open
+// the carousel on that image first. Not wired up yet -- architecture only.
+const HERO_SLIDES = [
+  { file:'hero-01-city-friends', category:'city', alt:'Students exploring Manchester city centre together' },
+  { file:'hero-02-campus', category:'campus', alt:'Friends relaxing on the steps outside the University of Manchester' },
+  { file:'hero-03-restaurant', category:'food', alt:'Friends eating together at a Manchester restaurant' },
+  { file:'hero-04-football', category:'sport', alt:'Students playing football together in Manchester' },
+  { file:'hero-05-canal-social', category:'social', alt:'Friends relaxing by Manchester\u2019s canals' },
+  { file:'hero-06-concert', category:'music', alt:'Students enjoying live music at a Manchester concert' },
+  { file:'hero-07-fitness', category:'fitness', alt:'Students running together along a Manchester canal' },
+  { file:'hero-08-piccadilly', category:'city', alt:'Friends walking through Manchester Piccadilly' },
+];
+const HERO_DIR = 'assets/hero/web/';
+const CROSSFADE_MS = 850;
+const AUTO_ADVANCE_MS = 5000;
+
+const track = document.getElementById('carouselTrack');
+const progressWrap = document.getElementById('carouselProgress');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+HERO_SLIDES.forEach((s, i) => {
+  const slide = document.createElement('div');
+  slide.className = 'carousel-slide' + (i === 0 ? ' active' : '');
+  slide.dataset.index = i;
+  const img = document.createElement('img');
+  img.alt = s.alt;
+  img.loading = i === 0 ? 'eager' : 'lazy';
+  img.decoding = 'async';
+  const picture = document.createElement('picture');
+  const sourceWebp = document.createElement('source');
+  sourceWebp.srcset = `${HERO_DIR}${s.file}.webp`;
+  sourceWebp.type = 'image/webp';
+  img.src = `${HERO_DIR}${s.file}.jpg`;
+  picture.appendChild(sourceWebp);
+  picture.appendChild(img);
+  slide.appendChild(picture);
+  track.appendChild(slide);
+
+  const bar = document.createElement('div');
+  bar.className = 'carousel-progress-bar';
+  bar.id = `cbar-${i}`;
+  progressWrap.appendChild(bar);
+});
+
+let heroIndex = 0;
+let autoTimer = null;
+let barTimer = null;
+
+function preload(i){
+  const s = HERO_SLIDES[(i) % HERO_SLIDES.length];
+  const im = new Image();
+  im.src = `${HERO_DIR}${s.file}.jpg`;
+}
+preload(1); // preload the second slide immediately so the first transition is instant
+
+function goToSlide(i, opts){
+  opts = opts || {};
+  const slides = track.querySelectorAll('.carousel-slide');
+  slides[heroIndex].classList.remove('active');
+  heroIndex = (i + HERO_SLIDES.length) % HERO_SLIDES.length;
+  slides[heroIndex].classList.add('active');
+  preload(heroIndex + 1);
+  updateProgress();
+  if(!opts.silent) logSignal('hero_carousel_view', HERO_SLIDES[heroIndex].category);
+}
+
+function updateProgress(){
+  HERO_SLIDES.forEach((_, i) => {
+    const bar = document.getElementById(`cbar-${i}`);
+    bar.classList.toggle('done', i < heroIndex);
+    const fill = bar.querySelector('b') || (() => { const b = document.createElement('b'); bar.appendChild(b); return b; })();
+    if(i === heroIndex){ fill.style.transition = 'none'; fill.style.width = '0%'; }
+    else if(i < heroIndex){ fill.style.transition = 'none'; fill.style.width = '100%'; }
+    else { fill.style.transition = 'none'; fill.style.width = '0%'; }
+  });
+}
+updateProgress();
+
+function startAuto(){
+  stopAuto();
+  if(reduceMotion) return;
+  const fill = document.querySelector(`#cbar-${heroIndex} b`);
+  if(fill){
+    requestAnimationFrame(() => {
+      fill.style.transition = `width ${AUTO_ADVANCE_MS}ms linear`;
+      fill.style.width = '100%';
+    });
+  }
+  autoTimer = setTimeout(() => { goToSlide(heroIndex + 1); startAuto(); }, AUTO_ADVANCE_MS);
+}
+function stopAuto(){
+  if(autoTimer) clearTimeout(autoTimer);
+  autoTimer = null;
+}
+
+document.getElementById('carouselNext').addEventListener('click', () => { goToSlide(heroIndex + 1); startAuto(); });
+document.getElementById('carouselPrev').addEventListener('click', () => { goToSlide(heroIndex - 1); startAuto(); });
+
+const carouselEl = document.getElementById('carousel');
+carouselEl.addEventListener('mouseenter', stopAuto);
+carouselEl.addEventListener('mouseleave', startAuto);
+carouselEl.addEventListener('keydown', (e) => {
+  if(e.key === 'ArrowRight'){ goToSlide(heroIndex + 1); startAuto(); }
+  if(e.key === 'ArrowLeft'){ goToSlide(heroIndex - 1); startAuto(); }
+});
+
+// swipe
+let touchStartX = null;
+carouselEl.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; stopAuto(); }, {passive:true});
+carouselEl.addEventListener('touchend', (e) => {
+  if(touchStartX === null) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if(Math.abs(dx) > 40){ goToSlide(heroIndex + (dx < 0 ? 1 : -1)); }
+  touchStartX = null;
+  startAuto();
+}, {passive:true});
+
+startAuto();
 
 function render(){
  const s=steps[current]; q.textContent=s.q; count.textContent=`Question ${current+1} of ${steps.length}`; prog.style.width=((current+1)/steps.length*100)+'%'; opts.innerHTML='';
