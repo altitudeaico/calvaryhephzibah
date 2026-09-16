@@ -79,6 +79,23 @@ body{font-family:var(--font-body);background:var(--obsidian);color:var(--fg-1);l
 .invite-facts b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;opacity:.8;margin-top:6px;}
 .invite-btn{display:block;text-align:center;background:var(--bone);color:var(--obsidian);text-decoration:none;border-radius:var(--r-pill);padding:13px;font-weight:700;font-size:14px;}
 
+.quiz-box{background:var(--slate);border-radius:var(--r);padding:20px;}
+.quiz-box input{width:100%;background:var(--graphite);border:1px solid var(--line-soft);border-radius:10px;color:var(--fg-1);font-family:var(--font-body);font-size:14px;padding:12px;margin-bottom:10px;}
+.quiz-box input:focus{outline:none;border-color:var(--red);}
+.quiz-label{font-size:12.5px;color:var(--fg-3);margin:10px 0 8px;}
+.quiz-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.quiz-chip{background:var(--graphite);border:1px solid var(--line-soft);border-radius:var(--r-pill);padding:9px 14px;font-family:var(--font-body);font-size:13px;color:var(--fg-1);cursor:pointer;}
+.quiz-chip.active{background:var(--red);border-color:var(--red);color:var(--bone);}
+.quiz-btn{width:100%;background:var(--red);color:var(--bone);border:none;border-radius:var(--r-pill);padding:13px;font-family:var(--font-body);font-weight:700;font-size:14px;cursor:pointer;margin-bottom:10px;}
+.quiz-btn:active{background:var(--red-deep);}
+.quiz-skip{display:block;text-align:center;color:var(--fg-3);font-size:12.5px;text-decoration:underline;}
+.quiz-greeting{display:none;background:var(--slate);border-left:3px solid var(--red);border-radius:var(--r);padding:20px;}
+.quiz-greeting.show{display:block;}
+.quiz-greeting-title{font-family:var(--font-serif);font-style:italic;font-size:20px;color:var(--bone);margin-bottom:8px;}
+.quiz-greeting-sub{font-size:13.5px;color:var(--fg-2);}
+.g-card.highlight{border-color:var(--red);background:linear-gradient(135deg,var(--slate),rgba(208,68,28,0.08));}
+.g-card .g-match{display:inline-block;font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--red-bright);margin-top:4px;}
+
 .foot{padding:36px 20px 40px;text-align:center;color:var(--fg-3);font-size:12px;}
 .foot a{color:var(--fg-2);}
 </style>
@@ -92,6 +109,21 @@ body{font-family:var(--font-body);background:var(--obsidian);color:var(--fg-1);l
 </div>
 
 <div class="wrap">
+
+  <div class="section" id="quiz-section">
+    <div class="section-label">Your Manchester</div>
+    <div class="section-title">Tell us a bit about you — we'll build your Manchester around it</div>
+    <div class="quiz-box" id="quiz-box">
+      <input type="text" id="quiz-name" placeholder="First name">
+      <input type="text" id="quiz-from" placeholder="Where are you coming from?">
+      <input type="text" id="quiz-studying" placeholder="What are you studying?">
+      <div class="quiz-label">What are you into? (pick as many as you like)</div>
+      <div class="quiz-chips" id="quiz-chips"></div>
+      <button class="quiz-btn" id="quiz-submit">Build My Manchester →</button>
+      <a href="#" class="quiz-skip" id="quiz-skip">Just show me the guide</a>
+    </div>
+    <div class="quiz-greeting" id="quiz-greeting"></div>
+  </div>
 
   <div class="section">
     <div class="section-label">The Basics</div>
@@ -181,33 +213,104 @@ logSignal('guide_used', 'page_load');
 
 // ---- Practical guide cards (from the original Manchester guide, updated) ----
 const GUIDE = [
-  { icon:'🚌', name:'Get Around', body:`
+  { icon:'🚌', name:'Get Around', interests:['budget'], body:`
     <p><b>Bikes/scooters:</b> Beryl (bike hire) and Lime (e-scooter) apps — both on Android and iOS.</p>
     <p><b>Buses:</b> Stagecoach and First Bus both do discounted student tickets.</p>
     <p><b>Uber:</b> student discounts available with a valid Uni email.</p>` },
-  { icon:'🍽️', name:'Eat', body:`
+  { icon:'🍽️', name:'Eat', interests:['food'], body:`
     <p>Some places worth trying when you want more than another meal deal: The Sparrows, Osma, The Refuge, Mana, Tattu, The Creameries, Habesha, Chaphati Cafe, The Dropbar Cafe, Chakalaka.</p>
     <p class="note">Mix of budget and treat-yourself — good for date nights, group hangs, or just a change of scene.</p>` },
-  { icon:'🎭', name:'Things To Do', body:`
+  { icon:'🎭', name:'Things To Do', interests:['culture','nightlife','music'], body:`
     <p>Warehouse Project for a big night out, Arts and Crafts design centre, The Lowry, Manchester Museum, National Football Museum.</p>
     <p>For something more low-key: The Dancehouse Theatre, Museum of Science and Industry, Victoria Baths, Royal Exchange Theatre, Band On The Wall, Manchester Craft & Design Centre.</p>` },
-  { icon:'💪', name:'Stay Active', body:`
+  { icon:'💪', name:'Stay Active', interests:['fitness','sport'], body:`
     <p>Manchester Armitage Centre, Sugden Sports Centre, Manchester Aquatics Centre (Olympic-size pool, open now, student pricing available), JD Gym.</p>
     <p>Also around: women-only Krav Maga, MMA, and Chinese martial arts classes if you're after something different.</p>` },
 ];
-const grid = document.getElementById('guide-grid');
-GUIDE.forEach((g, i) => {
-  const card = document.createElement('div');
-  card.className = 'g-card';
-  card.innerHTML = `<div class="g-icon">${g.icon}</div><div class="g-name">${g.name}</div><div class="g-body" id="gbody-${i}">${g.body}<div class="note">Know somewhere better? Let us know — this list grows over time.</div></div>`;
-  card.onclick = () => {
-    const body = document.getElementById(`gbody-${i}`);
-    const wasOpen = body.classList.contains('show');
-    document.querySelectorAll('.g-body').forEach(b => b.classList.remove('show'));
-    document.querySelectorAll('.g-card').forEach(c => c.classList.remove('open'));
-    if(!wasOpen){ body.classList.add('show'); card.classList.add('open'); logSignal('guide_used', g.name); }
+
+function renderGuide(selectedInterests){
+  const grid = document.getElementById('guide-grid');
+  grid.innerHTML = '';
+  let ordered = GUIDE.map((g, i) => ({ ...g, origIndex: i }));
+  if(selectedInterests && selectedInterests.length){
+    ordered.sort((a, b) => {
+      const aMatch = a.interests.some(t => selectedInterests.includes(t)) ? 1 : 0;
+      const bMatch = b.interests.some(t => selectedInterests.includes(t)) ? 1 : 0;
+      return bMatch - aMatch;
+    });
+  }
+  ordered.forEach((g) => {
+    const i = g.origIndex;
+    const isMatch = selectedInterests && selectedInterests.length && g.interests.some(t => selectedInterests.includes(t));
+    const card = document.createElement('div');
+    card.className = 'g-card' + (isMatch ? ' highlight' : '');
+    card.innerHTML = `<div class="g-icon">${g.icon}</div><div class="g-name">${g.name}</div>${isMatch ? '<div class="g-match">Picked for you</div>' : ''}<div class="g-body" id="gbody-${i}">${g.body}<div class="note">Know somewhere better? Let us know — this list grows over time.</div></div>`;
+    card.onclick = () => {
+      const body = document.getElementById(`gbody-${i}`);
+      const wasOpen = body.classList.contains('show');
+      document.querySelectorAll('.g-body').forEach(b => b.classList.remove('show'));
+      document.querySelectorAll('.g-card').forEach(c => c.classList.remove('open'));
+      if(!wasOpen){ body.classList.add('show'); card.classList.add('open'); logSignal('guide_used', g.name); }
+    };
+    grid.appendChild(card);
+  });
+}
+renderGuide(null);
+
+// ---- Personalization quiz ----
+const INTERESTS = [
+  { key:'food', label:'🍜 Food' },
+  { key:'music', label:'🎵 Music' },
+  { key:'sport', label:'⚽ Sport' },
+  { key:'nightlife', label:'🌃 Nightlife' },
+  { key:'culture', label:'🎭 Culture' },
+  { key:'fitness', label:'💪 Fitness' },
+  { key:'budget', label:'💷 Keeping It Cheap' },
+];
+const selectedInterests = new Set();
+const chipsWrap = document.getElementById('quiz-chips');
+INTERESTS.forEach(int => {
+  const chip = document.createElement('div');
+  chip.className = 'quiz-chip';
+  chip.textContent = int.label;
+  chip.onclick = () => {
+    chip.classList.toggle('active');
+    if(selectedInterests.has(int.key)) selectedInterests.delete(int.key);
+    else selectedInterests.add(int.key);
   };
-  grid.appendChild(card);
+  chipsWrap.appendChild(chip);
+});
+
+document.getElementById('quiz-submit').addEventListener('click', async () => {
+  const name = document.getElementById('quiz-name').value.trim();
+  const whereFrom = document.getElementById('quiz-from').value.trim();
+  const studying = document.getElementById('quiz-studying').value.trim();
+  const interests = Array.from(selectedInterests);
+
+  try{
+    await fetch(`${SUPA_URL}/rest/v1/manchester_student_profiles`, {
+      method: 'POST',
+      headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: name || null, where_from: whereFrom || null, studying: studying || null, interests, source_tag: sourceTag, session_id: sessionId })
+    });
+  }catch(e){ console.warn('quiz save failed', e); }
+
+  logSignal('guide_personalized', interests.join(','));
+
+  document.getElementById('quiz-box').style.display = 'none';
+  const greeting = document.getElementById('quiz-greeting');
+  greeting.classList.add('show');
+  document.getElementById('quiz-greeting').innerHTML = `
+    <div class="quiz-greeting-title">Hey ${name || 'there'} 👋 Here's Your Manchester</div>
+    <div class="quiz-greeting-sub">${interests.length ? `We've moved the ${interests.length > 1 ? 'stuff' : 'thing'} you're into to the top.` : "Here's the guide — have a look around."}</div>
+  `;
+  renderGuide(interests);
+});
+
+document.getElementById('quiz-skip').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('quiz-box').style.display = 'none';
+  logSignal('guide_personalized', 'skipped');
 });
 
 // ---- Mood check-in ----
