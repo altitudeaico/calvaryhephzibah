@@ -1,511 +1,287 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>New to Manchester? — Calvary Hephzibah</title>
-<meta name="description" content="A free personalised student guide to Manchester — built around you. From Calvary Hephzibah Full Gospel Church.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Your Manchester — Built Around You</title>
+<meta name="description" content="Tell us what you're into. We'll build your personalised student guide to Manchester.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --cream:#FAF7F2;--white:#FFFFFF;--ink:#17140F;--ink-2:#4A453D;--ink-3:#8B8478;
-  --red:#D0441C;--red-soft:#FDE9E2;--line:rgba(23,20,15,0.08);
-  --font-display:'Space Grotesk','Inter',sans-serif;
-  --font-body:'Inter',system-ui,sans-serif;
-  --r:20px;--r-pill:999px;
-  --shadow:0 2px 8px rgba(23,20,15,0.05),0 12px 32px rgba(23,20,15,0.06);
+  --ink:#111317; --muted:#6c6f73; --cream:#f4f0e8; --paper:#fbfaf6;
+  --orange:#df4d2a; --orange2:#f16a43; --lime:#d9ef71; --line:#dcd7ce;
+  --display:"Space Grotesk",sans-serif; --body:"DM Sans",sans-serif;
 }
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html{scroll-behavior:smooth;}
-body{font-family:var(--font-body);background:var(--cream);color:var(--ink);line-height:1.6;}
-.wrap{max-width:600px;margin:0 auto;padding:0 20px;}
-
-.hero{padding:44px 20px 28px;text-align:center;}
-.hero-logo{width:46px;height:46px;margin:0 auto 18px;}
-.hero-eyebrow{font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;}
-.hero-h1{font-family:var(--font-display);font-weight:700;font-size:clamp(30px,8vw,40px);line-height:1.08;margin-bottom:10px;}
-.hero-h1 .accent{color:var(--red);}
-.hero-sub{font-size:15px;color:var(--ink-2);max-width:380px;margin:0 auto;}
-
-.section{padding:22px 0;}
-.section-label{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin-bottom:6px;}
-.section-title{font-family:var(--font-display);font-weight:600;font-size:20px;color:var(--ink);margin-bottom:16px;}
-
-.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.g-card{background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:18px;cursor:pointer;box-shadow:var(--shadow);transition:transform .12s;}
-.g-card:active{transform:scale(0.98);}
-.g-card.highlight{border-color:var(--red);background:var(--red-soft);}
-.g-icon{font-size:24px;margin-bottom:8px;}
-.g-name{font-family:var(--font-display);font-weight:600;font-size:14.5px;}
-.g-card .g-match{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--red);margin-top:4px;}
-.g-body{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink-2);}
-.g-body.show{display:block;}
-.g-body p{margin-bottom:8px;}
-.g-body .note{color:var(--ink-3);font-size:12px;font-style:italic;margin-top:8px;}
-
-/* ---- Wizard ---- */
-.wiz{background:var(--white);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);overflow:hidden;}
-.wiz-progress{display:flex;gap:5px;padding:18px 20px 0;}
-.wiz-dot{flex:1;height:4px;border-radius:2px;background:var(--line);}
-.wiz-dot.done{background:var(--red);}
-.wiz-step{display:none;padding:26px 22px 24px;}
-.wiz-step.active{display:block;}
-.wiz-q{font-family:var(--font-display);font-weight:600;font-size:19px;line-height:1.3;margin-bottom:6px;}
-.wiz-hint{font-size:13px;color:var(--ink-3);margin-bottom:18px;}
-.wiz-input{width:100%;background:var(--cream);border:1.5px solid var(--line);border-radius:14px;color:var(--ink);font-family:var(--font-body);font-size:16px;padding:14px 16px;margin-bottom:10px;}
-.wiz-input:focus{outline:none;border-color:var(--red);}
-.wiz-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
-.wiz-chip{background:var(--cream);border:1.5px solid var(--line);border-radius:var(--r-pill);padding:10px 16px;font-family:var(--font-body);font-weight:500;font-size:14px;color:var(--ink);cursor:pointer;}
-.wiz-chip.active{background:var(--ink);border-color:var(--ink);color:var(--white);}
-.wiz-nav{display:flex;gap:10px;padding:0 22px 24px;}
-.wiz-btn{flex:1;background:var(--ink);color:var(--white);border:none;border-radius:var(--r-pill);padding:15px;font-family:var(--font-body);font-weight:700;font-size:15px;cursor:pointer;}
-.wiz-btn:active{opacity:.85;}
-.wiz-back{background:none;border:none;color:var(--ink-3);font-family:var(--font-body);font-size:14px;padding:15px 10px;cursor:pointer;}
-.wiz-skip{display:block;text-align:center;padding:14px 22px 20px;color:var(--ink-3);font-size:12.5px;text-decoration:underline;}
-
-.greeting{display:none;background:var(--white);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:26px 22px;}
-.greeting.show{display:block;}
-.greeting-title{font-family:var(--font-display);font-weight:700;font-size:22px;margin-bottom:6px;}
-.greeting-sub{font-size:14px;color:var(--ink-2);}
-
-/* ---- Mood check ---- */
-.mood-grid{display:flex;flex-wrap:wrap;gap:8px;}
-.mood-btn{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-pill);padding:11px 16px;font-family:var(--font-body);font-weight:500;font-size:13.5px;color:var(--ink);cursor:pointer;box-shadow:var(--shadow);}
-.mood-btn.active{background:var(--red);border-color:var(--red);color:var(--white);}
-.mood-result{display:none;margin-top:16px;background:var(--white);border-left:3px solid var(--red);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);}
-.mood-result.show{display:block;}
-.mood-verse{font-family:var(--font-display);font-style:normal;font-weight:600;font-size:16px;color:var(--ink);margin-bottom:10px;}
-.mood-text{font-size:14px;color:var(--ink-2);margin-bottom:10px;}
-.mood-action{font-size:13px;color:var(--ink-3);}
-
-.pray-box{background:var(--white);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px;}
-.pray-box textarea{width:100%;background:var(--cream);border:1.5px solid var(--line);border-radius:14px;color:var(--ink);font-family:var(--font-body);font-size:14px;padding:14px;min-height:90px;resize:vertical;}
-.pray-box textarea:focus{outline:none;border-color:var(--red);}
-.pray-check{display:flex;align-items:flex-start;gap:8px;margin-top:12px;font-size:13px;color:var(--ink-2);}
-.pray-fields{display:none;margin-top:10px;gap:8px;flex-direction:column;}
-.pray-fields.show{display:flex;}
-.pray-fields input{background:var(--cream);border:1.5px solid var(--line);border-radius:12px;color:var(--ink);font-family:var(--font-body);font-size:13.5px;padding:12px;}
-.pray-btn{margin-top:14px;width:100%;background:var(--red);color:var(--white);border:none;border-radius:var(--r-pill);padding:14px;font-family:var(--font-body);font-weight:700;font-size:14.5px;cursor:pointer;}
-.pray-btn:active{opacity:.85;}
-.pray-done{display:none;text-align:center;padding:20px;color:var(--ink-2);font-size:14px;}
-.pray-done.show{display:block;}
-
-.week-card{background:var(--white);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px;}
-.week-hook{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--ink);margin-bottom:10px;}
-.week-msg{font-size:14px;color:var(--ink-2);margin-bottom:10px;}
-.week-verse{font-size:12px;font-weight:600;color:var(--red);text-transform:uppercase;letter-spacing:.04em;}
-.week-q{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink-3);font-style:italic;}
-
-.invite-card{background:var(--ink);color:var(--white);border-radius:var(--r);padding:26px 22px;}
-.invite-title{font-family:var(--font-display);font-weight:700;font-size:22px;margin-bottom:10px;}
-.invite-sub{font-size:14px;color:rgba(255,255,255,0.75);margin-bottom:16px;line-height:1.6;}
-.invite-facts{background:rgba(255,255,255,0.08);border-radius:14px;padding:14px 16px;font-size:13.5px;margin-bottom:16px;}
-.invite-facts div{padding:4px 0;}
-.invite-facts b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;opacity:.7;margin-top:6px;}
-.invite-btn{display:block;text-align:center;background:var(--red);color:var(--white);text-decoration:none;border-radius:var(--r-pill);padding:14px;font-weight:700;font-size:14.5px;}
-
-.foot{padding:32px 20px 40px;text-align:center;color:var(--ink-3);font-size:12px;}
-.foot a{color:var(--ink-2);}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--body);overflow-x:hidden}
+button,input{font:inherit}.shell{max-width:1180px;margin:auto;padding:0 28px}
+nav{height:76px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:14px}
+.logo-gap{width:38px;height:38px;border:1px dashed #aaa;border-radius:50%;display:grid;place-items:center;font-size:8px;color:#777;text-align:center}
+.nav-note{font-size:13px;color:var(--muted)}
+.hero{min-height:calc(100vh - 76px);display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center;padding:50px 0 72px}
+.kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:20px}
+h1{font-family:var(--display);font-size:clamp(58px,7vw,104px);line-height:.88;letter-spacing:-.07em;margin:0 0 30px;max-width:720px}
+h1 em{font-style:normal;color:var(--orange)}
+.lead{font-size:clamp(19px,2vw,25px);line-height:1.42;max-width:600px;margin:0 0 30px}
+.cta{border:0;border-radius:999px;background:var(--ink);color:white;padding:17px 25px;font-weight:700;cursor:pointer;display:inline-flex;gap:14px;align-items:center;box-shadow:0 8px 0 var(--orange);transition:.15s}
+.cta:hover{transform:translateY(-2px);box-shadow:0 10px 0 var(--orange)}
+.micro{font-size:12px;color:var(--muted);margin-top:16px}
+.hero-art{min-height:590px;position:relative}
+.photo-gap{height:100%;min-height:590px;border-radius:34px;background:#e6e0d6;border:1px dashed #aaa;display:grid;place-items:center;text-align:center;padding:40px;color:#777;overflow:hidden}
+.photo-gap strong{font-family:var(--display);font-size:24px;color:#555;display:block;margin-bottom:8px}
+.sticker{position:absolute;background:var(--lime);padding:14px 18px;border-radius:999px;font-weight:700;transform:rotate(-6deg);left:-25px;bottom:65px}
+.floating{position:absolute;right:-18px;top:48px;background:var(--orange);color:white;border-radius:18px;padding:17px 20px;font-family:var(--display);font-weight:700;transform:rotate(5deg)}
+.marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:17px 0;overflow:hidden;white-space:nowrap;font-family:var(--display);font-weight:600}
+.marquee span{margin-right:42px}
+.wizard-section{padding:110px 0;background:var(--paper)}
+.wizard-head{display:grid;grid-template-columns:1fr 1fr;gap:50px;margin-bottom:48px;align-items:end}
+.eyebrow{color:var(--orange);font-size:12px;text-transform:uppercase;letter-spacing:.16em;font-weight:700}
+h2{font-family:var(--display);font-size:clamp(42px,5vw,70px);line-height:.98;letter-spacing:-.05em;margin:8px 0 0}
+.wizard-head p{font-size:18px;color:var(--muted);max-width:500px}
+.wizard{max-width:820px;margin:auto;background:white;border:1px solid var(--line);border-radius:28px;padding:34px;box-shadow:0 18px 60px rgba(0,0,0,.06)}
+.progress{height:5px;background:#eee9df;border-radius:10px;overflow:hidden;margin-bottom:34px}
+.progress b{display:block;height:100%;width:20%;background:var(--orange);transition:.3s}
+.step-count{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+.question{font-family:var(--display);font-size:34px;line-height:1.05;letter-spacing:-.04em;margin:10px 0 25px}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.option{border:1px solid var(--line);background:var(--paper);border-radius:18px;padding:20px;text-align:left;cursor:pointer;font-weight:700;min-height:80px;transition:.15s}
+.option:hover,.option.selected{border-color:var(--ink);background:var(--lime);transform:translateY(-2px)}
+.option small{display:block;color:#686868;font-weight:400;margin-top:4px}
+.wizard-actions{display:flex;justify-content:space-between;align-items:center;margin-top:26px}
+.back{border:0;background:none;color:var(--muted);cursor:pointer}.next{border:0;background:var(--ink);color:white;border-radius:999px;padding:13px 20px;font-weight:700;cursor:pointer}
+.preview{padding:110px 0}
+.preview-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:60px;align-items:center}
+.phone{max-width:420px;margin:auto;border:10px solid var(--ink);border-radius:44px;padding:12px;background:white;box-shadow:0 30px 70px rgba(0,0,0,.13)}
+.phone-top{height:28px;width:100px;background:var(--ink);border-radius:20px;margin:0 auto 14px}
+.guide-photo{height:220px;border-radius:25px;background:#e5dfd5;border:1px dashed #aaa;display:grid;place-items:center;color:#777;text-align:center;padding:20px}
+.guide-copy{padding:22px 8px}.guide-copy h3{font-family:var(--display);font-size:31px;letter-spacing:-.04em;margin:0 0 8px}.pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}.pill{background:var(--cream);padding:8px 11px;border-radius:999px;font-size:12px;font-weight:700}
+.preview-copy h2{margin-bottom:22px}.preview-copy p{font-size:19px;line-height:1.55;color:var(--muted)}
+.features{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}.feature{border-top:1px solid var(--line);padding-top:14px;font-weight:600}.feature span{display:block;color:var(--orange);font-size:12px;margin-bottom:4px}
+.reveal{padding:100px 0;background:var(--ink);color:white;text-align:center}.reveal h2{max-width:800px;margin:8px auto 20px}.reveal p{color:#c9c9c9;font-size:19px;max-width:620px;margin:0 auto 28px}.reveal .cta{background:var(--lime);color:var(--ink);box-shadow:0 8px 0 var(--orange)}
+.byline{padding:32px 0;background:var(--cream)}.byline-inner{display:flex;align-items:center;justify-content:space-between;gap:30px}.byline p{max-width:660px;color:var(--muted);font-size:13px}.church{display:flex;align-items:center;gap:12px;font-weight:700}
+@media(max-width:800px){
+ .shell{padding:0 20px}.hero{grid-template-columns:1fr;gap:30px;padding-top:35px}.hero-art{min-height:390px}.photo-gap{min-height:390px}.floating{right:5px}.sticker{left:5px}
+ .wizard-head,.preview-grid{grid-template-columns:1fr}.wizard-head{gap:12px}.options{grid-template-columns:1fr}.wizard{padding:24px 18px}.features{grid-template-columns:1fr}.byline-inner{align-items:flex-start;flex-direction:column}
+ h1{font-size:clamp(55px,17vw,82px)}
+}
 </style>
 </head>
 <body>
+<div class="shell">
+<nav>
+  <div class="brand"><img src="../anniversary-design-system/assets/logo-eagle.png" alt="Calvary Hephzibah" style="width:38px;height:38px;border-radius:50%;object-fit:cover;"><span>YOUR MANCHESTER</span></div>
+  <div class="nav-note">A free student guide, built around you.</div>
+</nav>
 
-<div class="hero">
-  <img class="hero-logo" src="../anniversary-design-system/assets/logo-eagle.png" alt="Calvary Hephzibah">
-  <div class="hero-eyebrow">Calvary Hephzibah</div>
-  <div class="hero-h1">Your <span class="accent">Manchester</span>,<br>built around you</div>
-  <div class="hero-sub">60 seconds of questions, then a guide made for you — not a generic PDF.</div>
+<section class="hero">
+ <div>
+  <div class="kicker">New city. Your version.</div>
+  <h1>YOUR<br><em>MANCHESTER.</em><br>BUILT<br>AROUND YOU.</h1>
+  <p class="lead">Tell us what you're into. We'll build you a personalised guide to the food, places, people and things worth knowing in Manchester.</p>
+  <button class="cta" onclick="document.querySelector('#builder').scrollIntoView({behavior:'smooth'})">Build my guide <span>↗</span></button>
+  <div class="micro">Free · Takes about 60 seconds · Made for Manchester students</div>
+ </div>
+ <div class="hero-art">
+  <div class="photo-gap"><div><strong>HERO IMAGE SPACE</strong>Manchester student / creator lifestyle photography.<br>Real, editorial, candid. No generic stock-photo energy.</div></div>
+  <div class="floating">NOT THE<br>TOURIST VERSION.</div>
+  <div class="sticker">Made around your vibe ✦</div>
+ </div>
+</section>
 </div>
 
-<div class="wrap">
-
-  <div class="section" id="quiz-section">
-    <div class="wiz" id="wiz">
-      <div class="wiz-progress" id="wiz-progress"></div>
-
-      <div class="wiz-step active" data-step="0">
-        <div class="wiz-q">First, what's your name?</div>
-        <input type="text" class="wiz-input" id="q-name" placeholder="First name">
-      </div>
-
-      <div class="wiz-step" data-step="1">
-        <div class="wiz-q">Where are you coming from?</div>
-        <div class="wiz-hint">City, country — wherever home is.</div>
-        <input type="text" class="wiz-input" id="q-from" placeholder="e.g. Lagos, London, Leeds...">
-      </div>
-
-      <div class="wiz-step" data-step="2">
-        <div class="wiz-q">Which uni, and what are you studying?</div>
-        <input type="text" class="wiz-input" id="q-university" placeholder="University">
-        <input type="text" class="wiz-input" id="q-studying" placeholder="Course / subject">
-        <div class="wiz-chips" id="year-chips"></div>
-      </div>
-
-      <div class="wiz-step" data-step="3">
-        <div class="wiz-q">Roughly where are you living?</div>
-        <input type="text" class="wiz-input" id="q-area" placeholder="e.g. Fallowfield, Oxford Road, Salford...">
-      </div>
-
-      <div class="wiz-step" data-step="4">
-        <div class="wiz-q">What are you into?</div>
-        <div class="wiz-hint">Pick as many as you like — this is what your guide gets built around.</div>
-        <div class="wiz-chips" id="interest-chips"></div>
-      </div>
-
-      <div class="wiz-step" data-step="5">
-        <div class="wiz-q">What would make Manchester feel like home?</div>
-        <div class="wiz-hint">Optional — but it helps us make this actually useful for you.</div>
-        <input type="text" class="wiz-input" id="q-wants" placeholder="Totally optional...">
-      </div>
-
-      <div class="wiz-nav">
-        <button class="wiz-back" id="wiz-back" style="visibility:hidden;">← Back</button>
-        <button class="wiz-btn" id="wiz-next">Next →</button>
-      </div>
-      <a href="#" class="wiz-skip" id="quiz-skip">Skip and just show me the guide</a>
-    </div>
-
-    <div class="greeting" id="quiz-greeting"></div>
-  </div>
-
-  <div class="section">
-    <div class="section-label">The Basics</div>
-    <div class="section-title">Getting settled</div>
-    <div class="card-grid" id="guide-grid"></div>
-  </div>
-
-  <div class="section">
-    <div class="section-label">A Little Encouragement</div>
-    <div class="section-title">How are you doing today?</div>
-    <div class="mood-grid" id="mood-grid"></div>
-    <div class="mood-result" id="mood-result">
-      <div class="mood-verse" id="mood-verse"></div>
-      <div class="mood-text" id="mood-text"></div>
-      <div class="mood-action" id="mood-action"></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-label">For Your Week</div>
-    <div class="week-card" id="week-card"></div>
-  </div>
-
-  <div class="section">
-    <div class="section-label">Need Prayer?</div>
-    <div class="section-title">Whatever's on your mind</div>
-    <div class="pray-box" id="pray-box">
-      <textarea id="pray-text" placeholder="You can share as much or as little as you want..."></textarea>
-      <label class="pray-check">
-        <input type="checkbox" id="pray-contact-toggle">
-        I'd like someone from Calvary to get back to me
-      </label>
-      <div class="pray-fields" id="pray-fields">
-        <input type="text" id="pray-name" placeholder="Your name">
-        <input type="email" id="pray-email" placeholder="Email (optional)">
-        <input type="tel" id="pray-phone" placeholder="Phone (optional)">
-      </div>
-      <button class="pray-btn" id="pray-submit">Send</button>
-    </div>
-    <div class="pray-done" id="pray-done">Thank you — this has been received and will be read with care. 🙏</div>
-  </div>
-
-  <div class="section">
-    <div class="section-label">Find Your People</div>
-    <div class="invite-card">
-      <div class="invite-title">You're Welcome Here</div>
-      <div class="invite-sub">A friendly church in Manchester, whatever your background — no pressure, just an open door.</div>
-      <div class="invite-facts">
-        <div><b>When</b>Sundays, 10:30am (doors ~10:00am)</div>
-        <div><b>Where</b>West Indian Community Centre, 74 Carmoor Road, Manchester M13 0FB</div>
-      </div>
-      <a class="invite-btn" href="https://calvaryhephzibah.co.uk" id="sunday-cta">See what Sundays are like →</a>
-    </div>
-  </div>
-
+<div class="marquee">
+ <span>FOOD & DRINK</span><span>LIVE MUSIC</span><span>CHEAP EATS</span><span>FITNESS</span><span>CREATIVE SPOTS</span><span>MEET PEOPLE</span><span>HIDDEN GEMS</span><span>THINGS TO DO</span>
 </div>
 
-<div class="foot">
-  Calvary Hephzibah Full Gospel Church · <a href="https://calvaryhephzibah.co.uk">calvaryhephzibah.co.uk</a><br>
-  <a href="mailto:calvaryhfgc@gmail.com">calvaryhfgc@gmail.com</a>
-</div>
+<section class="wizard-section" id="builder">
+ <div class="shell">
+  <div class="wizard-head">
+   <div><div class="eyebrow">01 / Make it yours</div><h2>What's your Manchester?</h2></div>
+   <p>No boring form. A few quick picks help us understand what you're actually into, so your guide doesn't look like everyone else's.</p>
+  </div>
+  <div class="wizard">
+   <div class="progress"><b id="progress"></b></div>
+   <div class="step-count" id="stepCount">Question 1 of 5</div>
+   <div class="question" id="question"></div>
+   <div class="options" id="options"></div>
+   <div class="wizard-actions"><button class="back" id="back">← Back</button><button class="next" id="next">Next →</button></div>
+  </div>
+ </div>
+</section>
+
+<section class="preview">
+ <div class="shell preview-grid">
+  <div class="phone">
+   <div class="phone-top"></div>
+   <div class="guide-photo">PERSONALISED GUIDE IMAGE SPACE</div>
+   <div class="guide-copy">
+    <small>YOUR MANCHESTER</small>
+    <h3 id="previewHeading">Hey, this one's yours.</h3>
+    <p id="previewCopy">Places, ideas and recommendations based on what you picked.</p>
+    <div class="pills" id="previewPills"><span class="pill">Foodie</span><span class="pill">Creative</span><span class="pill">Social</span></div>
+   </div>
+  </div>
+  <div class="preview-copy">
+   <div class="eyebrow">02 / Get something useful</div>
+   <h2>Not another generic city guide.</h2>
+   <p>Your picks shape what you see. Cheap eats if you're watching the budget. Creative spaces if that's your thing. Somewhere to meet people if you're still finding your feet.</p>
+   <div class="features">
+    <div class="feature"><span>01</span>Places matched to your interests</div>
+    <div class="feature"><span>02</span>Ideas for your budget and vibe</div>
+    <div class="feature"><span>03</span>Useful student essentials</div>
+    <div class="feature"><span>04</span>New finds as the guide grows</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="reveal">
+ <div class="shell">
+  <div class="eyebrow">Your city is waiting</div>
+  <h2>Find the Manchester that feels like yours.</h2>
+  <p>Start with a few quick choices. We'll take it from there.</p>
+  <button class="cta" onclick="document.querySelector('#builder').scrollIntoView({behavior:'smooth'})">Build my Manchester →</button>
+ </div>
+</section>
+
+<section class="byline">
+ <div class="shell byline-inner">
+  <div class="church"><img src="../anniversary-design-system/assets/logo-eagle.png" alt="Calvary Hephzibah" style="width:38px;height:38px;border-radius:50%;object-fit:cover;"><div>Made with purpose in Manchester<br><small>by Calvary Hephzibah</small></div></div>
+  <p>We're a church community in Manchester that loves welcoming people to the city. Your Manchester is our way of helping you find your feet first. You'll get the chance to discover more about us too, but there's no pressure.</p>
+ </div>
+</section>
 
 <script>
+const steps=[
+ {q:"First up. What are you into?", multi:true, opts:[
+  ["🍜 Food & drink","Finding places actually worth eating at"],
+  ["🎵 Music & nights","Gigs, live music and going out"],
+  ["🎨 Creative stuff","Art, design, photography and culture"],
+  ["🏃 Fitness & sport","Training, playing and staying active"],
+  ["☕ Chilled spots","Coffee, study spots and slower days"],
+  ["⚽ Football","Playing it, watching it, talking about it"]
+ ]},
+ {q:"Friday night. What's the move?", opts:[
+  ["🍽 Food with friends","Somewhere good, preferably not ridiculous money"],
+  ["🎤 Gig / event","I want something happening"],
+  ["🎬 Games or movie night","Keep it easy"],
+  ["🛋 Honestly? Chill.","My social battery has limits"]
+ ]},
+ {q:"Your bank account currently says…", opts:[
+  ["💀 Student mode","Show me the cheap and free stuff"],
+  ["🙂 I've got a little room","Good value, but I'm flexible"],
+  ["💅 Treat me","I'll spend when it's worth it"],
+  ["👀 Show me everything","I'll decide later"]
+ ]},
+ {q:"What would help Manchester feel more like home?", multi:true, opts:[
+  ["🤝 Finding my people","I'd like to build a circle"],
+  ["📍 Knowing where to go","Help me learn the city"],
+  ["✨ Things to do","I don't want to waste my time here"],
+  ["🌍 Settling into UK life","Some local context would help"],
+  ["🙏 Faith & community","I'd like somewhere I can belong"],
+  ["🧭 Just exploring","No agenda. Show me what's good."]
+ ]},
+ {q:"Okay. Your Manchester is taking shape.", opts:[
+  ["🔥 Build my guide","I'm ready"],
+  ["✨ Surprise me","Throw in a few wildcards"]
+ ]}
+];
+let current=0, answers=[[],[],[],[],[]];
+const q=document.getElementById('question'), opts=document.getElementById('options'), prog=document.getElementById('progress'), count=document.getElementById('stepCount');
+
 const SUPA_URL = 'https://pfycvgbrsbecznkcikwt.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmeWN2Z2Jyc2JlY3pua2Npa3d0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzNzY1NDgsImV4cCI6MjA5MDk1MjU0OH0.xw_DSmC0brKC7K9H-rxNG0HKKDi4I-dNSEoZKERvHcQ';
-
-let sessionId = null;
-try{
-  sessionId = sessionStorage.getItem('mcr_session');
-  if(!sessionId){ sessionId = 'anon_' + Math.random().toString(36).slice(2) + Date.now().toString(36); sessionStorage.setItem('mcr_session', sessionId); }
-}catch(e){ sessionId = 'anon_' + Math.random().toString(36).slice(2); }
-
-const urlParams = new URLSearchParams(window.location.search);
-const sourceTag = urlParams.get('src') || 'direct';
+let sessionId=null;
+try{ sessionId=sessionStorage.getItem('mcr_session'); if(!sessionId){ sessionId='anon_'+Math.random().toString(36).slice(2)+Date.now().toString(36); sessionStorage.setItem('mcr_session',sessionId); } }catch(e){ sessionId='anon_'+Math.random().toString(36).slice(2); }
+const sourceTag = new URLSearchParams(window.location.search).get('src') || 'direct';
 
 async function logSignal(signal_type, detail){
   try{
     await fetch(`${SUPA_URL}/rest/v1/manchester_engagement_signals`, {
-      method: 'POST',
-      headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ session_id: sessionId, signal_type, detail, source_tag: sourceTag })
+      method:'POST', headers:{ 'apikey':SUPA_KEY, 'Authorization':`Bearer ${SUPA_KEY}`, 'Content-Type':'application/json' },
+      body: JSON.stringify({ session_id:sessionId, signal_type, detail, source_tag:sourceTag })
     });
   }catch(e){ console.warn('signal log failed', e); }
 }
-logSignal('guide_used', 'page_load');
+logSignal('guide_used', 'manchester_v2_page_load');
 
-// ---- Practical guide cards ----
-const GUIDE = [
-  { icon:'🚌', name:'Get Around', interests:['budget'], body:`
-    <p><b>Bikes/scooters:</b> Beryl (bike hire) and Lime (e-scooter) apps — both on Android and iOS.</p>
-    <p><b>Buses:</b> Stagecoach and First Bus both do discounted student tickets.</p>
-    <p><b>Uber:</b> student discounts available with a valid Uni email.</p>` },
-  { icon:'🍽️', name:'Eat', interests:['food'], body:`
-    <p>Some places worth trying when you want more than another meal deal: The Sparrows, Osma, The Refuge, Mana, Tattu, The Creameries, Habesha, Chaphati Cafe, The Dropbar Cafe, Chakalaka.</p>
-    <p class="note">Mix of budget and treat-yourself — good for date nights, group hangs, or just a change of scene.</p>` },
-  { icon:'🎭', name:'Things To Do', interests:['culture','nightlife','music'], body:`
-    <p>Warehouse Project for a big night out, Arts and Crafts design centre, The Lowry, Manchester Museum, National Football Museum.</p>
-    <p>For something more low-key: The Dancehouse Theatre, Museum of Science and Industry, Victoria Baths, Royal Exchange Theatre, Band On The Wall, Manchester Craft & Design Centre.</p>` },
-  { icon:'💪', name:'Stay Active', interests:['fitness','sport'], body:`
-    <p>Manchester Armitage Centre, Sugden Sports Centre, Manchester Aquatics Centre (Olympic-size pool, open now, student pricing available), JD Gym.</p>
-    <p>Also around: women-only Krav Maga, MMA, and Chinese martial arts classes if you're after something different.</p>` },
-];
-
-function renderGuide(selectedInterests){
-  const grid = document.getElementById('guide-grid');
-  grid.innerHTML = '';
-  let ordered = GUIDE.map((g, i) => ({ ...g, origIndex: i }));
-  if(selectedInterests && selectedInterests.length){
-    ordered.sort((a, b) => {
-      const aMatch = a.interests.some(t => selectedInterests.includes(t)) ? 1 : 0;
-      const bMatch = b.interests.some(t => selectedInterests.includes(t)) ? 1 : 0;
-      return bMatch - aMatch;
-    });
-  }
-  ordered.forEach((g) => {
-    const i = g.origIndex;
-    const isMatch = selectedInterests && selectedInterests.length && g.interests.some(t => selectedInterests.includes(t));
-    const card = document.createElement('div');
-    card.className = 'g-card' + (isMatch ? ' highlight' : '');
-    card.innerHTML = `<div class="g-icon">${g.icon}</div><div class="g-name">${g.name}</div>${isMatch ? '<div class="g-match">Picked for you</div>' : ''}<div class="g-body" id="gbody-${i}">${g.body}<div class="note">Know somewhere better? Let us know — this list grows over time.</div></div>`;
-    card.onclick = () => {
-      const body = document.getElementById(`gbody-${i}`);
-      const wasOpen = body.classList.contains('show');
-      document.querySelectorAll('.g-body').forEach(b => b.classList.remove('show'));
-      document.querySelectorAll('.g-card').forEach(c => c.classList.remove('open'));
-      if(!wasOpen){ body.classList.add('show'); card.classList.add('open'); logSignal('guide_used', g.name); }
-    };
-    grid.appendChild(card);
-  });
-}
-renderGuide(null);
-
-// ---- Wizard ----
-const TOTAL_STEPS = 6;
-let currentStep = 0;
-const selectedYear = { value: null };
-const selectedInterests = new Set();
-
-const progressWrap = document.getElementById('wiz-progress');
-for(let i = 0; i < TOTAL_STEPS; i++){
-  const dot = document.createElement('div');
-  dot.className = 'wiz-dot';
-  dot.id = `dot-${i}`;
-  progressWrap.appendChild(dot);
-}
-document.getElementById('dot-0').classList.add('done');
-
-const YEARS = ['1st year','2nd year','3rd year','Postgrad'];
-const yearWrap = document.getElementById('year-chips');
-YEARS.forEach(y => {
-  const chip = document.createElement('div');
-  chip.className = 'wiz-chip';
-  chip.textContent = y;
-  chip.onclick = () => {
-    document.querySelectorAll('#year-chips .wiz-chip').forEach(c => c.classList.remove('active'));
-    chip.classList.add('active');
-    selectedYear.value = y;
-  };
-  yearWrap.appendChild(chip);
-});
-
-const INTERESTS = [
-  { key:'food', label:'🍜 Food' },
-  { key:'music', label:'🎵 Music' },
-  { key:'sport', label:'⚽ Sport' },
-  { key:'nightlife', label:'🌃 Nightlife' },
-  { key:'culture', label:'🎭 Culture' },
-  { key:'fitness', label:'💪 Fitness' },
-  { key:'budget', label:'💷 Keeping It Cheap' },
-];
-const intWrap = document.getElementById('interest-chips');
-INTERESTS.forEach(int => {
-  const chip = document.createElement('div');
-  chip.className = 'wiz-chip';
-  chip.textContent = int.label;
-  chip.onclick = () => {
-    chip.classList.toggle('active');
-    if(selectedInterests.has(int.key)) selectedInterests.delete(int.key);
-    else selectedInterests.add(int.key);
-  };
-  intWrap.appendChild(chip);
-});
-
-function goToStep(n){
-  document.querySelectorAll('.wiz-step').forEach(s => s.classList.remove('active'));
-  document.querySelector(`.wiz-step[data-step="${n}"]`).classList.add('active');
-  for(let i = 0; i < TOTAL_STEPS; i++){
-    document.getElementById(`dot-${i}`).classList.toggle('done', i <= n);
-  }
-  document.getElementById('wiz-back').style.visibility = n === 0 ? 'hidden' : 'visible';
-  document.getElementById('wiz-next').textContent = n === TOTAL_STEPS - 1 ? 'Build My Manchester →' : 'Next →';
-  currentStep = n;
+function render(){
+ const s=steps[current]; q.textContent=s.q; count.textContent=`Question ${current+1} of ${steps.length}`; prog.style.width=((current+1)/steps.length*100)+'%'; opts.innerHTML='';
+ s.opts.forEach((o,i)=>{
+   const b=document.createElement('button');
+   b.className='option';
+   b.innerHTML=`${o[0]}<small>${o[1]}</small>`;
+   if(answers[current].includes(i)) b.classList.add('selected');
+   b.onclick=()=>{
+     if(!s.multi){
+       [...opts.children].forEach(x=>x.classList.remove('selected'));
+       answers[current]=[i];
+     } else {
+       b.classList.toggle('selected');
+       if(answers[current].includes(i)) answers[current]=answers[current].filter(x=>x!==i);
+       else answers[current].push(i);
+     }
+     if(!s.multi) b.classList.add('selected');
+   };
+   opts.appendChild(b);
+ });
+ document.getElementById('back').style.visibility=current?'visible':'hidden';
+ document.getElementById('next').textContent=current===steps.length-1?'See my preview →':'Next →';
 }
 
-document.getElementById('wiz-back').addEventListener('click', () => {
-  if(currentStep > 0) goToStep(currentStep - 1);
-});
+function labelsFor(stepIndex){
+  return answers[stepIndex].map(i => steps[stepIndex].opts[i][0].replace(/^\p{Emoji_Presentation}\s*/u,'').trim());
+}
 
-document.getElementById('wiz-next').addEventListener('click', async () => {
-  if(currentStep < TOTAL_STEPS - 1){
-    goToStep(currentStep + 1);
-    return;
-  }
-  // final step -- submit
-  const name = document.getElementById('q-name').value.trim();
-  const whereFrom = document.getElementById('q-from').value.trim();
-  const university = document.getElementById('q-university').value.trim();
-  const studying = document.getElementById('q-studying').value.trim();
-  const areaLivingIn = document.getElementById('q-area').value.trim();
-  const wantsFromManchester = document.getElementById('q-wants').value.trim();
-  const interests = Array.from(selectedInterests);
+async function finishWizard(){
+  const interests = labelsFor(0);
+  const fridayVibe = labelsFor(1)[0] || null;
+  const budgetMode = labelsFor(2)[0] || null;
+  const homeNeeds = labelsFor(3);
+  const finalChoice = labelsFor(4)[0] || null;
 
   try{
-    await fetch(`${SUPA_URL}/rest/v1/manchester_student_profiles`, {
-      method: 'POST',
-      headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}`, 'Content-Type': 'application/json' },
+    await fetch(`${SUPA_URL}/rest/v1/manchester_guide_responses`, {
+      method:'POST', headers:{ 'apikey':SUPA_KEY, 'Authorization':`Bearer ${SUPA_KEY}`, 'Content-Type':'application/json' },
       body: JSON.stringify({
-        name: name || null,
-        where_from: whereFrom || null,
-        university: university || null,
-        studying: studying || null,
-        year_of_study: selectedYear.value || null,
-        area_living_in: areaLivingIn || null,
-        wants_from_manchester: wantsFromManchester || null,
-        interests,
-        source_tag: sourceTag,
-        session_id: sessionId
+        interests, friday_night_vibe: fridayVibe, budget_mode: budgetMode,
+        home_needs: homeNeeds, final_choice: finalChoice,
+        source_tag: sourceTag, session_id: sessionId
       })
     });
-  }catch(e){ console.warn('quiz save failed', e); }
+  }catch(e){ console.warn('guide response save failed', e); }
 
   logSignal('guide_personalized', interests.join(','));
 
-  document.getElementById('wiz').style.display = 'none';
-  document.getElementById('quiz-skip').style.display = 'none';
-  const greeting = document.getElementById('quiz-greeting');
-  greeting.classList.add('show');
-  greeting.innerHTML = `
-    <div class="greeting-title">Hey ${name || 'there'} 👋 Here's Your Manchester</div>
-    <div class="greeting-sub">${interests.length ? `We've moved the ${interests.length > 1 ? 'stuff' : 'thing'} you're into to the top.` : "Here's the guide — have a look around."}</div>
-  `;
-  renderGuide(interests);
-});
-
-document.getElementById('quiz-skip').addEventListener('click', (e) => {
-  e.preventDefault();
-  document.getElementById('wiz').style.display = 'none';
-  document.getElementById('quiz-skip').style.display = 'none';
-  logSignal('guide_personalized', 'skipped');
-});
-
-// ---- Mood check-in ----
-const MOODS = [
-  { key:'good', label:"😌 I'm good", verse:'"This is the day the Lord has made; let us rejoice and be glad in it." — Psalm 118:24', text:'Good to hear. Carry that into the week.', action:'Maybe check out the "For Your Week" section below.' },
-  { key:'overwhelmed', label:'😵‍💫 A bit overwhelmed', verse:'"Cast all your anxiety on him because he cares for you." — 1 Peter 5:7', text:"New city, new routine, a hundred small decisions at once — it adds up. You don't have to carry it alone.", action:'Try this: pick ONE thing off your list today, not all of them.' },
-  { key:'hardday', label:'😔 Having a hard day', verse:'"The Lord is close to the brokenhearted." — Psalm 34:18', text:"Some days are just hard, and that's allowed to be true without needing to be fixed right away.", action:'If it would help to talk to someone, scroll down — we mean that genuinely.' },
-  { key:'homesick', label:'🏠 Missing home', verse:'"Before I formed you in the womb I knew you." — Jeremiah 1:5', text:"Missing home doesn't mean you made the wrong choice coming here. It just means home mattered.", action:'A phone call to someone familiar can help more than scrolling.' },
-  { key:'worried', label:'😟 Worried', verse:'"Do not be anxious about anything, but in every situation... present your requests to God." — Philippians 4:6', text:'Worry tends to grow in the quiet. Naming it, even just to yourself, takes away some of its weight.', action:'You can write it out in the prayer box below — no pressure to explain it perfectly.' },
-  { key:'prayer', label:"🙏 I'd like prayer", verse:null, text:null, action:null },
-];
-const moodGrid = document.getElementById('mood-grid');
-MOODS.forEach(m => {
-  const btn = document.createElement('button');
-  btn.className = 'mood-btn';
-  btn.textContent = m.label;
-  btn.onclick = () => {
-    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    logSignal('encouragement_viewed', m.key);
-    if(m.key === 'prayer'){
-      document.getElementById('pray-box').scrollIntoView({behavior:'smooth', block:'center'});
-      document.getElementById('pray-text').focus();
-      return;
-    }
-    document.getElementById('mood-verse').textContent = m.verse;
-    document.getElementById('mood-text').textContent = m.text;
-    document.getElementById('mood-action').textContent = m.action;
-    document.getElementById('mood-result').classList.add('show');
-  };
-  moodGrid.appendChild(btn);
-});
-
-// ---- For Your Week ----
-async function loadWeekContent(){
-  const card = document.getElementById('week-card');
-  try{
-    const res = await fetch(`${SUPA_URL}/rest/v1/content_items?select=hook,core_message,scripture,application_question&editorial_status=eq.approved&core_message=not.is.null&order=created_at.desc&limit=1`, {
-      headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` }
-    });
-    const rows = await res.json();
-    if(rows && rows.length){
-      const r = rows[0];
-      card.innerHTML = `<div class="week-hook">${r.hook}</div><div class="week-msg">${r.core_message}</div><div class="week-verse">${r.scripture || ''}</div>${r.application_question ? `<div class="week-q">${r.application_question}</div>` : ''}`;
-    } else {
-      card.innerHTML = `<div class="week-msg">New content lands here each week from Sunday's teaching. Check back soon.</div>`;
-    }
-  }catch(e){
-    card.innerHTML = `<div class="week-msg">New content lands here each week. Check back soon.</div>`;
+  const pillsWrap = document.getElementById('previewPills');
+  pillsWrap.innerHTML = '';
+  interests.slice(0,4).forEach(label => {
+    const pill = document.createElement('span');
+    pill.className = 'pill';
+    pill.textContent = label;
+    pillsWrap.appendChild(pill);
+  });
+  if(homeNeeds.length){
+    const pill = document.createElement('span');
+    pill.className = 'pill';
+    pill.textContent = homeNeeds[0];
+    pillsWrap.appendChild(pill);
   }
+  document.getElementById('previewHeading').textContent = finalChoice && finalChoice.includes('Surprise') ? 'Hey, we threw in a few wildcards.' : 'Hey, this one\u2019s yours.';
+  document.getElementById('previewCopy').textContent = `Built around ${interests.length ? interests.slice(0,2).join(' + ').toLowerCase() : 'what you picked'}${budgetMode ? `, ${budgetMode.toLowerCase()}` : ''}.`;
+
+  document.querySelector('.preview').scrollIntoView({behavior:'smooth'});
 }
-loadWeekContent();
 
-// ---- Prayer request ----
-document.getElementById('pray-contact-toggle').addEventListener('change', (e) => {
-  document.getElementById('pray-fields').classList.toggle('show', e.target.checked);
-});
-document.getElementById('pray-submit').addEventListener('click', async () => {
-  const text = document.getElementById('pray-text').value.trim();
-  if(!text) return;
-  const contactRequested = document.getElementById('pray-contact-toggle').checked;
-  const moodActive = document.querySelector('.mood-btn.active');
-  const payload = {
-    mood: moodActive ? moodActive.textContent : null,
-    request_text: text,
-    contact_requested: contactRequested,
-    contact_name: contactRequested ? document.getElementById('pray-name').value.trim() : null,
-    contact_email: contactRequested ? document.getElementById('pray-email').value.trim() : null,
-    contact_phone: contactRequested ? document.getElementById('pray-phone').value.trim() : null,
-    source_tag: sourceTag,
-  };
-  try{
-    const res = await fetch('https://pfycvgbrsbecznkcikwt.supabase.co/functions/v1/manchester-prayer-submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    if(!res.ok) throw new Error('submit failed');
-    logSignal('prayer_requested', contactRequested ? 'with_contact' : 'anonymous');
-    if(contactRequested) logSignal('contact_requested', 'prayer');
-    document.getElementById('pray-box').style.display = 'none';
-    document.getElementById('pray-done').classList.add('show');
-  }catch(e){
-    alert('Something went wrong sending this — please try again.');
-  }
-});
-
-document.getElementById('sunday-cta').addEventListener('click', () => logSignal('sunday_interest', 'cta_click'));
+document.getElementById('next').onclick=()=>{
+  if(current<steps.length-1){ current++; render(); }
+  else { finishWizard(); }
+};
+document.getElementById('back').onclick=()=>{if(current){current--;render()}};
+render();
 </script>
 </body>
 </html>
