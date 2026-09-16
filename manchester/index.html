@@ -116,9 +116,13 @@ body{font-family:var(--font-body);background:var(--obsidian);color:var(--fg-1);l
     <div class="quiz-box" id="quiz-box">
       <input type="text" id="quiz-name" placeholder="First name">
       <input type="text" id="quiz-from" placeholder="Where are you coming from?">
+      <input type="text" id="quiz-university" placeholder="University">
       <input type="text" id="quiz-studying" placeholder="What are you studying?">
+      <input type="text" id="quiz-year" placeholder="Year of study (e.g. 1st year)">
+      <input type="text" id="quiz-area" placeholder="Area you're living in (roughly)">
       <div class="quiz-label">What are you into? (pick as many as you like)</div>
       <div class="quiz-chips" id="quiz-chips"></div>
+      <input type="text" id="quiz-wants" placeholder="What would make Manchester feel like home for you? (optional)">
       <button class="quiz-btn" id="quiz-submit">Build My Manchester →</button>
       <a href="#" class="quiz-skip" id="quiz-skip">Just show me the guide</a>
     </div>
@@ -284,14 +288,29 @@ INTERESTS.forEach(int => {
 document.getElementById('quiz-submit').addEventListener('click', async () => {
   const name = document.getElementById('quiz-name').value.trim();
   const whereFrom = document.getElementById('quiz-from').value.trim();
+  const university = document.getElementById('quiz-university').value.trim();
   const studying = document.getElementById('quiz-studying').value.trim();
+  const yearOfStudy = document.getElementById('quiz-year').value.trim();
+  const areaLivingIn = document.getElementById('quiz-area').value.trim();
+  const wantsFromManchester = document.getElementById('quiz-wants').value.trim();
   const interests = Array.from(selectedInterests);
 
   try{
     await fetch(`${SUPA_URL}/rest/v1/manchester_student_profiles`, {
       method: 'POST',
       headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: name || null, where_from: whereFrom || null, studying: studying || null, interests, source_tag: sourceTag, session_id: sessionId })
+      body: JSON.stringify({
+        name: name || null,
+        where_from: whereFrom || null,
+        university: university || null,
+        studying: studying || null,
+        year_of_study: yearOfStudy || null,
+        area_living_in: areaLivingIn || null,
+        wants_from_manchester: wantsFromManchester || null,
+        interests,
+        source_tag: sourceTag,
+        session_id: sessionId
+      })
     });
   }catch(e){ console.warn('quiz save failed', e); }
 
