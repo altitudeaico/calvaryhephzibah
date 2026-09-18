@@ -200,17 +200,21 @@ function whyText(scored, ctx){
 
   if(interestLabels.length) parts.push(`You picked ${interestLabels.join(' + ')}`);
   if(scored.matchedVibe){
-    parts.push(parts.length ? `said Friday is for ${VIBE_PHRASE[scored.matchedVibe]}` : `You said Friday is for ${VIBE_PHRASE[scored.matchedVibe]}`);
+    parts.push(parts.length ? `you said Friday is for ${VIBE_PHRASE[scored.matchedVibe]}` : `You said Friday is for ${VIBE_PHRASE[scored.matchedVibe]}`);
   }
   if(scored.matchedNeeds.length){
     const needPhrase = scored.matchedNeeds.map(t => NEED_PHRASE[t]).join(' and ');
     parts.push(parts.length ? `you're into ${needPhrase}` : `You're into ${needPhrase}`);
   }
-  if(scored.budgetOk && ctx.budgetLabel && ctx.budgetCompat) parts.push(`fits ${ctx.budgetLabel.toLowerCase()}`);
+  if(scored.budgetOk && ctx.budgetLabel && ctx.budgetCompat){
+    parts.push(parts.length ? `this fits ${ctx.budgetLabel}` : `This fits ${ctx.budgetLabel}`);
+  }
 
   if(!parts.length) return 'A good general pick for your Manchester.';
   if(parts.length === 1) return parts[0] + '.';
-  return parts.slice(0, -1).join(', ') + ' and ' + parts[parts.length - 1] + '.';
+  // Always a comma before the final "and", even for exactly two clauses --
+  // these read as distinct statements, not a simple two-item list.
+  return parts.slice(0, -1).join(', ') + ', and ' + parts[parts.length - 1] + '.';
 }
 
 function placeCardHTML(place, whyStr){
