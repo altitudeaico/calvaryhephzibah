@@ -71,11 +71,9 @@ h2{font-family:var(--display);font-size:clamp(42px,5vw,70px);line-height:.98;let
 .unlock-micro{font-size:12px;color:var(--muted);margin-top:16px;max-width:340px;margin-left:auto;margin-right:auto;}
 .back{border:0;background:none;color:var(--muted);cursor:pointer}.next{border:0;background:var(--ink);color:white;border-radius:999px;padding:13px 20px;font-weight:700;cursor:pointer}
 .preview{padding:110px 0}
-.preview-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:60px;align-items:center}
-.phone{max-width:420px;margin:auto;border:10px solid var(--ink);border-radius:44px;padding:12px;background:white;box-shadow:0 30px 70px rgba(0,0,0,.13)}
-.phone-top{height:28px;width:100px;background:var(--ink);border-radius:20px;margin:0 auto 14px}
-.guide-photo{height:220px;border-radius:25px;background:#e5dfd5;border:1px dashed #aaa;display:grid;place-items:center;color:#777;text-align:center;padding:20px}
-.guide-copy{padding:22px 8px}.guide-copy h3{font-family:var(--display);font-size:31px;letter-spacing:-.04em;margin:0 0 8px}.pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}.pill{background:var(--cream);padding:8px 11px;border-radius:999px;font-size:12px;font-weight:700}
+.preview-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center}
+.guide-preview-image{width:100%;}
+.guide-preview-image img{width:100%;height:auto;display:block;}
 .preview-copy h2{margin-bottom:22px}.preview-copy p{font-size:19px;line-height:1.55;color:var(--muted)}
 .features{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}.feature{border-top:1px solid var(--line);padding-top:14px;font-weight:600}.feature span{display:block;color:var(--orange);font-size:12px;margin-bottom:4px}
 .reveal{padding:100px 0;background:var(--ink);color:white;text-align:center}.reveal h2{max-width:800px;margin:8px auto 20px}.reveal p{color:#c9c9c9;font-size:19px;max-width:620px;margin:0 auto 28px}.reveal .cta{background:var(--lime);color:var(--ink);box-shadow:0 8px 0 var(--orange)}
@@ -148,15 +146,8 @@ h2{font-family:var(--display);font-size:clamp(42px,5vw,70px);line-height:.98;let
 
 <section class="preview">
  <div class="shell preview-grid">
-  <div class="phone">
-   <div class="phone-top"></div>
-   <div class="guide-photo">PERSONALISED GUIDE IMAGE SPACE</div>
-   <div class="guide-copy">
-    <small>YOUR MANCHESTER</small>
-    <h3 id="previewHeading">Hey, this one's yours.</h3>
-    <p id="previewCopy">Places, ideas and recommendations based on what you picked.</p>
-    <div class="pills" id="previewPills"><span class="pill">Foodie</span><span class="pill">Creative</span><span class="pill">Social</span></div>
-   </div>
+  <div class="guide-preview-image">
+   <img src="assets/promo/your-manchester-guide-preview.png" alt="The real Your Manchester guide, showing YOUR MIX, a START HERE recommendation and matched places" loading="lazy">
   </div>
   <div class="preview-copy">
    <div class="eyebrow">02 / Get something useful</div>
