@@ -61,6 +61,14 @@ h2{font-family:var(--display);font-size:clamp(42px,5vw,70px);line-height:.98;let
 .option:hover,.option.selected{border-color:var(--ink);background:var(--lime);transform:translateY(-2px)}
 .option small{display:block;color:#686868;font-weight:400;margin-top:4px}
 .wizard-actions{display:flex;justify-content:space-between;align-items:center;margin-top:26px}
+.unlock{text-align:center;padding:20px 10px 10px;}
+.unlock-eyebrow{font-family:var(--display);font-weight:700;font-size:15px;color:var(--orange);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;}
+.unlock-h{font-family:var(--display);font-size:32px;letter-spacing:-.03em;margin-bottom:24px;}
+.unlock-input{width:100%;max-width:360px;border:1px solid var(--line);background:var(--paper);border-radius:14px;padding:16px 18px;font-size:16px;font-family:var(--body);margin-bottom:12px;}
+.unlock-input:focus{outline:none;border-color:var(--ink);}
+.unlock-err{color:var(--orange);font-size:13px;min-height:18px;margin-bottom:6px;}
+.unlock-btn{width:100%;max-width:360px;margin-top:6px;}
+.unlock-micro{font-size:12px;color:var(--muted);margin-top:16px;max-width:340px;margin-left:auto;margin-right:auto;}
 .back{border:0;background:none;color:var(--muted);cursor:pointer}.next{border:0;background:var(--ink);color:white;border-radius:999px;padding:13px 20px;font-weight:700;cursor:pointer}
 .preview{padding:110px 0}
 .preview-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:60px;align-items:center}
@@ -119,12 +127,21 @@ h2{font-family:var(--display);font-size:clamp(42px,5vw,70px);line-height:.98;let
    <div><div class="eyebrow">01 / Make it yours</div><h2>What's your Manchester?</h2></div>
    <p>No boring form. A few quick picks help us understand what you're actually into, so your guide doesn't look like everyone else's.</p>
   </div>
-  <div class="wizard">
+  <div class="wizard" id="wizardQuiz">
    <div class="progress"><b id="progress"></b></div>
    <div class="step-count" id="stepCount">Question 1 of 5</div>
    <div class="question" id="question"></div>
    <div class="options" id="options"></div>
    <div class="wizard-actions"><button class="back" id="back">← Back</button><button class="next" id="next">Next →</button></div>
+  </div>
+  <div class="wizard unlock" id="wizardUnlock" style="display:none;">
+   <div class="unlock-eyebrow">Your Manchester is ready.</div>
+   <div class="unlock-h">Where should we send it?</div>
+   <input type="text" class="unlock-input" id="unlockName" placeholder="First name">
+   <input type="email" class="unlock-input" id="unlockEmail" placeholder="Email">
+   <div class="unlock-err" id="unlockErr"></div>
+   <button class="next unlock-btn" id="unlockSubmit">Build my guide →</button>
+   <div class="unlock-micro">We'll send your guide here and let you come back to it whenever you like.</div>
   </div>
  </div>
 </section>
@@ -374,45 +391,60 @@ function labelsFor(stepIndex){
   return answers[stepIndex].map(i => steps[stepIndex].opts[i][0].replace(/^\p{Emoji_Presentation}\s*/u,'').trim());
 }
 
-async function finishWizard(){
+let pendingAnswers = null;
+
+function finishWizard(){
   const interests = labelsFor(0);
   const fridayVibe = labelsFor(1)[0] || null;
   const budgetMode = labelsFor(2)[0] || null;
   const homeNeeds = labelsFor(3);
   const finalChoice = labelsFor(4)[0] || null;
 
-  try{
-    await fetch(`${SUPA_URL}/rest/v1/manchester_guide_responses`, {
-      method:'POST', headers:{ 'apikey':SUPA_KEY, 'Authorization':`Bearer ${SUPA_KEY}`, 'Content-Type':'application/json' },
-      body: JSON.stringify({
-        interests, friday_night_vibe: fridayVibe, budget_mode: budgetMode,
-        home_needs: homeNeeds, final_choice: finalChoice,
-        source_tag: sourceTag, session_id: sessionId
-      })
-    });
-  }catch(e){ console.warn('guide response save failed', e); }
+  pendingAnswers = { interests, friday_night_vibe: fridayVibe, budget_mode: budgetMode, home_needs: homeNeeds, final_choice: finalChoice };
 
   logSignal('guide_personalized', interests.join(','));
 
-  const pillsWrap = document.getElementById('previewPills');
-  pillsWrap.innerHTML = '';
-  interests.slice(0,4).forEach(label => {
-    const pill = document.createElement('span');
-    pill.className = 'pill';
-    pill.textContent = label;
-    pillsWrap.appendChild(pill);
-  });
-  if(homeNeeds.length){
-    const pill = document.createElement('span');
-    pill.className = 'pill';
-    pill.textContent = homeNeeds[0];
-    pillsWrap.appendChild(pill);
-  }
-  document.getElementById('previewHeading').textContent = finalChoice && finalChoice.includes('Surprise') ? 'Hey, we threw in a few wildcards.' : 'Hey, this one\u2019s yours.';
-  document.getElementById('previewCopy').textContent = `Built around ${interests.length ? interests.slice(0,2).join(' + ').toLowerCase() : 'what you picked'}${budgetMode ? `, ${budgetMode.toLowerCase()}` : ''}.`;
-
-  document.querySelector('.preview').scrollIntoView({behavior:'smooth'});
+  document.getElementById('wizardQuiz').style.display = 'none';
+  document.getElementById('wizardUnlock').style.display = 'block';
 }
+
+document.getElementById('unlockSubmit').addEventListener('click', async () => {
+  const name = document.getElementById('unlockName').value.trim();
+  const email = document.getElementById('unlockEmail').value.trim();
+  const errEl = document.getElementById('unlockErr');
+  errEl.textContent = '';
+
+  if(!email || !email.includes('@') || !email.includes('.')){
+    errEl.textContent = 'Enter a valid email so we can send your guide.';
+    return;
+  }
+
+  const btn = document.getElementById('unlockSubmit');
+  btn.disabled = true;
+  btn.textContent = 'Building your guide…';
+
+  try{
+    const res = await fetch('https://pfycvgbrsbecznkcikwt.supabase.co/functions/v1/manchester-guide-signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        first_name: name || null,
+        email,
+        ...pendingAnswers,
+        source_tag: sourceTag,
+        session_id: sessionId,
+      })
+    });
+    const data = await res.json();
+    if(!res.ok || !data.guide_token) throw new Error('signup failed');
+    logSignal('contact_requested', 'guide_signup');
+    window.location.href = `guide/?g=${data.guide_token}`;
+  }catch(e){
+    errEl.textContent = 'Something went wrong -- please try again.';
+    btn.disabled = false;
+    btn.textContent = 'Build my guide →';
+  }
+});
 
 document.getElementById('next').onclick=()=>{
   if(current<steps.length-1){ current++; render(); }

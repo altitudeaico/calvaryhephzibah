@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Your Manchester</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#111317; --muted:#6c6f73; --cream:#f4f0e8; --paper:#fbfaf6;
+  --orange:#df4d2a; --orange2:#f16a43; --lime:#d9ef71; --line:#dcd7ce;
+  --display:"Space Grotesk",sans-serif; --body:"DM Sans",sans-serif;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--body);}
+.shell{max-width:900px;margin:auto;padding:0 24px;}
+a{color:inherit;}
+
+.top{padding:24px 0;display:flex;align-items:center;gap:11px;font-weight:700;font-size:14px;}
+.top img{width:32px;height:32px;border-radius:50%;}
+
+.hero{padding:20px 0 40px;}
+.eyebrow{color:var(--orange);font-size:12px;text-transform:uppercase;letter-spacing:.16em;font-weight:700;}
+h1{font-family:var(--display);font-size:clamp(38px,7vw,60px);line-height:.98;letter-spacing:-.04em;margin:8px 0 14px;}
+.lede{font-size:18px;color:var(--muted);max-width:520px;}
+
+.mix{margin-top:28px;}
+.mix-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px;}
+.mix-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.mix-pill{background:white;border:1px solid var(--line);border-radius:999px;padding:9px 15px;font-size:13.5px;font-weight:600;}
+.mix-pill.lime{background:var(--lime);border-color:var(--lime);}
+
+.section{margin-top:56px;}
+.section-eyebrow{font-family:var(--display);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin-bottom:10px;}
+.section-title{font-family:var(--display);font-size:clamp(24px,4vw,32px);letter-spacing:-.03em;margin-bottom:22px;}
+
+.hero-card{background:var(--ink);color:white;border-radius:28px;padding:32px;position:relative;overflow:hidden;}
+.hero-card .place-name{font-family:var(--display);font-size:clamp(26px,5vw,36px);letter-spacing:-.03em;margin-bottom:8px;}
+.hero-card .place-area{color:rgba(255,255,255,.6);font-size:13px;margin-bottom:16px;}
+.hero-card .place-desc{font-size:15px;line-height:1.6;color:rgba(255,255,255,.85);max-width:520px;margin-bottom:20px;}
+.why{background:rgba(255,255,255,.08);border-radius:14px;padding:14px 16px;font-size:13px;}
+.why b{display:block;font-family:var(--display);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--lime);margin-bottom:4px;}
+
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.p-card{background:white;border:1px solid var(--line);border-radius:20px;padding:18px;}
+.p-card .place-name{font-family:var(--display);font-size:17px;margin-bottom:4px;}
+.p-card .place-area{color:var(--muted);font-size:12px;margin-bottom:10px;}
+.p-card .place-desc{font-size:13.5px;color:var(--muted);line-height:1.5;margin-bottom:10px;}
+.p-card .why{background:var(--cream);font-size:11.5px;padding:10px 12px;}
+.p-card .why b{color:var(--orange);}
+.budget-tag{display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--orange);margin-bottom:8px;}
+.save-btn{border:1px solid var(--line);background:white;border-radius:999px;padding:6px 12px;font-size:11.5px;font-weight:600;cursor:pointer;margin-top:8px;}
+.save-btn.saved{background:var(--ink);color:white;border-color:var(--ink);}
+
+.empty-note{background:var(--paper);border:1px dashed var(--line);border-radius:20px;padding:28px;text-align:center;color:var(--muted);font-size:14px;line-height:1.6;}
+.empty-note b{display:block;font-family:var(--display);color:var(--ink);font-size:18px;margin-bottom:8px;}
+
+.byline{padding:60px 0 40px;border-top:1px solid var(--line);margin-top:60px;}
+.byline-inner{display:flex;align-items:center;gap:14px;}
+.byline img{width:34px;height:34px;border-radius:50%;flex-shrink:0;}
+.byline p{font-size:13px;color:var(--muted);margin:0;max-width:560px;}
+
+.loading, .err{padding:80px 24px;text-align:center;color:var(--muted);}
+
+@media(max-width:640px){
+  .card-grid{grid-template-columns:1fr;}
+  .hero-card{padding:24px;}
+}
+</style>
+</head>
+<body>
+
+<div class="shell top">
+  <img src="../../anniversary-design-system/assets/logo-eagle.png" alt="">
+  <span>YOUR MANCHESTER</span>
+</div>
+
+<div id="loadingState" class="loading">Building your guide…</div>
+<div id="errState" class="err" style="display:none;">
+  We couldn't find that guide. <a href="../">Take the quiz again →</a>
+</div>
+
+<div id="guideContent" style="display:none;">
+  <div class="shell hero">
+    <div class="eyebrow">Your Manchester</div>
+    <h1 id="guideHeading">Made for you.</h1>
+    <p class="lede" id="guideLede">Based on what you're into, here's your Manchester.</p>
+
+    <div class="mix">
+      <div class="mix-label">Your mix</div>
+      <div class="mix-pills" id="mixPills"></div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <div class="section" id="startHereSection" style="display:none;">
+      <div class="section-eyebrow">Start Here</div>
+      <div id="startHereCard"></div>
+    </div>
+
+    <div id="citySections"></div>
+
+    <div class="empty-note" id="emptyNote" style="display:none;">
+      <b>Your guide's still filling up.</b>
+      We're adding real, checked places every week — your picks are saved, so check back soon and there'll be more here matched to you.
+    </div>
+  </div>
+
+  <div class="shell byline">
+    <div class="byline-inner">
+      <img src="../../anniversary-design-system/assets/logo-eagle.png" alt="">
+      <p>Your Manchester is made by Calvary Hephzibah, a church in Manchester that loves welcoming people to the city. No pressure, just glad you're here.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPA_URL = 'https://pfycvgbrsbecznkcikwt.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmeWN2Z2Jyc2JlY3pua2Npa3d0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzNzY1NDgsImV4cCI6MjA5MDk1MjU0OH0.xw_DSmC0brKC7K9H-rxNG0HKKDi4I-dNSEoZKERvHcQ';
+
+let sessionId = null;
+try{ sessionId = sessionStorage.getItem('mcr_session'); if(!sessionId){ sessionId='anon_'+Math.random().toString(36).slice(2); sessionStorage.setItem('mcr_session', sessionId); } }catch(e){ sessionId='anon_'+Math.random().toString(36).slice(2); }
+
+async function logSignal(signal_type, detail){
+  try{
+    await fetch(`${SUPA_URL}/rest/v1/manchester_engagement_signals`, {
+      method:'POST', headers:{ 'apikey':SUPA_KEY, 'Authorization':`Bearer ${SUPA_KEY}`, 'Content-Type':'application/json' },
+      body: JSON.stringify({ session_id: sessionId, signal_type, detail })
+    });
+  }catch(e){ console.warn('signal log failed', e); }
+}
+
+// Category display names + which quiz interest labels map to them
+const CATEGORY_MAP = [
+  { key:'food',          title:'Your Food Picks',        matches:['Food & drink'] },
+  { key:'nightlife',      title:'Music & Nights',         matches:['Music & nights'] },
+  { key:'fitness',        title:'Staying Active',         matches:['Fitness & sport'] },
+  { key:'chilled',        title:'Slower Days',            matches:['Chilled spots'] },
+  { key:'football',       title:'Football',                matches:['Football'] },
+  { key:'creative',       title:'Creative Spots',          matches:['Creative stuff'] },
+  { key:'things_to_do',   title:'Things To Do',           matches:[] },
+  { key:'hidden_gems',    title:'Your Hidden Manchester', matches:[] },
+  { key:'meet_people',    title:'Meet People',            matches:['Finding my people'] },
+];
+
+function placeCardHTML(place, whyText){
+  return `
+    <div class="p-card" data-place-id="${place.id}">
+      ${place.budget_tier ? `<div class="budget-tag">${place.budget_tier}</div>` : ''}
+      <div class="place-name">${place.name}</div>
+      ${place.area ? `<div class="place-area">${place.area}</div>` : ''}
+      <div class="place-desc">${place.description}</div>
+      <div class="why"><b>Why it's in your guide</b>${whyText}</div>
+      <button class="save-btn" data-place-id="${place.id}">☆ Save</button>
+    </div>`;
+}
+
+function wireSaveButtons(){
+  document.querySelectorAll('.save-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const saved = btn.classList.toggle('saved');
+      btn.textContent = saved ? '★ Saved' : '☆ Save';
+      logSignal('place_saved', btn.dataset.placeId);
+    });
+  });
+}
+
+async function loadGuide(){
+  const token = new URLSearchParams(window.location.search).get('g');
+  if(!token){
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('errState').style.display = 'block';
+    return;
+  }
+
+  let response;
+  try{
+    const res = await fetch(`${SUPA_URL}/rest/v1/manchester_guide_responses?guide_token=eq.${encodeURIComponent(token)}&select=*`, {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` }
+    });
+    const rows = await res.json();
+    if(!rows || !rows.length) throw new Error('not found');
+    response = rows[0];
+  }catch(e){
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('errState').style.display = 'block';
+    return;
+  }
+
+  logSignal('guide_viewed', token);
+
+  const interests = response.interests || [];
+  const homeNeeds = response.home_needs || [];
+  const budgetMode = response.budget_mode;
+  const fridayVibe = response.friday_night_vibe;
+  const name = response.first_name;
+
+  document.getElementById('guideHeading').textContent = name ? `Made for ${name}.` : 'Made for you.';
+
+  // YOUR MIX -- visible real answers, not a hidden filter
+  const mixWrap = document.getElementById('mixPills');
+  [...interests, ...(budgetMode ? [budgetMode] : []), ...(fridayVibe ? [fridayVibe] : [])].forEach((label, i) => {
+    const pill = document.createElement('span');
+    pill.className = 'mix-pill' + (i === 0 ? ' lime' : '');
+    pill.textContent = label;
+    mixWrap.appendChild(pill);
+  });
+
+  // Fetch places matching this person's interest tags
+  let places = [];
+  try{
+    const res = await fetch(`${SUPA_URL}/rest/v1/manchester_places?status=eq.live&select=*`, {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` }
+    });
+    places = await res.json();
+  }catch(e){ places = []; }
+
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('guideContent').style.display = 'block';
+
+  if(!places || !places.length){
+    document.getElementById('emptyNote').style.display = 'block';
+    wireSaveButtons();
+    return;
+  }
+
+  // Score each place by tag overlap with this person's interests/needs
+  const interestTags = interests.map(i => i.toLowerCase());
+  const needTags = homeNeeds.map(i => i.toLowerCase());
+  const allTags = [...interestTags, ...needTags];
+
+  function scoreOf(place){
+    const tags = (place.tags || []).map(t => t.toLowerCase());
+    return tags.filter(t => allTags.some(a => a.includes(t) || t.includes(a))).length;
+  }
+
+  const scored = places.map(p => ({ p, score: scoreOf(p) })).sort((a,b) => b.score - a.score);
+
+  if(scored.length && scored[0].score > 0){
+    const top = scored[0].p;
+    document.getElementById('startHereSection').style.display = 'block';
+    document.getElementById('startHereCard').innerHTML = `
+      <div class="hero-card">
+        <div class="place-name">${top.name}</div>
+        ${top.area ? `<div class="place-area">${top.area}</div>` : ''}
+        <div class="place-desc">${top.description}</div>
+        <div class="why"><b>Why it's in your guide</b>Matched your picks: ${interests.slice(0,2).join(' + ') || 'your interests'}</div>
+      </div>`;
+  }
+
+  // Group remaining places into sections by category, only for categories the person picked
+  const usedIds = new Set(scored.length && scored[0].score > 0 ? [scored[0].p.id] : []);
+  const sectionsWrap = document.getElementById('citySections');
+  let sectionsRendered = 0;
+
+  CATEGORY_MAP.forEach(cat => {
+    const matchesInterest = cat.matches.some(m => interests.includes(m)) || homeNeeds.some(n => cat.matches.includes(n));
+    if(!matchesInterest) return;
+    const inCategory = places.filter(p => p.category === cat.key && !usedIds.has(p.id));
+    if(!inCategory.length) return;
+    inCategory.forEach(p => usedIds.add(p.id));
+    sectionsRendered++;
+
+    const section = document.createElement('div');
+    section.className = 'section';
+    section.innerHTML = `
+      <div class="section-title">${cat.title}</div>
+      <div class="card-grid">
+        ${inCategory.map(p => placeCardHTML(p, `You said ${interests.filter(i=>cat.matches.includes(i)).join(' + ') || cat.title.toLowerCase()}.`)).join('')}
+      </div>`;
+    sectionsWrap.appendChild(section);
+  });
+
+  if(sectionsRendered === 0 && !(scored.length && scored[0].score > 0)){
+    document.getElementById('emptyNote').style.display = 'block';
+  }
+
+  wireSaveButtons();
+}
+
+loadGuide();
+</script>
+</body>
+</html>
