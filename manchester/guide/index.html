@@ -186,10 +186,16 @@ const VIBE_PHRASE = {
   social: 'food with friends', event: 'a gig or event',
   games_entertainment: 'games or a movie night', chill: 'chilling out',
 };
-const NEED_PHRASE = {
-  meet_people: 'meeting people', orientation: 'knowing where to go',
-  things_to_do: 'things to do', settling_in: 'settling into UK life',
-  faith_community: 'community', open_minded: 'exploring with no fixed plan',
+// Full clauses per need, not fragments -- "knowing where to go" and
+// "settling into UK life" read badly forced through a generic "you're
+// into X" template, so each need gets its own natural phrasing instead.
+const NEED_CLAUSE = {
+  meet_people:    { first: "You're looking to meet people",              mid: "you're looking to meet people" },
+  orientation:    { first: "You said you'd like help knowing where to go", mid: "you'd like help knowing where to go" },
+  things_to_do:   { first: "You're after things to do",                  mid: "you're after things to do" },
+  settling_in:    { first: "You're settling into UK life",                mid: "you're settling into UK life" },
+  faith_community:{ first: "You're looking for community",                mid: "you're looking for community" },
+  open_minded:    { first: "You're just exploring",                      mid: "you're just exploring" },
 };
 
 // ---- Deterministic "why it's in your guide" -- only genuinely matched
@@ -202,10 +208,11 @@ function whyText(scored, ctx){
   if(scored.matchedVibe){
     parts.push(parts.length ? `you said Friday is for ${VIBE_PHRASE[scored.matchedVibe]}` : `You said Friday is for ${VIBE_PHRASE[scored.matchedVibe]}`);
   }
-  if(scored.matchedNeeds.length){
-    const needPhrase = scored.matchedNeeds.map(t => NEED_PHRASE[t]).join(' and ');
-    parts.push(parts.length ? `you're into ${needPhrase}` : `You're into ${needPhrase}`);
-  }
+  scored.matchedNeeds.forEach(t => {
+    const clause = NEED_CLAUSE[t];
+    if(!clause) return;
+    parts.push(parts.length ? clause.mid : clause.first);
+  });
   if(scored.budgetOk && ctx.budgetLabel && ctx.budgetCompat){
     parts.push(parts.length ? `this fits ${ctx.budgetLabel}` : `This fits ${ctx.budgetLabel}`);
   }
@@ -271,9 +278,10 @@ async function loadGuide(){
 
   document.getElementById('guideHeading').textContent = name ? `Made for ${name}.` : 'Made for you.';
 
-  // YOUR MIX -- visible real answers, not a hidden filter
+  // YOUR MIX -- visible real answers, not a hidden filter. All four
+  // preference dimensions shown, not just interests/budget/vibe.
   const mixWrap = document.getElementById('mixPills');
-  [...interests, ...(budgetMode ? [budgetMode] : []), ...(fridayVibe ? [fridayVibe] : [])].forEach((label, i) => {
+  [...interests, ...(fridayVibe ? [fridayVibe] : []), ...(budgetMode ? [budgetMode] : []), ...homeNeeds].forEach((label, i) => {
     const pill = document.createElement('span');
     pill.className = 'mix-pill' + (i === 0 ? ' lime' : '');
     pill.textContent = label;

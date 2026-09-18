@@ -421,7 +421,12 @@ document.getElementById('unlockSubmit').addEventListener('click', async () => {
 
   const btn = document.getElementById('unlockSubmit');
   btn.disabled = true;
-  btn.textContent = 'Building your guide…';
+  let dotCount = 0;
+  btn.textContent = 'Building your guide.';
+  const loadingAnim = setInterval(() => {
+    dotCount = (dotCount + 1) % 4;
+    btn.textContent = 'Building your guide' + '.'.repeat(dotCount || 1);
+  }, 400);
 
   try{
     const res = await fetch('https://pfycvgbrsbecznkcikwt.supabase.co/functions/v1/manchester-guide-signup', {
@@ -437,9 +442,11 @@ document.getElementById('unlockSubmit').addEventListener('click', async () => {
     });
     const data = await res.json();
     if(!res.ok || !data.guide_token) throw new Error('signup failed');
+    clearInterval(loadingAnim);
     logSignal('contact_requested', 'guide_signup');
     window.location.href = `guide/?g=${data.guide_token}`;
   }catch(e){
+    clearInterval(loadingAnim);
     errEl.textContent = 'Something went wrong -- please try again.';
     btn.disabled = false;
     btn.textContent = 'Build my guide →';
