@@ -133,27 +133,94 @@ async function logSignal(signal_type, detail){
   }catch(e){ console.warn('signal log failed', e); }
 }
 
-// Category display names + which quiz interest labels map to them
-const CATEGORY_MAP = [
-  { key:'food',          title:'Your Food Picks',        matches:['Food & drink'] },
-  { key:'nightlife',      title:'Music & Nights',         matches:['Music & nights'] },
-  { key:'fitness',        title:'Staying Active',         matches:['Fitness & sport'] },
-  { key:'chilled',        title:'Slower Days',            matches:['Chilled spots'] },
-  { key:'football',       title:'Football',                matches:['Football'] },
-  { key:'creative',       title:'Creative Spots',          matches:['Creative stuff'] },
-  { key:'things_to_do',   title:'Things To Do',           matches:[] },
-  { key:'hidden_gems',    title:'Your Hidden Manchester', matches:[] },
-  { key:'meet_people',    title:'Meet People',            matches:['Finding my people'] },
-];
+// ---- Tag vocabulary (approved) ----
+const INTEREST_TAG = {
+  'Food & drink': 'food', 'Music & nights': 'music', 'Creative stuff': 'creative',
+  'Fitness & sport': 'fitness', 'Chilled spots': 'chilled', 'Football': 'football',
+};
+const VIBE_TAG = {
+  'Food with friends': 'social', 'Gig / event': 'event',
+  'Games or movie night': 'games_entertainment', 'Honestly? Chill.': 'chill',
+};
+const NEED_TAG = {
+  'Finding my people': 'meet_people', 'Knowing where to go': 'orientation',
+  'Things to do': 'things_to_do', 'Settling into UK life': 'settling_in',
+  'Faith & community': 'faith_community', 'Just exploring': 'open_minded',
+};
+const BUDGET_COMPAT = {
+  'Student mode': ['free', 'budget'],
+  "I've got a little room": ['budget', 'mid'],
+  'Treat me': ['treat'],
+  'Show me everything': null, // no filter, no penalty
+};
 
-function placeCardHTML(place, whyText){
+const INTEREST_SECTION_TITLE = {
+  food: 'Your Food Picks', music: 'Music & Nights', creative: 'Creative Spots',
+  fitness: 'Staying Active', chilled: 'Slower Days', football: 'Football',
+};
+const VIBE_SECTION_TITLE = {
+  social: 'Food With Friends', event: 'Your Kind of Night',
+  games_entertainment: 'Games & Entertainment', chill: 'Slow It Down',
+};
+const NEED_SECTION_TITLE = {
+  meet_people: 'Finding Your People', orientation: 'Get Your Bearings',
+  settling_in: 'Settling In', faith_community: 'Community & Belonging',
+  // things_to_do and open_minded are too generic to be their own section
+};
+
+const MAX_SECTIONS = 4;
+
+// ---- Scoring: interests x3, vibe x2, needs x2, budget x1 (soft) ----
+function scorePlace(place, ctx){
+  const tags = (place.tags || []);
+  const matchedInterests = ctx.interestTags.filter(t => tags.includes(t));
+  const matchedVibe = ctx.vibeTag && tags.includes(ctx.vibeTag) ? ctx.vibeTag : null;
+  const matchedNeeds = ctx.needTags.filter(t => tags.includes(t));
+  const budgetOk = !ctx.budgetCompat || (place.budget_tier && ctx.budgetCompat.includes(place.budget_tier));
+
+  const total = matchedInterests.length * 3 + (matchedVibe ? 2 : 0) + matchedNeeds.length * 2 + (budgetOk ? 1 : 0);
+  return { place, total, matchedInterests, matchedVibe, matchedNeeds, budgetOk };
+}
+
+const VIBE_PHRASE = {
+  social: 'food with friends', event: 'a gig or event',
+  games_entertainment: 'games or a movie night', chill: 'chilling out',
+};
+const NEED_PHRASE = {
+  meet_people: 'meeting people', orientation: 'knowing where to go',
+  things_to_do: 'things to do', settling_in: 'settling into UK life',
+  faith_community: 'community', open_minded: 'exploring with no fixed plan',
+};
+
+// ---- Deterministic "why it's in your guide" -- only genuinely matched
+// dimensions are ever mentioned, no invented/AI copy ----
+function whyText(scored, ctx){
+  const parts = [];
+  const interestLabels = scored.matchedInterests.map(t => Object.keys(INTEREST_TAG).find(k => INTEREST_TAG[k] === t));
+
+  if(interestLabels.length) parts.push(`You picked ${interestLabels.join(' + ')}`);
+  if(scored.matchedVibe){
+    parts.push(parts.length ? `said Friday is for ${VIBE_PHRASE[scored.matchedVibe]}` : `You said Friday is for ${VIBE_PHRASE[scored.matchedVibe]}`);
+  }
+  if(scored.matchedNeeds.length){
+    const needPhrase = scored.matchedNeeds.map(t => NEED_PHRASE[t]).join(' and ');
+    parts.push(parts.length ? `you're into ${needPhrase}` : `You're into ${needPhrase}`);
+  }
+  if(scored.budgetOk && ctx.budgetLabel && ctx.budgetCompat) parts.push(`fits ${ctx.budgetLabel.toLowerCase()}`);
+
+  if(!parts.length) return 'A good general pick for your Manchester.';
+  if(parts.length === 1) return parts[0] + '.';
+  return parts.slice(0, -1).join(', ') + ' and ' + parts[parts.length - 1] + '.';
+}
+
+function placeCardHTML(place, whyStr){
   return `
     <div class="p-card" data-place-id="${place.id}">
       ${place.budget_tier ? `<div class="budget-tag">${place.budget_tier}</div>` : ''}
       <div class="place-name">${place.name}</div>
       ${place.area ? `<div class="place-area">${place.area}</div>` : ''}
       <div class="place-desc">${place.description}</div>
-      <div class="why"><b>Why it's in your guide</b>${whyText}</div>
+      <div class="why"><b>Why it's in your guide</b>${whyStr}</div>
       <button class="save-btn" data-place-id="${place.id}">☆ Save</button>
     </div>`;
 }
@@ -209,7 +276,7 @@ async function loadGuide(){
     mixWrap.appendChild(pill);
   });
 
-  // Fetch places matching this person's interest tags
+  // Fetch all live places -- scored against all 4 preference dimensions
   let places = [];
   try{
     const res = await fetch(`${SUPA_URL}/rest/v1/manchester_places?status=eq.live&select=*`, {
@@ -227,54 +294,82 @@ async function loadGuide(){
     return;
   }
 
-  // Score each place by tag overlap with this person's interests/needs
-  const interestTags = interests.map(i => i.toLowerCase());
-  const needTags = homeNeeds.map(i => i.toLowerCase());
-  const allTags = [...interestTags, ...needTags];
+  const ctx = {
+    interestTags: interests.map(i => INTEREST_TAG[i]).filter(Boolean),
+    vibeTag: VIBE_TAG[fridayVibe] || null,
+    needTags: homeNeeds.map(n => NEED_TAG[n]).filter(Boolean),
+    budgetCompat: BUDGET_COMPAT[budgetMode] || null,
+    budgetLabel: budgetMode,
+  };
 
-  function scoreOf(place){
-    const tags = (place.tags || []).map(t => t.toLowerCase());
-    return tags.filter(t => allTags.some(a => a.includes(t) || t.includes(a))).length;
-  }
+  const allScored = places.map(p => scorePlace(p, ctx));
+  const byId = new Map(allScored.map(s => [s.place.id, s]));
+  const usedIds = new Set();
 
-  const scored = places.map(p => ({ p, score: scoreOf(p) })).sort((a,b) => b.score - a.score);
-
-  if(scored.length && scored[0].score > 0){
-    const top = scored[0].p;
+  // START HERE -- single strongest overall match
+  const ranked = [...allScored].sort((a,b) => b.total - a.total);
+  if(ranked.length && ranked[0].total > 0){
+    const top = ranked[0];
+    usedIds.add(top.place.id);
     document.getElementById('startHereSection').style.display = 'block';
     document.getElementById('startHereCard').innerHTML = `
       <div class="hero-card">
-        <div class="place-name">${top.name}</div>
-        ${top.area ? `<div class="place-area">${top.area}</div>` : ''}
-        <div class="place-desc">${top.description}</div>
-        <div class="why"><b>Why it's in your guide</b>Matched your picks: ${interests.slice(0,2).join(' + ') || 'your interests'}</div>
+        <div class="place-name">${top.place.name}</div>
+        ${top.place.area ? `<div class="place-area">${top.place.area}</div>` : ''}
+        <div class="place-desc">${top.place.description}</div>
+        <div class="why"><b>Why it's in your guide</b>${whyText(top, ctx)}</div>
       </div>`;
   }
 
-  // Group remaining places into sections by category, only for categories the person picked
-  const usedIds = new Set(scored.length && scored[0].score > 0 ? [scored[0].p.id] : []);
-  const sectionsWrap = document.getElementById('citySections');
-  let sectionsRendered = 0;
+  // Build candidate sections: interest sections + cross-cutting (vibe/need)
+  // sections. Each candidate's "strength" is the total score of its best
+  // matching places -- empty or weak candidates simply don't make the cut.
+  const candidates = [];
 
-  CATEGORY_MAP.forEach(cat => {
-    const matchesInterest = cat.matches.some(m => interests.includes(m)) || homeNeeds.some(n => cat.matches.includes(n));
-    if(!matchesInterest) return;
-    const inCategory = places.filter(p => p.category === cat.key && !usedIds.has(p.id));
-    if(!inCategory.length) return;
-    inCategory.forEach(p => usedIds.add(p.id));
-    sectionsRendered++;
+  ctx.interestTags.forEach(tag => {
+    const pool = allScored.filter(s => !usedIds.has(s.place.id) && (s.place.tags||[]).includes(tag) && s.total > 0)
+                          .sort((a,b) => b.total - a.total).slice(0, 4);
+    if(pool.length) candidates.push({ title: INTEREST_SECTION_TITLE[tag], pool, strength: pool.reduce((s,x)=>s+x.total,0) });
+  });
+
+  if(ctx.vibeTag){
+    const pool = allScored.filter(s => !usedIds.has(s.place.id) && (s.place.tags||[]).includes(ctx.vibeTag) && s.total > 0)
+                          .sort((a,b) => b.total - a.total).slice(0, 4);
+    if(pool.length) candidates.push({ title: VIBE_SECTION_TITLE[ctx.vibeTag], pool, strength: pool.reduce((s,x)=>s+x.total,0) });
+  }
+
+  ctx.needTags.forEach(tag => {
+    if(!NEED_SECTION_TITLE[tag]) return; // things_to_do / open_minded stay as scoring signals only, not their own section
+    const pool = allScored.filter(s => !usedIds.has(s.place.id) && (s.place.tags||[]).includes(tag) && s.total > 0)
+                          .sort((a,b) => b.total - a.total).slice(0, 4);
+    if(pool.length) candidates.push({ title: NEED_SECTION_TITLE[tag], pool, strength: pool.reduce((s,x)=>s+x.total,0) });
+  });
+
+  // Rank candidate sections by strength, render top MAX_SECTIONS, removing
+  // any place already used by a higher-ranked section as we go so nothing
+  // repeats across the guide.
+  candidates.sort((a,b) => b.strength - a.strength);
+  const sectionsWrap = document.getElementById('citySections');
+  let rendered = 0;
+
+  for(const cand of candidates){
+    if(rendered >= MAX_SECTIONS) break;
+    const fresh = cand.pool.filter(s => !usedIds.has(s.place.id));
+    if(!fresh.length) continue;
+    fresh.forEach(s => usedIds.add(s.place.id));
+    rendered++;
 
     const section = document.createElement('div');
     section.className = 'section';
     section.innerHTML = `
-      <div class="section-title">${cat.title}</div>
+      <div class="section-title">${cand.title}</div>
       <div class="card-grid">
-        ${inCategory.map(p => placeCardHTML(p, `You said ${interests.filter(i=>cat.matches.includes(i)).join(' + ') || cat.title.toLowerCase()}.`)).join('')}
+        ${fresh.map(s => placeCardHTML(s.place, whyText(s, ctx))).join('')}
       </div>`;
     sectionsWrap.appendChild(section);
-  });
+  }
 
-  if(sectionsRendered === 0 && !(scored.length && scored[0].score > 0)){
+  if(rendered === 0 && usedIds.size === 0){
     document.getElementById('emptyNote').style.display = 'block';
   }
 
