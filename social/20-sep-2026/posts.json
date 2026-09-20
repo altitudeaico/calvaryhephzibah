@@ -1,0 +1,205 @@
+{
+  "week": "20-sep-2026",
+  "service_date": "2026-09-20",
+  "sermon": "Manifesting The Kingdom",
+  "subtitle": null,
+  "preacher": "Bishop Henry Emmanuel",
+  "preacher_note": "Guest minister.",
+  "youtube": "https://youtu.be/B9JiC_NZjK4",
+  "note": "6 clips selected from 32 OpusClip candidates. Each finished with voice lift (highpass 90Hz, compression, loudnorm to -14 LUFS), a music bed at -6dB (confirmed level after volume feedback), a custom 3-beat closing sequence, and an end card. 3 of the 6 stories also got a companion carousel. One clip (You Are Kings) required a framing opening card and a corrected closing sequence rather than a bare edit, due to the theological sensitivity of the source material -- see its care flag.",
+  "voice_note": "Bishop Henry preaches in a call-and-response style with the room. Captions should read as reflection prompts drawn from what he said, not as transcriptions of the room's energy.",
+  "posts": [
+    {
+      "id": "reel-01",
+      "format": "reel",
+      "asset": "clips/sermon-clip-20-sep-2026-04-gods-expectation.mp4",
+      "download": "download/clips/sermon-clip-20-sep-2026-04-gods-expectation.mp4",
+      "duration": "76s",
+      "music": "Bed B (hymn-in-motion-b)",
+      "title": "Your Life Speaks Before You Do",
+      "rank": 1,
+      "invite": true,
+      "care": null,
+      "quote": "The owner of the restaurant could not even come near me. He said, I don't just understand what is around you.",
+      "onscreen": "YOUR LIFE SPEAKS BEFORE YOU DO.",
+      "endline": "A stranger felt something he couldn't explain. \u2192 It wasn't a trick. It was Jesus in him. \u2192 That's what manifesting looks like.",
+      "captions": {
+        "instagram": "Sometimes the loudest evidence of Jesus in your life won't be what you say.\n\nIt will be what people experience around you.\n\nYour patience when you could have snapped.\nYour peace when everything says panic.\nYour kindness when nobody can repay you.\nYour integrity when nobody is watching.\n\nJesus said, \"Let your light shine before others.\" Matthew 5:16.\n\nThat's the challenge for today.\n\nDon't just tell people you follow Jesus. Ask God to keep changing you until something of Christ can be seen in the way you live.\n\nBishop Henry shares a remarkable personal story about this in Manifesting The Kingdom.\n\nWatch the full message. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #Jesus #ChristianLiving #Faith",
+        "tiktok": "your life speaks before you do.\n\npeople may forget what you said about Jesus, but they'll remember the patience, peace, kindness and integrity they experienced around you.\n\nMatthew 5:16 says to let your light shine.\n\nwhere could your life show Jesus more clearly today?\n\nfull message: Manifesting The Kingdom. search YouTube Calvary Hephzibah.\n\n#christiantiktok #jesus #faith #calvaryhephzibah",
+        "facebook": "Sometimes the loudest evidence of Jesus in your life won't be what you say.\n\nIt will be what people experience around you.\n\nYour patience when you could have snapped.\nYour peace when everything says panic.\nYour kindness when nobody can repay you.\nYour integrity when nobody is watching.\n\nJesus said, \"Let your light shine before others.\" Matthew 5:16.\n\nThat's the challenge for today.\n\nDon't just tell people you follow Jesus. Ask God to keep changing you until something of Christ can be seen in the way you live.\n\nBishop Henry shares a remarkable personal story about this in Manifesting The Kingdom.\n\nWatch the full message. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #Jesus #ChristianLiving #Faith",
+        "youtube": "Title: Your Life Speaks Before You Do"
+      },
+      "published": []
+    },
+    {
+      "id": "carousel-01",
+      "format": "carousel",
+      "slug": "he-couldnt-explain-it",
+      "slides": 2,
+      "download": "download/he-couldnt-explain-it.zip",
+      "title": "He Couldn't Explain It",
+      "rank": 2,
+      "invite": false,
+      "care": null,
+      "quote": "A stranger felt something around him he couldn't explain. It wasn't a trick. It was Jesus in him.",
+      "onscreen": null,
+      "captions": {
+        "instagram": "Sometimes the loudest evidence of Jesus in your life won't be what you say.\n\nIt will be what people experience around you.\n\nBishop Henry Emmanuel tells the story of a restaurant owner in Seattle who sensed something around him that he couldn't understand.\n\nFollowing Jesus isn't just about what we say. His presence should become visible in the way we live.\n\nFrom Manifesting The Kingdom.\n\nWatch the full sermon. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #ChristianFaith #Jesus #ChristianLiving",
+        "tiktok": "he felt something. he couldn't explain it.\n\na restaurant owner couldn't explain what he sensed around Bishop Henry. his point? following Jesus should become visible in real life.\n\nfrom Manifesting The Kingdom. search YouTube Calvary Hephzibah.\n\nwhat do you think people should notice in the life of someone who follows Jesus?\n\n#christiantiktok #jesus #faith #calvaryhephzibah",
+        "facebook": "Sometimes the loudest evidence of Jesus in your life won't be what you say.\n\nIt will be what people experience around you.\n\nBishop Henry Emmanuel tells the story of a restaurant owner in Seattle who sensed something around him that he couldn't understand.\n\nFollowing Jesus isn't just about what we say. His presence should become visible in the way we live.\n\nFrom Manifesting The Kingdom.\n\nWatch the full sermon. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #ChristianFaith #Jesus #ChristianLiving",
+        "youtube": "Title: He Couldn't Explain What He Felt"
+      },
+      "published": []
+    },
+    {
+      "id": "reel-02",
+      "format": "reel",
+      "asset": "clips/sermon-clip-20-sep-2026-05-manifest-kingdom.mp4",
+      "download": "download/clips/sermon-clip-20-sep-2026-05-manifest-kingdom.mp4",
+      "duration": "55s",
+      "music": "Bed A (hymn-in-motion-a)",
+      "title": "Don't Just Say It. Live It.",
+      "rank": 3,
+      "invite": false,
+      "care": null,
+      "quote": "Letting God rule, values and power through our life to change the world around us.",
+      "onscreen": "DON'T JUST SAY IT. \u2192 LIVE IT.",
+      "endline": "You can believe it in your head. \u2192 The kingdom becomes visible when you live it. \u2192 Let it show.",
+      "captions": {
+        "instagram": "Here's a question worth carrying into today:\n\nIf somebody couldn't hear what you believe, could they see it in how you live?\n\nJesus taught us to pray, \"Your kingdom come, your will be done.\" Matthew 6:10.\n\nThat's bigger than words.\n\nIt reaches into how you treat people.\nHow you handle pressure.\nHow you forgive.\nHow you serve.\nHow you make decisions when nobody is applauding.\n\nGod's Kingdom isn't something we manufacture. We submit to the King and allow His Word and Spirit to shape us.\n\nSo today's prayer can be simple:\n\nLord, let Your will be done in me today.\n\nFrom Bishop Henry Emmanuel's message, Manifesting The Kingdom.\n\nWatch the full sermon. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #KingdomOfGod #Jesus #ChristianLiving",
+        "tiktok": "don't just say it. live it.\n\nJesus taught us to pray, \"Your kingdom come, your will be done.\"\n\nwhat if today that prayer starts with us? our attitude. our choices. our relationships.\n\nwhere does God need to shape the way you're living today?\n\nfrom Manifesting The Kingdom. search YouTube Calvary Hephzibah.\n\n#christiantiktok #kingdomofgod #jesus #calvaryhephzibah",
+        "facebook": "Here's a question worth carrying into today:\n\nIf somebody couldn't hear what you believe, could they see it in how you live?\n\nJesus taught us to pray, \"Your kingdom come, your will be done.\" Matthew 6:10.\n\nThat's bigger than words.\n\nIt reaches into how you treat people.\nHow you handle pressure.\nHow you forgive.\nHow you serve.\nHow you make decisions when nobody is applauding.\n\nGod's Kingdom isn't something we manufacture. We submit to the King and allow His Word and Spirit to shape us.\n\nSo today's prayer can be simple:\n\nLord, let Your will be done in me today.\n\nFrom Bishop Henry Emmanuel's message, Manifesting The Kingdom.\n\nWatch the full sermon. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #KingdomOfGod #Jesus #ChristianLiving",
+        "youtube": "Title: Don't Just Say It. Live It."
+      },
+      "published": []
+    },
+    {
+      "id": "carousel-02",
+      "format": "carousel",
+      "slug": "manifest-gods-kingdom",
+      "slides": 4,
+      "download": "download/manifest-gods-kingdom.zip",
+      "title": "What Does It Mean to Manifest God's Kingdom?",
+      "rank": 4,
+      "invite": false,
+      "care": null,
+      "quote": "It's allowing God's rule, values and power to shape the way you live.",
+      "onscreen": null,
+      "captions": {
+        "instagram": "What does God's Kingdom actually look like in everyday life?\n\nBishop Henry puts it simply. It means allowing God's ways and values to shape how we live, how we treat people and what happens around us.\n\nIt isn't only something we talk about. People should be able to see the difference.\n\nFrom Manifesting The Kingdom.\n\nWatch the full sermon. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #KingdomOfGod #ChristianLiving #Faith",
+        "tiktok": "more than words. let people see it.\n\nwhat does God's Kingdom actually look like? Bishop Henry says it should change the way we live and the way we affect the people around us.\n\nfrom Manifesting The Kingdom. search YouTube Calvary Hephzibah.\n\nwhat would that look like in your everyday life?\n\n#christiantiktok #kingdomofgod #faith #calvaryhephzibah",
+        "facebook": "What does God's Kingdom actually look like in everyday life?\n\nBishop Henry puts it simply. It means allowing God's ways and values to shape how we live, how we treat people and what happens around us.\n\nIt isn't only something we talk about. People should be able to see the difference.\n\nFrom Manifesting The Kingdom.\n\nWatch the full sermon. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #KingdomOfGod #ChristianLiving #Faith",
+        "youtube": "Title: What Does God's Kingdom Look Like?"
+      },
+      "published": []
+    },
+    {
+      "id": "reel-03",
+      "format": "reel",
+      "asset": "clips/sermon-clip-20-sep-2026-02-holy-ghost-power.mp4",
+      "download": "download/clips/sermon-clip-20-sep-2026-02-holy-ghost-power.mp4",
+      "duration": "50s",
+      "music": "Bed B (hymn-in-motion-b)",
+      "title": "You Never Outgrow Needing God",
+      "rank": 5,
+      "invite": false,
+      "care": null,
+      "quote": "I gave my life to Christ 1980. 1980 and now. How many years? The challenges that we have, they are nothing when we give in to the Holy Ghost.",
+      "onscreen": "GROWTH DOESN'T MEAN \u2192 YOU NEED GOD LESS.",
+      "endline": "He's walked with Christ for over 40 years. \u2192 He still says the same thing: \"I can't do this without the Spirit.\" \u2192 However long you've walked, you still need Him.",
+      "captions": {
+        "instagram": "One of the greatest signs of spiritual maturity is realising you never graduate from needing God.\n\nBishop Henry has been walking with Christ since 1980.\n\nMore than four decades later, he still says he cannot do this without the Holy Spirit.\n\nThat's not weakness. That's dependence.\n\nJesus told His disciples, \"Apart from me you can do nothing.\" John 15:5.\n\nSometimes growth can make us confident in what we know, what we've survived and what we've done before.\n\nBut yesterday's experience was never meant to replace today's dependence on God.\n\nSo before you rush into this week saying, \"I've got this,\" try another prayer:\n\n\"Holy Spirit, I need You today.\"\n\nFrom Manifesting The Kingdom, Bishop Henry Emmanuel.\n\nWatch the full message. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #HolySpirit #ChristianFaith #Jesus",
+        "tiktok": "the longer you walk with God, the more you realise you still need Him.\n\nBishop Henry has followed Christ since 1980 and still says he can't do this without the Holy Spirit.\n\nJesus said, \"apart from me you can do nothing.\" John 15:5.\n\nwhat are you trying to carry today without asking God for help?\n\nfull message: Manifesting The Kingdom. search YouTube Calvary Hephzibah.\n\n#christiantiktok #holyspirit #jesus #calvaryhephzibah",
+        "facebook": "One of the greatest signs of spiritual maturity is realising you never graduate from needing God.\n\nBishop Henry has been walking with Christ since 1980.\n\nMore than four decades later, he still says he cannot do this without the Holy Spirit.\n\nThat's not weakness. That's dependence.\n\nJesus told His disciples, \"Apart from me you can do nothing.\" John 15:5.\n\nSometimes growth can make us confident in what we know, what we've survived and what we've done before.\n\nBut yesterday's experience was never meant to replace today's dependence on God.\n\nSo before you rush into this week saying, \"I've got this,\" try another prayer:\n\n\"Holy Spirit, I need You today.\"\n\nFrom Manifesting The Kingdom, Bishop Henry Emmanuel.\n\nWatch the full message. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #HolySpirit #ChristianFaith #Jesus",
+        "youtube": "Title: You Never Outgrow Needing God"
+      },
+      "published": []
+    },
+    {
+      "id": "reel-04",
+      "format": "reel",
+      "asset": "clips/sermon-clip-20-sep-2026-03-spiritual-exercise.mp4",
+      "download": "download/clips/sermon-clip-20-sep-2026-03-spiritual-exercise.mp4",
+      "duration": "62s",
+      "music": "Gym Trap A (custom Suno instrumental)",
+      "title": "What You Train Gets Stronger",
+      "rank": 6,
+      "invite": false,
+      "care": null,
+      "quote": "For bodily exercise profited little... but godliness is profitable unto all things.",
+      "onscreen": "WHAT YOU TRAIN \u2192 GETS STRONGER.",
+      "endline": "You'll pay for a gym membership. \u2192 Godliness needs that same discipline. \u2192 Exercise your faith like you exercise your body.",
+      "captions": {
+        "instagram": "Nobody goes to the gym once and says, \"That's me sorted for life.\"\n\nStrength comes through repetition.\n\nScripture gives us a similar picture of our spiritual lives.\n\n\"Train yourself for godliness.\" 1 Timothy 4:7.\n\nYou don't accidentally build a strong walk with God.\n\nYou pray when you feel like it and when you don't.\nYou keep opening Scripture.\nYou keep practising forgiveness.\nYou keep choosing obedience.\nYou keep showing up.\n\nNot to earn God's love. Jesus has already done what we could never do for ourselves.\n\nWe train because we want our lives to increasingly reflect the One who saved us.\n\nSo don't be discouraged because you're still growing.\n\nKeep training.\n\nFrom Manifesting The Kingdom, Bishop Henry Emmanuel.\n\nWatch the full message. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #Bible #ChristianLiving #Faith",
+        "tiktok": "what you train gets stronger.\n\nyou wouldn't expect one workout to transform your body. so why expect one prayer, one sermon or one Bible study to mature your faith?\n\n1 Timothy 4 tells us to train ourselves for godliness. not to earn God's love, because we already belong to Him.\n\nwhat spiritual habit are you training this week?\n\nfull message: Manifesting The Kingdom. search YouTube Calvary Hephzibah.\n\n#christiantiktok #bible #faith #calvaryhephzibah",
+        "facebook": "Nobody goes to the gym once and says, \"That's me sorted for life.\"\n\nStrength comes through repetition.\n\nScripture gives us a similar picture of our spiritual lives.\n\n\"Train yourself for godliness.\" 1 Timothy 4:7.\n\nYou don't accidentally build a strong walk with God.\n\nYou pray when you feel like it and when you don't.\nYou keep opening Scripture.\nYou keep practising forgiveness.\nYou keep choosing obedience.\nYou keep showing up.\n\nNot to earn God's love. Jesus has already done what we could never do for ourselves.\n\nWe train because we want our lives to increasingly reflect the One who saved us.\n\nSo don't be discouraged because you're still growing.\n\nKeep training.\n\nFrom Manifesting The Kingdom, Bishop Henry Emmanuel.\n\nWatch the full message. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #Bible #ChristianLiving #Faith",
+        "youtube": "Title: What You Train Gets Stronger"
+      },
+      "published": []
+    },
+    {
+      "id": "reel-05",
+      "format": "reel",
+      "asset": "clips/sermon-clip-20-sep-2026-01-gods-glory.mp4",
+      "download": "download/clips/sermon-clip-20-sep-2026-01-gods-glory.mp4",
+      "duration": "42s",
+      "music": "Bed A (hymn-in-motion-a)",
+      "title": "Stop Looking for the Formula",
+      "rank": 7,
+      "invite": false,
+      "care": null,
+      "quote": "I said, what's your secret? They said, what's your secret? The only thing I know is that I wait. To make sure you give me one song to sing.",
+      "onscreen": "STOP LOOKING FOR \u2192 THE FORMULA.",
+      "endline": "People ask him, \"What's your secret?\" \u2192 He waits on God, then sings the song on his heart. \u2192 That's not performance. That's waiting.",
+      "captions": {
+        "instagram": "We love formulas. Give me the five steps. Tell me the technique. Show me what worked for you.\n\nBut some things cannot be reduced to a formula.\n\nPeople asked Bishop Henry about the \"secret\" behind moments of powerful worship.\n\nHis answer was beautifully simple.\n\nWait on God.\n\nJesus Himself regularly withdrew to pray. Luke 5:16.\n\nBefore another strategy, another technique or another attempt to force an answer, perhaps what you need today is simply to make room for God.\n\nPut the phone down. Quiet the noise. Open the Word. Pray.\n\nAnd don't rush away because nothing happened in the first five minutes.\n\nSometimes the next step becomes clearer when we stop trying to manufacture it.\n\nFrom Manifesting The Kingdom, Bishop Henry Emmanuel.\n\nWatch the full message. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #Prayer #Worship #Jesus",
+        "tiktok": "stop looking for the formula.\n\nsometimes we want five steps when what we actually need is time with God.\n\nJesus regularly withdrew to pray. Luke 5:16.\n\nbefore you rush into the next thing today, where could you make a little room to be still with God?\n\nfrom Manifesting The Kingdom. search YouTube Calvary Hephzibah.\n\n#christiantiktok #prayer #jesus #calvaryhephzibah",
+        "facebook": "We love formulas. Give me the five steps. Tell me the technique. Show me what worked for you.\n\nBut some things cannot be reduced to a formula.\n\nPeople asked Bishop Henry about the \"secret\" behind moments of powerful worship.\n\nHis answer was beautifully simple.\n\nWait on God.\n\nJesus Himself regularly withdrew to pray. Luke 5:16.\n\nBefore another strategy, another technique or another attempt to force an answer, perhaps what you need today is simply to make room for God.\n\nPut the phone down. Quiet the noise. Open the Word. Pray.\n\nAnd don't rush away because nothing happened in the first five minutes.\n\nSometimes the next step becomes clearer when we stop trying to manufacture it.\n\nFrom Manifesting The Kingdom, Bishop Henry Emmanuel.\n\nWatch the full message. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #Prayer #Worship #Jesus",
+        "youtube": "Title: His Secret? Wait On God"
+      },
+      "published": []
+    },
+    {
+      "id": "reel-06",
+      "format": "reel",
+      "asset": "clips/sermon-clip-20-sep-2026-06-you-are-kings-FRAMED.mp4",
+      "download": "download/clips/sermon-clip-20-sep-2026-06-you-are-kings-FRAMED.mp4",
+      "duration": "46s",
+      "music": "Bed B (hymn-in-motion-b)",
+      "title": "You Already Have a Place to Serve",
+      "rank": 8,
+      "invite": false,
+      "care": "Touches \"we are kings, lords, small gods\" language (Psalm 82 / John 10:34), which reads as a much stronger claim outside full context. This is NOT a bare edit of the raw clip -- it opens with a title card establishing the frame (\"What does it mean to represent the King?\") BEFORE any clip audio plays, and the closing sequence explicitly corrects the ambiguity (\"not to make us gods, but to show whose we are\") rather than landing on \"small gods.\" Watched start to finish and approved by Bolaji, 20 Sep 2026.",
+      "quote": "Why is Jesus King of kings? We are the kings. We are the Lords... We are the small gods. We are the small lords. We are the small kings.",
+      "onscreen": "PEOPLE ARE WATCHING \u2192 HOW YOU LIVE.",
+      "endline": "WHAT DOES IT MEAN TO REPRESENT THE KING? (opening frame) \u2192 Jesus called us kings and lords \u2014 not to make us gods, but to show whose we are. \u2192 We belong to the King. Reflect His rule.",
+      "captions": {
+        "instagram": "Here's something worth remembering today:\n\nYou represent Jesus in places a preacher may never reach.\n\nAt work. At home. In the group chat. In the disagreement.\n\nIn the way you treat the person who can do absolutely nothing for you.\n\nPaul writes, \"We are therefore Christ's ambassadors.\" 2 Corinthians 5:20.\n\nAn ambassador doesn't go somewhere to build their own kingdom. They represent the one who sent them.\n\nThat's a powerful way to think about your Monday morning.\n\nYou don't need a platform to represent Jesus. You already have a place.\n\nThe question is what people are seeing there.\n\nThis week's message, Manifesting The Kingdom, explores what it means for God's rule to become visible through His people.\n\nWatch the full sermon in context. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #ChristianLiving #Jesus #KingdomOfGod",
+        "tiktok": "you represent Jesus in places a preacher may never reach.\n\nwork. home. friendships. difficult conversations.\n\n2 Corinthians 5:20 calls believers Christ's ambassadors.\n\nyou don't need a platform. you already have a place.\n\nwhat would representing Jesus well look like where you are today?\n\nfull message: Manifesting The Kingdom. search YouTube Calvary Hephzibah.\n\n#christiantiktok #jesus #faith #calvaryhephzibah",
+        "facebook": "Here's something worth remembering today:\n\nYou represent Jesus in places a preacher may never reach.\n\nAt work. At home. In the group chat. In the disagreement.\n\nIn the way you treat the person who can do absolutely nothing for you.\n\nPaul writes, \"We are therefore Christ's ambassadors.\" 2 Corinthians 5:20.\n\nAn ambassador doesn't go somewhere to build their own kingdom. They represent the one who sent them.\n\nThat's a powerful way to think about your Monday morning.\n\nYou don't need a platform to represent Jesus. You already have a place.\n\nThe question is what people are seeing there.\n\nThis week's message, Manifesting The Kingdom, explores what it means for God's rule to become visible through His people.\n\nWatch the full sermon in context. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #ChristianLiving #Jesus #KingdomOfGod",
+        "youtube": "Title: You Already Have a Place to Serve"
+      },
+      "published": []
+    },
+    {
+      "id": "carousel-03",
+      "format": "carousel",
+      "slug": "represent-the-king",
+      "slides": 2,
+      "download": "download/represent-the-king.zip",
+      "title": "Represent The King",
+      "rank": 9,
+      "invite": false,
+      "care": "Framed carousel only, built as a required companion to reel-06. Never publish as a standalone quote card -- both slides stay inside the \"representing the King's rule\" frame, never isolate \"small gods\" as a claim.",
+      "quote": "We belong to the King. Our lives should reflect His rule.",
+      "onscreen": null,
+      "captions": {
+        "instagram": "If you belong to God, what should that change about the way you live?\n\nIn Manifesting The Kingdom, Bishop Henry points to Psalm 82 and John 10:34 while speaking about our responsibility to represent God's rule in the world.\n\nThe takeaway isn't about giving ourselves impressive titles. It's about responsibility.\n\nIf we belong to the King, our lives should increasingly reflect His ways.\n\nWatch the full sermon in context. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #ChristianLiving #KingdomOfGod #Bible",
+        "tiktok": "who do you represent? let your life show it.\n\nthis part of Bishop Henry's message touches Psalm 82 and John 10:34. his wider challenge is about representation: if we belong to God, our lives should reflect His ways.\n\nfrom Manifesting The Kingdom. search YouTube Calvary Hephzibah.\n\nwhat does representing God well look like in ordinary life?\n\n#christiantiktok #bible #kingdomofgod #calvaryhephzibah",
+        "facebook": "If you belong to God, what should that change about the way you live?\n\nIn Manifesting The Kingdom, Bishop Henry points to Psalm 82 and John 10:34 while speaking about our responsibility to represent God's rule in the world.\n\nThe takeaway isn't about giving ourselves impressive titles. It's about responsibility.\n\nIf we belong to the King, our lives should increasingly reflect His ways.\n\nWatch the full sermon in context. Search YouTube Calvary Hephzibah.\n\n#CalvaryHephzibah #ChristianLiving #KingdomOfGod #Bible",
+        "youtube": "Title: What Does Representing God Mean?"
+      },
+      "published": []
+    }
+  ]
+}
