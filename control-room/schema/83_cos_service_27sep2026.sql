@@ -22,7 +22,7 @@ insert into cos_services (
   null,
   '[
     {"n":1,"item":"Welcome & Bible Reading","type":"normal","assigned":"Ps Gbenga Adebanjo"},
-    {"n":2,"item":"Opening Prayer","type":"normal","assigned":"Sister Petty"},
+    {"n":2,"item":"Opening Prayer","type":"normal","assigned":"Dr Caster Martins"},
     {"n":3,"item":"Worship","type":"normal","assigned":"Worship Team"},
     {"n":4,"item":"Communion","type":"normal","assigned":"Ps Kayode Ogungbenro"},
     {"n":5,"item":"Media Awareness","type":"normal","assigned":"Pastor Gbenga Adebanjo"},

@@ -95,7 +95,7 @@ select p.id, v.position, v.role, v.name, v.notes
 from control_room_plans p,
 (values
   (1,  'Welcome & Bible Reading', 'Ps Gbenga Adebanjo',       null),
-  (2,  'Opening Prayer',          'Sister Petty',             null),
+  (2,  'Opening Prayer',          'Dr Caster Martins',        null),
   (3,  'Worship',                 null,                       'Worship Team · same set as 20 Sep · all keys TBC, set at soundcheck'),
   (4,  'Communion',               'Ps Kayode Ogungbenro',     null),
   (5,  'Media Awareness',         'Pastor Gbenga Adebanjo',   null),
