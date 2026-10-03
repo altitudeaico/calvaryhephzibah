@@ -1,0 +1,27 @@
+-- ============================================================
+-- 84_sunday_04oct2026.sql  (record only: already applied)
+-- ============================================================
+-- Sunday 4 October 2026 · "Search Me, O GOD" · Pastor Kayode Ogungbenro
+-- Applied 27 Sep 2026 via Supabase MCP migration "setlist_04oct2026"
+-- (plan + 9 song items + 2 scripture items + 11 speakers + sermon image
+-- by URL + cos_services row). Verified with a follow-up read.
+--
+-- SONGS (all NEW, none in control_room_songs; seeded as placeholders):
+--   1 This Is the Day (Fred Hammond)            praise
+--   2 Come and Let Us Sing (Israel Houghton)    praise
+--   3 I Know Who I Am (Sinach)                  praise  } one or the other,
+--   4 Omemma (Chandler Moore)                   praise  } leader to confirm
+--   5 Wide as the Sky (Isabel Davis)            worship
+--   6 Way Maker (Sinach)                        worship
+--   7 Your Presence Is Heaven (Israel Houghton) worship
+--   8 Come and Let Us Sing                      offering (reprise)
+--   9 Way Maker                                 end (reprise)
+-- SCRIPTURE (KJV): Psalm 139:23-24 (sent as 23-25; psalm ends at 24),
+--   2 Samuel 11:2-4 · reader Sister Tash Campbell
+-- FLAGS: lyrics needed for all six songs; song 3 choice pending;
+--   offering not itemised, no leader named; thumbnail v=1 is a
+--   placeholder pending the ChatGPT version.
+--
+-- To refresh lyrics later: update control_room_plan_items.slides for
+-- service_date 2026-10-04 by title, then notify pgrst.
+-- ============================================================
