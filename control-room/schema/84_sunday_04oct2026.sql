@@ -18,6 +18,7 @@
 --   9 Way Maker                                 end (reprise)
 -- SCRIPTURE (KJV): Psalm 139:23-24 (sent as 23-25; psalm ends at 24),
 --   2 Samuel 11:2-4 · reader Sister Tash Campbell
+-- THUMBNAIL: ChatGPT final at v=2 (Pastor Kayode portrait from 12 Jul).
 -- FLAGS: lyrics needed for all six songs; song 3 choice pending;
 --   offering not itemised, no leader named; thumbnail v=1 is a
 --   placeholder pending the ChatGPT version.
