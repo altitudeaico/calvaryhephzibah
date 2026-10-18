@@ -972,6 +972,13 @@
   var returnFocus = null;
   var total = songs.length;
   var idx = -1;
+  var explicitSelection = false;
+  function resumeScrollTracking() { explicitSelection = false; }
+  document.addEventListener('wheel', resumeScrollTracking, {passive:true});
+  document.addEventListener('touchmove', resumeScrollTracking, {passive:true});
+  document.addEventListener('keydown', function (e) {
+    if (['ArrowDown','ArrowUp','PageDown','PageUp','Home','End'].indexOf(e.key) !== -1 && !sheet.classList.contains('is-on')) resumeScrollTracking();
+  });
 
   function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
   function read(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -989,6 +996,7 @@
   }
 
   var io = new IntersectionObserver(function (entries) {
+    if (explicitSelection) return;
     var best = idx, dist = Infinity;
     entries.forEach(function (e) {
       if (!e.isIntersecting) return;
@@ -1001,6 +1009,7 @@
 
   function goTo(i) {
     if (i < 0 || i > total - 1) return;
+    explicitSelection = true;
     songs[i].scrollIntoView({ block: 'start', behavior: 'smooth' });
     paint(i);
   }
