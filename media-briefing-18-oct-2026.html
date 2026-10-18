@@ -169,6 +169,14 @@
         @media (min-width:640px) {
             .cam-grid { grid-template-columns:repeat(4,1fr); }
         }
+        .quick-actions { display:flex; flex-wrap:wrap; gap:10px; max-width:680px; margin:14px auto; padding:0 12px; }
+        .quick-actions a { flex:1; display:flex; align-items:center; justify-content:center; min-height:46px; padding:12px; border-radius:12px; background:#fff; color:#111; border:1px solid #ddd; font-weight:700; text-decoration:none; }
+        .quick-actions a:first-child { background:#C41E2A; border-color:#C41E2A; color:#fff; }
+        .role-pill { min-height:44px; }
+        .hero { padding:18px 20px; }
+        .hero-logo { width:40px; height:40px; margin-bottom:8px; }
+        .chk-row:focus-visible, a:focus-visible, button:focus-visible { outline:3px solid #1D4ED8; outline-offset:3px; }
+        @media (prefers-reduced-motion:reduce) { * { scroll-behavior:auto !important; transition:none !important; } }
     </style>
 </head>
 <body>
@@ -183,7 +191,11 @@
     </div>
 </div>
 
-<div class="role-bar">
+<nav class="quick-actions" aria-label="Service tools">
+    <a href="set-runthrough-18-oct-2026/stage/">Open Stage View</a>
+    <a href="control-room/">Open Control Room</a>
+</nav>
+<div class="role-bar" role="group" aria-label="Filter by team role">
     <span class="role-label">I am:</span>
     <button class="role-pill active" data-role="all" onclick="setRole('all')">👁 All</button>
     <button class="role-pill" data-role="leaders" onclick="setRole('leaders')">🏛 Leader</button>
@@ -195,7 +207,7 @@
 <div class="container">
 
     <!-- ORDER OF SERVICE -->
-    <div data-roles="all leaders">
+    <div data-roles="all leaders worship media readers" id="service-order">
         <div class="card">
             <div class="ch"><div class="ci">📋</div><h2 class="ct">Order of Service</h2></div>
             <div class="cb">
@@ -205,14 +217,14 @@
                     <div class="svc-row"><div class="svc-num">2</div><div class="svc-info"><div class="svc-name">Opening Prayer</div><div class="svc-person">Sis Lisa Richardson</div></div></div>
                     <div class="svc-row"><div class="svc-num">3</div><div class="svc-info"><div class="svc-name">Worship</div><div class="svc-person">Worship Team 🎶</div></div></div>
                     <div class="svc-row"><div class="svc-num">4</div><div class="svc-info"><div class="svc-name">Communion</div><div class="svc-person">Pastor Gbenga Adebanjo</div></div></div>
-                    <div class="svc-row"><div class="svc-num">📣</div><div class="svc-info"><div class="svc-name">Media Awareness</div><div class="svc-person">Pastor Gbenga Adebanjo</div></div></div>
-                    <div class="svc-row"><div class="svc-num">5</div><div class="svc-info"><div class="svc-name">Announcements</div><div class="svc-person">Pastor Kayode Ogungbenro</div></div></div>
-                    <div class="svc-row hl"><div class="svc-num">📖</div><div class="svc-info"><div class="svc-name">Bible Reading 1 · passage TBC</div><div class="svc-person">Sis Margret McLean</div></div></div>
-                    <div class="svc-row hl"><div class="svc-num">📖</div><div class="svc-info"><div class="svc-name">Bible Reading 2 · passage TBC</div><div class="svc-person">Pastor Kemi Ogungbenro</div></div></div>
-                    <div class="svc-row ser"><div class="svc-num">🎤</div><div class="svc-info"><div class="svc-name">Is A Christian Necessarily A Disciple?</div><div class="svc-person">Pastor Shade Olatoye</div></div></div>
-                    <div class="svc-row hl"><div class="svc-num">💰</div><div class="svc-info"><div class="svc-name">Offering · Come and Let Us Sing</div><div class="svc-person">No offering leader named</div></div></div>
-                    <div class="svc-row"><div class="svc-num">6</div><div class="svc-info"><div class="svc-name">Closing Prayer</div><div class="svc-person">Sis Petty</div></div></div>
-                    <div class="svc-row"><div class="svc-num">7</div><div class="svc-info"><div class="svc-name">Benediction</div><div class="svc-person">Pastor Funke Adebanjo</div></div></div>
+                    <div class="svc-row"><div class="svc-num">5</div><div class="svc-info"><div class="svc-name">Media Awareness</div><div class="svc-person">Pastor Gbenga Adebanjo</div></div></div>
+                    <div class="svc-row"><div class="svc-num">6</div><div class="svc-info"><div class="svc-name">Announcements</div><div class="svc-person">Pastor Kayode Ogungbenro</div></div></div>
+                    <div class="svc-row hl"><div class="svc-num">7</div><div class="svc-info"><div class="svc-name">Bible Reading 1 · passage TBC</div><div class="svc-person">Sis Margret McLean</div></div></div>
+                    <div class="svc-row hl"><div class="svc-num">8</div><div class="svc-info"><div class="svc-name">Bible Reading 2 · passage TBC</div><div class="svc-person">Pastor Kemi Ogungbenro</div></div></div>
+                    <div class="svc-row ser"><div class="svc-num">9</div><div class="svc-info"><div class="svc-name">Is A Christian Necessarily A Disciple?</div><div class="svc-person">Pastor Shade Olatoye</div></div></div>
+                    <div class="svc-row hl"><div class="svc-num">10</div><div class="svc-info"><div class="svc-name">Offering · Come and Let Us Sing</div><div class="svc-person">No offering leader named</div></div></div>
+                    <div class="svc-row"><div class="svc-num">11</div><div class="svc-info"><div class="svc-name">Closing Prayer</div><div class="svc-person">Sis Petty</div></div></div>
+                    <div class="svc-row"><div class="svc-num">12</div><div class="svc-info"><div class="svc-name">Benediction</div><div class="svc-person">Pastor Funke Adebanjo</div></div></div>
                 </div>
                 </div>
                 <div style="margin-top:12px;padding:11px 13px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:11px;font-size:12.5px;color:#9A3412;line-height:1.45;">
@@ -334,26 +346,38 @@
 
 <script>
 function setRole(r) {
-    document.querySelectorAll('.role-pill').forEach(p => p.classList.toggle('active', p.dataset.role === r));
+    document.querySelectorAll('.role-pill').forEach(p => {
+        p.classList.toggle('active', p.dataset.role === r);
+        p.setAttribute('aria-pressed', String(p.dataset.role === r));
+    });
     document.querySelectorAll('[data-roles]').forEach(el => {
         if (r === 'all') { el.classList.remove('hidden'); return; }
         el.classList.toggle('hidden', !el.dataset.roles.split(' ').includes(r));
     });
-    sessionStorage.setItem('calvary-role', r);
-    setTimeout(() => {
-        const first = document.querySelector('[data-roles]:not(.hidden)');
-        if (first) first.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 60);
+    try { sessionStorage.setItem('calvary-role', r); } catch (e) {}
+
 }
 
 function tick(row) {
     row.classList.toggle('done');
-    row.querySelector('.chk-box').textContent = row.classList.contains('done') ? '✓' : '';
+    const done = row.classList.contains('done');
+    row.querySelector('.chk-box').textContent = done ? '✓' : '';
+    row.setAttribute('aria-checked', String(done));
+    try { localStorage.setItem('calvary-18oct2026-check-' + row.dataset.checkId, done ? '1' : '0'); } catch (e) {}
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    const saved = sessionStorage.getItem('calvary-role');
-    if (saved) setRole(saved);
+    let saved = 'all';
+    try { saved = sessionStorage.getItem('calvary-role') || 'all'; } catch (e) {}
+    setRole(saved);
+    document.querySelectorAll('.chk-row').forEach((row, i) => {
+        row.setAttribute('role', 'checkbox'); row.tabIndex = 0; row.dataset.checkId = String(i);
+        let done = false;
+        try { done = localStorage.getItem('calvary-18oct2026-check-' + i) === '1'; } catch (e) {}
+        row.classList.toggle('done', done); row.setAttribute('aria-checked', String(done));
+        row.querySelector('.chk-box').textContent = done ? '✓' : '';
+        row.addEventListener('keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); tick(row); } });
+    });
 });
 </script>
 </body>

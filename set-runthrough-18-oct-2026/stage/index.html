@@ -38,8 +38,8 @@
       --sep:       rgba(255,255,255,0.10);
       --sep-soft:  rgba(255,255,255,0.06);
       --label:     #f5f0e8;
-      --label-2:   rgba(245,240,232,0.56);
-      --label-3:   rgba(245,240,232,0.32);
+      --label-2:   #c9c5bf;
+      --label-3:   #aaa6a0;
       --accent:    #d0441c;
       --accent-hi: #f0603a;
 
@@ -86,7 +86,7 @@
 
     /* ── Masthead ─────────────────────────────────────────── */
 
-    .masthead { padding: 44px 0 30px; }
+    .masthead { padding: 24px 0 8px; }
 
     .eyebrow {
       font-size: 12px;
@@ -99,7 +99,7 @@
 
     .masthead h1 {
       font-family: var(--display);
-      font-size: clamp(46px, 15vw, 66px);
+      font-size: clamp(32px, 8vw, 44px);
       line-height: 0.9;
       letter-spacing: 0.005em;
       font-weight: 400;
@@ -133,7 +133,7 @@
 
     /* ── Song group ───────────────────────────────────────── */
 
-    .song { scroll-margin-top: 14px; padding-top: 34px; }
+    .song { scroll-margin-top: 14px; padding-top: 22px; }
 
     .song-head {
       display: flex;
@@ -589,6 +589,16 @@
       html { scroll-behavior: auto; }
       * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
     }
+    .stage-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+    .stage-actions a, .stage-actions button { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:10px 16px; border:1px solid #595957; border-radius:12px; color:var(--label); text-decoration:none; font-size:15px; }
+    .stage-actions button { background:var(--group-hi); }
+    .sheet[hidden], .lyr-panel[hidden] { display:none; }
+    .sheet { max-width:680px; margin:auto; visibility:hidden; }
+    .sheet.is-on { visibility:visible; }
+    .sheet-heading { display:flex; justify-content:space-between; align-items:center; padding:0 12px 10px 22px; }
+    .sheet-heading .sheet-head { padding:0; color:var(--label-2); }
+    .sheet-close { min-height:44px; padding:8px 14px; border:1px solid #595957; border-radius:10px; }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *, *::before, *::after { transition:none !important; } }
   </style>
 </head>
 <body>
@@ -609,6 +619,10 @@
       <button class="size-opt" role="radio" aria-checked="true"  data-size="19" aria-label="Medium">Aa</button>
       <button class="size-opt" role="radio" aria-checked="false" data-size="23" aria-label="Large">Aa</button>
     </div>
+    <nav class="stage-actions" aria-label="Stage navigation">
+      <button type="button" id="open-setlist" aria-haspopup="dialog" aria-controls="sheet" aria-expanded="false">Choose a song</button>
+      <a href="/media-briefing-18-oct-2026.html">Service run sheet</a>
+    </nav>
   </header>
 
   <main>
@@ -906,7 +920,7 @@
     </main>
 
   <footer class="foot">
-    <b>Same set as 4 October.</b> Lyrics on file for five of the six songs. Omemma has none yet; it is only sung if chosen over I Know Who I Am.<br>
+    <b>Eight service slots, with Omemma as an alternative.</b> Lyrics are available for the other songs. Omemma has none yet; it is only sung if chosen over I Know Who I Am.<br>
     Offering reprises Come and Let Us Sing; End of Service reprises Way Maker. Keys TBC, set at soundcheck.
   </footer>
 
@@ -916,25 +930,18 @@
   <div class="setbar-inner">
     <button class="step" id="prev" aria-label="Previous song">&#8249;</button>
     <button class="now" id="now" aria-haspopup="dialog" aria-expanded="false">
-      <span class="now-pos" id="now-pos">1 of 8</span>
-      <span class="now-title" id="now-title">These Are the Days of Elijah</span>
+      <span class="now-pos" id="now-pos">1 of 9</span>
+      <span class="now-title" id="now-title">This Is the Day</span>
     </button>
     <button class="step" id="next" aria-label="Next song">&#8250;</button>
   </div>
 </div>
 
 <div class="scrim" id="scrim"></div>
-<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Jump to a song">
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Jump to a song" hidden>
   <div class="grabber"></div>
-  <div class="sheet-head">Set list</div>
-    <button class="jump" data-jump="1"><span class="jump-idx">1</span><span class="jump-title">These Are the Days of Elijah</span><span class="jump-key">TBC</span></button>
-    <button class="jump" data-jump="2"><span class="jump-idx">2</span><span class="jump-title">Lord I Lift Your Name on High</span><span class="jump-key">TBC</span></button>
-    <button class="jump" data-jump="3"><span class="jump-idx">3</span><span class="jump-title">Open the Eyes of My Heart, Lord</span><span class="jump-key">TBC</span></button>
-    <button class="jump" data-jump="4"><span class="jump-idx">4</span><span class="jump-title">I Will Worship</span><span class="jump-key">TBC</span></button>
-    <button class="jump" data-jump="5"><span class="jump-idx">5</span><span class="jump-title">Heart of Worship</span><span class="jump-key">TBC</span></button>
-    <button class="jump" data-jump="6"><span class="jump-idx">6</span><span class="jump-title">Jesus at the Centre</span><span class="jump-key">TBC</span></button>
-    <button class="jump" data-jump="7"><span class="jump-idx">7</span><span class="jump-title">Give Thanks (Offering)</span><span class="jump-key">TBC</span></button>
-    <button class="jump" data-jump="8"><span class="jump-idx">8</span><span class="jump-title">Thank You Lord</span><span class="jump-key">TBC</span></button>
+  <div class="sheet-heading"><h2 class="sheet-head">Choose a song</h2><button class="sheet-close" type="button" id="close-setlist">Close</button></div>
+  <div id="song-options"></div>
 </div>
 
 <script>
@@ -947,7 +954,22 @@
   var nowBtn = document.getElementById('now');
   var sheet = document.getElementById('sheet');
   var scrim = document.getElementById('scrim');
-  var jumps = Array.prototype.slice.call(document.querySelectorAll('.jump'));
+  var songOptions = document.getElementById('song-options');
+  songs.forEach(function (song, i) {
+    var button = document.createElement('button');
+    button.type = 'button'; button.className = 'jump';
+    button.dataset.jump = song.id;
+    ['jump-idx', 'jump-title', 'jump-key'].forEach(function (className, part) {
+      var span = document.createElement('span'); span.className = className;
+      span.textContent = part === 0 ? String(i + 1) : part === 1 ? song.dataset.title : song.querySelector('.song-key').textContent;
+      button.appendChild(span);
+    });
+    songOptions.appendChild(button);
+  });
+  var jumps = Array.prototype.slice.call(songOptions.querySelectorAll('.jump'));
+  var openSetlist = document.getElementById('open-setlist');
+  var closeSetlist = document.getElementById('close-setlist');
+  var returnFocus = null;
   var total = songs.length;
   var idx = -1;
 
@@ -987,13 +1009,26 @@
 
   /* ── Set list sheet ─────────────────────────────────── */
   function sheetOpen(on) {
+    if (on) returnFocus = document.activeElement;
+    sheet.hidden = !on;
     sheet.classList.toggle('is-on', on);
     scrim.classList.toggle('is-on', on);
     nowBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
+    openSetlist.setAttribute('aria-expanded', on ? 'true' : 'false');
+    if (on) (jumps[idx] || closeSetlist).focus();
+    else if (returnFocus) returnFocus.focus({preventScroll:true});
     document.body.style.overflow = on ? 'hidden' : '';
   }
   nowBtn.addEventListener('click', function () { sheetOpen(!sheet.classList.contains('is-on')); });
   scrim.addEventListener('click', function () { sheetOpen(false); });
+  openSetlist.addEventListener('click', function () { sheetOpen(true); });
+  closeSetlist.addEventListener('click', function () { sheetOpen(false); });
+  sheet.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab') return;
+    var first = closeSetlist, last = jumps[jumps.length - 1];
+    if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
+    else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
+  });
   jumps.forEach(function (j, n) {
     j.addEventListener('click', function () { sheetOpen(false); setTimeout(function () { goTo(n); }, 140); });
   });
@@ -1005,14 +1040,15 @@
   document.querySelectorAll('.lyr-btn').forEach(function (btn) {
     var song = btn.closest('.song');
     var num = btn.dataset.song;
-    var key = 'stage06sep-lyr-' + num;
+    var key = 'stage18oct2026-lyr-' + num;
     function set(open) {
       song.classList.toggle('is-open', open);
+      song.querySelector('.lyr-panel').hidden = !open;
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       btn.querySelector('span').textContent = open ? 'Hide lyrics' : 'Show lyrics';
       if (open) { store(key, '1'); } else { try { localStorage.removeItem(key); } catch (e) {} }
     }
-    if (read(key)) set(true);
+    set(Boolean(read(key)));
     btn.addEventListener('click', function () { set(!song.classList.contains('is-open')); });
   });
 
