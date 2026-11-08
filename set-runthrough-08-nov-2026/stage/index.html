@@ -599,6 +599,88 @@
     .sheet-heading .sheet-head { padding:0; color:var(--label-2); }
     .sheet-close { min-height:44px; padding:8px 14px; border:1px solid #595957; border-radius:10px; }
     @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *, *::before, *::after { transition:none !important; } }
+
+    /* ── Stage UX: live, single-song reading by default ──── */
+    :root { --bar-h: 70px; --lyric-size: 21px; --accent-hi: #ff8663; }
+    .masthead { padding-top: 22px; }
+    .stage-toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 19px; align-items: center; }
+    .view-switch { display: flex; align-items: center; background: #1d1d20; border: 1px solid var(--sep); border-radius: 14px; padding: 4px; gap: 3px; }
+    .view-toggle { border-radius: 10px; min-height: 44px; min-width: 95px; padding: 8px 13px; font-size: 14px; font-weight: 700; color: #b8b5af; }
+    .view-toggle[aria-pressed="true"] { color: #fff; background: #464044; box-shadow: 0 1px 3px rgba(0,0,0,.24); }
+    .awake-toggle { min-height: 52px; border: 1px solid var(--sep); background: var(--group); border-radius: 14px; padding: 6px 12px; font-size: 13px; font-weight: 600; color: var(--label-2); display: inline-flex; align-items: center; gap: 7px; }
+    .awake-toggle strong { font-size: 12px; font-weight: 700; color: var(--label-3); }
+    .awake-toggle[aria-pressed="true"] { border-color: rgba(255,134,99,.55); }
+    .awake-toggle[aria-pressed="true"] strong { color: var(--accent-hi); }
+    .awake-toggle[disabled] { opacity: .6; cursor: not-allowed; }
+    .awake-icon { display: inline-block; border: 1.5px solid currentColor; border-radius: 100%; height: 15px; width: 15px; position: relative; font-size: 0; }
+    .awake-toggle[aria-pressed="true"] .awake-icon { background: var(--accent-hi); color: var(--accent-hi); box-shadow: 0 0 0 3px rgba(255,134,99,.15); }
+    .stage-status { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-top: 27px; padding: 16px 3px 8px; font-size: 11px; letter-spacing: .13em; font-weight: 800; text-transform: uppercase; }
+    .stage-status-label { color: var(--accent-hi); }
+    .stage-status-count { color: var(--label-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .set-progress { display: flex; gap: 5px; padding: 4px 2px 10px; }
+    .set-progress span { flex: 1; height: 4px; background: #343439; border-radius: 9px; }
+    .set-progress span.is-done { background: #9a4631; }
+    .set-progress span.is-now { background: var(--accent-hi); }
+    .song-head { align-items: flex-start; }
+    .song-idx { margin-top: 6px; }
+    .song-title { font-size: clamp(24px, 5.8vw, 33px); letter-spacing: -0.026em; }
+    .song-key { margin-top: 7px; }
+    .song { padding-top: 17px; }
+    .pair { line-height: 1.44; margin-bottom: 20px; overflow-wrap: break-word; }
+    .lyrics { padding: 12px 20px 25px; }
+    .sizer { margin: 12px 0 0; }
+    .size-opt:nth-of-type(4) { font-size: 23px; }
+    .setbar-inner { background: rgba(23,23,26,.94); border-color: rgba(255,255,255,.24); }
+    .step { font-size: 32px; flex-basis: 52px; height: 54px; border-radius: 13px; }
+    .now { height: 54px; }
+    .now-pos { font-size: 11px; }
+    .now-title { font-size: 15px; }
+    .sheet { max-height: min(84vh, 750px); overscroll-behavior: contain; }
+    .jump { min-height: 56px; }
+    .jump.is-current { background: rgba(208,68,28,.1); }
+    .up-next { display: none; align-items: center; justify-content: space-between; gap: 16px; margin-top: 28px; padding: 15px 17px; border: 1px solid var(--sep); background: var(--group); border-radius: 18px; }
+    .up-next-copy { display: flex; flex-direction: column; min-width: 0; gap: 4px; }
+    .up-next-eyebrow { color: var(--accent-hi); text-transform: uppercase; letter-spacing: .14em; font-size: 10px; font-weight: 800; }
+    .up-next-copy strong { font-size: 17px; line-height: 1.2; font-weight: 700; }
+    #up-next-slot { font-size: 12px; color: var(--label-3); }
+    #up-next-go { min-height: 48px; min-width: 76px; padding: 9px 13px; color: #fff; background: var(--accent); border-radius: 12px; font-size: 14px; font-weight: 700; }
+    #up-next-go span { font-size: 25px; line-height: 0; vertical-align: middle; padding-left: 3px; }
+    .stage-mode .up-next { display: flex; }
+    .stage-mode .song:not(.is-current) { display: none; }
+    .stage-mode .masthead { padding-top: 17px; }
+    .stage-mode .masthead h1 { font-size: 28px; letter-spacing: .01em; }
+    .stage-mode .masthead .sub, .stage-mode .masthead .meta { display: none; }
+    .stage-mode .masthead .eyebrow { margin-bottom: 9px; }
+    .stage-mode .foot { display: none; }
+    .stage-mode .song.is-current { padding-top: 12px; }
+    .stage-mode .row { padding: 12px 17px; }
+    .stage-mode .song-credit { padding-bottom: 12px; }
+    .stage-mode .lyr-btn { margin-top: 12px; }
+    .stage-mode .song.is-open .lyrics { border: 1px solid rgba(255,255,255,.11); }
+    .stage-mode .song.is-open .lyr-panel { display: block; }
+    @media (min-width: 640px) { .stage-mode .masthead { padding-top: 34px; } }
+    @media (max-width: 390px) {
+      :root { --gutter: 15px; }
+      .stage-toolbar { gap: 8px; }
+      .view-toggle { min-width: 82px; padding: 8px 9px; }
+      .awake-toggle { padding: 7px 10px; }
+      .song-title { font-size: 24px; }
+      .up-next { padding: 13px 12px; gap: 9px; }
+      .up-next-copy strong { font-size: 15px; }
+    }
+
+
+    .reading-options { margin-top: 15px; border: 1px solid rgba(255,255,255,.14); border-radius: 13px; background: #141416; padding: 0 13px; }
+    .reading-options > summary { list-style: none; cursor: pointer; min-height: 45px; display: flex; align-items: center; justify-content: space-between; color: #c9c5bf; font-size: 14px; font-weight: 650; }
+    .reading-options > summary::-webkit-details-marker { display: none; }
+    .reading-options > summary span { font-size: 20px; line-height: 1; color: #aaa6a0; transition: transform .15s ease; }
+    .reading-options[open] > summary span { transform: rotate(180deg); }
+    .reading-options[open] { padding-bottom: 13px; }
+    .reading-options .stage-toolbar { margin-top: 7px; }
+    .reading-options .stage-actions { margin-top: 10px; }
+    .reading-options .sizer { margin: 12px 0 0; }
+    .sheet-footer { padding: 15px 22px 3px; border-top: 1px solid var(--sep); }
+    .sheet-footer a { display: flex; align-items: center; min-height: 44px; font-size: 14px; font-weight: 650; color: var(--label-2); text-decoration: underline; text-underline-offset: 3px; }
   </style>
 </head>
 <body>
@@ -613,19 +695,37 @@
       <div>Songs<b>8</b></div>
       <div>Keys<b>TBC</b></div>
     </div>
+    <details class="reading-options" id="reading-options">
+      <summary>View &amp; display settings <span aria-hidden="true">⌄</span></summary>
+    <div class="stage-toolbar" role="group" aria-label="Reading mode">
+      <div class="view-switch" aria-label="Reading mode">
+        <button type="button" class="view-toggle" id="mode-stage" aria-pressed="true">Stage focus</button>
+        <button type="button" class="view-toggle" id="mode-list" aria-pressed="false">Full set</button>
+      </div>
+      <button type="button" id="keep-awake" class="awake-toggle" aria-pressed="false" aria-label="Keep screen awake while using stage view">
+        <span class="awake-icon" aria-hidden="true">◌</span> Screen awake <strong id="awake-status">Off</strong>
+      </button>
+    </div>
     <div class="sizer" role="radiogroup" aria-label="Lyric text size">
       <span class="sizer-lbl">Lyrics</span>
       <button class="size-opt" role="radio" aria-checked="false" data-size="17" aria-label="Small">Aa</button>
       <button class="size-opt" role="radio" aria-checked="true"  data-size="19" aria-label="Medium">Aa</button>
       <button class="size-opt" role="radio" aria-checked="false" data-size="23" aria-label="Large">Aa</button>
+      <button class="size-opt" role="radio" aria-checked="false" data-size="27" aria-label="Extra large">Aa</button>
     </div>
     <nav class="stage-actions" aria-label="Stage navigation">
       <button type="button" id="open-setlist" aria-haspopup="dialog" aria-controls="sheet" aria-expanded="false">Choose a song</button>
       <a href="/media-briefing-08-nov-2026.html">Service run sheet</a>
     </nav>
+    </details>
+    <div class="stage-status" id="stage-status" aria-live="polite" aria-atomic="true">
+      <span class="stage-status-label" id="stage-slot">PRAISE MEDLEY</span>
+      <span class="stage-status-count" id="stage-counter">SONG 1 OF 8</span>
+    </div>
+    <div class="set-progress" id="set-progress" aria-hidden="true"></div>
   </header>
 
-  <main>
+  <main id="set-content">
     <section class="song" id="song-1" data-song="1" data-short="Days of Elijah" data-title="These Are the Days of Elijah">
       <div class="song-head">
         <div class="song-idx">1</div>
@@ -881,6 +981,15 @@
     </section>
     </main>
 
+  <div class="up-next" id="up-next" aria-live="polite" aria-atomic="true">
+    <div class="up-next-copy">
+      <span class="up-next-eyebrow">COMING UP</span>
+      <strong id="up-next-title">Lord I Lift Your Name on High</strong>
+      <span id="up-next-slot">Praise medley</span>
+    </div>
+    <button type="button" id="up-next-go" aria-label="Go to next song">Next <span aria-hidden="true">›</span></button>
+  </div>
+
   <footer class="foot">
     <b>Eight songs across four slots.</b> Praise medley of three, worship set of three, Give Thanks to the Lord for the offering, Thank You Lord to close.<br>
     Keys TBC, set at soundcheck. Repeat sections as led.
@@ -891,7 +1000,7 @@
 <div class="setbar">
   <div class="setbar-inner">
     <button class="step" id="prev" aria-label="Previous song">&#8249;</button>
-    <button class="now" id="now" aria-haspopup="dialog" aria-expanded="false">
+    <button class="now" id="now" aria-haspopup="dialog" aria-controls="sheet" aria-expanded="false" aria-label="Open song list">
       <span class="now-pos" id="now-pos">1 of 8</span>
       <span class="now-title" id="now-title">Days of Elijah</span>
     </button>
@@ -904,11 +1013,14 @@
   <div class="grabber"></div>
   <div class="sheet-heading"><h2 class="sheet-head">Choose a song</h2><button class="sheet-close" type="button" id="close-setlist">Close</button></div>
   <div id="song-options"></div>
+  <div class="sheet-footer"><a href="/media-briefing-08-nov-2026.html">View service run sheet</a></div>
 </div>
 
 <script>
 (function () {
+  'use strict';
   var songs = Array.prototype.slice.call(document.querySelectorAll('.song'));
+  var total = songs.length;
   var nowPos = document.getElementById('now-pos');
   var nowTitle = document.getElementById('now-title');
   var prev = document.getElementById('prev');
@@ -917,78 +1029,164 @@
   var sheet = document.getElementById('sheet');
   var scrim = document.getElementById('scrim');
   var songOptions = document.getElementById('song-options');
-  songs.forEach(function (song, i) {
-    var button = document.createElement('button');
-    button.type = 'button'; button.className = 'jump';
-    button.dataset.jump = song.id;
-    ['jump-idx', 'jump-title', 'jump-key'].forEach(function (className, part) {
-      var span = document.createElement('span'); span.className = className;
-      span.textContent = part === 0 ? String(i + 1) : part === 1 ? song.dataset.title : song.querySelector('.song-key').textContent;
-      button.appendChild(span);
-    });
-    songOptions.appendChild(button);
-  });
-  var jumps = Array.prototype.slice.call(songOptions.querySelectorAll('.jump'));
   var openSetlist = document.getElementById('open-setlist');
   var closeSetlist = document.getElementById('close-setlist');
+  var stageBtn = document.getElementById('mode-stage');
+  var listBtn = document.getElementById('mode-list');
+  var stageSlot = document.getElementById('stage-slot');
+  var stageCounter = document.getElementById('stage-counter');
+  var progress = document.getElementById('set-progress');
+  var upNext = document.getElementById('up-next');
+  var upNextTitle = document.getElementById('up-next-title');
+  var upNextSlot = document.getElementById('up-next-slot');
+  var upNextGo = document.getElementById('up-next-go');
+  var idx = 0;
+  var isStage = true;
   var returnFocus = null;
-  var total = songs.length;
-  var idx = -1;
-  var explicitSelection = false;
-  function resumeScrollTracking() { explicitSelection = false; }
-  document.addEventListener('wheel', resumeScrollTracking, {passive:true});
-  document.addEventListener('touchmove', resumeScrollTracking, {passive:true});
-  document.addEventListener('keydown', function (e) {
-    if (['ArrowDown','ArrowUp','PageDown','PageUp','Home','End'].indexOf(e.key) !== -1 && !sheet.classList.contains('is-on')) resumeScrollTracking();
-  });
+  var previousHash = window.location.hash;
+  var scrollRaf = 0;
+  var scrollSuppressedUntil = 0;
 
   function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
   function read(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
-
-  /* ── Which song am I on ─────────────────────────────── */
-  function paint(i) {
-    if (i === idx) return;
-    idx = i;
-    var s = songs[i];
-    nowPos.textContent = (i + 1) + ' of ' + total;
-    nowTitle.textContent = s.dataset.short || s.dataset.title;
-    prev.disabled = (i === 0);
-    next.disabled = (i === total - 1);
-    jumps.forEach(function (j, n) { j.classList.toggle('is-current', n === i); });
+  function category(song) {
+    var tag = song.querySelector('.song-tags .tag');
+    return tag ? tag.textContent.trim() : 'Song';
   }
 
-  var io = new IntersectionObserver(function (entries) {
-    if (explicitSelection) return;
-    var best = idx, dist = Infinity;
-    entries.forEach(function (e) {
-      if (!e.isIntersecting) return;
-      var d = Math.abs(e.boundingClientRect.top - 70);
-      if (d < dist) { dist = d; best = songs.indexOf(e.target); }
+  var jumps = songs.map(function (song, i) {
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'jump';
+    button.dataset.jump = song.id;
+    [['jump-idx', String(i + 1)], ['jump-title', song.dataset.title], ['jump-key', song.querySelector('.song-key').textContent]].forEach(function (part) {
+      var span = document.createElement('span');
+      span.className = part[0]; span.textContent = part[1]; button.appendChild(span);
     });
-    if (best > -1) paint(best);
-  }, { rootMargin: '-64px 0px -55% 0px', threshold: [0, 0.2, 0.6, 1] });
-  songs.forEach(function (s) { io.observe(s); });
+    songOptions.appendChild(button);
+    var bar = document.createElement('span');
+    progress.appendChild(bar);
+    return button;
+  });
+  var bars = Array.prototype.slice.call(progress.children);
+  var lyricStates = [];
+
+  function setLyrics(i, open, remember) {
+    var song = songs[i], btn = song.querySelector('.lyr-btn'), panel = song.querySelector('.lyr-panel');
+    song.classList.toggle('is-open', open);
+    panel.hidden = !open;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.querySelector('span').textContent = open ? 'Hide lyrics' : 'Show lyrics';
+    lyricStates[i] = open;
+    if (remember) store('stage08nov2026-lyr-' + (i + 1), open ? '1' : '0');
+  }
+  function syncLyrics(i) {
+    var saved = read('stage08nov2026-lyr-' + (i + 1));
+    setLyrics(i, saved === '0' ? false : saved === '1' ? true : isStage, false);
+  }
+  songs.forEach(function (song, i) {
+    var btn = song.querySelector('.lyr-btn');
+    btn.addEventListener('click', function () { setLyrics(i, !song.classList.contains('is-open'), true); });
+  });
+
+  function paint(i) {
+    idx = i;
+    var song = songs[i];
+    nowPos.textContent = 'SONG ' + (i + 1) + ' OF ' + total;
+    nowTitle.textContent = song.dataset.short || song.dataset.title;
+    nowBtn.setAttribute('aria-label', 'Song ' + (i + 1) + ' of ' + total + ': ' + song.dataset.title + '. Open set list');
+    stageSlot.textContent = category(song);
+    stageCounter.textContent = 'SONG ' + (i + 1) + ' OF ' + total;
+    prev.disabled = i === 0;
+    next.disabled = i === total - 1;
+    prev.setAttribute('aria-label', i === 0 ? 'First song' : 'Previous: ' + songs[i - 1].dataset.title);
+    next.setAttribute('aria-label', i === total - 1 ? 'Last song' : 'Next: ' + songs[i + 1].dataset.title);
+    songs.forEach(function (s, n) { s.classList.toggle('is-current', n === i); });
+    jumps.forEach(function (j, n) {
+      j.classList.toggle('is-current', n === i);
+      if (n === i) j.setAttribute('aria-current', 'step');
+      else j.removeAttribute('aria-current');
+    });
+    bars.forEach(function (b, n) {
+      b.classList.toggle('is-now', n === i);
+      b.classList.toggle('is-done', n < i);
+    });
+    if (i < total - 1) {
+      upNextTitle.textContent = songs[i + 1].dataset.title;
+      upNextSlot.textContent = category(songs[i + 1]);
+      upNextGo.disabled = false;
+      upNextGo.setAttribute('aria-label', 'Go to ' + songs[i + 1].dataset.title);
+      upNext.querySelector('.up-next-eyebrow').textContent = 'COMING UP';
+    } else {
+      upNextTitle.textContent = 'End of set';
+      upNextSlot.textContent = 'All ' + total + ' songs completed';
+      upNextGo.disabled = true;
+      upNextGo.setAttribute('aria-label', 'No next song');
+      upNext.querySelector('.up-next-eyebrow').textContent = 'SET COMPLETE';
+    }
+    upNextGo.style.display = (i === total - 1) ? 'none' : '';
+    if (isStage) syncLyrics(i);
+  }
 
   function goTo(i) {
-    if (i < 0 || i > total - 1) return;
-    explicitSelection = true;
-    songs[i].scrollIntoView({ block: 'start', behavior: 'smooth' });
+    if (i < 0 || i >= total) return;
+    scrollSuppressedUntil = Date.now() + 500;
     paint(i);
+    // Jump immediately: smooth scrolling can report the wrong current song while animating.
+    songs[i].scrollIntoView({block: 'start', behavior: 'instant'});
   }
   prev.addEventListener('click', function () { goTo(idx - 1); });
   next.addEventListener('click', function () { goTo(idx + 1); });
+  upNextGo.addEventListener('click', function () { goTo(idx + 1); });
 
-  /* ── Set list sheet ─────────────────────────────────── */
+  function setMode(stage, save, shouldScroll) {
+    isStage = stage;
+    document.body.classList.toggle('stage-mode', stage);
+    stageBtn.setAttribute('aria-pressed', String(stage));
+    listBtn.setAttribute('aria-pressed', String(!stage));
+    if (stage) {
+      syncLyrics(idx);
+    } else {
+      songs.forEach(function (song, i) {
+        var saved = read('stage08nov2026-lyr-' + (i + 1));
+        setLyrics(i, saved === '1', false);
+      });
+    }
+    if (save) store('stage08nov2026-mode', stage ? 'stage' : 'list');
+    // Keep the song in view on user mode switches, but not on initial page load.
+    if (shouldScroll) {
+      scrollSuppressedUntil = Date.now() + 500;
+      songs[idx].scrollIntoView({block: 'start', behavior: 'instant'});
+    }
+  }
+  stageBtn.addEventListener('click', function () { setMode(true, true, true); });
+  listBtn.addEventListener('click', function () { setMode(false, true, true); });
+
+  function updateActiveFromScroll() {
+    if (isStage || sheet.classList.contains('is-on') || Date.now() < scrollSuppressedUntil) return;
+    var current = 0;
+    for (var i = 0; i < total; i++) {
+      if (songs[i].getBoundingClientRect().top < 155) current = i;
+    }
+    if (current !== idx) paint(current);
+  }
+  window.addEventListener('scroll', function () {
+    if (scrollRaf) return;
+    scrollRaf = requestAnimationFrame(function () { scrollRaf = 0; updateActiveFromScroll(); });
+  }, {passive: true});
+
+  /* ── Accessible song picker ───────────────────────── */
   function sheetOpen(on) {
+    if (on === sheet.classList.contains('is-on')) return;
     if (on) returnFocus = document.activeElement;
     sheet.hidden = !on;
     sheet.classList.toggle('is-on', on);
     scrim.classList.toggle('is-on', on);
-    nowBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
-    openSetlist.setAttribute('aria-expanded', on ? 'true' : 'false');
-    if (on) (jumps[idx] || closeSetlist).focus();
-    else if (returnFocus) returnFocus.focus({preventScroll:true});
+    nowBtn.setAttribute('aria-expanded', String(on));
+    openSetlist.setAttribute('aria-expanded', String(on));
     document.body.style.overflow = on ? 'hidden' : '';
+    if (on) (jumps[idx] || closeSetlist).focus();
+    else if (returnFocus && typeof returnFocus.focus === 'function') returnFocus.focus({preventScroll: true});
   }
   nowBtn.addEventListener('click', function () { sheetOpen(!sheet.classList.contains('is-on')); });
   scrim.addEventListener('click', function () { sheetOpen(false); });
@@ -996,56 +1194,70 @@
   closeSetlist.addEventListener('click', function () { sheetOpen(false); });
   sheet.addEventListener('keydown', function (e) {
     if (e.key !== 'Tab') return;
-    var first = closeSetlist, last = jumps[jumps.length - 1];
+    var focusable = [closeSetlist].concat(jumps), first = focusable[0], last = focusable[focusable.length - 1];
     if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
     else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
   });
-  jumps.forEach(function (j, n) {
-    j.addEventListener('click', function () { sheetOpen(false); setTimeout(function () { goTo(n); }, 140); });
+  jumps.forEach(function (button, i) {
+    button.addEventListener('click', function () { sheetOpen(false); goTo(i); });
   });
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && sheet.classList.contains('is-on')) sheetOpen(false);
+    if (e.key === 'Escape' && sheet.classList.contains('is-on')) { sheetOpen(false); return; }
+    if (sheet.classList.contains('is-on') || !isStage || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.target.closest('button, a, input, textarea, select, [role="slider"]')) return;
+    if (e.key === 'ArrowRight' && idx < total - 1) { e.preventDefault(); goTo(idx + 1); }
+    if (e.key === 'ArrowLeft' && idx > 0) { e.preventDefault(); goTo(idx - 1); }
   });
 
-  /* ── Lyrics disclosure, remembered per song ─────────── */
-  document.querySelectorAll('.lyr-btn').forEach(function (btn) {
-    var song = btn.closest('.song');
-    var num = btn.dataset.song;
-    var key = 'stage08nov2026-lyr-' + num;
-    function set(open) {
-      song.classList.toggle('is-open', open);
-      song.querySelector('.lyr-panel').hidden = !open;
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      btn.querySelector('span').textContent = open ? 'Hide lyrics' : 'Show lyrics';
-      if (open) { store(key, '1'); } else { try { localStorage.removeItem(key); } catch (e) {} }
-    }
-    set(Boolean(read(key)));
-    btn.addEventListener('click', function () { set(!song.classList.contains('is-open')); });
-  });
-
-  /* ── Lyric text size ────────────────────────────────── */
+  /* ── Lyric size ───────────────────────────────────── */
   var sizeOpts = Array.prototype.slice.call(document.querySelectorAll('.size-opt'));
   function setSize(px) {
     document.documentElement.style.setProperty('--lyric-size', px + 'px');
-    sizeOpts.forEach(function (o) { o.setAttribute('aria-checked', o.dataset.size === px ? 'true' : 'false'); });
-    store('stage06sep-size', px);
+    sizeOpts.forEach(function (o) { o.setAttribute('aria-checked', String(o.dataset.size === String(px))); });
+    store('stage06sep-size', String(px));
   }
   sizeOpts.forEach(function (o) { o.addEventListener('click', function () { setSize(o.dataset.size); }); });
-  var saved = read('stage06sep-size');
-  if (saved) setSize(saved);
+  var savedSize = read('stage06sep-size');
+  setSize(['17','19','23','27'].indexOf(savedSize) !== -1 ? savedSize : '23');
 
-  /* ── Keep the screen awake ──────────────────────────── */
-  var lock = null;
-  function wake() {
-    if (!('wakeLock' in navigator)) return;
-    navigator.wakeLock.request('screen').then(function (l) { lock = l; }).catch(function () {});
+  /* ── Screen wake lock: user initiated, with clear status ── */
+  var awakeBtn = document.getElementById('keep-awake');
+  var awakeStatus = document.getElementById('awake-status');
+  var wakeLock = null;
+  var wantsAwake = false;
+  function renderAwake(status) {
+    awakeBtn.setAttribute('aria-pressed', String(Boolean(wakeLock)));
+    awakeStatus.textContent = status || (wakeLock ? 'On' : 'Off');
   }
-  wake();
+  function requestAwake() {
+    if (!wantsAwake || !('wakeLock' in navigator)) return;
+    navigator.wakeLock.request('screen').then(function (lock) {
+      wakeLock = lock;
+      if (!wantsAwake) { lock.release(); wakeLock = null; renderAwake(); return; }
+      renderAwake();
+      lock.addEventListener('release', function () {
+        if (wakeLock === lock) wakeLock = null;
+        renderAwake(wantsAwake ? 'Paused' : 'Off');
+      });
+    }).catch(function () { wakeLock = null; renderAwake('Unavailable'); wantsAwake = false; });
+  }
+  if (!('wakeLock' in navigator)) { awakeBtn.disabled = true; renderAwake('Unavailable'); }
+  awakeBtn.addEventListener('click', function () {
+    wantsAwake = !wantsAwake;
+    if (wantsAwake) { awakeStatus.textContent = 'Starting'; requestAwake(); }
+    else {
+      if (wakeLock) { var lock = wakeLock; wakeLock = null; lock.release().catch(function () {}); }
+      renderAwake();
+    }
+  });
   document.addEventListener('visibilitychange', function () {
-    if (document.visibilityState === 'visible' && lock === null) wake();
+    if (document.visibilityState === 'visible' && wantsAwake && !wakeLock) requestAwake();
   });
 
-  paint(0);
+  var hashMatch = /^#song-(\d+)$/.exec(previousHash);
+  if (hashMatch && Number(hashMatch[1]) >= 1 && Number(hashMatch[1]) <= total) idx = Number(hashMatch[1]) - 1;
+  paint(idx);
+  setMode(read('stage08nov2026-mode') !== 'list', false, Boolean(hashMatch));
 
   /* ── Backing track player ───────────────────────────── */
   (function () {
