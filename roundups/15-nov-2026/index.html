@@ -143,7 +143,9 @@ h1:focus,h2:focus{outline:none}.sharing-optional{border-bottom:1px solid var(--s
   </section>
   <section class="slide" data-step="3" aria-labelledby="title-3">
     <div class="slide-centred"><p class="eyebrow">What we've prepared</p><h2 id="title-3">One message. Shared in simple ways.</h2><p class="intro" style="margin:0 auto">We've taken moments from Sunday's sermon and made them easy to watch and read during the week.</p>
+      <p class="support" style="margin:18px auto 0">140 posts across Instagram, TikTok, YouTube and Facebook, from one sermon.</p>
       <div class="prepared"><div class="prepared-card"><strong>20</strong><span>Short videos</span><p class="support" style="margin:9px 0 0">Tap play to hear a moment from Sunday.</p></div><div class="prepared-card"><strong>10</strong><span>Picture posts</span><p class="support" style="margin:9px 0 0">A picture with a written reflection underneath.</p></div></div>
+      <p class="support" style="margin:0 auto 13px">20 videos on 5 accounts (100) and 10 picture posts on 4 (40).</p>
       <div class="explain-box"><p><strong>What is a caption?</strong> It's simply the writing that goes with a video or picture online. On the next screens, tap <strong>Read the words</strong> if you'd like to see it.</p></div>
       <p class="support" style="margin:16px auto 0">All 30 pieces are prepared and scheduled for 16–22 November. Some may already be online, while others will follow. This page shows what we have made, not proof that every post is live.</p>
     </div>
@@ -297,7 +299,7 @@ h1:focus,h2:focus{outline:none}.sharing-optional{border-bottom:1px solid var(--s
     const note=$('share-feedback');
     if(navigator.share){
       try{
-        await navigator.share({title:'Calvary Hephzibah Sunday Roundup',text:'Bodies as Service — Prof. B Adebisi',url});
+        await navigator.share({title:'Calvary Hephzibah Sunday Roundup',text:'Bodies as Service, Prof. B Adebisi',url});
         note.textContent='Thank you for sharing.';
         return;
       }catch(e){if(e&&e.name==='AbortError')return;}
